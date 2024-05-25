@@ -3,12 +3,19 @@ import { StatusBar } from "expo-status-bar";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import Questionnaire from "./components/Questionnaire/Questionnaire_3";
+import Questionnaire from "./components/Questionnaire/Questionnaire_2";
+import { useFonts } from "expo-font";
 
 const Stack = createStackNavigator();
 
 // Define the HomeScreen component
 function HomeScreen({ navigation }) {
+    const [fontsLoaded] = useFonts({
+        kalam: require("./assets/fonts/Kalam-Regular.ttf"),
+    });
+    if (!fontsLoaded) {
+        return null;
+    }
     return (
         <View style={styles.container}>
             <Text>Welcome to the Home Screen</Text>

@@ -1,43 +1,67 @@
-import React from "react";
-import { Text, View, Dimensions, TextInput } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
-import { Colors } from "../colors";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Text, View, Dimensions, TouchableOpacity, Image } from "react-native";
+import { MaterialIcons, Feather } from "@expo/vector-icons";
+import { Colors } from "../../constants/colors";
 import { styles } from "./QuestionnaireStyles";
-import { useFonts } from "expo-font";
-import { Button } from "react-native";
+import * as ImagePicker from "expo-image-picker";
+import { Strings } from "../../constants/strings";
 
-export default function Questionnaire() {
-    useFonts({
-        kalam: require("../../assets/fonts/Kalam-Regular.ttf"),
-    });
+export default function Questionnaire_3() {
+    const [fontSize, setFontSize] = useState(0);
+    const [dimensions, setDimensions] = useState(Dimensions.get("window"));
+    const [image, setImage] = useState(null);
 
-    const [fontSize1, setFontSize1] = useState(0);
-    const calculateFontSize = () => {
-        const calculatedFontSize = Math.min(width, height) * 0.1;
-        setFontSize1(calculatedFontSize);
+    useEffect(() => {
+        const onChange = ({ window }) => {
+            setDimensions(window);
+            calculateFontSize(window);
+        };
+
+        onChange({ window: Dimensions.get("window") });
+
+        const subscription = Dimensions.addEventListener("change", onChange);
+
+        return () => {
+            subscription?.remove();
+        };
+    }, []);
+
+    // Calculate font size
+    const calculateFontSize = (window) => {
+        const calculatedFontSize = Math.min(window.width, window.height) * 0.1;
+        setFontSize(calculatedFontSize);
     };
 
-    const { width, height } = Dimensions.get("window");
-    const iconSize = Math.min(width, height) * 0.1;
+    // Request access to gallery
+    const requestPermission = async () => {
+        const { status } =
+            await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== "granted") {
+            alert("Sorry, we need camera roll permissions to make this work!");
+        }
+    };
 
-    const [image, setImage] = useState(null);
+    useEffect(() => {
+        requestPermission();
+    }, []);
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
-            aspect: [4, 3],
+            aspect: [4, 6], // Aspect ratio for full-body photos
             quality: 1,
         });
 
-        if (!result.cancelled) {
-            setImage(result.uri);
+        if (!result.canceled) {
+            setImage(result.assets[0].uri);
         }
     };
 
+    const iconSize = Math.min(dimensions.width, dimensions.height) * 0.1;
+
     return (
-        <View style={styles.container} onLayout={calculateFontSize}>
+        <View style={styles.container}>
             <View style={styles.head}>
                 <Icon
                     name="check-circle"
@@ -86,13 +110,8 @@ export default function Questionnaire() {
                 />
             </View>
             <View style={styles.body}>
-                <Text
-                    style={[
-                        styles.title,
-                        { fontSize: fontSize1 },
-                        { fontFamily: "kalam" },
-                    ]}>
-                    Picture
+                <Text style={[styles.title, { fontSize: fontSize }]}>
+                    {Strings.pictureTitle}
                 </Text>
                 <View style={styles.previewContainer}>
                     {image ? (
@@ -101,12 +120,27 @@ export default function Questionnaire() {
                             style={styles.previewImage}
                         />
                     ) : (
-                        <Text>No image selected</Text>
+                        <Text>{Strings.imagePlaceholder}</Text>
                     )}
                 </View>
-                <Button title="Upload Image" onPress={pickImage} />
+                <TouchableOpacity onPress={pickImage} style={styles.pictureBtn}>
+                    <Text style={styles.pictureBtnText}>
+                        {Strings.pictureBtn}
+                    </Text>
+                </TouchableOpacity>
             </View>
-            <View style={styles.footer}></View>
+            <View style={styles.footer}>
+                <View style={styles.backContainer}>
+                    <TouchableOpacity onPress={null}>
+                        <Feather name="arrow-left" size={40} color="black" />
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.nextContainer}>
+                    <TouchableOpacity onPress={null}>
+                        <Feather name="arrow-right" size={40} color="black" />
+                    </TouchableOpacity>
+                </View>
+            </View>
         </View>
     );
 }

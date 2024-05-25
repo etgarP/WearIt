@@ -1,26 +1,44 @@
-import React from "react";
-import { Text, View, Dimensions, TextInput } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
-import { Colors } from "../colors";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import {
+    Text,
+    View,
+    Dimensions,
+    TextInput,
+    TouchableOpacity,
+} from "react-native";
+import { MaterialIcons, Feather } from "@expo/vector-icons";
+import { Colors } from "../../constants/colors";
 import { styles } from "./QuestionnaireStyles";
-import { useFonts } from "expo-font";
+import { Strings } from "../../constants/strings";
 
-export default function Questionnaire() {
-    useFonts({
-        kalam: require("../../assets/fonts/Kalam-Regular.ttf"),
-    });
+export default function Questionnaire_2() {
+    const [fontSize, setFontSize] = useState(0);
+    const [dimensions, setDimensions] = useState(Dimensions.get("window"));
 
-    const [fontSize1, setFontSize1] = useState(0);
-    const calculateFontSize = () => {
-        const calculatedFontSize = Math.min(width, height) * 0.1;
-        setFontSize1(calculatedFontSize);
+    useEffect(() => {
+        const onChange = ({ window }) => {
+            setDimensions(window);
+            calculateFontSize(window);
+        };
+
+        onChange({ window: Dimensions.get("window") });
+
+        const subscription = Dimensions.addEventListener("change", onChange);
+
+        return () => {
+            subscription?.remove();
+        };
+    }, []);
+
+    const calculateFontSize = (window) => {
+        const calculatedFontSize = Math.min(window.width, window.height) * 0.1;
+        setFontSize(calculatedFontSize);
     };
 
-    const { width, height } = Dimensions.get("window");
-    const iconSize = Math.min(width, height) * 0.1;
+    const iconSize = Math.min(dimensions.width, dimensions.height) * 0.1;
+
     return (
-        <View style={styles.container} onLayout={calculateFontSize}>
+        <View style={styles.container}>
             <View style={styles.head}>
                 <Icon
                     name="check-circle"
@@ -69,19 +87,25 @@ export default function Questionnaire() {
                 />
             </View>
             <View style={styles.body}>
-                <Text
-                    style={[
-                        styles.title,
-                        { fontSize: fontSize1 },
-                        { fontFamily: "kalam" },
-                    ]}>
-                    LifeStyle
+                <Text style={[styles.title, { fontSize: fontSize }]}>
+                    {Strings.lifestyleTitle}
                 </Text>
                 <TextInput style={styles.input} placeholder="Work type" />
                 <TextInput style={styles.input} placeholder="City" />
                 <TextInput style={styles.input} placeholder="Religion" />
             </View>
-            <View style={styles.footer}></View>
+            <View style={styles.footer}>
+                <View style={styles.backContainer}>
+                    <TouchableOpacity onPress={null}>
+                        <Feather name="arrow-left" size={40} color="black" />
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.nextContainer}>
+                    <TouchableOpacity onPress={null}>
+                        <Feather name="arrow-right" size={40} color="black" />
+                    </TouchableOpacity>
+                </View>
+            </View>
         </View>
     );
 }
