@@ -11,7 +11,7 @@ import { Colors } from "../../constants/colors";
 import { styles } from "./QuestionnaireStyles";
 import { Strings } from "../../constants/strings";
 
-export default function Questionnaire_2() {
+export default function Questionnaire_2({ navigation }) {
     const [fontSize, setFontSize] = useState(0);
     const [dimensions, setDimensions] = useState(Dimensions.get("window"));
 
@@ -101,7 +101,8 @@ export default function Questionnaire_2() {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.nextContainer}>
-                    <TouchableOpacity onPress={null}>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate("Questionnaire3")}>
                         <Feather name="arrow-right" size={40} color="black" />
                     </TouchableOpacity>
                 </View>

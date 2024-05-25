@@ -6,7 +6,7 @@ import { styles } from "./QuestionnaireStyles";
 import * as ImagePicker from "expo-image-picker";
 import { Strings } from "../../constants/strings";
 
-export default function Questionnaire_3() {
+export default function Questionnaire_3({ navigation }) {
     const [fontSize, setFontSize] = useState(0);
     const [dimensions, setDimensions] = useState(Dimensions.get("window"));
     const [image, setImage] = useState(null);
@@ -131,7 +131,8 @@ export default function Questionnaire_3() {
             </View>
             <View style={styles.footer}>
                 <View style={styles.backContainer}>
-                    <TouchableOpacity onPress={null}>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate("Questionnaire2")}>
                         <Feather name="arrow-left" size={40} color="black" />
                     </TouchableOpacity>
                 </View>
