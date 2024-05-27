@@ -61,88 +61,86 @@ export default function Questionnaire_3({ navigation }) {
     const iconSize = Math.min(dimensions.width, dimensions.height) * 0.1;
 
     return (
-        <View style={styles.container}>
-            <View style={styles.head}>
-                <Icon
-                    name="check-circle"
-                    color={Colors.check_circle_on}
-                    iconSize={iconSize}
-                />
-                <Icon
-                    name="horizontal-rule"
-                    color={Colors.line}
-                    iconSize={iconSize}
-                />
-                <Icon
-                    name="check-circle"
-                    color={Colors.check_circle_on}
-                    iconSize={iconSize}
-                />
-                <Icon
-                    name="horizontal-rule"
-                    color={Colors.line}
-                    iconSize={iconSize}
-                />
-                <Icon
-                    name="check-circle-outline"
-                    color={Colors.check_circle_on}
-                    iconSize={iconSize}
-                />
-                <Icon
-                    name="horizontal-rule"
-                    color={Colors.line}
-                    iconSize={iconSize}
-                />
-                <Icon
-                    name="check-circle-outline"
-                    color={Colors.check_circle_off}
-                    iconSize={iconSize}
-                />
-                <Icon
-                    name="horizontal-rule"
-                    color={Colors.line}
-                    iconSize={iconSize}
-                />
-                <Icon
-                    name="check-circle-outline"
-                    color={Colors.check_circle_off}
-                    iconSize={iconSize}
-                />
-            </View>
-            <View style={styles.body}>
-                <Text style={[styles.title, { fontSize: fontSize }]}>
-                    {Strings.pictureTitle}
-                </Text>
-                <View style={styles.previewContainer}>
-                    {image ? (
-                        <Image
-                            source={{ uri: image }}
-                            style={styles.previewImage}
-                        />
-                    ) : (
-                        <Text>{Strings.imagePlaceholder}</Text>
-                    )}
-                </View>
-                <TouchableOpacity onPress={pickImage} style={styles.pictureBtn}>
-                    <Text style={styles.pictureBtnText}>
-                        {Strings.pictureBtn}
-                    </Text>
-                </TouchableOpacity>
-            </View>
-            <View style={styles.footer}>
-                <View style={styles.backContainer}>
-                    <TouchableOpacity
-                        onPress={() => navigation.navigate("Questionnaire2")}>
-                        <Feather name="arrow-left" size={40} color="black" />
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.nextContainer}>
-                    <TouchableOpacity onPress={null}>
-                        <Feather name="arrow-right" size={40} color="black" />
-                    </TouchableOpacity>
-                </View>
-            </View>
+      <View style={styles.container}>
+        <View style={styles.head}>
+          <Icon
+            name="check-circle"
+            color={Colors.check_circle_on}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="horizontal-rule"
+            color={Colors.line}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="check-circle"
+            color={Colors.check_circle_on}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="horizontal-rule"
+            color={Colors.line}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="check-circle-outline"
+            color={Colors.check_circle_on}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="horizontal-rule"
+            color={Colors.line}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="check-circle-outline"
+            color={Colors.check_circle_off}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="horizontal-rule"
+            color={Colors.line}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="check-circle-outline"
+            color={Colors.check_circle_off}
+            iconSize={iconSize}
+          />
         </View>
+        <View style={styles.body}>
+          <Text style={[styles.title, { fontSize: fontSize }]}>
+            {Strings.pictureTitle}
+          </Text>
+          <View style={styles.previewContainer}>
+            {image ? (
+              <Image source={{ uri: image }} style={styles.previewImage} />
+            ) : (
+              <Text>{Strings.imagePlaceholder}</Text>
+            )}
+          </View>
+          <TouchableOpacity onPress={pickImage} style={styles.pictureBtn}>
+            <Text style={styles.pictureBtnText}>{Strings.pictureBtn}</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.footer}>
+          <View style={styles.backContainer}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Questionnaire2")}
+            >
+              <Feather name="arrow-left" size={40} color="black" />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.nextContainer}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Questionnaire4")}
+            >
+              <Feather name="arrow-right" size={40} color="black" />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
     );
 }
 

@@ -11,7 +11,7 @@ import { Colors } from "../../constants/colors";
 import { styles } from "./QuestionnaireStyles";
 import { Strings } from "../../constants/strings";
 
-export default function Questionnaire_2({ navigation }) {
+export default function Questionnaire_1({ navigation }) {
     const [fontSize, setFontSize] = useState(0);
     const [dimensions, setDimensions] = useState(Dimensions.get("window"));
 
@@ -41,7 +41,7 @@ export default function Questionnaire_2({ navigation }) {
         <View style={styles.container}>
             <View style={styles.head}>
                 <Icon
-                    name="check-circle"
+                    name="check-circle-outline"
                     color={Colors.check_circle_on}
                     iconSize={iconSize}
                 />
@@ -52,7 +52,7 @@ export default function Questionnaire_2({ navigation }) {
                 />
                 <Icon
                     name="check-circle-outline"
-                    color={Colors.check_circle_on}
+                    color={Colors.check_circle_off}
                     iconSize={iconSize}
                 />
                 <Icon
@@ -88,22 +88,17 @@ export default function Questionnaire_2({ navigation }) {
             </View>
             <View style={styles.body}>
                 <Text style={[styles.title, { fontSize: fontSize }]}>
-                    {Strings.lifestyleTitle}
+                    {Strings.personalInfo}
                 </Text>
-                <TextInput style={styles.input} placeholder="Work type" />
-                <TextInput style={styles.input} placeholder="City" />
-                <TextInput style={styles.input} placeholder="Religion" />
+                <TextInput style={styles.input} placeholder="Name" />
+                <TextInput style={styles.input} placeholder="Age" />
+                <TextInput style={styles.input} placeholder="Gender" />
+                <TextInput style={styles.input} placeholder="Allergies" />
             </View>
             <View style={styles.footer}>
-                <View style={styles.backContainer}>
-                    <TouchableOpacity 
-                            onPress={() => navigation.navigate("Questionnaire1")}>
-                        <Feather name="arrow-left" size={40} color="black" />
-                    </TouchableOpacity>
-                </View>
                 <View style={styles.nextContainer}>
                     <TouchableOpacity
-                        onPress={() => navigation.navigate("Questionnaire3")}>
+                        onPress={() => navigation.navigate("Questionnaire2")}>
                         <Feather name="arrow-right" size={40} color="black" />
                     </TouchableOpacity>
                 </View>
