@@ -1,0 +1,24 @@
+{
+  "name": "ex2",
+  "version": "1.0.0",
+  "description": "Exercise 2 for Advanced Coding 2 focuses on migrating WhotsApps(TM) HTML and CSS pages to a React framework using JavaScript. The result is a fully functional client-based website.",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "SET NODE ENV=test && node app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "custom-env": "^2.0.2",
+    "express": "^4.18.2",
+    "firebase-admin": "^11.9.0",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.2.2",
+    "nodemon": "^2.0.22",
+    "socket.io": "^4.6.2"
+  }
+}

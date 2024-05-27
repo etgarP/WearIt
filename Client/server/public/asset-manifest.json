@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/static/css/main.14f1135e.css",
+    "main.js": "/static/js/main.804858e0.js",
+    "static/media/whatsbackground.png": "/static/media/whatsbackground.7753660d88a20442e023.png",
+    "static/media/pastoral_pic.jpg": "/static/media/pastoral_pic.e3426905d94dc3ee6420.jpg",
+    "static/media/whotsApp.png": "/static/media/whotsApp.21ae35b35a2d16237479.png",
+    "static/media/grey.png": "/static/media/grey.c75ca7f29de650cd9285.png",
+    "static/media/default-avatar.jpg": "/static/media/default-avatar.95fd5d9f7a194eedfb3a.jpg",
+    "index.html": "/index.html",
+    "main.14f1135e.css.map": "/static/css/main.14f1135e.css.map",
+    "main.804858e0.js.map": "/static/js/main.804858e0.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.14f1135e.css",
+    "static/js/main.804858e0.js"
+  ]
+}
