@@ -17,14 +17,6 @@ customEnv.env(process.env.NODE_ENV, './config');
 console.log(process.env.CONNECTION_STRING)
 console.log(process.env.PORT)
 
-const io = new Server(server, {
-    cors: {
-        origin: 'http://localhost:12345',
-        methods: ["GET", "POST", "DELETE"],
-        credentials: true
-    }
-})
-
 mongoose.connect(process.env.CONNECTION_STRING, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -32,14 +24,25 @@ mongoose.connect(process.env.CONNECTION_STRING, {
 
 app.use(express.static('public'))
 
-const Chats = require('./routes/Chats')
-app.use('/api/Chats', Chats);
-const Users = require('./routes/Users')
-app.use('/api/Users', Users);
-const Tokens = require('./routes/Tokens')
-app.use('/api/Tokens', Tokens);
-const chatCont = require('./controllers/Chats')
-chatCont.getIo(io)
+// Client Routes
+const ClientAuthRoutes = require('./routes/ClientAuth.js');
+// const ClientOrderRoutes = require('./routes/Order.js');
+// const ClientDesignRoutes = require('./routes/ClientDesign');
+// const ClientGroupRoutes = require('./routes/ClientGroup');
+
+// // Designer Routes
+// const DesignerAuthRoutes = require('./routes/DesignerAuth');
+// const DesignerOrderRoutes = require('./routes/DesignerOrder');
+// const DesignerProfileRoutes = require('./routes/DesignerProfile');
+
+app.use('/api/client/auth', ClientAuthRoutes);
+// app.use('/api/client/orders', ClientOrderRoutes);
+// app.use('/api/client/designs', ClientDesignRoutes);
+// app.use('/api/client/groups', ClientGroupRoutes);
+
+// app.use('/api/designer/auth', DesignerAuthRoutes);
+// app.use('/api/designer/orders', DesignerOrderRoutes);
+// app.use('/api/designer/profile', DesignerProfileRoutes);
 
 server.listen(process.env.PORT, () => {
     console.log(`app is listening on port ${process.env.PORT}`);
