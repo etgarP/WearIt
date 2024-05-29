@@ -1,5 +1,6 @@
 const orderService = require('../services/ClientOrderService');
 const jwt = require('jsonwebtoken');
+const designerService = require('../services/DesignerOrderService');
 const secretToken = "even doctor evil won't crack this bad boy"
 
 /*  
@@ -24,18 +25,52 @@ const getMyOrders = async (req, res) => {
 /*  
     input: order in body, jsonwebtoken in headers 
     output: None
-    purchases order
+    purchases order - adds order and empty design
 */
 const purchaseOrder = async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, secretToken);
         const order = req.body.order;
-        await orderService.purchaseOrder(decoded.username, order);
+        const savedOrder = await orderService.purchaseOrder(decoded.username, order);
+        // making a new expty design
+        designerService.saveOrder({orderId: savedOrder._id, urls: []})
         return res.status(200).send("Order purchased successfully");
     } catch (error) {
         return res.status(500).send("Internal Server Error");
     }
 };
 
-module.exports = { getMyOrders, purchaseOrder };
+/*  
+    input: review(designerUsername, number, review)
+    output: None
+    if the two have a finished order, it leaves a review, 
+    if a review exists, it updates it 
+*/
+const addReview = async (req, res) => {
+    try {
+        const token = req.headers.authorization.split(' ')[1];
+        const decoded = jwt.verify(token, secretToken);
+        const review = req.body.Review;
+        if (!await orderService.orderIsFinished(decoded.username, Review.designerUsername)) {
+            return res.status(401).send("Unauthorized to write a review");
+        }
+        await orderService.addReview(review);
+        return res.status(200).send("Review added successfully");
+    } catch (error) {
+        return res.status(500).send("Internal Server Error");
+    }
+};
+
+const getDesigns = async (req, res) => {
+    try {
+        const token = req.headers.authorization.split(' ')[1];
+        const decoded = jwt.verify(token, secretToken);
+        const designs = await orderService.getClientDesigns(decoded.username);
+        return res.status(200).send(designs);
+    } catch (error) {
+        return res.status(500).send("Internal Server Error");
+    }
+};
+
+module.exports = { getMyOrders, purchaseOrder, addReview, getDesigns };

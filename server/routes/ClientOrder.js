@@ -6,4 +6,10 @@ router.route('/')
     .get(ClientOrderController.getMyOrders)
     .post(ClientOrderController.purchaseOrder);
 
+router.route('/design')
+    .get(ClientOrderController.getDesigns);
+
+router.route('/review')
+    .post(ClientOrderController.addReview);
+
 module.exports = router;

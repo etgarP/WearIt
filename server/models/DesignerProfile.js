@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const DesignerProfileSchema = new Schema({
     username: { type: String, required: true, unique: true },
     bio: { type: String },
-    reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }],
+    reviews: [{ type: Schema.Types.ObjectId, ref: 'Review', unique: true }],
     image: { type: String }
 });
 
