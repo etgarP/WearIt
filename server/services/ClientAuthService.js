@@ -1,6 +1,6 @@
 const Client = require('../models/ClientInfo');
 const LoginInfo = require('../models/LoginInfo');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 /*  
     input: username, password

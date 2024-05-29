@@ -1,4 +1,4 @@
-const clientService = require('../services/ClientService.js');
+const clientService = require('../services/ClientAuthService.js');
 const jwt = require('jsonwebtoken');
 const secretToken = "even doctor evil won't crack this bad boy"
 
