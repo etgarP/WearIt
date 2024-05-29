@@ -30,7 +30,7 @@ const purchaseOrder = async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, secretToken);
-        const order = req.body.Order;
+        const order = req.body.order;
         await orderService.purchaseOrder(decoded.username, order);
         return res.status(200).send("Order purchased successfully");
     } catch (error) {

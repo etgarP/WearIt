@@ -26,7 +26,7 @@ app.use(express.static('public'))
 
 // Client Routes
 const ClientAuthRoutes = require('./routes/ClientAuth.js');
-// const ClientOrderRoutes = require('./routes/Order.js');
+const ClientOrderRoutes = require('./routes/Order.js');
 // const ClientDesignRoutes = require('./routes/ClientDesign');
 // const ClientGroupRoutes = require('./routes/ClientGroup');
 
@@ -36,7 +36,7 @@ const DesignerAuthRoutes = require('./routes/DesignerAuth');
 // const DesignerProfileRoutes = require('./routes/DesignerProfile');
 
 app.use('/api/client/auth', ClientAuthRoutes);
-// app.use('/api/client/orders', ClientOrderRoutes);
+app.use('/api/client/orders', ClientOrderRoutes);
 // app.use('/api/client/designs', ClientDesignRoutes);
 // app.use('/api/client/groups', ClientGroupRoutes);
 
