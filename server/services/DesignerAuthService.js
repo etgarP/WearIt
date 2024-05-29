@@ -1,8 +1,6 @@
 const Designer = require('../models/DesignerInfo');
 const LoginInfo = require('../models/LoginInfo');
-const Order = require('../models/Order');
 const DesignerProfile = require('../models/DesignerProfile');
-const Design = require('../models/Design');
 const bcrypt = require('bcryptjs');
 
 /*  
@@ -22,7 +20,8 @@ const authenticate = async (username, password) => {
 /*  
     input: username, password, designerInfo
     output: none
-    signs up a client. uses bcrypt to hash its password into the database
+    signs up a Designer. uses bcrypt to hash its password into the database.
+    adds a designer profile as well.
 */
 const createDesigner = async (username, password, designerInfo) => {
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -30,9 +29,11 @@ const createDesigner = async (username, password, designerInfo) => {
     await loginInfo.save();
     const designer = new Designer(designerInfo);
     DesignerProfile.findOneAndUpdate(
-        { username }, 
-        { username: designerInfo.name, 
-            bio: "No bio yet.", reviews: [], }, 
+        { username },
+        {
+            username: designerInfo.name,
+            bio: "No bio yet.", reviews: [],
+        },
         { upsert: true }
     );
     await designer.save();

@@ -28,4 +28,4 @@ const getClientDesigns = async (username) => {
 };
 
 
-module.exports = { getClientOrders, purchaseOrder };
+module.exports = { getClientOrders, purchaseOrder, getClientDesigns };

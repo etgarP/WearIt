@@ -3,7 +3,7 @@ const DesignerAuthController = require('../controllers/DesignerAuth');
 const router = express.Router();
 
 router.route('/signIn')
-    .get(DesignerAuthController.signInDesigner);
+    .post(DesignerAuthController.signInDesigner);
 
 router.route('/signUp')
     .post(DesignerAuthController.signUpDesigner);

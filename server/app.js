@@ -26,21 +26,21 @@ app.use(express.static('public'))
 
 // Client Routes
 const ClientAuthRoutes = require('./routes/ClientAuth.js');
-const ClientOrderRoutes = require('./routes/Order.js');
+// const ClientOrderRoutes = require('./routes/Order.js');
 // const ClientDesignRoutes = require('./routes/ClientDesign');
 // const ClientGroupRoutes = require('./routes/ClientGroup');
 
-// // Designer Routes
-// const DesignerAuthRoutes = require('./routes/DesignerAuth');
+// Designer Routes
+const DesignerAuthRoutes = require('./routes/DesignerAuth');
 // const DesignerOrderRoutes = require('./routes/DesignerOrder');
 // const DesignerProfileRoutes = require('./routes/DesignerProfile');
 
 app.use('/api/client/auth', ClientAuthRoutes);
-app.use('/api/client/orders', ClientOrderRoutes);
+// app.use('/api/client/orders', ClientOrderRoutes);
 // app.use('/api/client/designs', ClientDesignRoutes);
 // app.use('/api/client/groups', ClientGroupRoutes);
 
-// app.use('/api/designer/auth', DesignerAuthRoutes);
+app.use('/api/designer/auth', DesignerAuthRoutes);
 // app.use('/api/designer/orders', DesignerOrderRoutes);
 // app.use('/api/designer/profile', DesignerProfileRoutes);
 
@@ -56,6 +56,6 @@ admin.initializeApp({
 });
 
 const messaging = admin.messaging();
-const getMessaging = require('./services/Firebase').getMessaging
-// sends the messaging to firebaseService
-getMessaging(messaging)
+// const getMessaging = require('./services/Firebase').getMessaging
+// // sends the messaging to firebaseService
+// getMessaging(messaging)
