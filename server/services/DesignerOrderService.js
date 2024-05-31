@@ -29,7 +29,7 @@ const getOrderDetails = async (orderId) => {
 const sendOrder = async (orderId, design, status) => {
     const order = await Order.findById(orderId);
     if (order) {
-        if (status == 'finished') return false
+        if (order.status == 'finished') return false
         order.status = status;
         await order.save();
         await saveDesign(orderId, design.urls)
