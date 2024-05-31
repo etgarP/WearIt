@@ -24,19 +24,30 @@ const authenticate = async (username, password) => {
     adds a designer profile as well.
 */
 const createDesigner = async (username, password, designerInfo) => {
+    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Save the login info
     const loginInfo = new LoginInfo({ username, password: hashedPassword, isDesigner: true });
     await loginInfo.save();
+
+    // Save the designer info and retrieve the _id
     const designer = new Designer(designerInfo);
-    DesignerProfile.findOneAndUpdate(
+    const savedDesigner = await designer.save();
+    const designerId = savedDesigner._id; // Get the _id of the saved designer
+
+    // Update or create the designer profile
+    await DesignerProfile.findOneAndUpdate(
         { username },
         {
-            username: designerInfo.name,
-            bio: "No bio yet.", reviews: [],
+            username,
+            name: designerInfo.name,
+            bio: "No bio yet.",
+            image: designerInfo.image,
+            designerInfo: designerId // Use the retrieved _id here
         },
         { upsert: true }
     );
-    await designer.save();
-};
+}
 
 module.exports = { authenticate, createDesigner };

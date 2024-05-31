@@ -6,7 +6,7 @@ const DesignerInfoSchema = new Schema({
     name: { type: String, required: true },
     gender: { type: String, required: true },
     specialization: { type: String },
-    city: { type: String },
+    city: { type: String, required: true },
     religion: { type: String },
     age: { type: Number, required: true },
     image: { type: String }

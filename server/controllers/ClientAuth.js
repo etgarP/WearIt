@@ -22,7 +22,7 @@ const signInClient = async (req, res) => {
 };
 
 /*  
-    input: userName, password, ClientInfo
+    input: username, password, ClientInfo
     output: json web token (sent as token)
     authenticate the user and sends back the token for the user
 */
@@ -36,4 +36,21 @@ const signUpClient = async (req, res) => {
     }
 };
 
-module.exports = { signInClient, signUpClient };
+/*  
+    input: json web token, 
+    output: json web token (sent as token)
+    authenticate the user and sends back the token for the user
+*/
+const changeInfo = async (req, res) => {
+    try {
+        const token = req.headers.authorization.split(' ')[1];
+        const decoded = jwt.verify(token, secretToken);
+        const newInfo = req.body.info
+        await clientService.setClientInfo(decoded.username, newInfo)
+        return res.status(200).send("set info successfully");
+    } catch (error) {
+        return res.status(500).send("Internal Server Error");
+    }
+}
+
+module.exports = { signInClient, signUpClient, changeInfo };

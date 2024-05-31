@@ -43,8 +43,12 @@ const sendOrder = async (req, res) => {
         const token = req.headers.authorization.split(' ')[1];
         jwt.verify(token, secretToken);
         const design = req.body.design;
-        await designerService.sendOrder(design.orderId, design, 'finished');
-        return res.status(200).send("Order sent successfully");
+        const success = await designerService.sendOrder(design.orderId, design, 'finished');
+        if (success)
+            return res.status(200).send("Order sent successfully");
+        else 
+            return res.status(401).send("Wrong details");
+
     } catch (error) {
         return res.status(500).send("Internal Server Error");
     }
@@ -59,9 +63,12 @@ const saveOrder = async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ')[1];
         jwt.verify(token, secretToken);
-        const design = req.body.Design;
-        await designerService.saveOrder(design);
-        return res.status(200).send("Order saved successfully");
+        const design = req.body.design;
+        const success = await designerService.saveDesign(design.orderId, design.url);
+        if (success)
+            return res.status(200).send("Order saved successfully");
+        else
+            return res.status(401).send("Wrong details");
     } catch (error) {
         return res.status(500).send("Internal Server Error");
     }

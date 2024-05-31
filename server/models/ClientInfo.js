@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 // all the client info that the designer needs
 const ClientInfoSchema = new Schema({
+    username: { type: String, required: true, unique: true },
     name: { type: String, required: true },
     gender: { type: String, required: true },
     allergies: { type: String },

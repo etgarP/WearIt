@@ -5,6 +5,9 @@ const router = express.Router();
 router.route('/')
     .get(DesignerOrderController.getOrders);
 
+router.route('/save')
+    .post(DesignerOrderController.saveOrder);
+
 router.route('/:orderId')
     .get(DesignerOrderController.manageOrder)
     .post(DesignerOrderController.sendOrder);
@@ -14,8 +17,5 @@ router.route('/acc/:orderId')
 
 router.route('/rej/:orderId')
     .post(DesignerOrderController.rejectOrder);
-
-router.route('/save')
-    .post(DesignerOrderController.saveOrder);
 
 module.exports = router;

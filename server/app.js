@@ -31,14 +31,16 @@ const ClientOrderRoutes = require('./routes/ClientOrder.js');
 // Designer Routes
 const DesignerAuthRoutes = require('./routes/DesignerAuth');
 const DesignerOrderRoutes = require('./routes/DesignerOrder');
-// const DesignerProfileRoutes = require('./routes/DesignerProfile');
+const DesignerProfileRoutes = require('./routes/DesignerProfile');
+const ClientMatchesRoute = require('./routes/ClientMatches');
 
 app.use('/api/client/auth', ClientAuthRoutes);
 app.use('/api/client/orders', ClientOrderRoutes);
+app.use('/api/client/matches', ClientMatchesRoute)
 
 app.use('/api/designer/auth', DesignerAuthRoutes);
 app.use('/api/designer/orders', DesignerOrderRoutes);
-// app.use('/api/designer/profile', DesignerProfileRoutes);
+app.use('/api/designer/profile', DesignerProfileRoutes);
 
 server.listen(process.env.PORT, () => {
     console.log(`app is listening on port ${process.env.PORT}`);

@@ -29,12 +29,13 @@ const getOrderDetails = async (orderId) => {
 const sendOrder = async (orderId, design, status) => {
     const order = await Order.findById(orderId);
     if (order) {
+        if (status == 'finished') return false
         order.status = status;
         await order.save();
-        const oldDesign = await Design.findById(design._id);
-        oldDesign.urls = design.urls
-        await oldDesign.save();
+        await saveDesign(orderId, design.urls)
+        return true
     }
+    return false
 };
 
 /*  
@@ -74,10 +75,20 @@ const rejectOrder = async (orderId) => {
     output: None
     save the current design
 */
-const saveOrder = async (design) => {
-    const oldDesign = await Design.findById(design._id);
-    oldDesign.urls = design.urls
-    await oldDesign.save();
+const saveDesign = async (orderId, urls) => {
+    const order = await Order.findById(orderId);
+    if (!order) {
+        throw new Error('Order not found');
+    }
+    if (order.status !== 'finished' && order.status !== 'pending') {
+        await Design.findOneAndUpdate(
+            { orderId },
+            { orderId, urls }, // new: true returns the updated document and set, upsert inserts if not there
+            { new: true, upsert: true, setDefaultsOnInsert: true }
+        );
+        return true
+    }
+    return false
 };
 
-module.exports = { getOrders, getOrderDetails, acceptOrder, rejectOrder, sendOrder, saveOrder };
+module.exports = { getOrders, getOrderDetails, acceptOrder, rejectOrder, sendOrder, saveDesign };
