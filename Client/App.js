@@ -4,12 +4,12 @@ import { Button, StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useFonts } from "expo-font";
+import { PaperProvider } from 'react-native-paper';
 import Questionnaire1 from "./components/Questionnaire/Questionnaire_1";
 import Questionnaire2 from "./components/Questionnaire/Questionnaire_2";
 import Questionnaire3 from "./components/Questionnaire/Questionnaire_3";
 import Questionnaire4 from "./components/Questionnaire/Questionnaire_4";
 import Questionnaire5 from "./components/Questionnaire/Questionnaire_5";
-
 
 const Stack = createStackNavigator();
 
@@ -22,14 +22,16 @@ function HomeScreen({ navigation }) {
         return null;
     }
     return (
-        <View style={styles.container}>
-            <Text>Welcome to the Home Screen</Text>
-            <Button
-                title="Go to Questionnaire"
-                onPress={() => navigation.navigate("Questionnaire1")}
-            />
-            <StatusBar style="auto" />
-        </View>
+        <PaperProvider>
+            <View style={styles.container}>
+                <Text>Welcome to the Home Screen</Text>
+                <Button
+                    title="Go to Questionnaire"
+                    onPress={() => navigation.navigate("Questionnaire1")}
+                />
+                <StatusBar style="auto" />
+            </View>
+        </PaperProvider>
     );
 }
 
