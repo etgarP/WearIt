@@ -1,8 +1,8 @@
 import React from 'react';
 import { Text } from "react-native";
 import { BottomNavigation } from 'react-native-paper';
+import MatchRoute from './HomeScreen';
 
-const MatchRoute = () => <Text>Match</Text>;
 const GroupMatchRoute = () => <Text>Group Match</Text>;
 const OrdersRoute = () => <Text>Orders</Text>;
 const NotificationsRoute = () => <Text>Notifications</Text>;
