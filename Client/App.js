@@ -10,7 +10,7 @@ import Questionnaire3 from "./components/Questionnaire/Questionnaire_3";
 import Questionnaire4 from "./components/Questionnaire/Questionnaire_4";
 import Questionnaire5 from "./components/Questionnaire/Questionnaire_5";
 import SignInScreen from "./components/Authentication/SignInScreen";
-
+import SignUpScreen from "./components/Authentication/SignUpScreen";
 
 
 const Stack = createStackNavigator();
@@ -39,7 +39,7 @@ export default function App() {
     return (
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen name="Home" component={SignInScreen} />
+          <Stack.Screen name="Home" component={SignUpScreen} />
           <Stack.Screen name="Questionnaire1" component={Questionnaire1} />
           <Stack.Screen name="Questionnaire2" component={Questionnaire2} />
           <Stack.Screen name="Questionnaire3" component={Questionnaire3} />

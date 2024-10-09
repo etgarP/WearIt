@@ -8,13 +8,13 @@ import {
 } from "react-native";
 import { styles } from "./AuthenticationStyles";
 
-export default function SignInScreen() {
+export default function SignUpScreen() {
   const [selectedTab, setSelectedTab] = useState("Stylist");
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header - Sign In */}
-      <Text style={styles.titleText}>SIGN IN</Text>
+      {/* Header - Sign UP */}
+      <Text style={styles.titleText}>SIGN UP</Text>
 
       {/* Tab Selection */}
       <View style={styles.tabContainer}>
@@ -59,20 +59,23 @@ export default function SignInScreen() {
           placeholderTextColor="#A9A9A9"
           secureTextEntry
         />
-        <TouchableOpacity>
-          <Text style={styles.forgotPassword}>FORGOT PASSWORD?</Text>
-        </TouchableOpacity>
+        <TextInput
+          style={styles.input}
+          placeholder="CONFIRM PASSWORD"
+          placeholderTextColor="#A9A9A9"
+          secureTextEntry
+        />
       </View>
 
-      {/* Sign In Button */}
+      {/* Sign Up Button */}
       <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>SIGN IN</Text>
+        <Text style={styles.buttonText}>SIGN UP</Text>
       </TouchableOpacity>
 
-      {/* Sign Up Link */}
+      {/* Sign In Link */}
       <TouchableOpacity>
-        <Text style={styles.linkText}>DON'T HAVE AN ACCOUNT? SIGN UP</Text>
+        <Text style={styles.linkText}>ALREADY HAVE AN ACCOUNT? SIGN IN</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
-};
+}
