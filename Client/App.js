@@ -8,6 +8,9 @@ export default function App() {
       <Appbar.Header mode="center-aligned">
         <Appbar.Content title="Matching" />
       </Appbar.Header>
+      <Appbar.Header mode="center-aligned">
+        <Appbar.Content title="Matching" />
+      </Appbar.Header>
       <BottomNav />
     </PaperProvider>
   );
