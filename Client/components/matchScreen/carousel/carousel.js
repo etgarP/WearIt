@@ -1,7 +1,6 @@
 import React from 'react';
-import { View, StyleSheet, FlatList, Text, Dimensions } from 'react-native';
+import { View, StyleSheet, Dimensions } from 'react-native';
 import MyCard from './card'; // Ensure that this is correctly imported
-import Animated, {useAnimatedScrollHandler, useSharedValue} from 'react-native-reanimated'
 import Carousel from 'react-native-reanimated-carousel';
 
 const { width, height } = Dimensions.get('screen');

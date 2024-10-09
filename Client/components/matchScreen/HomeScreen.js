@@ -1,8 +1,8 @@
 import React from 'react'
-import { SafeAreaView, StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View } from "react-native";
 import Search from './Search'
-import MyCarousel from './carousel.js';
-import TopBtns from './buttons'
+import MyCarousel from './carousel/carousel';
+import TopBtns from './btns/buttons'
 
 export default function MatchRoute() {
     return (
