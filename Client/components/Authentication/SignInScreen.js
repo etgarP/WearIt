@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { styles } from "./AuthenticationStyles";
 
-export default function SignInScreen() {
+export default function SignInScreen({ navigation }) {
   const [selectedTab, setSelectedTab] = useState("Stylist");
 
   return (
@@ -70,8 +70,9 @@ export default function SignInScreen() {
       </TouchableOpacity>
 
       {/* Sign Up Link */}
-      <TouchableOpacity>
-        <Text style={styles.linkText}>DON'T HAVE AN ACCOUNT? SIGN UP</Text>
+      <TouchableOpacity
+          onPress={() => navigation.navigate("SignUp")}>
+          <Text style={styles.linkText}>DON'T HAVE AN ACCOUNT? SIGN UP</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );

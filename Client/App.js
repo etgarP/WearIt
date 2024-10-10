@@ -39,12 +39,14 @@ export default function App() {
     return (
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen name="Home" component={SignUpScreen} />
+          <Stack.Screen name="Home" component={SignInScreen} />
           <Stack.Screen name="Questionnaire1" component={Questionnaire1} />
           <Stack.Screen name="Questionnaire2" component={Questionnaire2} />
           <Stack.Screen name="Questionnaire3" component={Questionnaire3} />
           <Stack.Screen name="Questionnaire4" component={Questionnaire4} />
           <Stack.Screen name="Questionnaire5" component={Questionnaire5} />
+          <Stack.Screen name="SignIn" component={SignInScreen} />
+          <Stack.Screen name="SignUp" component={SignUpScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     );
