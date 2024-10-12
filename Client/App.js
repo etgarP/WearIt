@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useFonts } from "expo-font";
-import { PaperProvider } from 'react-native-paper';
+import { PaperProvider } from "react-native-paper";
 import Questionnaire1 from "./components/Questionnaire/Questionnaire_1";
 import Questionnaire2 from "./components/Questionnaire/Questionnaire_2";
 import Questionnaire3 from "./components/Questionnaire/Questionnaire_3";
@@ -36,17 +36,83 @@ function HomeScreen({ navigation }) {
 }
 
 export default function App() {
+    const [questionnaireData, setQuestionnaireData] = useState({
+        name: "",
+        age: "",
+        gender: "",
+        allergies: "",
+        workType: "",
+        city: "",
+        religion: "",
+        image: null,
+        measurements: {
+            shoulders: "",
+            bust: "",
+            waist: "",
+            hips: "",
+            thighs: "",
+            calves: "",
+            legs: "",
+        },
+        other: "",
+    });
+
+    // Effect to log questionnaireData whenever it changes
+    useEffect(() => {
+        console.log("Current Questionnaire Data:", questionnaireData);
+    }, [questionnaireData]);
+
     return (
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="Questionnaire1" component={Questionnaire1} />
-          <Stack.Screen name="Questionnaire2" component={Questionnaire2} />
-          <Stack.Screen name="Questionnaire3" component={Questionnaire3} />
-          <Stack.Screen name="Questionnaire4" component={Questionnaire4} />
-          <Stack.Screen name="Questionnaire5" component={Questionnaire5} />
-        </Stack.Navigator>
-      </NavigationContainer>
+        <NavigationContainer>
+            <Stack.Navigator>
+                <Stack.Screen name="Home" component={HomeScreen} />
+                <Stack.Screen name="Questionnaire1">
+                    {(props) => (
+                        <Questionnaire1
+                            {...props}
+                            setQuestionnaireData={setQuestionnaireData}
+                            questionnaireData={questionnaireData}
+                        />
+                    )}
+                </Stack.Screen>
+                <Stack.Screen name="Questionnaire2">
+                    {(props) => (
+                        <Questionnaire2
+                            {...props}
+                            setQuestionnaireData={setQuestionnaireData}
+                            questionnaireData={questionnaireData}
+                        />
+                    )}
+                </Stack.Screen>
+                <Stack.Screen name="Questionnaire3">
+                    {(props) => (
+                        <Questionnaire3
+                            {...props}
+                            setQuestionnaireData={setQuestionnaireData}
+                            questionnaireData={questionnaireData}
+                        />
+                    )}
+                </Stack.Screen>
+                <Stack.Screen name="Questionnaire4">
+                    {(props) => (
+                        <Questionnaire4
+                            {...props}
+                            setQuestionnaireData={setQuestionnaireData}
+                            questionnaireData={questionnaireData}
+                        />
+                    )}
+                </Stack.Screen>
+                <Stack.Screen name="Questionnaire5">
+                    {(props) => (
+                        <Questionnaire5
+                            {...props}
+                            setQuestionnaireData={setQuestionnaireData}
+                            questionnaireData={questionnaireData}
+                        />
+                    )}
+                </Stack.Screen>
+            </Stack.Navigator>
+        </NavigationContainer>
     );
 }
 

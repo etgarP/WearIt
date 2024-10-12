@@ -5,6 +5,7 @@ export const styles = StyleSheet.create({
     container: {
         backgroundColor: "#fff",
         height: "100%",
+        flexGrow: 1,
     },
     head: {
         flexDirection: "row",
@@ -34,7 +35,7 @@ export const styles = StyleSheet.create({
         height: "7%",
         borderColor: "gray",
         borderWidth: 1,
-        marginVertical: "3%",
+        marginBottom: "5%",
         paddingHorizontal: 10,
         borderRadius: 10, // Adjust the value as needed for the desired roundness
     },
@@ -72,5 +73,31 @@ export const styles = StyleSheet.create({
         flex: 1,
         alignItems: "flex-start",
         margin: "5%",
+    },
+    pickerContainer: {
+        marginBottom: "5%",
+        borderWidth: 1,
+        justifyContent: "center",
+        backgroundColor: "#fff",
+        width: "80%",
+        height: "7%",
+        borderColor: "gray",
+        borderRadius: 10,
+    },
+    picker: {
+        width: "100%",
+        height: "7%",
+    },
+    label: {
+        alignSelf: "flex-start",
+        marginLeft: "10%",
+        color: Colors.text,
+        fontSize: 16,
+        fontWeight: "bold",
+    },
+    scrollContainer: {
+        flexGrow: 1,
+        justifyContent: "center", // Centers the content vertically
+        paddingBottom: 20, // Adds padding at the bottom
     },
 });
