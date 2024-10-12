@@ -14,7 +14,7 @@ const ClientInfoSchema = new Schema({
     age: { type: Number, required: true },
     image: { type: String },
     measurements: {
-        shoulder: { type: Number },
+        shoulders: { type: Number },
         bust: { type: Number },
         waist: { type: Number },
         hips: { type: Number },
