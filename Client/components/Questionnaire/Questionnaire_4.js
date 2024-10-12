@@ -69,7 +69,7 @@ export default function Questionnaire_4({
         ) {
             Alert.alert(
                 "Measurements Optional",
-                "You can proceed without entering measurements but consider it for maximum matching."
+                "You can proceed without entering measurements but you will have to do it later."
             );
         }
 
@@ -94,116 +94,118 @@ export default function Questionnaire_4({
     const iconSize = Math.min(dimensions.width, dimensions.height) * 0.1;
 
     return (
-        <ScrollView style={styles.container}>
-            <View style={styles.head}>
-                <Icon
-                    name="check-circle"
-                    color={Colors.check_circle_on}
-                    iconSize={iconSize}
-                />
-                <Icon
-                    name="horizontal-rule"
-                    color={Colors.line}
-                    iconSize={iconSize}
-                />
-                <Icon
-                    name="check-circle"
-                    color={Colors.check_circle_on}
-                    iconSize={iconSize}
-                />
-                <Icon
-                    name="horizontal-rule"
-                    color={Colors.line}
-                    iconSize={iconSize}
-                />
-                <Icon
-                    name="check-circle"
-                    color={Colors.check_circle_on}
-                    iconSize={iconSize}
-                />
-                <Icon
-                    name="horizontal-rule"
-                    color={Colors.line}
-                    iconSize={iconSize}
-                />
-                <Icon
-                    name="check-circle-outline"
-                    color={Colors.check_circle_on}
-                    iconSize={iconSize}
-                />
-                <Icon
-                    name="horizontal-rule"
-                    color={Colors.line}
-                    iconSize={iconSize}
-                />
-                <Icon
-                    name="check-circle-outline"
-                    color={Colors.check_circle_off}
-                    iconSize={iconSize}
-                />
-            </View>
-            <View style={styles.body}>
-                <Text style={[styles.title, { fontSize: fontSize }]}>
-                    {Strings.measurementTitle}
-                </Text>
+        <>
+            <ScrollView style={styles.container}>
+                <View style={styles.head}>
+                    <Icon
+                        name="check-circle"
+                        color={Colors.check_circle_on}
+                        iconSize={iconSize}
+                    />
+                    <Icon
+                        name="horizontal-rule"
+                        color={Colors.line}
+                        iconSize={iconSize}
+                    />
+                    <Icon
+                        name="check-circle"
+                        color={Colors.check_circle_on}
+                        iconSize={iconSize}
+                    />
+                    <Icon
+                        name="horizontal-rule"
+                        color={Colors.line}
+                        iconSize={iconSize}
+                    />
+                    <Icon
+                        name="check-circle"
+                        color={Colors.check_circle_on}
+                        iconSize={iconSize}
+                    />
+                    <Icon
+                        name="horizontal-rule"
+                        color={Colors.line}
+                        iconSize={iconSize}
+                    />
+                    <Icon
+                        name="check-circle-outline"
+                        color={Colors.check_circle_on}
+                        iconSize={iconSize}
+                    />
+                    <Icon
+                        name="horizontal-rule"
+                        color={Colors.line}
+                        iconSize={iconSize}
+                    />
+                    <Icon
+                        name="check-circle-outline"
+                        color={Colors.check_circle_off}
+                        iconSize={iconSize}
+                    />
+                </View>
+                <View style={styles.body}>
+                    <Text style={[styles.title, { fontSize: fontSize }]}>
+                        {Strings.measurementTitle}
+                    </Text>
 
-                {/* Labels for the measurement fields */}
-                <Text style={styles.label}>Shoulders (cm)</Text>
-                <TextInput
-                    style={styles.input}
-                    keyboardType="numeric"
-                    value={shoulders}
-                    onChangeText={setShoulders}
-                />
+                    {/* Labels for the measurement fields */}
+                    <Text style={styles.label}>Shoulders (cm)</Text>
+                    <TextInput
+                        style={styles.input}
+                        keyboardType="numeric"
+                        value={shoulders}
+                        onChangeText={setShoulders}
+                    />
 
-                <Text style={styles.label}>Bust (cm)</Text>
-                <TextInput
-                    style={styles.input}
-                    keyboardType="numeric"
-                    value={bust}
-                    onChangeText={setBust}
-                />
+                    <Text style={styles.label}>Bust (cm)</Text>
+                    <TextInput
+                        style={styles.input}
+                        keyboardType="numeric"
+                        value={bust}
+                        onChangeText={setBust}
+                    />
 
-                <Text style={styles.label}>Waist (cm)</Text>
-                <TextInput
-                    style={styles.input}
-                    keyboardType="numeric"
-                    value={waist}
-                    onChangeText={setWaist}
-                />
+                    <Text style={styles.label}>Waist (cm)</Text>
+                    <TextInput
+                        style={styles.input}
+                        keyboardType="numeric"
+                        value={waist}
+                        onChangeText={setWaist}
+                    />
 
-                <Text style={styles.label}>Hips (cm)</Text>
-                <TextInput
-                    style={styles.input}
-                    keyboardType="numeric"
-                    value={hips}
-                    onChangeText={setHips}
-                />
+                    <Text style={styles.label}>Hips (cm)</Text>
+                    <TextInput
+                        style={styles.input}
+                        keyboardType="numeric"
+                        value={hips}
+                        onChangeText={setHips}
+                    />
 
-                <Text style={styles.label}>Thighs (cm)</Text>
-                <TextInput
-                    style={styles.input}
-                    keyboardType="numeric"
-                    value={thighs}
-                    onChangeText={setThighs}
-                />
+                    <Text style={styles.label}>Thighs (cm)</Text>
+                    <TextInput
+                        style={styles.input}
+                        keyboardType="numeric"
+                        value={thighs}
+                        onChangeText={setThighs}
+                    />
 
-                <Text style={styles.label}>Calves (cm)</Text>
-                <TextInput
-                    style={styles.input}
-                    keyboardType="numeric"
-                    value={calves}
-                    onChangeText={setCalves}
-                />
+                    <Text style={styles.label}>Calves (cm)</Text>
+                    <TextInput
+                        style={styles.input}
+                        keyboardType="numeric"
+                        value={calves}
+                        onChangeText={setCalves}
+                    />
 
-                <Text style={styles.label}>Legs (cm)</Text>
-                <TextInput
-                    style={styles.input}
-                    keyboardType="numeric"
-                    value={legs}
-                    onChangeText={setLegs}
-                />
-            </View>
+                    <Text style={styles.label}>Legs (cm)</Text>
+                    <TextInput
+                        style={styles.input}
+                        keyboardType="numeric"
+                        value={legs}
+                        onChangeText={setLegs}
+                    />
+                </View>
+            </ScrollView>
             <View style={styles.footer}>
                 <View style={styles.backContainer}>
                     <TouchableOpacity
@@ -217,7 +219,7 @@ export default function Questionnaire_4({
                     </TouchableOpacity>
                 </View>
             </View>
-        </ScrollView>
+        </>
     );
 }
 

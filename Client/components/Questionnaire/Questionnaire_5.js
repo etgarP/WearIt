@@ -45,13 +45,14 @@ export default function Questionnaire_5({
 
     const handleNext = async () => {
         // Prepare data to be sent to the server
-        const info = {
-            ...questionnaireData,
-            other: other, // Assuming 'other' is defined in your component
-            username: "john_doe",
+        const data = {
+            info: {
+                ...questionnaireData,
+                other: other, // Assuming 'other' is defined in your component
+                username: "john_doe7",
+            },
         };
-        info1 = { info: info };
-        console.log(info1);
+        console.log(data);
 
         try {
             const response = await fetch(
@@ -61,18 +62,14 @@ export default function Questionnaire_5({
                     headers: {
                         "Content-Type": "application/json",
                         Authorization:
-                            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImphbmVfZGVzaWduZXIyIiwiaWF0IjoxNzI4NzY4ODk3fQ.AR_VAQfrBIiOAZeg3s_G3HR8v4_Ds6DEro949fOZjdE",
+                            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvaG5fZG9lNyIsImlhdCI6MTcyODc3MTQwN30.l8NHS8FoYdopvJxpvIR6FKD-KCnGql0afG38aGp6A00",
                     },
-                    body: JSON.stringify(info1),
+                    body: JSON.stringify(data),
                 }
             );
 
             // Check if the request was successful
             if (response.ok) {
-                // Parse the JSON response if needed
-                const responseData = await response.json();
-                console.log("Data sent successfully:", responseData);
-
                 // Update questionnaireData with preferences
                 setQuestionnaireData({
                     ...questionnaireData,

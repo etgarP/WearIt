@@ -56,12 +56,7 @@ export default function App() {
         },
         other: "",
     });
-
-    // Effect to log questionnaireData whenever it changes
-    useEffect(() => {
-        console.log("Current Questionnaire Data:", questionnaireData);
-    }, [questionnaireData]);
-
+    
     return (
         <NavigationContainer>
             <Stack.Navigator>
