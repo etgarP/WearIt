@@ -43,14 +43,25 @@ const signUpClient = async (req, res) => {
 */
 const changeInfo = async (req, res) => {
     try {
-        const token = req.headers.authorization.split(' ')[1];
+        const authorization = req.headers.authorization;
+        if (!authorization) {
+            return res.status(401).send("Authorization token is missing");
+        }
+        const token = authorization.split(' ')[1];
         const decoded = jwt.verify(token, secretToken);
-        const newInfo = req.body.info
-        await clientService.setClientInfo(decoded.username, newInfo)
-        return res.status(200).send("set info successfully");
+        const newInfo = req.body.info || {};
+        await clientService.setClientInfo(decoded.username, newInfo);
+        if (decoded.username !== newInfo.username) {
+            throw new Error("Username mismatch");
+        }
+        return res.status(200).send("Info updated successfully");
     } catch (error) {
+        if (error.message === "Username mismatch") {
+            return res.status(400).send("Username mismatch");
+        }
         return res.status(500).send("Internal Server Error");
     }
-}
+};
+
 
 module.exports = { signInClient, signUpClient, changeInfo };
