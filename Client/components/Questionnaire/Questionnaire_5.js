@@ -5,6 +5,7 @@ import {
     Dimensions,
     TextInput,
     TouchableOpacity,
+    Alert,
 } from "react-native";
 import { MaterialIcons, Feather } from "@expo/vector-icons";
 import { Colors } from "../../constants/colors";
@@ -18,9 +19,7 @@ export default function Questionnaire_5({
 }) {
     const [fontSize, setFontSize] = useState(0);
     const [dimensions, setDimensions] = useState(Dimensions.get("window"));
-    const [other, setOther] = useState(
-        questionnaireData.other || ""
-    ); // Initialize with existing data
+    const [other, setOther] = useState(questionnaireData.other || ""); // Initialize with existing data
 
     useEffect(() => {
         const onChange = ({ window }) => {
@@ -44,15 +43,58 @@ export default function Questionnaire_5({
 
     const iconSize = Math.min(dimensions.width, dimensions.height) * 0.1;
 
-    const handleNext = () => {
-        // Update questionnaireData with preferences
-        setQuestionnaireData({
+    const handleNext = async () => {
+        // Prepare data to be sent to the server
+        const info = {
             ...questionnaireData,
-            other: other,
-        });
+            other: other, // Assuming 'other' is defined in your component
+            username: "john_doe",
+        };
+        info1 = { info: info };
+        console.log(info1);
 
-        // Navigate to the next screen (if applicable)
-        navigation.navigate("Home"); // Replace "NextScreen" with the actual next screen name
+        try {
+            const response = await fetch(
+                "http://10.0.2.2:12345/api/client/matches/info",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization:
+                            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImphbmVfZGVzaWduZXIyIiwiaWF0IjoxNzI4NzY4ODk3fQ.AR_VAQfrBIiOAZeg3s_G3HR8v4_Ds6DEro949fOZjdE",
+                    },
+                    body: JSON.stringify(info1),
+                }
+            );
+
+            // Check if the request was successful
+            if (response.ok) {
+                // Parse the JSON response if needed
+                const responseData = await response.json();
+                console.log("Data sent successfully:", responseData);
+
+                // Update questionnaireData with preferences
+                setQuestionnaireData({
+                    ...questionnaireData,
+                    other: other,
+                });
+
+                // Navigate to the next screen
+                navigation.navigate("Home"); // Replace "Home" with the actual next screen name
+            } else {
+                console.error("Error sending data:", response.statusText);
+                Alert.alert(
+                    "Error",
+                    "Failed to send data. Please try again later."
+                );
+            }
+        } catch (error) {
+            console.error("Network error:", error);
+            Alert.alert(
+                "Error",
+                "Failed to send data. Please check your network connection."
+            );
+        }
     };
 
     return (

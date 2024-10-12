@@ -41,7 +41,7 @@ export default function App() {
         age: "",
         gender: "",
         allergies: "",
-        workType: "",
+        work: "",
         city: "",
         religion: "",
         image: null,

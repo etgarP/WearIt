@@ -20,7 +20,7 @@ export default function Questionnaire_2({
     const [fontSize, setFontSize] = useState(0);
     const [dimensions, setDimensions] = useState(Dimensions.get("window"));
 
-    const [workType, setWorkType] = useState(questionnaireData.workType || "");
+    const [work, setWork] = useState(questionnaireData.work || "");
     const [city, setCity] = useState(questionnaireData.city || "");
     const [religion, setReligion] = useState(questionnaireData.religion || "");
 
@@ -47,7 +47,7 @@ export default function Questionnaire_2({
     const iconSize = Math.min(dimensions.width, dimensions.height) * 0.1;
 
     const validateInputs = () => {
-        if (!workType.trim()) {
+        if (!work.trim()) {
             Alert.alert("Validation Error", "Work type is required.");
             return false;
         }
@@ -66,7 +66,7 @@ export default function Questionnaire_2({
         if (validateInputs()) {
             setQuestionnaireData({
                 ...questionnaireData,
-                workType,
+                work: work,
                 city,
                 religion,
             });
@@ -132,12 +132,12 @@ export default function Questionnaire_2({
                 <Text style={styles.label}>Work Type</Text>
                 <TextInput
                     style={styles.input}
-                    value={workType}
+                    value={work}
                     onChangeText={(text) => {
-                        setWorkType(text);
+                        setWork(text);
                         setQuestionnaireData({
                             ...questionnaireData,
-                            workType: text,
+                            work: text,
                         });
                     }}
                 />
