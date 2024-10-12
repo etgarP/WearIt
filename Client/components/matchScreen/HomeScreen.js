@@ -4,7 +4,7 @@ import Search from './Search'
 import MyCarousel from './carousel/carousel';
 import TopBtns from './btns/buttons'
 
-export default function MatchRoute() {
+export default function MatchRoute({ setProfilePage, navigation }) {
     return (
         <View style={styles.container}>
             <View style={styles.search}>
@@ -14,7 +14,7 @@ export default function MatchRoute() {
                 <TopBtns/>
             </View>
             <View>
-                <MyCarousel />
+                <MyCarousel setProfilePage={setProfilePage} navigation={navigation} />
             </View>
         </View>
     );

@@ -1,13 +1,15 @@
 import React from 'react';
-import { Text } from "react-native";
+import { View } from 'react-native'
 import { BottomNavigation } from 'react-native-paper';
 import MatchRoute from '../matchScreen/HomeScreen';
+import { Appbar } from 'react-native-paper';
 
 const GroupMatchRoute = () => <Text>Group Match</Text>;
 const OrdersRoute = () => <Text>Orders</Text>;
 const NotificationsRoute = () => <Text>Notifications</Text>;
 
-export default function BottomNav() {
+export default function BottomNav({ route, navigation }) {
+    const { setProfilePage } = route.params; // Get setProfilePage from params
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
         { key: 'match', title: 'Match', focusedIcon: 'face-man-shimmer', unfocusedIcon: 'face-man-shimmer-outline' },
@@ -17,17 +19,23 @@ export default function BottomNav() {
     ]);
 
     const renderScene = BottomNavigation.SceneMap({
-        match: MatchRoute,
+        match: (props) => <MatchRoute {...props} setProfilePage={setProfilePage} navigation={navigation} />,
         groupMatch: GroupMatchRoute,
         orders: OrdersRoute,
         notifications: NotificationsRoute,
     });
 
     return (
-        <BottomNavigation
-            navigationState={{ index, routes }}
-            onIndexChange={setIndex}
-            renderScene={renderScene}
-        />
+        <>
+            <Appbar.Header mode="center-aligned">
+                <Appbar.Content title="Matching" />
+            </Appbar.Header>
+            <BottomNavigation
+                navigationState={{ index, routes }}
+                onIndexChange={setIndex}
+                renderScene={renderScene}
+            />
+        </>
+        
     );
 }

@@ -1,14 +1,15 @@
-import { PaperProvider } from 'react-native-paper';
+import { PaperProvider, Appbar } from 'react-native-paper';
 import BottomNav from './components/navigation/bottomNavigation.js'
-import { Appbar } from 'react-native-paper';
+import { StyleSheet, View, Text, EditScreenInfo, TouchableHighlight } from 'react-native';
+import DesignerCard from './components/designerPage.js'
+import AppNavigator from './AppNavigator.js';
+
 
 export default function App() {
   return (
     <PaperProvider>
-      <Appbar.Header mode="center-aligned">
-        <Appbar.Content title="Matching" />
-      </Appbar.Header>
-      <BottomNav />
+
+      <AppNavigator />
     </PaperProvider>
   );
 }
