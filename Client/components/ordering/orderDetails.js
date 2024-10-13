@@ -1,8 +1,10 @@
 import * as React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, Dimensions } from 'react-native';
 import { Appbar, TextInput, Button } from 'react-native-paper';
 
-const OrderDetails = ({ navigation }) => {
+const { width, height } = Dimensions.get('window'); // Get the width of the device
+
+const OrderDetails = ({ navigation, onClick }) => {
     const [outfits, setOutfits] = React.useState('');
     const [occasions, setOccasions] = React.useState('');
     const [preferences, setPreferences] = React.useState('');
@@ -12,7 +14,7 @@ const OrderDetails = ({ navigation }) => {
     return (
         <View style={styles.container}>
             {/* Appbar with Back Button and Arrival Time */}
-            <Appbar.Header>
+            <Appbar.Header style={styles}>
                 <Appbar.BackAction onPress={() => navigation.goBack()} />
                 <Appbar.Content
                     title="Order Details"
@@ -60,7 +62,7 @@ const OrderDetails = ({ navigation }) => {
 
             <Button
                 mode="contained"
-                onPress={() => console.log('Purchase confirmed')}
+                onPress={onClick}
                 style={styles.button}>
                 Confirm Purchase
             </Button>
@@ -70,6 +72,7 @@ const OrderDetails = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     container: {
+        width: width,
         flex: 1,
         padding: 20,
         backgroundColor: '#fff',

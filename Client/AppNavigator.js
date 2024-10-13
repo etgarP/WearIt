@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BottomNav from './components/navigation/bottomNavigation'; // Adjust the import path
 import DesignerPage from './components/designerPage'; // Corrected component name
-import OrderDetails from './components/orderDetails';
+import OrderHolder from './components/ordering/orderHolder';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,7 +21,7 @@ const AppNavigator = () => {
             >
                 <Stack.Screen
                     name="orderDetails"
-                    component={OrderDetails}
+                    component={OrderHolder}
                 />
                 <Stack.Screen
                     name="HomeClient"

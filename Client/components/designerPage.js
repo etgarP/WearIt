@@ -63,7 +63,7 @@ const DesignerPage = ({ route, navigation }) => {
                 <Button
                     mode="contained"
                     onPress={() => 
-                        navigation.navigate("orderDetails", { designerData: profile })
+                        navigation.navigate("orderDetails")
                     }
                     style={styles.selectButton}
                 >
