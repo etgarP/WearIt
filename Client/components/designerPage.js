@@ -62,7 +62,9 @@ const DesignerPage = ({ route, navigation }) => {
                 {/* Select Button */}
                 <Button
                     mode="contained"
-                    onPress={() => console.log('Select Pressed')}
+                    onPress={() => 
+                        navigation.navigate("orderDetails")
+                    }
                     style={styles.selectButton}
                 >
                     Select

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native'
+import { View, Text } from 'react-native'
 import { BottomNavigation } from 'react-native-paper';
 import MatchRoute from '../matchScreen/HomeScreen';
 import { Appbar } from 'react-native-paper';

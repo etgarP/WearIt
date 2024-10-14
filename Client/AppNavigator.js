@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BottomNav from './components/navigation/bottomNavigation'; // Adjust the import path
 import DesignerPage from './components/designerPage'; // Corrected component name
+import OrderHolder from './components/ordering/orderHolder';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,6 +19,10 @@ const AppNavigator = () => {
                     cardStyle: { backgroundColor: 'white' }, // Adjust as needed
                 }}
             >
+                <Stack.Screen
+                    name="orderDetails"
+                    component={OrderHolder}
+                />
                 <Stack.Screen
                     name="HomeClient"
                     component={BottomNav}
