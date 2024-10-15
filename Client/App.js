@@ -10,7 +10,7 @@ import Questionnaire3 from "./components/Questionnaire/Questionnaire_3";
 import Questionnaire4 from "./components/Questionnaire/Questionnaire_4";
 import Questionnaire5 from "./components/Questionnaire/Questionnaire_5";
 import SignInScreen from "./components/Authentication/SignInScreen";
-
+import SignUpScreen from "./components/Authentication/SignUpScreen";
 
 
 const Stack = createStackNavigator();
@@ -45,6 +45,8 @@ export default function App() {
           <Stack.Screen name="Questionnaire3" component={Questionnaire3} />
           <Stack.Screen name="Questionnaire4" component={Questionnaire4} />
           <Stack.Screen name="Questionnaire5" component={Questionnaire5} />
+          <Stack.Screen name="SignIn" component={SignInScreen} />
+          <Stack.Screen name="SignUp" component={SignUpScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     );

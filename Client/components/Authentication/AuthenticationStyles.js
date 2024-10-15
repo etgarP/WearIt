@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.background,
     padding: 20,
   },
-  signInText: {
+  titleText: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 40,
@@ -51,7 +51,7 @@ export const styles = StyleSheet.create({
     color: "#A9A9A9",
     marginBottom: 40,
   },
-  signInButton: {
+  button: {
     backgroundColor: Colors.btnBackground,
     paddingVertical: 15,
     width: "100%",
@@ -59,12 +59,12 @@ export const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 20,
   },
-  signInButtonText: {
+  buttonText: {
     color: Colors.btnText,
     fontSize: 16,
     fontWeight: "bold",
   },
-  signUpText: {
+  linkText: {
     color: "#A9A9A9",
     marginTop: 20,
   },

@@ -9,10 +9,11 @@ import {
 } from "react-native";
 import { styles } from "./AuthenticationStyles";
 
-export default function SignInScreen({ navigation, route }) {
+export default function SignUpScreen({ navigation, route }) {
   const [selectedTab, setSelectedTab] = useState("Stylist");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   // Update selectedTab only when route.params.selectedTab changes
   useEffect(() => {
@@ -21,10 +22,11 @@ export default function SignInScreen({ navigation, route }) {
     }
   }, [route.params?.selectedTab]);
 
-  // Validation for sign-in with trimming and length checks
-  const handleSignIn = () => {
+  // Validation for sign-up with trimming and length checks
+  const handleSignUp = () => {
     const trimmedUsername = username.trim();
     const trimmedPassword = password.trim();
+    const trimmedConfirmPassword = confirmPassword.trim();
 
     if (!trimmedUsername) {
       Alert.alert("Error", "Please enter your username.");
@@ -42,15 +44,19 @@ export default function SignInScreen({ navigation, route }) {
       Alert.alert("Error", "Password cannot exceed 14 characters.");
       return;
     }
+    if (trimmedPassword !== trimmedConfirmPassword) {
+      Alert.alert("Error", "Passwords do not match.");
+      return;
+    }
 
-    // Proceed with sign-in logic (e.g., API call)
-    Alert.alert("Success", `Welcome, ${trimmedUsername}!`);
+    // Proceed with sign-up logic (e.g., API call)
+    Alert.alert("Success", `Account created for ${trimmedUsername}!`);
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header - Sign In */}
-      <Text style={styles.titleText}>SIGN IN</Text>
+      {/* Header - Sign Up */}
+      <Text style={styles.titleText}>SIGN UP</Text>
 
       {/* Tab Selection */}
       <View style={styles.tabContainer}>
@@ -82,7 +88,7 @@ export default function SignInScreen({ navigation, route }) {
         </TouchableOpacity>
       </View>
 
-      {/* Username and Password Fields */}
+      {/* Username, Password, and Confirm Password Fields */}
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
@@ -99,20 +105,28 @@ export default function SignInScreen({ navigation, route }) {
           value={password}
           onChangeText={setPassword}
         />
+        <TextInput
+          style={styles.input}
+          placeholder="CONFIRM PASSWORD"
+          placeholderTextColor="#A9A9A9"
+          secureTextEntry
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+        />
       </View>
 
-      {/* Sign In Button */}
-      <TouchableOpacity style={styles.button} onPress={handleSignIn}>
-        <Text style={styles.buttonText}>SIGN IN</Text>
+      {/* Sign Up Button */}
+      <TouchableOpacity style={styles.button} onPress={handleSignUp}>
+        <Text style={styles.buttonText}>SIGN UP</Text>
       </TouchableOpacity>
 
-      {/* Sign Up Link */}
+      {/* Sign In Link */}
       <TouchableOpacity
         onPress={() =>
-          navigation.navigate("SignUp", { selectedTab: selectedTab })
+          navigation.navigate("SignIn", { selectedTab: selectedTab })
         }
       >
-        <Text style={styles.linkText}>DON'T HAVE AN ACCOUNT? SIGN UP</Text>
+        <Text style={styles.linkText}>ALREADY HAVE AN ACCOUNT? SIGN IN</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
