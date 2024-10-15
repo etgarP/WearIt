@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,8 +8,15 @@ import {
 } from "react-native";
 import { styles } from "./AuthenticationStyles";
 
-export default function SignInScreen({ navigation }) {
+export default function SignInScreen({ navigation, route }) {
   const [selectedTab, setSelectedTab] = useState("Stylist");
+
+  // Update selectedTab only when route.params.selectedTab changes
+  useEffect(() => {
+    if (route.params?.selectedTab) {
+      setSelectedTab(route.params.selectedTab);
+    }
+  }, [route.params?.selectedTab]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -71,9 +78,12 @@ export default function SignInScreen({ navigation }) {
 
       {/* Sign Up Link */}
       <TouchableOpacity
-          onPress={() => navigation.navigate("SignUp")}>
-          <Text style={styles.linkText}>DON'T HAVE AN ACCOUNT? SIGN UP</Text>
+        onPress={() =>
+          navigation.navigate("SignUp", { selectedTab: selectedTab })
+        }
+      >
+        <Text style={styles.linkText}>DON'T HAVE AN ACCOUNT? SIGN UP</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
-};
+}
