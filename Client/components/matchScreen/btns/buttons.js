@@ -1,32 +1,34 @@
 import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
-import PriceDropdownChip from './dropDownMenu'
+import { ScrollView, StyleSheet } from 'react-native'; 
+import PriceDropdownChip from './dropDownMenu';
 
-
-const TopBtns = () => {
+const TopBtns = ({ setPriceFilter, setCategoryFilter, setReviewFilter }) => {
     const handleItemSelected = (item, buttonName) => {
-        console.log(`Selected item: ${item} from button: ${buttonName}`);
+        if (buttonName === 'Price') {
+            setPriceFilter(item);
+        } else if (buttonName === 'Category') {
+            setCategoryFilter(item);
+        } else if (buttonName === 'Reviews') {
+            setReviewFilter(item);
+        }
     };
 
     return (
-        <ScrollView 
-            horizontal contentContainerStyle={styles.scrollContainer}
-            showsHorizontalScrollIndicator={false}
-        >
+        <ScrollView horizontal contentContainerStyle={styles.scrollContainer} showsHorizontalScrollIndicator={false}>
             <PriceDropdownChip
                 title="Price"
-                items={['Budget', 'Premium', 'Luxury']}
-                onItemSelected={handleItemSelected}
+                items={['Cheap', 'Affordable', 'Expensive']}
+                onItemSelected={(item) => handleItemSelected(item, 'Price')}
+            />
+            <PriceDropdownChip
+                title="Reviews"
+                items={['3+ Stars', '4+ Stars', '5 Stars']}
+                onItemSelected={(item) => handleItemSelected(item, 'Reviews')}
             />
             <PriceDropdownChip
                 title="Category"
-                items={['Cheap', 'Affordable', 'Expensive']}
-                onItemSelected={handleItemSelected}
-            />
-            <PriceDropdownChip
-                title="Price 3"
-                items={['Budget', 'Premium', 'Luxury']}
-                onItemSelected={handleItemSelected}
+                items={['Casual Styles', 'Formal Attire', 'Specialty Fashion']}
+                onItemSelected={(item) => handleItemSelected(item, 'Category')}
             />
         </ScrollView>
     );

@@ -5,10 +5,17 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 const { width, height } = Dimensions.get('screen');
 
-const MyCard = ({ profile, setProfilePage, index, navigation }) => {
+const MyCard = ({ profile, setProfilePage, navigation }) => {
     // Destructure profile properties for better readability
-    const { name, image, description, specialization, score } = profile;
-    
+    const { name, image, bio, specialization, reviews, score } = profile;
+
+    // Calculate the average rating from reviews
+    const averageRating = reviews.length
+        ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length
+        : 0;
+
+    // Convert the average rating to a rating out of 5
+    const ratingOutOf5 = averageRating;
 
     return (
         <Card style={styles.card}>
@@ -20,9 +27,9 @@ const MyCard = ({ profile, setProfilePage, index, navigation }) => {
             </View>
 
             <Card.Content>
-                {/* If description exists, display it. Otherwise, show a default message */}
+                {/* If bio exists, display it. Otherwise, show a default message */}
                 <Text style={styles.description}>
-                    {description || `Hi, I specialize in ${specialization || 'designing'}. Let's create something amazing together!`}
+                    {bio || `Hi, I specialize in ${specialization || 'designing'}. Let's create something amazing together!`}
                 </Text>
 
                 {/* Rating Stars - Map over an array to create the star icons */}
@@ -32,12 +39,12 @@ const MyCard = ({ profile, setProfilePage, index, navigation }) => {
                             key={idx}
                             name="star"
                             size={24}
-                            color={idx < Math.floor(score / 20) ? "black" : "gray"} // Color based on score
+                            color={idx < Math.floor(ratingOutOf5) ? "black" : "gray"} // Color based on average rating
                         />
                     ))}
                 </View>
 
-                {/* Progress Bar to show matching score as a percentage */}
+                {/* Progress Bar to show the matching score as a percentage */}
                 <ProgressBar progress={score / 100} color="green" style={styles.progressBar} />
                 <Text style={styles.matchText}>{score}% match</Text>
             </Card.Content>
@@ -45,14 +52,13 @@ const MyCard = ({ profile, setProfilePage, index, navigation }) => {
             {/* "Read more" Button to navigate to the profile details page */}
             <Card.Actions>
                 <View style={styles.buttonContainer}>
-                    {/* Correct navigation call: navigate to "ProfileDetails" */}
                     <Button
                         mode="contained"
                         style={styles.button}
                         onPress={() => {
                             setProfilePage(profile);  // Sets the profile in the parent state
                             navigation.navigate("ProfileDetails", { designerData: profile });  // Pass profile as designerData
-                        }}  
+                        }}
                     >
                         Read more
                     </Button>

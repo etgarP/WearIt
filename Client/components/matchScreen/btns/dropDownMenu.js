@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View, Text } from 'react-native'; // Import Text
 import { Chip } from 'react-native-paper';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -19,7 +19,7 @@ const PriceDropdownChip = ({ title, items, onItemSelected }) => {
     }));
 
     const handleChipPress = () => {
-        console.log("pressed")
+        console.log("pressed");
 
         if (!selected) {
             setSelected(true);
@@ -31,7 +31,7 @@ const PriceDropdownChip = ({ title, items, onItemSelected }) => {
     };
 
     const handleItemPress = (item) => {
-        handleChipPress()
+        handleChipPress();
         setSelectedItem(item);
         if (onItemSelected) {
             onItemSelected(item, title);  // Pass selected item and button name
@@ -45,7 +45,10 @@ const PriceDropdownChip = ({ title, items, onItemSelected }) => {
                 selected={!!selectedItem}
                 showSelectedOverlay={!!selectedItem}
                 onPress={handleChipPress}
-                onClose={selectedItem ? () => setSelectedItem('') : undefined}
+                onClose={selectedItem ? () => {
+                    setSelectedItem('')
+                    onItemSelected("")
+                } : undefined}
                 closeIcon={selectedItem ? "close" : undefined}
                 icon={() =>
                     selectedItem ? (
@@ -55,7 +58,8 @@ const PriceDropdownChip = ({ title, items, onItemSelected }) => {
                     )
                 }
             >
-                {selectedItem || title}
+                {/* Wrap title in Text component */}
+                <Text>{selectedItem || title}</Text>
             </Chip>
 
             {selected && (
@@ -66,7 +70,8 @@ const PriceDropdownChip = ({ title, items, onItemSelected }) => {
                                 mode="flat"
                                 onPress={() => handleItemPress(item)}
                             >
-                                {item}
+                                {/* Wrap item in Text component */}
+                                <Text>{item}</Text>
                             </Chip>
                         </AnimatedView>
                     ))}
@@ -77,7 +82,6 @@ const PriceDropdownChip = ({ title, items, onItemSelected }) => {
 };
 
 const styles = StyleSheet.create({
-
     container: {
         marginHorizontal: 5,
     },
