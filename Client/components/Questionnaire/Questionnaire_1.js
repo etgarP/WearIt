@@ -5,13 +5,19 @@ import {
     Dimensions,
     TextInput,
     TouchableOpacity,
+    Alert,
 } from "react-native";
 import { MaterialIcons, Feather } from "@expo/vector-icons";
+import { Picker } from "@react-native-picker/picker";
 import { Colors } from "../../constants/colors";
 import { styles } from "./QuestionnaireStyles";
 import { Strings } from "../../constants/strings";
 
-export default function Questionnaire_1({ navigation }) {
+export default function Questionnaire_1({
+    navigation,
+    setQuestionnaireData,
+    questionnaireData,
+}) {
     const [fontSize, setFontSize] = useState(0);
     const [dimensions, setDimensions] = useState(Dimensions.get("window"));
 
@@ -36,6 +42,32 @@ export default function Questionnaire_1({ navigation }) {
     };
 
     const iconSize = Math.min(dimensions.width, dimensions.height) * 0.1;
+
+    const validateInputs = () => {
+        if (!questionnaireData.name.trim()) {
+            Alert.alert("Validation Error", "Name is required.");
+            return false;
+        }
+        if (
+            !questionnaireData.age ||
+            isNaN(questionnaireData.age) ||
+            questionnaireData.age <= 0
+        ) {
+            Alert.alert("Validation Error", "Please enter a valid age.");
+            return false;
+        }
+        if (!questionnaireData.gender) {
+            Alert.alert("Validation Error", "Please select a gender.");
+            return false;
+        }
+        return true;
+    };
+
+    const handleNext = () => {
+        if (validateInputs()) {
+            navigation.navigate("Questionnaire2");
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -90,15 +122,69 @@ export default function Questionnaire_1({ navigation }) {
                 <Text style={[styles.title, { fontSize: fontSize }]}>
                     {Strings.personalInfo}
                 </Text>
-                <TextInput style={styles.input} placeholder="Name" />
-                <TextInput style={styles.input} placeholder="Age" />
-                <TextInput style={styles.input} placeholder="Gender" />
-                <TextInput style={styles.input} placeholder="Allergies" />
+
+                {/* Name Field */}
+                <Text style={styles.label}>Name</Text>
+                <TextInput
+                    style={styles.input}
+                    value={questionnaireData.name}
+                    onChangeText={(text) =>
+                        setQuestionnaireData({
+                            ...questionnaireData,
+                            name: text,
+                        })
+                    }
+                />
+
+                {/* Age Field */}
+                <Text style={styles.label}>Age</Text>
+                <TextInput
+                    style={styles.input}
+                    value={questionnaireData.age}
+                    onChangeText={(text) =>
+                        setQuestionnaireData({
+                            ...questionnaireData,
+                            age: text,
+                        })
+                    }
+                    keyboardType="numeric"
+                />
+
+                {/* Gender Field */}
+                <Text style={styles.label}>Gender</Text>
+                <View style={styles.pickerContainer}>
+                    <Picker
+                        selectedValue={questionnaireData.gender}
+                        onValueChange={(itemValue) =>
+                            setQuestionnaireData({
+                                ...questionnaireData,
+                                gender: itemValue,
+                            })
+                        }
+                        style={styles.picker}>
+                        <Picker.Item label="Select Gender" value="" />
+                        <Picker.Item label="Male" value="Male" />
+                        <Picker.Item label="Female" value="Female" />
+                        <Picker.Item label="Other" value="Other" />
+                    </Picker>
+                </View>
+
+                {/* Allergies Field */}
+                <Text style={styles.label}>Allergies</Text>
+                <TextInput
+                    style={styles.input}
+                    value={questionnaireData.allergies}
+                    onChangeText={(text) =>
+                        setQuestionnaireData({
+                            ...questionnaireData,
+                            allergies: text,
+                        })
+                    }
+                />
             </View>
             <View style={styles.footer}>
                 <View style={styles.nextContainer}>
-                    <TouchableOpacity
-                        onPress={() => navigation.navigate("Questionnaire2")}>
+                    <TouchableOpacity onPress={handleNext}>
                         <Feather name="arrow-right" size={40} color="black" />
                     </TouchableOpacity>
                 </View>

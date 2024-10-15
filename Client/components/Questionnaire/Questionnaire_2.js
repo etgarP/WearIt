@@ -2,18 +2,27 @@ import React, { useState, useEffect } from "react";
 import {
     Text,
     View,
-    Dimensions,
     TextInput,
     TouchableOpacity,
+    Dimensions,
+    Alert,
 } from "react-native";
 import { MaterialIcons, Feather } from "@expo/vector-icons";
 import { Colors } from "../../constants/colors";
 import { styles } from "./QuestionnaireStyles";
 import { Strings } from "../../constants/strings";
 
-export default function Questionnaire_2({ navigation }) {
+export default function Questionnaire_2({
+    navigation,
+    setQuestionnaireData,
+    questionnaireData,
+}) {
     const [fontSize, setFontSize] = useState(0);
     const [dimensions, setDimensions] = useState(Dimensions.get("window"));
+
+    const [work, setWork] = useState(questionnaireData.work || "");
+    const [city, setCity] = useState(questionnaireData.city || "");
+    const [religion, setReligion] = useState(questionnaireData.religion || "");
 
     useEffect(() => {
         const onChange = ({ window }) => {
@@ -36,6 +45,34 @@ export default function Questionnaire_2({ navigation }) {
     };
 
     const iconSize = Math.min(dimensions.width, dimensions.height) * 0.1;
+
+    const validateInputs = () => {
+        if (!work.trim()) {
+            Alert.alert("Validation Error", "Work type is required.");
+            return false;
+        }
+        if (!city.trim()) {
+            Alert.alert("Validation Error", "City is required.");
+            return false;
+        }
+        if (!religion.trim()) {
+            Alert.alert("Validation Error", "Religion is required.");
+            return false;
+        }
+        return true;
+    };
+
+    const handleNext = () => {
+        if (validateInputs()) {
+            setQuestionnaireData({
+                ...questionnaireData,
+                work: work,
+                city,
+                religion,
+            });
+            navigation.navigate("Questionnaire3");
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -90,20 +127,59 @@ export default function Questionnaire_2({ navigation }) {
                 <Text style={[styles.title, { fontSize: fontSize }]}>
                     {Strings.lifestyleTitle}
                 </Text>
-                <TextInput style={styles.input} placeholder="Work type" />
-                <TextInput style={styles.input} placeholder="City" />
-                <TextInput style={styles.input} placeholder="Religion" />
+
+                {/* Work Type Field */}
+                <Text style={styles.label}>Work Type</Text>
+                <TextInput
+                    style={styles.input}
+                    value={work}
+                    onChangeText={(text) => {
+                        setWork(text);
+                        setQuestionnaireData({
+                            ...questionnaireData,
+                            work: text,
+                        });
+                    }}
+                />
+
+                {/* City Field */}
+                <Text style={styles.label}>City</Text>
+                <TextInput
+                    style={styles.input}
+                    value={city}
+                    onChangeText={(text) => {
+                        setCity(text);
+                        setQuestionnaireData({
+                            ...questionnaireData,
+                            city: text,
+                        });
+                    }}
+                />
+
+                {/* Religion Field */}
+                <Text style={styles.label}>Religion</Text>
+                <TextInput
+                    style={styles.input}
+                    value={religion}
+                    onChangeText={(text) => {
+                        setReligion(text);
+                        setQuestionnaireData({
+                            ...questionnaireData,
+                            religion: text,
+                        });
+                    }}
+                />
             </View>
+
             <View style={styles.footer}>
                 <View style={styles.backContainer}>
-                    <TouchableOpacity 
-                            onPress={() => navigation.navigate("Questionnaire1")}>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate("Questionnaire1")}>
                         <Feather name="arrow-left" size={40} color="black" />
                     </TouchableOpacity>
                 </View>
                 <View style={styles.nextContainer}>
-                    <TouchableOpacity
-                        onPress={() => navigation.navigate("Questionnaire3")}>
+                    <TouchableOpacity onPress={handleNext}>
                         <Feather name="arrow-right" size={40} color="black" />
                     </TouchableOpacity>
                 </View>
