@@ -4,6 +4,6 @@ const router = express.Router();
 
 router.route('/')
     .get(DesignerAuthController.getInfo)
-    .post(DesignerAuthController.updateDesigner);
+    .post(DesignerAuthController.updateDesignerInfo);
 
 module.exports = router;
