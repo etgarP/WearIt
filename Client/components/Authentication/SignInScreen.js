@@ -5,11 +5,14 @@ import {
   TextInput,
   TouchableOpacity,
   SafeAreaView,
+  Alert,
 } from "react-native";
 import { styles } from "./AuthenticationStyles";
 
 export default function SignInScreen({ navigation, route }) {
   const [selectedTab, setSelectedTab] = useState("Stylist");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   // Update selectedTab only when route.params.selectedTab changes
   useEffect(() => {
@@ -17,6 +20,32 @@ export default function SignInScreen({ navigation, route }) {
       setSelectedTab(route.params.selectedTab);
     }
   }, [route.params?.selectedTab]);
+
+  // Validation for sign-in with trimming and length checks
+  const handleSignIn = () => {
+    const trimmedUsername = username.trim();
+    const trimmedPassword = password.trim();
+
+    if (!trimmedUsername) {
+      Alert.alert("Error", "Please enter your username.");
+      return;
+    }
+    if (!trimmedPassword) {
+      Alert.alert("Error", "Please enter your password.");
+      return;
+    }
+    if (trimmedUsername.length > 14) {
+      Alert.alert("Error", "Username cannot exceed 14 characters.");
+      return;
+    }
+    if (trimmedPassword.length > 14) {
+      Alert.alert("Error", "Password cannot exceed 14 characters.");
+      return;
+    }
+
+    // Proceed with sign-in logic (e.g., API call)
+    Alert.alert("Success", `Welcome, ${trimmedUsername}!`);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -59,20 +88,21 @@ export default function SignInScreen({ navigation, route }) {
           style={styles.input}
           placeholder="USERNAME"
           placeholderTextColor="#A9A9A9"
+          value={username}
+          onChangeText={setUsername}
         />
         <TextInput
           style={styles.input}
           placeholder="PASSWORD"
           placeholderTextColor="#A9A9A9"
           secureTextEntry
+          value={password}
+          onChangeText={setPassword}
         />
-        <TouchableOpacity>
-          <Text style={styles.forgotPassword}>FORGOT PASSWORD?</Text>
-        </TouchableOpacity>
       </View>
 
       {/* Sign In Button */}
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={handleSignIn}>
         <Text style={styles.buttonText}>SIGN IN</Text>
       </TouchableOpacity>
 
