@@ -23,7 +23,7 @@ const authenticate = async (username, password) => {
     signs up a Designer. uses bcrypt to hash its password into the database.
     adds a designer profile as well.
 */
-const createDesigner = async (username, password, designerInfo) => {
+const createDesigner = async (username, password, designerInfo, profileInfo) => {
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -36,18 +36,18 @@ const createDesigner = async (username, password, designerInfo) => {
     const savedDesigner = await designer.save();
     const designerId = savedDesigner._id; // Get the _id of the saved designer
 
-    // Update or create the designer profile
-    await DesignerProfile.findOneAndUpdate(
-        { username },
-        {
-            username,
-            name: designerInfo.name,
-            bio: "No bio yet.",
-            image: designerInfo.image,
-            designerInfo: designerId // Use the retrieved _id here
-        },
-        { upsert: true }
-    );
+    // Create the designer profile
+    const designerProfile = new DesignerProfile({
+        username,
+        name: profileInfo.name,
+        bio: profileInfo.bio ? profileInfo.bio : "No bio yet.",
+        image: profileInfo.image,
+        pricePerItem: profileInfo.pricePerItem,
+        specialization: profileInfo.specialization, // Use specialization from profileInfo
+        designerInfo: designerId // Use the retrieved _id here
+    });
+    await designerProfile.save();
 }
+
 
 module.exports = { authenticate, createDesigner };

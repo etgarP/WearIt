@@ -27,12 +27,13 @@ app.use(express.static('public'))
 // Client Routes
 const ClientAuthRoutes = require('./routes/ClientAuth.js');
 const ClientOrderRoutes = require('./routes/ClientOrder.js');
+const ClientMatchesRoute = require('./routes/ClientMatches');
 
 // Designer Routes
 const DesignerAuthRoutes = require('./routes/DesignerAuth');
 const DesignerOrderRoutes = require('./routes/DesignerOrder');
 const DesignerProfileRoutes = require('./routes/DesignerProfile');
-const ClientMatchesRoute = require('./routes/ClientMatches');
+const DesignerInfoRoutes = require('./routes/DesignerInfo.js');
 
 app.use('/api/client/auth', ClientAuthRoutes);
 app.use('/api/client/orders', ClientOrderRoutes);
@@ -41,6 +42,7 @@ app.use('/api/client/matches', ClientMatchesRoute)
 app.use('/api/designer/auth', DesignerAuthRoutes);
 app.use('/api/designer/orders', DesignerOrderRoutes);
 app.use('/api/designer/profile', DesignerProfileRoutes);
+app.use('/api/designer/info', DesignerInfoRoutes);
 
 server.listen(process.env.PORT, () => {
     console.log(`app is listening on port ${process.env.PORT}`);

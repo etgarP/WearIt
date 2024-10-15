@@ -24,16 +24,30 @@ const signInDesigner = async (req, res) => {
 };
 
 /*  
-    input: username, password, designerInfo
+    input: username, password, designerInfo, profileInfo
     output: Nothing
     creates a new designer and adds a default profile page
 */
 const signUpDesigner = async (req, res) => {
     try {
-        const { username, password, designerInfo } = req.body;
-        await designerService.createDesigner(username, password, designerInfo);
+        const { username, password, designerInfo, profileInfo } = req.body;
+
+        // Check for required fields in designerInfo
+        if (!designerInfo.name || !designerInfo.gender || !designerInfo.city || !designerInfo.age) {
+            return res.status(400).send("Missing required designer information");
+        }
+
+        // Check for required fields in profileInfo
+        if (!profileInfo.name || !profileInfo.image || !profileInfo.specialization) {
+            return res.status(400).send("Missing required profile information");
+        }
+        designerInfo.username = username
+        profileInfo.username = username
+
+        await designerService.createDesigner(username, password, designerInfo, profileInfo);
         return res.status(201).send("Designer created successfully");
     } catch (error) {
+        console.error(error); // Log the error for debugging
         return res.status(500).send("Internal Server Error");
     }
 };

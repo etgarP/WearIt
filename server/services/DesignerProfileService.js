@@ -20,12 +20,12 @@ const getAllProfiles = async () => {
 /*  
     input: designer username and profile
     output: None
-    updates the profile
+    updates the profile, including bio, image, name, specialization, and pricePerItem
 */
-const saveProfile = async (username, bio, image, name) => {
+const saveProfile = async (username, bio, image, name, specialization, pricePerItem) => {
     await DesignerProfile.findOneAndUpdate(
         { username: username }, // Match the username
-        { $set: { bio, image, name } }, // Update the bio field
+        { $set: { bio, image, name, specialization, pricePerItem } }, // Update the fields
     );
 };
 
