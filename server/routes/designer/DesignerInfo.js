@@ -1,5 +1,5 @@
 const express = require('express');
-const DesignerAuthController = require('../controllers/DesignerInfo');
+const DesignerAuthController = require('../../controllers/designer/DesignerInfo');
 const router = express.Router();
 
 router.route('/')

@@ -1,5 +1,5 @@
 const express = require('express');
-const DesignerProfileController = require('../controllers/DesignerProfile.js');
+const DesignerProfileController = require('../../controllers/designer/DesignerProfile.js');
 const router = express.Router();
 
 router.route('/')

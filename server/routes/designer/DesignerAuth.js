@@ -1,5 +1,5 @@
 const express = require('express');
-const DesignerAuthController = require('../controllers/DesignerAuth.js');
+const DesignerAuthController = require('../../controllers/designer/DesignerAuth.js');
 const router = express.Router();
 
 router.route('/signIn')

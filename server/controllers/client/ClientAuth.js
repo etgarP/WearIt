@@ -1,4 +1,4 @@
-const clientService = require('../services/ClientAuthService.js');
+const clientService = require('../../services/Client/ClientAuthService.js');
 const jwt = require('jsonwebtoken');
 const secretToken = "even doctor evil won't crack this bad boy"
 
@@ -36,32 +36,4 @@ const signUpClient = async (req, res) => {
     }
 };
 
-/*  
-    input: json web token, 
-    output: json web token (sent as token)
-    authenticate the user and sends back the token for the user
-*/
-const changeInfo = async (req, res) => {
-    try {
-        const authorization = req.headers.authorization;
-        if (!authorization) {
-            return res.status(401).send("Authorization token is missing");
-        }
-        const token = authorization.split(' ')[1];
-        const decoded = jwt.verify(token, secretToken);
-        const newInfo = req.body.info || {};
-        await clientService.setClientInfo(decoded.username, newInfo);
-        if (decoded.username !== newInfo.username) {
-            throw new Error("Username mismatch");
-        }
-        return res.status(200).send("Info updated successfully");
-    } catch (error) {
-        if (error.message === "Username mismatch") {
-            return res.status(400).send("Username mismatch");
-        }
-        return res.status(500).send("Internal Server Error");
-    }
-};
-
-
-module.exports = { signInClient, signUpClient, changeInfo };
+module.exports = { signInClient, signUpClient };

@@ -1,4 +1,4 @@
-const designerService = require('../services/DesignerInfoService');
+const designerService = require('../../services/designer/DesignerInfoService');
 const jwt = require('jsonwebtoken');
 const secretToken = "even doctor evil won't crack this bad boy"
 
@@ -10,7 +10,7 @@ const updateDesignerInfo = async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, secretToken);
-        const designerInfo = req.body.designerInfo;
+        const designerInfo = req.body;
 
         // Include specialization and other fields in the update
         await designerService.updateDesignerInfo(

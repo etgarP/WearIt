@@ -1,4 +1,4 @@
-const designerService = require('../services/DesignerProfileService');
+const designerService = require('../../services/designer/DesignerProfileService');
 const jwt = require('jsonwebtoken');
 const secretToken = "even doctor evil won't crack this bad boy"
 

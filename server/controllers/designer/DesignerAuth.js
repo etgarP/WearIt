@@ -1,5 +1,5 @@
-const designerService = require('../services/DesignerAuthService');
-const DesignerOrderService = require('../services/DesignerOrderService');
+const designerService = require('../../services/designer/DesignerAuthService');
+const DesignerOrderService = require('../../services/designer/DesignerOrderService');
 const jwt = require('jsonwebtoken');
 const secretToken = "even doctor evil won't crack this bad boy"
 

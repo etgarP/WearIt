@@ -1,6 +1,6 @@
-const Order = require('../models/Order');
-const Design = require('../models/Design');
-const ClientInfo = require('../models/ClientInfo');
+const Order = require('../../models/Order');
+const Design = require('../../models/desinger/Design');
+const ClientInfo = require('../../models/client/ClientInfo');
 
 /*  
     input: username

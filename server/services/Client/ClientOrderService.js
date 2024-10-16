@@ -1,7 +1,7 @@
-const Order = require('../models/Order');
-const DesignerProfile = require('../models/DesignerProfile');
-const Design = require('../models/Design');
-const Review = require('../models/Review');
+const Order = require('../../models/Order');
+const DesignerProfile = require('../../models/desinger/DesignerProfile');
+const Design = require('../../models/desinger/Design');
+const Review = require('../../models/Review');
 /*  
     input: client username
     output: list of client orders
