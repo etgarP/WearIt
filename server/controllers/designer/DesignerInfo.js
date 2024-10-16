@@ -11,6 +11,7 @@ const updateDesignerInfo = async (req, res) => {
         const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, secretToken);
         const designerInfo = req.body;
+        console.log(decoded.username)
 
         // Include specialization and other fields in the update
         await designerService.updateDesignerInfo(
@@ -43,13 +44,14 @@ const getInfo = async (req, res) => {
         const decoded = jwt.verify(token, secretToken); // Replace secretToken with your actual secret
         // Fetch the designer's info using the decoded username
         const info = await designerService.getInfo(decoded.username);
-
+        console.log(decoded.username)
         // Check if the info was found
         if (!info) {
             return res.status(404).send("Designer info not found");
         }
-
-        return res.status(200).send(info);
+        const { _id, __v, ...rest } = info.toObject();
+        
+        return res.status(200).send(rest);
     } catch (error) {
         console.error(error); // Log the error for debugging
         return res.status(500).send("Internal Server Error");

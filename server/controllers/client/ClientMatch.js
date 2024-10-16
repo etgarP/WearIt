@@ -1,6 +1,7 @@
 const clientInfoService = require('../../services/Client/ClientInfoService.js');
 const jwt = require('jsonwebtoken');
 const authService = require('../../services/Client/ClientAuthService');
+const infoService = require('../../services/Client/ClientInfoService.js')
 const designerProfileService = require('../../services/designer/DesignerProfileService');
 const secretToken = "even doctor evil won't crack this bad boy"
 
@@ -11,6 +12,7 @@ const secretToken = "even doctor evil won't crack this bad boy"
 */
 const changeInfo = async (req, res) => {
     try {
+        console.log("1hello")
         const authorization = req.headers.authorization;
         if (!authorization) {
             return res.status(401).send("Authorization token is missing");
@@ -44,8 +46,7 @@ const getInfo = async (req, res) => {
         const decoded = jwt.verify(token, secretToken);
         const newInfo = req.body || {};
         newInfo.username = decoded.username
-        info = await clientInfoService.getClientInfo(decoded.username);
-        print(info)
+        const {_id, __v, ...info} = await clientInfoService.getClientInfo(decoded.username);
         return res.status(200).send(info);
     } catch (error) {
         if (error.message === "Username mismatch") {
@@ -107,11 +108,12 @@ const matches = async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, secretToken);
-        const clientProfile = await authService.getClientInfo(decoded.username)
+        const clientProfile = await infoService.getClientInfo(decoded.username)
         const AllDesigners = await designerProfileService.getAllProfiles()
         const result = await filterTopNMatches(clientProfile, AllDesigners, 10)
         return res.status(200).send(result);
     } catch (error) {
+        console.log(error)
         return res.status(500).send("Internal Server Error");
     }
 }
