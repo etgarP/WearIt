@@ -1,6 +1,6 @@
-const Designer = require('../models/DesignerInfo');
-const LoginInfo = require('../models/LoginInfo');
-const DesignerProfile = require('../models/DesignerProfile');
+const Designer = require('../../models/desinger/DesignerInfo');
+const LoginInfo = require('../../models/LoginInfo');
+const DesignerProfile = require('../../models/desinger/DesignerProfile');
 const bcrypt = require('bcryptjs');
 
 /*  
