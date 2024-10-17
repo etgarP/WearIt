@@ -13,15 +13,13 @@ export default function MatchRoute({ setProfilePage, navigation }) {
     const [subcategoryFilter, setSubcategoryFilter] = useState('');  // Add subcategory filter
     const [reviewFilter, setReviewFilter] = useState('');
     const [searchText, setSearchText] = useState('');
-
     useEffect(() => {
         let filteredData = data;
 
-        console.log("priceFilter, categoryFilter, subcategoryFilter, reviewFilter, searchText:", priceFilter, categoryFilter, subcategoryFilter, reviewFilter, searchText);
+        // console.log("priceFilter, categoryFilter, subcategoryFilter, reviewFilter, searchText:", priceFilter, categoryFilter, subcategoryFilter, reviewFilter, searchText);
 
         // Price filtering
         if (priceFilter && priceFilter !== '') {
-            console.log("hello")
             filteredData = filteredData.filter(item => {
                 print(item.pricePerItem)
                 if (priceFilter === 'Cheap') return item.pricePerItem < 5;

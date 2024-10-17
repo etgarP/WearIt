@@ -8,7 +8,6 @@ const { width, height } = Dimensions.get('screen');
 const MyCard = ({ profile, setProfilePage, navigation }) => {
     // Destructure profile properties for better readability
     const { name, image, bio, specialization, reviews, score } = profile;
-    console.log(profile)
     // Calculate the average rating from reviews
     const averageRating = reviews.length
         ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length
@@ -45,7 +44,7 @@ const MyCard = ({ profile, setProfilePage, navigation }) => {
                 </View>
 
                 {/* Progress Bar to show the matching score as a percentage */}
-                {/* <ProgressBar progress={score / 100} color="green" style={styles.progressBar} /> */}
+                <ProgressBar progress={score / 100} color="green" style={styles.progressBar} />
                 <Text style={styles.matchText}>{score}% match</Text>
             </Card.Content>
 

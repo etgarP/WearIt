@@ -1,7 +1,24 @@
 export const data = [
     {
+        "_id": "67111eb2535aaec9e31cf9f9",
+        "username": "stylist123",
+        "name": "John Doe",
+        "bio": "Updated bio here.",
+        "reviews": [],
+        "image": "https://example.com/path/to/new-image.jpg",
+        "pricePerItem": 15,
+        "specialization": [
+            "Formal Wear",
+            "Evening & Cocktail Attire"
+        ],
+        "designerInfo": null,
+        "__v": 0,
+        "score": 10
+    },
+    {
+        "_id": "67111eb2535aaec9e31cf9fa",
         "username": "jane_designer",
-        "name": "specilized steve",
+        "name": "Jane Doe",
         "bio": "A passionate designer specializing in bridal fashion and evening wear. My creations reflect elegance and a commitment to quality.",
         "reviews": [
             { "reviewText": 'Jane helped me choose the perfect outfit for my wedding. Her attention to detail is unmatched!', "rating": 5 },
@@ -10,17 +27,20 @@ export const data = [
             { "reviewText": 'I love the materials she uses. You can really see the quality in her work!', "rating": 5 }
         ],
         "image": "https://example.com/images/jane_doe.jpg",
-        "pricePerItem": 15,
+        "pricePerItem": 150,
         "specialization": [
             'Vacation & Resort Wear',
             'Plus-Size Fashion',
             'Other',
         ],
-        "designerInfo": "67111eb2535aaec9e31cf9f7"  // Example ID for designerInfo reference
+        "designerInfo": null,
+        "__v": 0,
+        "score": 5
     },
     {
+        "_id": "67111eb2535aaec9e31cf9fb",
         "username": "sara_designer",
-        "name": "formal steve",
+        "name": "Sara Doe",
         "bio": "I am an expert in casual styles, blending comfort with chic designs. My goal is to empower women through fashion that celebrates individuality and confidence.",
         "reviews": [
             { "reviewText": 'Sara is incredibly talented! The dress I ordered was not only beautiful but also super comfortable.', "rating": 4 },
@@ -28,18 +48,21 @@ export const data = [
             { "reviewText": 'She really knows how to tailor dresses that fit perfectly and highlight your best features.', "rating": 4 }
         ],
         "image": "https://example.com/images/sara_doe.jpg",
-        "pricePerItem": 120,
+        "pricePerItem": 150,
         "specialization": [
             'Formal Wear',
             'Business Casual',
             'Evening & Cocktail Attire',
             'Wedding & Bridal',
         ],
-        "designerInfo": "67111eb2535aaec9e31cf9f8"  // Example ID for designerInfo reference
+        "designerInfo": null,
+        "__v": 0,
+        "score": 2
     },
     {
+        "_id": "67111eb2535aaec9e31cf9fc",
         "username": "mike_the_designer",
-        "name": "casual steve",
+        "name": "Mike Thompson",
         "bio": "An avant-garde designer pushing the boundaries of traditional fashion. My work focuses on bold colors, innovative cuts, and reimagined silhouettes.",
         "reviews": [
             { "reviewText": 'Mike’s designs are truly one-of-a-kind! I wore his outfit to a fashion show and turned heads.', "rating": 3 },
@@ -51,6 +74,8 @@ export const data = [
         "specialization": [
             'Casual Wear',
         ],
-        "designerInfo": "67111eb2535aaec9e31cf9f9"  // Example ID for designerInfo reference
+        "designerInfo": null,
+        "__v": 0,
+        "score": 80
     }
 ];

@@ -1,13 +1,13 @@
 import React from 'react';
 import { Dimensions, View, Text, StyleSheet, ScrollView } from 'react-native';
-import { Avatar, Button } from 'react-native-paper';
+import { Avatar, Button, Chip } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const { width, height } = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
 
 const DesignerPage = ({ route, navigation }) => {
     const { designerData } = route.params; // Destructure designerData from route params
-    const { image, name, bio, reviews = [], score } = designerData; // Destructure relevant fields
+    const { image, name, bio, reviews = [], specialization = [] } = designerData; // Include specialization field
 
     // Calculate average rating
     let averageRating = 0;
@@ -30,6 +30,26 @@ const DesignerPage = ({ route, navigation }) => {
             <View style={styles.innerContainer}>
                 {/* Bio */}
                 <Text style={styles.bio}>{bio}</Text>
+                
+                {/* Specializations */}
+                <Text style={styles.averageRating}>
+                    Specializations
+                </Text>
+                <View style={styles.row}>
+                    <MaterialCommunityIcons name="chevron-left" size={24} color="gray" style={styles.scrollArrow} />
+                    <ScrollView
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        style={styles.specializationScroll}
+                    >
+                        {specialization.map((item, index) => (
+                            <Chip key={index} style={styles.chip}>
+                                {item}
+                            </Chip>
+                        ))}
+                    </ScrollView>
+                    <MaterialCommunityIcons name="chevron-right" size={24} color="gray" style={styles.scrollArrow} />
+                </View>
 
                 {/* Average Rating Display */}
                 <Text style={styles.averageRating}>
@@ -62,7 +82,7 @@ const DesignerPage = ({ route, navigation }) => {
                 {/* Select Button */}
                 <Button
                     mode="contained"
-                    onPress={() => 
+                    onPress={() =>
                         navigation.navigate("orderDetails")
                     }
                     style={styles.selectButton}
@@ -85,7 +105,7 @@ const styles = StyleSheet.create({
     },
     banner: {
         height: 150,
-        backgroundColor: '#f7f3fa',
+        backgroundColor: '#eee8f4',
         justifyContent: 'center',
         alignItems: 'center',
         position: 'relative',
@@ -102,10 +122,17 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     bio: {
-        // flex: 1,
         textAlign: 'center',
         marginTop: 100,
         marginVertical: 64, // Adjusted for avatar overlap
+    },
+    specializationScroll: {
+        marginTop: 10,
+        marginBottom: 10,
+    },
+    chip: {
+        marginHorizontal: 5,
+        backgroundColor: '#e0f7fa',
     },
     averageRating: {
         textAlign: 'center',
@@ -139,6 +166,15 @@ const styles = StyleSheet.create({
     selectButton: {
         alignSelf: 'center',
         marginTop: 16,
+    },
+    row: {
+        flexDirection: 'row', // Align children horizontally
+        justifyContent: 'space-between', // Distribute space evenly between items
+        alignItems: 'center', // Vertically align items (optional, for centering)
+    },
+    box1: {
+        flex: 1, // Or use a specific width if needed
+        // marginRight: 10, // Add space between the two boxes
     },
 });
 
