@@ -17,14 +17,16 @@ export default function MatchRoute({ setProfilePage, navigation }) {
     useEffect(() => {
         let filteredData = data;
 
-        // console.log("priceFilter, categoryFilter, subcategoryFilter, reviewFilter, searchText:", priceFilter, categoryFilter, subcategoryFilter, reviewFilter, searchText);
+        console.log("priceFilter, categoryFilter, subcategoryFilter, reviewFilter, searchText:", priceFilter, categoryFilter, subcategoryFilter, reviewFilter, searchText);
 
         // Price filtering
         if (priceFilter && priceFilter !== '') {
+            console.log("hello")
             filteredData = filteredData.filter(item => {
-                if (priceFilter === 'Cheap') return item.price < 50;
-                if (priceFilter === 'Affordable') return item.price >= 50 && item.price < 100;
-                if (priceFilter === 'Expensive') return item.price >= 100;
+                print(item.pricePerItem)
+                if (priceFilter === 'Cheap') return item.pricePerItem < 5;
+                if (priceFilter === 'Affordable') return item.pricePerItem >= 5 && item.pricePerItem < 20;
+                if (priceFilter === 'Expensive') return item.pricePerItem >= 20;
                 return true;
             });
         }
@@ -36,7 +38,7 @@ export default function MatchRoute({ setProfilePage, navigation }) {
             if (pickedCategory) {
                 // Check if any specialization is in the picked category's items
                 filteredData = filteredData.filter(item => {
-                    return item.profileInfo.specialization.some(specializationItem =>
+                    return item.specialization.some(specializationItem =>
                         pickedCategory.items.includes(specializationItem)
                     );
                 });
@@ -48,7 +50,7 @@ export default function MatchRoute({ setProfilePage, navigation }) {
             // filteredData = filteredData.filter(item => item.subcategory === subcategoryFilter);
             if (categoryFilter) {
                 filteredData = filteredData.filter(item => {
-                    return item.profileInfo.specialization.some(specializationItem =>
+                    return item.specialization.some(specializationItem =>
                         subcategoryFilter === specializationItem
                     );
                 });
