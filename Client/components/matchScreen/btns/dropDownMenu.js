@@ -19,8 +19,6 @@ const PriceDropdownChip = ({ title, items, onItemSelected }) => {
     }));
 
     const handleChipPress = () => {
-        console.log("pressed");
-
         if (!selected) {
             setSelected(true);
             translateX.value = 0;  // Slide in to position from left

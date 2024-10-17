@@ -4,19 +4,23 @@ import Search from './Search';
 import MyCarousel from './carousel/carousel';
 import TopBtns from './btns/buttons';
 import { data } from '../../data/designers';
+import { categories } from '../../data/categories';  // Import the categories data
 
 export default function MatchRoute({ setProfilePage, navigation }) {
     const [filtered, setFiltered] = useState(data);  // State for filtered data
     const [priceFilter, setPriceFilter] = useState('');
     const [categoryFilter, setCategoryFilter] = useState('');
+    const [subcategoryFilter, setSubcategoryFilter] = useState('');  // Add subcategory filter
     const [reviewFilter, setReviewFilter] = useState('');
     const [searchText, setSearchText] = useState('');
 
     useEffect(() => {
         let filteredData = data;
-        console.log("priceFilter, categoryFilter, reviewFilter, searchText:", priceFilter, categoryFilter, reviewFilter, searchText)
+
+        // console.log("priceFilter, categoryFilter, subcategoryFilter, reviewFilter, searchText:", priceFilter, categoryFilter, subcategoryFilter, reviewFilter, searchText);
+
         // Price filtering
-        if (priceFilter && priceFilter != '') {
+        if (priceFilter && priceFilter !== '') {
             filteredData = filteredData.filter(item => {
                 if (priceFilter === 'Cheap') return item.price < 50;
                 if (priceFilter === 'Affordable') return item.price >= 50 && item.price < 100;
@@ -27,11 +31,32 @@ export default function MatchRoute({ setProfilePage, navigation }) {
 
         // Category filtering
         if (categoryFilter) {
-            filteredData = filteredData.filter(item => item.category === categoryFilter);
+            // Find the picked category in the categories array
+            const pickedCategory = categories.find(category => category.title === categoryFilter);
+            if (pickedCategory) {
+                // Check if any specialization is in the picked category's items
+                filteredData = filteredData.filter(item => {
+                    return item.profileInfo.specialization.some(specializationItem =>
+                        pickedCategory.items.includes(specializationItem)
+                    );
+                });
+            }
+        }
+
+        // Subcategory filtering
+        if (subcategoryFilter) {
+            // filteredData = filteredData.filter(item => item.subcategory === subcategoryFilter);
+            if (categoryFilter) {
+                filteredData = filteredData.filter(item => {
+                    return item.profileInfo.specialization.some(specializationItem =>
+                        subcategoryFilter === specializationItem
+                    );
+                });
+            }   
         }
 
         // Review filtering
-        if (reviewFilter && reviewFilter != '') {
+        if (reviewFilter && reviewFilter !== '') {
             filteredData = filteredData.filter(item => {
                 const avgRating = calculateAverageRating(item.reviews);
                 if (reviewFilter === '3+ Stars') return avgRating >= 3;
@@ -50,7 +75,7 @@ export default function MatchRoute({ setProfilePage, navigation }) {
 
         // Update filtered state
         setFiltered(filteredData);
-    }, [priceFilter, categoryFilter, reviewFilter, searchText]);  // Runs when any of these change
+    }, [priceFilter, categoryFilter, subcategoryFilter, reviewFilter, searchText]);  // Add subcategoryFilter to dependencies
 
     const handleSearchChange = (text) => {
         setSearchText(text);  // Update search text filter
@@ -69,7 +94,7 @@ export default function MatchRoute({ setProfilePage, navigation }) {
                 <Search onChange={handleSearchChange} />
             </View>
             <View style={styles.btnscontainer}>
-                <TopBtns setPriceFilter={setPriceFilter} setCategoryFilter={setCategoryFilter} setReviewFilter={setReviewFilter} />
+                <TopBtns setPriceFilter={setPriceFilter} setCategoryFilter={setCategoryFilter} setSubcategoryFilter={setSubcategoryFilter} setReviewFilter={setReviewFilter} />
             </View>
             <View>
                 <MyCarousel setProfilePage={setProfilePage} navigation={navigation} data={filtered} />

@@ -1,14 +1,16 @@
 export const data = [
     {
         "username": "jane_designer",
+        "name": 'specilized steve',
         "__v": 0,
         "profileInfo": {
             "name": "Jane Doe",
             "image": "https://example.com/images/jane_doe.jpg",
-            "bio": "A passionate designer specializing in sustainable fashion. My creations reflect a love for nature and a commitment to ethical practices. I believe that style should never compromise our planet.",
+            "bio": "A passionate designer specializing in bridal fashion and evening wear. My creations reflect elegance and a commitment to quality.",
             "specialization": [
-                "Sustainable Fashion",
-                "Eco-friendly Materials"
+                'Vacation & Resort Wear',
+                'Plus-Size Fashion',
+                'Other',
             ],
             "pricePerItem": 150
         },
@@ -16,20 +18,23 @@ export const data = [
             { "reviewText": 'Jane helped me choose the perfect outfit for my wedding. Her attention to detail is unmatched!', "rating": 5 },
             { "reviewText": 'Amazing work! The dress I ordered fit perfectly and looked stunning.', "rating": 5 },
             { "reviewText": 'Highly professional! Jane made the entire process enjoyable and stress-free.', "rating": 5 },
-            { "reviewText": 'I love the eco-friendly materials she uses. You can really see the quality in her work!', "rating": 5 }
+            { "reviewText": 'I love the materials she uses. You can really see the quality in her work!', "rating": 5 }
         ],
         "score": 5
     },
     {
         "username": "sara_designer",
+        "name": 'formal steve',
         "__v": 0,
         "profileInfo": {
             "name": "Sara Doe",
             "image": "https://example.com/images/sara_doe.jpg",
-            "bio": "I am an expert in casual dresses, blending comfort with chic styles. My goal is to empower women through fashion that celebrates individuality and confidence.",
+            "bio": "I am an expert in casual styles, blending comfort with chic designs. My goal is to empower women through fashion that celebrates individuality and confidence.",
             "specialization": [
-                "Casual Dresses",
-                "Chic Styles"
+                'Formal Wear',
+                'Business Casual',
+                'Evening & Cocktail Attire',
+                'Wedding & Bridal',
             ],
             "pricePerItem": 120
         },
@@ -42,17 +47,16 @@ export const data = [
     },
     {
         "username": "mike_the_designer",
+        "name": 'casual steve',
         "__v": 0,
         "profileInfo": {
             "name": "Mike Thompson",
             "image": "https://example.com/images/mike_doe.jpg",
             "bio": "An avant-garde designer pushing the boundaries of traditional fashion. My work focuses on bold colors, innovative cuts, and reimagined silhouettes.",
             "specialization": [
-                "Avant-garde Fashion",
-                "Bold Colors",
-                "Innovative Cuts"
+                'Casual Wear',
             ],
-            "pricePerItem": 0.1
+            "pricePerItem": 200
         },
         "reviews": [
             { "reviewText": 'Mike’s designs are truly one-of-a-kind! I wore his outfit to a fashion show and turned heads.', "rating": 3 },
@@ -61,32 +65,4 @@ export const data = [
         ],
         "score": 80
     }
-];
-
-export const categories = [
-    {
-        title: "Casual Styles",
-        items: [
-            'Casual Wear',
-            'Streetwear',
-            'Athleisure (sportswear)',
-        ],
-    },
-    {
-        title: "Formal Attire",
-        items: [
-            'Formal Wear',
-            'Business Casual',
-            'Evening & Cocktail Attire',
-            'Wedding & Bridal',
-        ],
-    },
-    {
-        title: "Specialty Fashion",
-        items: [
-            'Vacation & Resort Wear',
-            'Plus-Size Fashion',
-            'Other',
-        ],
-    },
 ];
