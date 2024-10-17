@@ -94,7 +94,7 @@ const filterTopNMatches = async (client, designers, N) => {
         designer.designerInfo = null;
         var score = calculateMatchScore(client, designerInfo)
         designer.score = score
-        return { designer, score };
+        return designer
     });
     designerMatches.sort((a, b) => b.score - a.score); // Sort in descending order based on score
     return designerMatches.slice(0, N); // Return the top N matches
