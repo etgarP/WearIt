@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text } from 'react-native'
 import { BottomNavigation } from 'react-native-paper';
 import MatchRoute from '../matchScreen/HomeScreen';
 import { Appbar } from 'react-native-paper';
+import { ProfileContext } from './ProfileProvider'; 
 
 const GroupMatchRoute = () => <Text>Group Match</Text>;
 const OrdersRoute = () => <Text>Orders</Text>;
 const NotificationsRoute = () => <Text>Notifications</Text>;
 
-export default function BottomNav({ route, navigation }) {
-    const { setProfilePage } = route.params; // Get setProfilePage from params
+export default function BottomNav({ navigation }) {
+    const { setProfilePage } = useContext(ProfileContext);
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
         { key: 'match', title: 'Match', focusedIcon: 'face-man-shimmer', unfocusedIcon: 'face-man-shimmer-outline' },

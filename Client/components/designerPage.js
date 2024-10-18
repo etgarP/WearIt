@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Dimensions, View, Text, StyleSheet, ScrollView } from 'react-native';
-import { Avatar, Button, Chip } from 'react-native-paper';
+import { Avatar, Button, Chip, Appbar } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { ProfileContext } from './navigation/ProfileProvider'; 
 
-const { width } = Dimensions.get('screen');
+const { width, height } = Dimensions.get('screen');
 
-const DesignerPage = ({ route, navigation }) => {
-    const { designerData } = route.params; // Destructure designerData from route params
-    const { image, name, bio, reviews = [], specialization = [] } = designerData; // Include specialization field
-
+const DesignerPage = ({ navigation }) => {
+    const { profile } = useContext(ProfileContext);
+    const { image, name, bio, reviews = [], specialization = [] } = profile; // Include specialization field
     // Calculate average rating
     let averageRating = 0;
     if (reviews.length > 0) {
@@ -19,6 +19,9 @@ const DesignerPage = ({ route, navigation }) => {
 
     return (
         <View style={styles.container}>
+            <Appbar.Header style={styles.appbar}>
+                <Appbar.BackAction onPress={() => navigation.goBack()} />
+            </Appbar.Header>
             {/* Banner with Avatar */}
             <View style={styles.banner}>
                 <View style={styles.avatarContainer}>
@@ -99,12 +102,16 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
     },
+    appbar: {
+        width: width,
+        backgroundColor: '#eee8f4',
+    },
     innerContainer: {
         flex: 1,
         padding: 13,
     },
     banner: {
-        height: 150,
+        height: height * 0.08,
         backgroundColor: '#eee8f4',
         justifyContent: 'center',
         alignItems: 'center',
