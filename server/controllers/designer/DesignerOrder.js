@@ -8,6 +8,7 @@ const secretToken = "even doctor evil won't crack this bad boy"
 */
 const getOrders = async (req, res) => {
     try {
+        console.log("hello1")
         const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, secretToken);
         const orders = await designerService.getOrders(decoded.username);
@@ -25,10 +26,11 @@ const manageOrder = async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, secretToken);
-        const orderId = req.params.orderId;
+        const { orderId } = req.params;
         const { clientInfo, design } = await designerService.getOrderDetails(orderId);
         return res.status(200).send({ clientInfo, design });
     } catch (error) {
+        console.log(error)
         return res.status(500).send("Internal Server Error");
     }
 };

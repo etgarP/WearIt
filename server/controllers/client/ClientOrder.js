@@ -1,7 +1,6 @@
 const orderService = require('../../services/Client/ClientOrderService');
-const authService = require('../../services/Client/ClientAuthService');
+const designerProfileService = require('../../services/designer/DesignerProfileService')
 const jwt = require('jsonwebtoken');
-const designerProfileService = require('../../services/designer/DesignerProfileService');
 const designerService = require('../../services/designer/DesignerOrderService');
 const secretToken = "even doctor evil won't crack this bad boy"
 
@@ -34,11 +33,32 @@ const purchaseOrder = async (req, res) => {
         const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, secretToken);
         const order = req.body.order;
+
+        // Retrieve the designer profile based on the order's username
+        const profile = await designerProfileService.getProfile(order.designer);
+
+        // Validate profile and order details
+        if (!profile || profile.numberOfOutfits > 100 
+            || order.numberOfOutfits < 0 || !profile.specialization.includes(order.occasion)) {
+            return res.status(400).send("Invalid order details");
+        }
+
+        // Update order information with the decoded token's username
+        order.username = decoded.username;
+        order.status = 'pending';
+
+        // Save the order and check for success
         const savedOrder = await orderService.purchaseOrder(decoded.username, order);
-        // making a new expty design
-        await designerService.saveDesign(savedOrder._id, [])
+
+        // Save an empty design linked to the saved order's ID
+        const designResult = await designerService.saveDesign(savedOrder._id, []);
+        if (!designResult) {
+            return res.status(500).send("Failed to create design");
+        }
+
         return res.status(200).send("Order purchased successfully");
     } catch (error) {
+        console.error(error);
         return res.status(500).send("Internal Server Error");
     }
 };

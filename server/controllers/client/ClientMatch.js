@@ -12,7 +12,6 @@ const secretToken = "even doctor evil won't crack this bad boy"
 */
 const changeInfo = async (req, res) => {
     try {
-        console.log("1hello")
         const authorization = req.headers.authorization;
         if (!authorization) {
             return res.status(401).send("Authorization token is missing");
@@ -113,7 +112,6 @@ const matches = async (req, res) => {
         const result = await filterTopNMatches(clientProfile, AllDesigners, 10)
         return res.status(200).send(result);
     } catch (error) {
-        console.log(error)
         return res.status(500).send("Internal Server Error");
     }
 }

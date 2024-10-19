@@ -15,8 +15,8 @@ const getClientOrders = async (username) => {
     output: if the order exists
 */
 const orderIsFinished = async (username, designer) => {
-    var finished = Order.find({ designer, username, status: 'finished' }) != null 
-    return finished
+    var finished = await Order.find({ designer, username, status: 'finished' })
+    return finished != null
 };
 
 /*  
@@ -27,6 +27,7 @@ const orderIsFinished = async (username, designer) => {
 const purchaseOrder = async (username, order) => {
     const newOrder = new Order({ ...order, username });
     await newOrder.save();
+    console.log(newOrder)
     return newOrder
 };
 
