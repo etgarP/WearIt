@@ -29,7 +29,7 @@ function HomeScreen({ navigation }) {
                 <Text>Welcome to the Home Screen</Text>
                 <Button
                     title="Go to Questionnaire"
-                    onPress={() => navigation.navigate("Questionnaire1")}
+                    onPress={() => navigation.navigate("SignInScreen")}
                 />
                 <StatusBar style="auto" />
             </View>
@@ -58,11 +58,6 @@ export default function App() {
         },
         other: "",
     });
-
-    // Effect to log questionnaireData whenever it changes
-    useEffect(() => {
-        console.log("Current Questionnaire Data:", questionnaireData);
-    }, [questionnaireData]);
 
     return (
         <NavigationContainer>
@@ -113,8 +108,8 @@ export default function App() {
                         />
                     )}
                 </Stack.Screen>
-                <Stack.Screen name="SignIn" component={SignInScreen} />
-                <Stack.Screen name="SignUp" component={SignUpScreen} />
+                <Stack.Screen name="SignInScreen" component={SignInScreen} />
+                <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );

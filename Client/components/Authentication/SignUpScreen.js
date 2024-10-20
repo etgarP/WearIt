@@ -123,7 +123,7 @@ export default function SignUpScreen({ navigation, route }) {
       {/* Sign In Link */}
       <TouchableOpacity
         onPress={() =>
-          navigation.navigate("SignIn", { selectedTab: selectedTab })
+          navigation.navigate("SignInScreen", { selectedTab: selectedTab })
         }
       >
         <Text style={styles.linkText}>ALREADY HAVE AN ACCOUNT? SIGN IN</Text>
