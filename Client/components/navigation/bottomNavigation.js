@@ -3,7 +3,7 @@ import { Text } from 'react-native';
 import { BottomNavigation, Appbar } from 'react-native-paper';
 import MatchRoute from '../matchScreen/HomeScreen';
 import OrdersRoute from '../orderScreen/orderPage';
-import { ProfileContext } from './ProfileProvider';
+import { ProfileContext } from './ObjectProvider';
 
 // const GroupMatchRoute = () => <Text>Group Match</Text>;
 const DesignsRoute = () => <Text>Designs</Text>;

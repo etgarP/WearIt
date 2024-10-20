@@ -6,7 +6,7 @@ import { orders } from '../../data/orders'; // Adjust the import path accordingl
 const OrdersRoute = () => {
     // Filter orders based on their status
     const pendingOrders = orders.orders.filter(order => order.status === 'pending');
-    const approvedOrders = orders.orders.filter(order => order.status === 'accepted' || order.status === 'finished');
+    const approvedOrders = orders.orders.filter(order => order.status === 'accepted');
 
     return (
         <ScrollView >
@@ -54,7 +54,7 @@ const OrdersRoute = () => {
                         </React.Fragment>
                     ))
                 ) : (
-                    <Text>No approved orders.</Text>
+                    <Text>No active approved orders.</Text>
                 )}
             </View>
         </ScrollView>
