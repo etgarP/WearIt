@@ -41,7 +41,6 @@ export default function SignInScreen({ navigation, route }) {
 
                 //TODO Update token
                 await AsyncStorage.setItem("userToken", responseData.key);
-                console.log("Token saved successfully!");
 
                 // Navigate to the next screen
                 navigation.navigate("Home"); // Replace "Home" with the actual next screen name
