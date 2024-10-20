@@ -20,8 +20,10 @@ export default function SignInScreen({ navigation, route }) {
         if (route.params?.selectedTab) {
             setSelectedTab(route.params.selectedTab);
         }
+    }, [route.params?.selectedTab]);
+    useEffect(() => {
         setUrl(`http://10.0.2.2:12345/api/${selectedTab}/auth/signin`);
-    }, [route.params?.selectedTab, selectedTab]);
+    }, [selectedTab]);
 
     const sendRequest = async (authenticationInfo) => {
         try {
