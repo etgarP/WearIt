@@ -1,7 +1,7 @@
-const designerService = require('../../services/designer/DesignerAuthService');
-const DesignerOrderService = require('../../services/designer/DesignerOrderService');
-const jwt = require('jsonwebtoken');
-const secretToken = "even doctor evil won't crack this bad boy"
+const designerService = require("../../services/designer/DesignerAuthService");
+const DesignerOrderService = require("../../services/designer/DesignerOrderService");
+const jwt = require("jsonwebtoken");
+const secretToken = "even doctor evil won't crack this bad boy";
 
 /*  
     input: username, password
@@ -13,13 +13,13 @@ const signInDesigner = async (req, res) => {
         const { username, password } = req.body;
         const designer = await designerService.authenticate(username, password);
         if (!designer) {
-            return res.status(401).send("Invalid credentials");
+            return res.status(401).json("Invalid credentials");
         }
         const token = jwt.sign({ username: designer.username }, secretToken);
         const orders = await DesignerOrderService.getOrders(designer.username);
-        return res.status(200).send({ key: token, orders });
+        return res.status(200).json({ key: token, orders });
     } catch (error) {
-        return res.status(500).send("Internal Server Error");
+        return res.status(500).json("Internal Server Error");
     }
 };
 
@@ -34,21 +34,25 @@ const signUpDesigner = async (req, res) => {
 
         // // Check for required fields in designerInfo
         // if (!designerInfo.name || !designerInfo.gender || !designerInfo.city || !designerInfo.age) {
-        //     return res.status(400).send("Missing required designer information");
+        //     return res.status(400).json("Missing required designer information");
         // }
 
         // // Check for required fields in profileInfo
         // if (!profileInfo.name || !profileInfo.image || !profileInfo.specialization) {
-        //     return res.status(400).send("Missing required profile information");
+        //     return res.status(400).json("Missing required profile information");
         // }
         // designerInfo.username = username
         // profileInfo.username = username
 
         await designerService.createDesigner(username, password);
-        return res.status(201).send("Designer created successfully");
+        return res.status(201).json("Designer created successfully");
     } catch (error) {
-        console.error(error); // Log the error for debugging
-        return res.status(500).send("Internal Server Error");
+        console.log(error);
+        if (error.code === 11000) {
+            // Send a 400 response with a duplicate username error message
+            return res.status(400).json("Username already exists");
+        }
+        return res.status(500).json("Internal Server Error");
     }
 };
 

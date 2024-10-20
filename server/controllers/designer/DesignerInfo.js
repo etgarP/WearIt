@@ -23,10 +23,10 @@ const updateDesignerInfo = async (req, res) => {
             designerInfo.specialization || [] // Default to an empty array if specialization is not provided
         );
 
-        return res.status(200).send("Designer info updated successfully");
+        return res.status(200).json("Designer info updated successfully");
     } catch (error) {
         console.error(error); // Log the error for debugging
-        return res.status(500).send("Internal Server Error");
+        return res.status(500).json("Internal Server Error");
     }
 };
 
@@ -46,14 +46,14 @@ const getInfo = async (req, res) => {
         const info = await designerService.getInfo(decoded.username);
         // Check if the info was found
         if (!info) {
-            return res.status(404).send("Designer info not found");
+            return res.status(404).json("Designer info not found");
         }
         const { _id, __v, ...rest } = info.toObject();
         
-        return res.status(200).send(rest);
+        return res.status(200).json(rest);
     } catch (error) {
         console.error(error); // Log the error for debugging
-        return res.status(500).send("Internal Server Error");
+        return res.status(500).json("Internal Server Error");
     }
 };
 

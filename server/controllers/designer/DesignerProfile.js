@@ -12,9 +12,9 @@ const getProfile = async (req, res) => {
         const decoded = jwt.verify(token, secretToken);
         const profile = await designerService.getProfile(decoded.username);
         const {_id, __v, ...adjustedProfile} = profile.toObject()
-        return res.status(200).send(adjustedProfile);
+        return res.status(200).json(adjustedProfile);
     } catch (error) {
-        return res.status(500).send("Internal Server Error");
+        return res.status(500).json("Internal Server Error");
     }
 };
 
@@ -38,10 +38,10 @@ const saveProfile = async (req, res) => {
             profile.pricePerItem      // Add pricePerItem
         );
 
-        return res.status(200).send("Profile saved successfully");
+        return res.status(200).json("Profile saved successfully");
     } catch (error) {
         console.error(error); // Log error for debugging
-        return res.status(500).send("Internal Server Error");
+        return res.status(500).json("Internal Server Error");
     }
 };
 module.exports = { getProfile, saveProfile };

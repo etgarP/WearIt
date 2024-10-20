@@ -12,9 +12,9 @@ const getOrders = async (req, res) => {
         const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, secretToken);
         const orders = await designerService.getOrders(decoded.username);
-        return res.status(200).send(orders);
+        return res.status(200).json(orders);
     } catch (error) {
-        return res.status(500).send("Internal Server Error");
+        return res.status(500).json("Internal Server Error");
     }
 };
 
@@ -28,10 +28,10 @@ const manageOrder = async (req, res) => {
         const decoded = jwt.verify(token, secretToken);
         const { orderId } = req.params;
         const { clientInfo, design } = await designerService.getOrderDetails(orderId);
-        return res.status(200).send({ clientInfo, design });
+        return res.status(200).json({ clientInfo, design });
     } catch (error) {
         console.log(error)
-        return res.status(500).send("Internal Server Error");
+        return res.status(500).json("Internal Server Error");
     }
 };
 
@@ -47,12 +47,12 @@ const sendOrder = async (req, res) => {
         const design = req.body.design;
         const success = await designerService.sendOrder(design.orderId, design, 'finished');
         if (success)
-            return res.status(200).send("Order sent successfully");
-        else 
-            return res.status(401).send("Wrong details");
+            return res.status(200).json("Order sent successfully");
+        else
+            return res.status(401).json("Wrong details");
 
     } catch (error) {
-        return res.status(500).send("Internal Server Error");
+        return res.status(500).json("Internal Server Error");
     }
 };
 
@@ -68,11 +68,11 @@ const saveOrder = async (req, res) => {
         const design = req.body.design;
         const success = await designerService.saveDesign(design.orderId, design.url);
         if (success)
-            return res.status(200).send("Order saved successfully");
+            return res.status(200).json("Order saved successfully");
         else
-            return res.status(401).send("Wrong details");
+            return res.status(401).json("Wrong details");
     } catch (error) {
-        return res.status(500).send("Internal Server Error");
+        return res.status(500).json("Internal Server Error");
     }
 };
 
@@ -88,12 +88,12 @@ const acceptOrder = async (req, res) => {
         const orderId = req.params.orderId;
         const success = await designerService.acceptOrder(orderId);
         if (success)
-            return res.status(200).send("Order saved successfully");
+            return res.status(200).json("Order saved successfully");
         else
-            return res.status(200).send("Order wasn't saved");
+            return res.status(200).json("Order wasn't saved");
 
     } catch (error) {
-        return res.status(500).send("Internal Server Error");
+        return res.status(500).json("Internal Server Error");
     }
 };
 
@@ -109,11 +109,11 @@ const rejectOrder = async (req, res) => {
         const orderId = req.params.orderId;
         const success = await designerService.rejectOrder(orderId);
         if (success)
-            return res.status(200).send("Order saved successfully");
+            return res.status(200).json("Order saved successfully");
         else
-            return res.status(200).send("Order wasn't saved");
+            return res.status(200).json("Order wasn't saved");
     } catch (error) {
-        return res.status(500).send("Internal Server Error");
+        return res.status(500).json("Internal Server Error");
     }
 };
 
