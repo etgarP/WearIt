@@ -1,7 +1,7 @@
-const Order = require('../models/Order');
-const DesignerProfile = require('../models/DesignerProfile');
-const Design = require('../models/Design');
-const Review = require('../models/Review');
+const Order = require('../../models/Order');
+const DesignerProfile = require('../../models/desinger/DesignerProfile');
+const Design = require('../../models/desinger/Design');
+const Review = require('../../models/Review');
 /*  
     input: client username
     output: list of client orders
@@ -15,8 +15,8 @@ const getClientOrders = async (username) => {
     output: if the order exists
 */
 const orderIsFinished = async (username, designer) => {
-    var finished = Order.find({ designer, username, status: 'finished' }) != null 
-    return finished
+    var finished = await Order.find({ designer, username, status: 'finished' })
+    return finished != null
 };
 
 /*  
@@ -27,6 +27,7 @@ const orderIsFinished = async (username, designer) => {
 const purchaseOrder = async (username, order) => {
     const newOrder = new Order({ ...order, username });
     await newOrder.save();
+    console.log(newOrder)
     return newOrder
 };
 

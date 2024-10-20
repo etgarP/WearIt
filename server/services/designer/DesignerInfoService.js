@@ -1,7 +1,7 @@
-const Designer = require('../models/DesignerInfo');
-const LoginInfo = require('../models/LoginInfo');
-const DesignerProfile = require('../models/DesignerProfile');
-const DesignerInfo = require('../models/DesignerInfo');
+const Designer = require('../../models/desinger/DesignerInfo');
+const LoginInfo = require('../../models/LoginInfo');
+const DesignerProfile = require('../../models/desinger/DesignerProfile');
+const DesignerInfo = require('../../models/desinger/DesignerInfo');
 const bcrypt = require('bcryptjs');
 
 /*  
@@ -13,7 +13,7 @@ const updateDesignerInfo = async (username, name, gender, city, age, religion, s
     await DesignerInfo.findOneAndUpdate(
         { username: username }, // Match the username
         { $set: { name, gender, city, age, religion, specialization } }, // Update the designer info fields
-        { new: true, runValidators: true } // Return the updated document, ensure valid input
+        { new: true, runValidators: true, upsert: true } // Return the updated document, ensure valid input
     );
 };
 

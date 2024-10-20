@@ -1,5 +1,5 @@
-const designerService = require('../services/DesignerAuthService');
-const DesignerOrderService = require('../services/DesignerOrderService');
+const designerService = require('../../services/designer/DesignerAuthService');
+const DesignerOrderService = require('../../services/designer/DesignerOrderService');
 const jwt = require('jsonwebtoken');
 const secretToken = "even doctor evil won't crack this bad boy"
 
@@ -30,21 +30,21 @@ const signInDesigner = async (req, res) => {
 */
 const signUpDesigner = async (req, res) => {
     try {
-        const { username, password, designerInfo, profileInfo } = req.body;
+        const { username, password } = req.body;
 
-        // Check for required fields in designerInfo
-        if (!designerInfo.name || !designerInfo.gender || !designerInfo.city || !designerInfo.age) {
-            return res.status(400).send("Missing required designer information");
-        }
+        // // Check for required fields in designerInfo
+        // if (!designerInfo.name || !designerInfo.gender || !designerInfo.city || !designerInfo.age) {
+        //     return res.status(400).send("Missing required designer information");
+        // }
 
-        // Check for required fields in profileInfo
-        if (!profileInfo.name || !profileInfo.image || !profileInfo.specialization) {
-            return res.status(400).send("Missing required profile information");
-        }
-        designerInfo.username = username
-        profileInfo.username = username
+        // // Check for required fields in profileInfo
+        // if (!profileInfo.name || !profileInfo.image || !profileInfo.specialization) {
+        //     return res.status(400).send("Missing required profile information");
+        // }
+        // designerInfo.username = username
+        // profileInfo.username = username
 
-        await designerService.createDesigner(username, password, designerInfo, profileInfo);
+        await designerService.createDesigner(username, password);
         return res.status(201).send("Designer created successfully");
     } catch (error) {
         console.error(error); // Log the error for debugging

@@ -1,4 +1,4 @@
-const designerService = require('../services/DesignerProfileService');
+const designerService = require('../../services/designer/DesignerProfileService');
 const jwt = require('jsonwebtoken');
 const secretToken = "even doctor evil won't crack this bad boy"
 
@@ -11,8 +11,8 @@ const getProfile = async (req, res) => {
         const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, secretToken);
         const profile = await designerService.getProfile(decoded.username);
-        console.log(profile)
-        return res.status(200).send(profile);
+        const {_id, __v, ...adjustedProfile} = profile.toObject()
+        return res.status(200).send(adjustedProfile);
     } catch (error) {
         return res.status(500).send("Internal Server Error");
     }

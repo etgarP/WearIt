@@ -1,6 +1,6 @@
-const Order = require('../models/Order');
-const Design = require('../models/Design');
-const ClientInfo = require('../models/ClientInfo');
+const Order = require('../../models/Order');
+const Design = require('../../models/desinger/Design');
+const ClientInfo = require('../../models/client/ClientInfo');
 
 /*  
     input: username
@@ -15,8 +15,9 @@ const getOrders = async (username) => {
     output: gets order by order id 
 */
 const getOrderDetails = async (orderId) => {
-    const username = await Order.findById(orderId).username;
-    const clientInfo = await ClientInfo.find({username})
+    const order = await Order.findById(orderId);
+    console.log(order)
+    const clientInfo = await ClientInfo.find({username: order.username})
     const design = await Design.find({orderId})
     return { clientInfo, design };
 };
@@ -78,9 +79,10 @@ const rejectOrder = async (orderId) => {
 const saveDesign = async (orderId, urls) => {
     const order = await Order.findById(orderId);
     if (!order) {
+        console.log('Order not found')
         throw new Error('Order not found');
     }
-    if (order.status !== 'finished' && order.status !== 'pending') {
+    if (order.status !== 'finished') {
         await Design.findOneAndUpdate(
             { orderId },
             { orderId, urls }, // new: true returns the updated document and set, upsert inserts if not there

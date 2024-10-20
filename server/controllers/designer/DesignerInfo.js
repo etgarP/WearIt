@@ -1,4 +1,4 @@
-const designerService = require('../services/DesignerInfoService');
+const designerService = require('../../services/designer/DesignerInfoService');
 const jwt = require('jsonwebtoken');
 const secretToken = "even doctor evil won't crack this bad boy"
 
@@ -10,7 +10,7 @@ const updateDesignerInfo = async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, secretToken);
-        const designerInfo = req.body.designerInfo;
+        const designerInfo = req.body;
 
         // Include specialization and other fields in the update
         await designerService.updateDesignerInfo(
@@ -19,8 +19,8 @@ const updateDesignerInfo = async (req, res) => {
             designerInfo.gender,
             designerInfo.city,
             designerInfo.age,
-            designerInfo.religion ? designerInfo.religion : "Non", 
-            designerInfo.specialization ? designerInfo.specialization : []
+            designerInfo.religion || "Non",  // Default to "Non" if religion is not provided
+            designerInfo.specialization || [] // Default to an empty array if specialization is not provided
         );
 
         return res.status(200).send("Designer info updated successfully");
@@ -29,6 +29,7 @@ const updateDesignerInfo = async (req, res) => {
         return res.status(500).send("Internal Server Error");
     }
 };
+
 
 /*  
     input: json web token
@@ -43,13 +44,13 @@ const getInfo = async (req, res) => {
         const decoded = jwt.verify(token, secretToken); // Replace secretToken with your actual secret
         // Fetch the designer's info using the decoded username
         const info = await designerService.getInfo(decoded.username);
-
         // Check if the info was found
         if (!info) {
             return res.status(404).send("Designer info not found");
         }
-
-        return res.status(200).send(info);
+        const { _id, __v, ...rest } = info.toObject();
+        
+        return res.status(200).send(rest);
     } catch (error) {
         console.error(error); // Log the error for debugging
         return res.status(500).send("Internal Server Error");
