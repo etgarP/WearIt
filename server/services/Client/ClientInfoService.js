@@ -20,7 +20,7 @@ const setClientInfo = async (username, newInfo) => {
     const updatedClient = await Client.findOneAndUpdate(
         { username: username },   // Match the username
         { $set: updateInfo },     // Use the $set operator to update the fields
-        { new: true, upsert: false } // Return the modified document, do not create if not found
+        { new: true, upsert: true } // Return the modified document, do not create if not found
     );
 };
 

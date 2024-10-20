@@ -28,10 +28,11 @@ const signInClient = async (req, res) => {
 */
 const signUpClient = async (req, res) => {
     try {
-        const { userName, password, ClientInfo } = req.body;
-        await clientService.createClient(userName, password, ClientInfo);
+        const { username, password } = req.body;
+        await clientService.createClient(username, password);
         return res.status(201).send("Client created successfully");
     } catch (error) {
+        console.log(error)
         return res.status(500).send("Internal Server Error");
     }
 };

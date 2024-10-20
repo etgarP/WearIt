@@ -21,12 +21,10 @@ const authenticate = async (username, password) => {
     output: none
     signs up a client. uses bcrypt to hash its password into the database
 */
-const createClient = async (username, password, clientInfo) => {
+const createClient = async (username, password) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const loginInfo = new LoginInfo({ username, password: hashedPassword, isDesigner: false });
     await loginInfo.save();
-    const client = new Client(clientInfo);
-    await client.save();
 };
 
 module.exports = { authenticate, createClient };
