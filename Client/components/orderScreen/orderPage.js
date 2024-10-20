@@ -1,43 +1,63 @@
 import * as React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { ScrollView, View, StyleSheet } from 'react-native';
 import { List, Divider, Avatar, Text } from 'react-native-paper';
+import { orders } from '../../data/orders'; // Adjust the import path accordingly
 
 const OrdersRoute = () => {
+    // Filter orders based on their status
+    const pendingOrders = orders.orders.filter(order => order.status === 'pending');
+    const approvedOrders = orders.orders.filter(order => order.status === 'accepted' || order.status === 'finished');
+
     return (
-        <View style={styles.container}>
-            {/* Not Yet Approved Section */}
-            <Text style={styles.sectionHeader}>not yet approved</Text>
-
-            <List.Item
-                title="ordered from ronnit"
-                description="status: pending"
-                left={() => (
-                    <Avatar.Image
-                        size={50}
-                        source={{ uri: 'https://example.com/designer-image.jpg' }} // replace with real image
-                    />
+        <ScrollView >
+            <View style={styles.container}>
+                {/* Not Yet Approved Section */}
+                <Text style={styles.sectionHeader}>Not Yet Approved</Text>
+                {pendingOrders.length > 0 ? (
+                    pendingOrders.map(order => (
+                        <React.Fragment key={order._id}>
+                            <List.Item
+                                title={`Ordered from ${order.designer}`}
+                                description={`Status: ${order.status}`}
+                                left={() => (
+                                    <Avatar.Image
+                                        size={50}
+                                        source={{ uri: 'https://example.com/designer-image.jpg' }} // Replace with real image
+                                    />
+                                )}
+                                descriptionStyle={styles.statusPending}
+                            />
+                            <Divider />
+                        </React.Fragment>
+                    ))
+                ) : (
+                    <Text>No pending orders.</Text>
                 )}
-                descriptionStyle={styles.statusPending}
-            />
-            <Divider />
 
-            <List.Item
-                title="ordered from ronnit"
-                description="status: pending"
-                left={() => (
-                    <Avatar.Image
-                        size={50}
-                        source={{ uri: 'https://example.com/designer-image.jpg' }} // replace with real image
-                    />
+                {/* Approved Section */}
+                <Text style={styles.sectionHeader}>Approved</Text>
+                {approvedOrders.length > 0 ? (
+                    approvedOrders.map(order => (
+                        <React.Fragment key={order._id}>
+                            <List.Item
+                                title={`Ordered from ${order.designer}`}
+                                description={`Status: ${order.status}`}
+                                left={() => (
+                                    <Avatar.Image
+                                        size={50}
+                                        source={{ uri: 'https://example.com/designer-image.jpg' }} // Replace with real image
+                                    />
+                                )}
+                                descriptionStyle={styles.statusApproved}
+                            />
+                            <Divider />
+                        </React.Fragment>
+                    ))
+                ) : (
+                    <Text>No approved orders.</Text>
                 )}
-                descriptionStyle={styles.statusPending}
-            />
-            <Divider />
-
-            {/* Approved Section */}
-            <Text style={styles.sectionHeader}>approved</Text>
-            {/* Add approved orders here */}
-        </View>
+            </View>
+        </ScrollView>
     );
 };
 
@@ -45,9 +65,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        padding: 20,
+        marginBottom: 20,
+        marginHorizontal: 20
     },
-
     sectionHeader: {
         fontSize: 18,
         fontWeight: 'bold',
@@ -56,6 +76,9 @@ const styles = StyleSheet.create({
     statusPending: {
         fontStyle: 'italic',
         color: '#555',
+    },
+    statusApproved: {
+        color: '#000', // Customize approved status color if needed
     },
 });
 
