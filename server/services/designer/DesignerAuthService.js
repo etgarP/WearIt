@@ -23,7 +23,7 @@ const authenticate = async (username, password) => {
     signs up a Designer. uses bcrypt to hash its password into the database.
     adds a designer profile as well.
 */
-const createDesigner = async (username, password, designerInfo, profileInfo) => {
+const createDesigner = async (username, password) => {
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -31,22 +31,22 @@ const createDesigner = async (username, password, designerInfo, profileInfo) => 
     const loginInfo = new LoginInfo({ username, password: hashedPassword, isDesigner: true });
     await loginInfo.save();
 
-    // Save the designer info and retrieve the _id
-    const designer = new Designer(designerInfo);
-    const savedDesigner = await designer.save();
-    const designerId = savedDesigner._id; // Get the _id of the saved designer
+    // // Save the designer info and retrieve the _id
+    // const designer = new Designer(designerInfo);
+    // const savedDesigner = await designer.save();
+    // const designerId = savedDesigner._id; // Get the _id of the saved designer
 
-    // Create the designer profile
-    const designerProfile = new DesignerProfile({
-        username,
-        name: profileInfo.name,
-        bio: profileInfo.bio ? profileInfo.bio : "No bio yet.",
-        image: profileInfo.image,
-        pricePerItem: profileInfo.pricePerItem,
-        specialization: profileInfo.specialization, // Use specialization from profileInfo
-        designerInfo: designerId // Use the retrieved _id here
-    });
-    await designerProfile.save();
+    // // Create the designer profile
+    // const designerProfile = new DesignerProfile({
+    //     username,
+    //     name: profileInfo.name,
+    //     bio: profileInfo.bio ? profileInfo.bio : "No bio yet.",
+    //     image: profileInfo.image,
+    //     pricePerItem: profileInfo.pricePerItem,
+    //     specialization: profileInfo.specialization, // Use specialization from profileInfo
+    //     designerInfo: designerId // Use the retrieved _id here
+    // });
+    // await designerProfile.save();
 }
 
 

@@ -13,7 +13,7 @@ const updateDesignerInfo = async (username, name, gender, city, age, religion, s
     await DesignerInfo.findOneAndUpdate(
         { username: username }, // Match the username
         { $set: { name, gender, city, age, religion, specialization } }, // Update the designer info fields
-        { new: true, runValidators: true } // Return the updated document, ensure valid input
+        { new: true, runValidators: true, upsert: true } // Return the updated document, ensure valid input
     );
 };
 

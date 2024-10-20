@@ -19,8 +19,8 @@ const updateDesignerInfo = async (req, res) => {
             designerInfo.gender,
             designerInfo.city,
             designerInfo.age,
-            designerInfo.religion ? designerInfo.religion : "Non", 
-            designerInfo.specialization ? designerInfo.specialization : []
+            designerInfo.religion || "Non",  // Default to "Non" if religion is not provided
+            designerInfo.specialization || [] // Default to an empty array if specialization is not provided
         );
 
         return res.status(200).send("Designer info updated successfully");
@@ -29,6 +29,7 @@ const updateDesignerInfo = async (req, res) => {
         return res.status(500).send("Internal Server Error");
     }
 };
+
 
 /*  
     input: json web token

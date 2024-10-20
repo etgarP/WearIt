@@ -26,6 +26,7 @@ const saveProfile = async (username, bio, image, name, specialization, pricePerI
     await DesignerProfile.findOneAndUpdate(
         { username: username }, // Match the username
         { $set: { bio, image, name, specialization, pricePerItem } }, // Update the fields
+        { new: true, runValidators: true, upsert: true }
     );
 };
 
