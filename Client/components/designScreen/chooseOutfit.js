@@ -8,7 +8,7 @@ const outfits = [
     { id: 3, name: 'Outfit 3', image: require('../../assets/pants_tan.png') },
 ];
 
-const ChooseOutfit = () => {
+const ChooseOutfit = ({ navigation }) => {
     const [selectedOutfitId, setSelectedOutfitId] = useState(null);
 
     const selectOutfit = (id) => {
@@ -51,7 +51,7 @@ const ChooseOutfit = () => {
                 <Button
                     mode="contained"
                     style={styles.selectButton}
-                    onPress={() => console.log('Selected outfit:', selectedOutfitId)}
+                    onPress={() => navigation.navigate('AILoadingScreen')}
                     disabled={selectedOutfitId === null}
                 >
                     Select

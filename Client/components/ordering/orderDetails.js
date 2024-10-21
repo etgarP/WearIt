@@ -20,7 +20,7 @@ const OrderDetails = ({ navigation, onClick }) => {
     const [occasions, setOccasions] = React.useState('');
     const [preferences, setPreferences] = React.useState('');
     const finalPrice = Math.min(Math.max(parseInt(outfits) || 0, 1), 100) * pricePerItem; // Calculate final price
-    const arrivalTime = 'Your order will arrive in 2-3 days';
+    const arrivalTime = 'Your order will approved in 2-3 days';
 
     return (
         <>
@@ -84,7 +84,7 @@ const OrderDetails = ({ navigation, onClick }) => {
                     mode="contained"
                     onPress={onClick}
                     style={styles.button}>
-                    Confirm Purchase
+                    Request Design
                 </Button>
             </View>
         </>

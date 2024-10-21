@@ -38,7 +38,7 @@ const MixAndMatch = ({ navigation }) => {
                     ))}
 
                     {/* Plus Button */}
-                    <TouchableOpacity style={styles.plusButton} onPress={() => console.log('Plus Button Pressed')}>
+                    <TouchableOpacity style={styles.plusButton} onPress={() => navigation.navigate('ChooseOutfit')}>
                         <IconButton icon="plus" size={30} color="black" />
                     </TouchableOpacity>
                 </ScrollView>

@@ -45,12 +45,12 @@ export const AppNavigator = () => {
                         component={MixAndMatch}
                     />
                     <Stack.Screen
-                        name="AILoadingScreen"
-                        component={AILoadingScreen}
-                    />
-                    <Stack.Screen
                         name="ChooseOutfit"
                         component={ChooseOutfit}
+                    />
+                    <Stack.Screen
+                        name="AILoadingScreen"
+                        component={AILoadingScreen}
                     />
                 </Stack.Navigator>
             </NavigationContainer>

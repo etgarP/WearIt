@@ -29,7 +29,7 @@ const TopBtns = ({ setPriceFilter, setCategoryFilter, setSubcategoryFilter, setR
     return (
         <ScrollView horizontal contentContainerStyle={styles.scrollContainer} showsHorizontalScrollIndicator={false}>
             <PriceDropdownChip
-                title="Price"
+                title="Price Per Item"
                 items={['Cheap', 'Affordable', 'Expensive']}
                 onItemSelected={(item) => handleItemSelected(item, 'Price')}
             />
