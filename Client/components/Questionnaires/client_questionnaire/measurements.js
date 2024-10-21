@@ -9,11 +9,11 @@ import {
     ScrollView,
 } from "react-native";
 import { MaterialIcons, Feather } from "@expo/vector-icons";
-import { Colors } from "../../constants/colors";
-import { styles } from "./QuestionnaireStyles";
-import { Strings } from "../../constants/strings";
+import { Colors } from "../../../constants/colors";
+import { styles } from "../QuestionnaireStyles";
+import { Strings } from "../../../constants/strings";
 
-export default function Questionnaire_4({
+export default function Measurements({
     navigation,
     setQuestionnaireData,
     questionnaireData,
@@ -88,7 +88,7 @@ export default function Questionnaire_4({
         });
 
         // Navigate to the next screen
-        navigation.navigate("Questionnaire5");
+        navigation.navigate("Others");
     };
 
     const iconSize = Math.min(dimensions.width, dimensions.height) * 0.1;

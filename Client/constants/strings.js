@@ -4,6 +4,7 @@ export const Strings = {
     pictureTitle: "Picture",
     lifestyleTitle: "LifeStyle",
     personalInfo: "Presonal Information",
+    stylistInfo: "Stylist Information",
     measurementTitle: "Measurements",
     othersTitle: "Others",
     next: "Next",

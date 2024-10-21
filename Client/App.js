@@ -5,11 +5,13 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useFonts } from "expo-font";
 import { PaperProvider } from "react-native-paper";
-import Questionnaire1 from "./components/Questionnaire/Questionnaire_1";
-import Questionnaire2 from "./components/Questionnaire/Questionnaire_2";
-import Questionnaire3 from "./components/Questionnaire/Questionnaire_3";
-import Questionnaire4 from "./components/Questionnaire/Questionnaire_4";
-import Questionnaire5 from "./components/Questionnaire/Questionnaire_5";
+import PersonalInfo from "./components/Questionnaires/client_questionnaire/personal_info";
+import ClientLifeStyle from "./components/Questionnaires/client_questionnaire/client_life_style";
+import QuestionnairePicture from "./components/Questionnaires/picture";
+import Measurements from "./components/Questionnaires/client_questionnaire/measurements";
+import Others from "./components/Questionnaires/client_questionnaire/others";
+import StylistInfo from "./components/Questionnaires/stylist_questionnaire/stylist_info";
+import StylistLifeStyle from "./components/Questionnaires/stylist_questionnaire/stylist_life_style";
 
 const Stack = createStackNavigator();
 
@@ -27,7 +29,7 @@ function HomeScreen({ navigation }) {
                 <Text>Welcome to the Home Screen</Text>
                 <Button
                     title="Go to Questionnaire"
-                    onPress={() => navigation.navigate("Questionnaire1")}
+                    onPress={() => navigation.navigate("stylistInfo")}
                 />
                 <StatusBar style="auto" />
             </View>
@@ -55,51 +57,71 @@ export default function App() {
             legs: "",
         },
         other: "",
+        price: null,
+        expertise: "",
     });
-    
+
     return (
         <NavigationContainer>
             <Stack.Navigator>
                 <Stack.Screen name="Home" component={HomeScreen} />
-                <Stack.Screen name="Questionnaire1">
+                <Stack.Screen name="personalInfo">
                     {(props) => (
-                        <Questionnaire1
+                        <PersonalInfo
                             {...props}
                             setQuestionnaireData={setQuestionnaireData}
                             questionnaireData={questionnaireData}
                         />
                     )}
                 </Stack.Screen>
-                <Stack.Screen name="Questionnaire2">
+                <Stack.Screen name="clientLifeStyle">
                     {(props) => (
-                        <Questionnaire2
+                        <ClientLifeStyle
                             {...props}
                             setQuestionnaireData={setQuestionnaireData}
                             questionnaireData={questionnaireData}
                         />
                     )}
                 </Stack.Screen>
-                <Stack.Screen name="Questionnaire3">
+                <Stack.Screen name="QuestionnairePicture">
                     {(props) => (
-                        <Questionnaire3
+                        <QuestionnairePicture
                             {...props}
                             setQuestionnaireData={setQuestionnaireData}
                             questionnaireData={questionnaireData}
                         />
                     )}
                 </Stack.Screen>
-                <Stack.Screen name="Questionnaire4">
+                <Stack.Screen name="Measurements">
                     {(props) => (
-                        <Questionnaire4
+                        <Measurements
                             {...props}
                             setQuestionnaireData={setQuestionnaireData}
                             questionnaireData={questionnaireData}
                         />
                     )}
                 </Stack.Screen>
-                <Stack.Screen name="Questionnaire5">
+                <Stack.Screen name="Others">
                     {(props) => (
-                        <Questionnaire5
+                        <Others
+                            {...props}
+                            setQuestionnaireData={setQuestionnaireData}
+                            questionnaireData={questionnaireData}
+                        />
+                    )}
+                </Stack.Screen>
+                <Stack.Screen name="stylistInfo">
+                    {(props) => (
+                        <StylistInfo
+                            {...props}
+                            setQuestionnaireData={setQuestionnaireData}
+                            questionnaireData={questionnaireData}
+                        />
+                    )}
+                </Stack.Screen>
+                <Stack.Screen name="stylistLifeStyle">
+                    {(props) => (
+                        <StylistLifeStyle
                             {...props}
                             setQuestionnaireData={setQuestionnaireData}
                             questionnaireData={questionnaireData}

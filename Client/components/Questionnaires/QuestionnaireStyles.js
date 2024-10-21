@@ -100,4 +100,36 @@ export const styles = StyleSheet.create({
         justifyContent: "center", // Centers the content vertically
         paddingBottom: 20, // Adds padding at the bottom
     },
+    modalContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+    },
+    modalView: {
+        width: "80%",
+        height: "50%",
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 20,
+        alignItems: "center",
+    },
+    modalTitle: {
+        fontSize: 18,
+        fontWeight: "bold",
+    },
+    expertiseText: {
+        borderWidth: 1,
+        padding: "2%",
+        textAlign: "center",
+        borderColor: "gray",
+        borderRadius: 10,
+    },
+    closeButton: {
+        borderRadius: 5,
+    },
+    closeButtonText: {
+        color: "black",
+        fontWeight: "bold",
+    },
 });

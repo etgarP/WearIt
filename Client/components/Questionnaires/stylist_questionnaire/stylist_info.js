@@ -9,11 +9,11 @@ import {
 } from "react-native";
 import { MaterialIcons, Feather } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
-import { Colors } from "../../constants/colors";
-import { styles } from "./QuestionnaireStyles";
-import { Strings } from "../../constants/strings";
+import { Colors } from "../../../constants/colors";
+import { styles } from "../QuestionnaireStyles";
+import { Strings } from "../../../constants/strings";
 
-export default function Questionnaire_1({
+export default function StylistInfo({
     navigation,
     setQuestionnaireData,
     questionnaireData,
@@ -60,14 +60,32 @@ export default function Questionnaire_1({
             Alert.alert("Validation Error", "Please select a gender.");
             return false;
         }
+
+        // Check if price is empty or invalid
+        if (
+            !questionnaireData.price ||
+            isNaN(questionnaireData.price) ||
+            parseFloat(questionnaireData.price) <= 0
+        ) {
+            Alert.alert(
+                "Notice",
+                "Price is empty or invalid, setting default price to $5."
+            );
+            setQuestionnaireData({
+                ...questionnaireData,
+                price: "5", // Setting default price
+            });
+        }
+
         return true;
     };
 
     const handleNext = () => {
         if (validateInputs()) {
-            navigation.navigate("Questionnaire2");
+            navigation.navigate("stylistLifeStyle");
         }
     };
+
 
     return (
         <View style={styles.container}>
@@ -120,7 +138,7 @@ export default function Questionnaire_1({
             </View>
             <View style={styles.body}>
                 <Text style={[styles.title, { fontSize: fontSize }]}>
-                    {Strings.personalInfo}
+                    {Strings.stylistInfo}
                 </Text>
 
                 {/* Name Field */}
@@ -170,14 +188,14 @@ export default function Questionnaire_1({
                 </View>
 
                 {/* Allergies Field */}
-                <Text style={styles.label}>Allergies</Text>
+                <Text style={styles.label}>Price per item</Text>
                 <TextInput
                     style={styles.input}
-                    value={questionnaireData.allergies}
-                    onChangeText={(text) =>
+                    value={questionnaireData.price}
+                    onChangeText={(number) =>
                         setQuestionnaireData({
                             ...questionnaireData,
-                            allergies: text,
+                            price: number,
                         })
                     }
                 />

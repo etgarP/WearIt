@@ -13,11 +13,13 @@ import { styles } from "./QuestionnaireStyles";
 import * as ImagePicker from "expo-image-picker";
 import { Strings } from "../../constants/strings";
 
-export default function Questionnaire_3({
+export default function Questionnaire_picture({
     navigation,
     setQuestionnaireData,
     questionnaireData,
+    route
 }) {
+    const { isClient } = route.params;
     const [fontSize, setFontSize] = useState(0);
     const [dimensions, setDimensions] = useState(Dimensions.get("window"));
     const [image, setImage] = useState(questionnaireData.image || null); // Initialize with the value from questionnaireData
@@ -85,7 +87,12 @@ export default function Questionnaire_3({
             );
         }
         // Navigate to the next screen with the image (if selected)
-        navigation.navigate("Questionnaire4", { image });
+        console.log(isClient)
+        if(isClient) {
+            navigation.navigate("Measurements", { image });
+        } else {
+            navigation.navigate("About", { image });
+        }
     };
 
     const iconSize = Math.min(dimensions.width, dimensions.height) * 0.1;

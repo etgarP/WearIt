@@ -6,13 +6,16 @@ import {
     TouchableOpacity,
     Dimensions,
     Alert,
+    Modal,
+    ScrollView,
 } from "react-native";
 import { MaterialIcons, Feather } from "@expo/vector-icons";
-import { Colors } from "../../constants/colors";
-import { styles } from "./QuestionnaireStyles";
-import { Strings } from "../../constants/strings";
+import { Colors } from "../../../constants/colors";
+import { styles } from "../QuestionnaireStyles";
+import { Strings } from "../../../constants/strings";
+import { List, Switch } from "react-native-paper";
 
-export default function Questionnaire_2({
+export default function StylistLifeStyle({
     navigation,
     setQuestionnaireData,
     questionnaireData,
@@ -20,9 +23,12 @@ export default function Questionnaire_2({
     const [fontSize, setFontSize] = useState(0);
     const [dimensions, setDimensions] = useState(Dimensions.get("window"));
 
-    const [work, setWork] = useState(questionnaireData.work || "");
     const [city, setCity] = useState(questionnaireData.city || "");
     const [religion, setReligion] = useState(questionnaireData.religion || "");
+    const [expertise, setExpertise] = useState(
+        questionnaireData.expertise || []
+    );
+    const [modalVisible, setModalVisible] = useState(false);
 
     useEffect(() => {
         const onChange = ({ window }) => {
@@ -47,16 +53,19 @@ export default function Questionnaire_2({
     const iconSize = Math.min(dimensions.width, dimensions.height) * 0.1;
 
     const validateInputs = () => {
-        if (!work.trim()) {
-            Alert.alert("Validation Error", "Work type is required.");
-            return false;
-        }
         if (!city.trim()) {
             Alert.alert("Validation Error", "City is required.");
             return false;
         }
         if (!religion.trim()) {
             Alert.alert("Validation Error", "Religion is required.");
+            return false;
+        }
+        if (expertise.length === 0) {
+            Alert.alert(
+                "Validation Error",
+                "At least one expertise is required."
+            );
             return false;
         }
         return true;
@@ -69,10 +78,34 @@ export default function Questionnaire_2({
                 work: work,
                 city,
                 religion,
+                expertise,
             });
             navigation.navigate("Questionnaire3");
         }
     };
+
+    const toggleExpertise = (option) => {
+        setExpertise((prev) => {
+            if (prev.includes(option)) {
+                return prev.filter((item) => item !== option);
+            } else {
+                return [...prev, option];
+            }
+        });
+    };
+
+    const expertiseOptions = [
+        "Casual Wear",
+        "Formal Wear",
+        "Business Casual",
+        "Streetwear",
+        "Athleisure (sportswear)",
+        "Evening & Cocktail Attire",
+        "Wedding & Bridal",
+        "Vacation & Resort Wear",
+        "Plus-Size Fashion",
+        "Other",
+    ];
 
     return (
         <View style={styles.container}>
@@ -128,20 +161,6 @@ export default function Questionnaire_2({
                     {Strings.lifestyleTitle}
                 </Text>
 
-                {/* Work Type Field */}
-                <Text style={styles.label}>Work Type</Text>
-                <TextInput
-                    style={styles.input}
-                    value={work}
-                    onChangeText={(text) => {
-                        setWork(text);
-                        setQuestionnaireData({
-                            ...questionnaireData,
-                            work: text,
-                        });
-                    }}
-                />
-
                 {/* City Field */}
                 <Text style={styles.label}>City</Text>
                 <TextInput
@@ -169,12 +188,22 @@ export default function Questionnaire_2({
                         });
                     }}
                 />
+
+                {/* Expertise Selection */}
+                <Text style={styles.label}>Expertise</Text>
+                <TouchableOpacity onPress={() => setModalVisible(true)}>
+                    <Text style={styles.expertiseText}>
+                        {expertise.length > 0
+                            ? expertise.join(", ")
+                            : "Select Expertise"}
+                    </Text>
+                </TouchableOpacity>
             </View>
 
             <View style={styles.footer}>
                 <View style={styles.backContainer}>
                     <TouchableOpacity
-                        onPress={() => navigation.navigate("Questionnaire1")}>
+                        onPress={() => navigation.navigate("stylistInfo")}>
                         <Feather name="arrow-left" size={40} color="black" />
                     </TouchableOpacity>
                 </View>
@@ -184,6 +213,44 @@ export default function Questionnaire_2({
                     </TouchableOpacity>
                 </View>
             </View>
+
+            {/* Modal for Expertise Selection */}
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => setModalVisible(false)}>
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalView}>
+                        <Text style={styles.modalTitle}>Select Expertise</Text>
+                        <ScrollView>
+                            {expertiseOptions.map((option) => (
+                                <List.Item
+                                    key={option}
+                                    title={option}
+                                    style={{
+                                        margin: 0,
+                                        padding: 0,
+                                    }} // Set margin to zero
+                                    right={(props) => (
+                                        <Switch
+                                            value={expertise.includes(option)}
+                                            onValueChange={() =>
+                                                toggleExpertise(option)
+                                            }
+                                        />
+                                    )}
+                                />
+                            ))}
+                        </ScrollView>
+                        <TouchableOpacity
+                            style={styles.closeButton}
+                            onPress={() => setModalVisible(false)}>
+                            <Text style={styles.closeButtonText}>Done</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
         </View>
     );
 }

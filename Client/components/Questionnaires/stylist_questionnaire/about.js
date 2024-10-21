@@ -8,9 +8,9 @@ import {
     Alert,
 } from "react-native";
 import { MaterialIcons, Feather } from "@expo/vector-icons";
-import { Colors } from "../../constants/colors";
-import { styles } from "./QuestionnaireStyles";
-import { Strings } from "../../constants/strings";
+import { Colors } from "../../../constants/colors";
+import { styles } from "../QuestionnaireStyles";
+import { Strings } from "../../../constants/strings";
 
 export default function Questionnaire_5({
     navigation,
