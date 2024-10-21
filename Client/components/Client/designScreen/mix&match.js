@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import { View, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { Appbar, IconButton } from 'react-native-paper';
-import { ObjectContext } from '../navigation/ObjectProvider';
+import { ClientObjectContext } from '../navigation/ClientObjectProvider';
 
 const MixAndMatch = ({ navigation }) => {
-    const { design } = useContext(ObjectContext);
+    const { design } = useContext(ClientObjectContext);
     return (
         <View style={styles.container}>
             {/* Top Appbar */}

@@ -1,27 +1,24 @@
 import React, { useContext } from 'react';
 import { Text } from 'react-native';
 import { BottomNavigation, Appbar } from 'react-native-paper';
-import MatchRoute from '../matchScreen/HomeScreen';
-import OrdersRoute from '../orderScreen/orderPage';
-import { ClientObjectContext } from './ClientObjectProvider';
-import FinishedDesigns from '../designScreen/finishedDesigns'
+import DesignerHome from '../homeScreen/designerHome';
 
 
-export default function BottomNav({ navigation }) {
-    const { setProfilePage } = useContext(ClientObjectContext);
+export default function DesignerBottomNav({ navigation }) {
+    // const { setProfilePage } = useContext(ClientObjectContext);
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
-        { key: 'match', title: 'Match', focusedIcon: 'face-man-shimmer', unfocusedIcon: 'face-man-shimmer-outline' },
+        { key: 'home', title: 'Home', focusedIcon: 'face-man-shimmer', unfocusedIcon: 'face-man-shimmer-outline' },
         // { key: 'groupMatch', title: 'Group Match', focusedIcon: 'account-group', unfocusedIcon: 'account-group-outline' },
-        { key: 'orders', title: 'Orders', focusedIcon: 'shopping', unfocusedIcon: 'shopping-outline' },
-        { key: 'design', title: 'Design', focusedIcon: 'palette', unfocusedIcon: 'palette-outline' },
+        // { key: 'orders', title: 'Orders', focusedIcon: 'shopping', unfocusedIcon: 'shopping-outline' },
+        // { key: 'design', title: 'Design', focusedIcon: 'palette', unfocusedIcon: 'palette-outline' },
     ]);
 
     const renderScene = BottomNavigation.SceneMap({
-        match: () => <MatchRoute setProfilePage={setProfilePage} navigation={navigation} />,
+        home: () => <DesignerHome/>,
         // groupMatch: GroupMatchRoute,
-        orders: OrdersRoute,
-        design: () => <FinishedDesigns navigation={navigation} />,
+        // orders: OrdersRoute,
+        // design: () => <FinishedDesigns navigation={navigation} />,
     });
 
     return (

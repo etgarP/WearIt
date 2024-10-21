@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { View, StyleSheet, Text, Dimensions } from 'react-native';
 import { Appbar, TextInput, Button } from 'react-native-paper';
 import { Dropdown } from 'react-native-paper-dropdown';
-import { ObjectContext } from '../navigation/ObjectProvider';
+import { ClientObjectContext } from '../navigation/ClientObjectProvider';
 
 
 const { width, height } = Dimensions.get('window'); // Get the width of the device
@@ -12,7 +12,7 @@ const convertToOptions = (list) => {
 };
 
 const OrderDetails = ({ navigation, onClick }) => {
-    const { profile } = useContext(ObjectContext);
+    const { profile } = useContext(ClientObjectContext);
     const { pricePerItem, specialization = [] } = profile; // Include specialization field
     const options = convertToOptions(specialization)
 

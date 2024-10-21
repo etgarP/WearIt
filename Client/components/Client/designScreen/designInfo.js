@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import { View, StyleSheet, Image, ScrollView, Linking } from 'react-native';
 import { Appbar, List, Button } from 'react-native-paper';
-import { ObjectContext } from '../navigation/ObjectProvider';
+import { ClientObjectContext } from '../navigation/ClientObjectProvider';
 import { clothes } from '../../../data/design';
 
 const DesignInfo = ({ toSend = false, navigation }) => {
-    const { setDesign } = useContext(ObjectContext);
+    const { setDesign } = useContext(ClientObjectContext);
     // Function to open the HTTPS link
     const handleOutfitPress = (link) => {
         Linking.openURL(link).catch((err) => console.error('Error opening URL', err));

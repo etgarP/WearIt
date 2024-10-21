@@ -3,12 +3,12 @@ import { ScrollView, View, StyleSheet } from 'react-native';
 import { List, Divider, Avatar, Text } from 'react-native-paper';
 import { orders } from '../../../data/orders';
 import { design } from '../../../data/design'
-import { ObjectContext } from '../navigation/ObjectProvider';
+import { ClientObjectContext } from '../navigation/ClientObjectProvider';
 
 const FinishedDesigns = ({ navigation }) => {
     // Filter orders based on their status
     const approvedOrders = orders.orders.filter(order => order.status === 'finished');
-    const { setDesign } = useContext(ObjectContext);
+    const { setDesign } = useContext(ClientObjectContext);
 
     return (
         <ScrollView >
