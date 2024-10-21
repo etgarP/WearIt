@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { View, StyleSheet, Text, Dimensions } from 'react-native';
 import { Appbar, TextInput, Button } from 'react-native-paper';
-import { ProfileContext } from '../navigation/ProfileProvider';
+import { ObjectContext } from '../navigation/ObjectProvider';
 import { Dropdown } from 'react-native-paper-dropdown';
 
 
@@ -12,7 +12,7 @@ const convertToOptions = (list) => {
 };
 
 const OrderDetails = ({ navigation, onClick }) => {
-    const { profile } = useContext(ProfileContext);
+    const { profile } = useContext(ObjectContext);
     const { pricePerItem, specialization = [] } = profile; // Include specialization field
     const options = convertToOptions(specialization)
 

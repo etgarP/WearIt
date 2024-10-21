@@ -1,40 +1,20 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import { ScrollView, View, StyleSheet } from 'react-native';
 import { List, Divider, Avatar, Text } from 'react-native-paper';
-import { orders } from '../../data/orders'; // Adjust the import path accordingly
+import { orders } from '../../data/orders';
+import { design } from '../../data/design'
+import { ObjectContext } from '../navigation/ObjectProvider';
 
-const OrdersRoute = () => {
+const FinishedDesigns = ({ navigation }) => {
     // Filter orders based on their status
-    const approvedOrders = orders.orders.filter(order.status === 'finished');
+    const approvedOrders = orders.orders.filter(order => order.status === 'finished');
+    const { setDesign } = useContext(ObjectContext);
 
     return (
         <ScrollView >
             <View style={styles.container}>
-                {/* Not Yet Approved Section */}
-                <Text style={styles.sectionHeader}>Not Yet Approved</Text>
-                {pendingOrders.length > 0 ? (
-                    pendingOrders.map(order => (
-                        <React.Fragment key={order._id}>
-                            <List.Item
-                                title={`Ordered from ${order.designer}`}
-                                description={`Status: ${order.status}`}
-                                left={() => (
-                                    <Avatar.Image
-                                        size={50}
-                                        source={{ uri: 'https://example.com/designer-image.jpg' }} // Replace with real image
-                                    />
-                                )}
-                                descriptionStyle={styles.statusPending}
-                            />
-                            <Divider />
-                        </React.Fragment>
-                    ))
-                ) : (
-                    <Text>No pending orders.</Text>
-                )}
-
-                {/* Approved Section */}
-                <Text style={styles.sectionHeader}>Approved</Text>
+                {/* Finished Section */}
+                <Text style={styles.sectionHeader}>Finished</Text>
                 {approvedOrders.length > 0 ? (
                     approvedOrders.map(order => (
                         <React.Fragment key={order._id}>
@@ -48,6 +28,11 @@ const OrdersRoute = () => {
                                     />
                                 )}
                                 descriptionStyle={styles.statusApproved}
+                                // Set design when item is pressed
+                                onPress={() => {
+                                    setDesign(design)
+                                    navigation.navigate("DesignInfo");
+                                }}  // Assuming 'order.design' holds the design data
                             />
                             <Divider />
                         </React.Fragment>
@@ -81,4 +66,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default OrdersRoute;
+export default FinishedDesigns;

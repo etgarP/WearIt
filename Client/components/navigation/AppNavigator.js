@@ -4,14 +4,17 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BottomNav from './bottomNavigation';
 import DesignerPage from '../designerPage';
 import OrderHolder from '../ordering/orderHolder';
-import { ProfileProvider } from './ProfileProvider'; 
-
+import { ObjectProvider } from './ObjectProvider'; 
+import DesignInfo from '../designScreen/designInfo';
+import MixAndMatch from '../designScreen/mix&match';
+import AILoadingScreen from '../designScreen/AILoadingScreen';
+import ChooseOutfit from '../designScreen/chooseOutfit';
 
 const Stack = createNativeStackNavigator();
 
 export const AppNavigator = () => {
     return (
-        <ProfileProvider>
+        <ObjectProvider>
             <NavigationContainer>
                 <Stack.Navigator
                     initialRouteName="HomeClient"
@@ -32,8 +35,25 @@ export const AppNavigator = () => {
                         name="ProfileDetails"
                         component={DesignerPage}
                     />
+                    {/* Design screen */}
+                    <Stack.Screen
+                        name="DesignInfo"
+                        component={DesignInfo}
+                    />
+                    <Stack.Screen
+                        name="mixAndMatch"
+                        component={MixAndMatch}
+                    />
+                    <Stack.Screen
+                        name="AILoadingScreen"
+                        component={AILoadingScreen}
+                    />
+                    <Stack.Screen
+                        name="ChooseOutfit"
+                        component={ChooseOutfit}
+                    />
                 </Stack.Navigator>
             </NavigationContainer>
-        </ProfileProvider>
+        </ObjectProvider>
     );
 };

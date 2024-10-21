@@ -1,15 +1,10 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import { View, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
-import { Appbar, Button, List, IconButton } from 'react-native-paper';
-
-const clothes = [
-    { id: 1, image: require('../../assets/shirt.png') },
-    { id: 2, image: require('../../assets/pants_black.png') },
-    { id: 3, image: require('../../assets/pants_tan.png') },
-    // Add more clothes as needed
-];
+import { Appbar, IconButton } from 'react-native-paper';
+import { ObjectContext } from '../navigation/ObjectProvider';
 
 const MixAndMatch = ({ navigation }) => {
+    const { design } = useContext(ObjectContext);
     return (
         <View style={styles.container}>
             {/* Top Appbar */}
@@ -29,10 +24,13 @@ const MixAndMatch = ({ navigation }) => {
             {/* Scrollable Clothes Section */}
             <View style={styles.scrollContainer}>
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                    {clothes.map((item) => (
-                        <TouchableOpacity style={styles.plusButton} onPress={() => console.log('image Pressed')}>
+                    {design.map((item) => (
+                        <TouchableOpacity
+                            key={item.id} // Add unique key here
+                            style={styles.plusButton}
+                            onPress={() => console.log('image Pressed')}
+                        >
                             <Image
-                                key={item.id}
                                 source={item.image}
                                 style={styles.clothesImage}
                             />
@@ -52,6 +50,7 @@ const MixAndMatch = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: 'white'
     },
     modelContainer: {
         flex: 2,

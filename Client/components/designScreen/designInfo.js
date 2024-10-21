@@ -1,20 +1,11 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import { View, StyleSheet, Image, ScrollView, Linking } from 'react-native';
 import { Appbar, List, Button } from 'react-native-paper';
+import { ObjectContext } from '../navigation/ObjectProvider';
+import { clothes } from '../../data/design';
 
-const outfits = [
-    { id: 1, name: 'Outfit 1', image: require('../../assets/shirt.png'), link: 'https://www.example.com/outfit1' },
-    { id: 2, name: 'Outfit 2', image: require('../../assets/pants_black.png'), link: 'https://www.example.com/outfit2' },
-    { id: 3, name: 'Outfit 3', image: require('../../assets/pants_tan.png'), link: 'https://www.example.com/outfit3' },
-    { id: 4, name: 'Outfit 4', image: require('../../assets/shirt.png'), link: 'https://www.example.com/outfit4' },
-    { id: 5, name: 'Outfit 5', image: require('../../assets/pants_black.png'), link: 'https://www.example.com/outfit5' },
-    { id: 6, name: 'Outfit 6', image: require('../../assets/pants_tan.png'), link: 'https://www.example.com/outfit6' },
-    { id: 7, name: 'Outfit 7', image: require('../../assets/shirt.png'), link: 'https://www.example.com/outfit7' },
-    { id: 8, name: 'Outfit 8', image: require('../../assets/pants_black.png'), link: 'https://www.example.com/outfit8' },
-    { id: 9, name: 'Outfit 9', image: require('../../assets/pants_tan.png'), link: 'https://www.example.com/outfit9' },
-];
-
-const DesignInfo = ({ toSend = true }) => {
+const DesignInfo = ({ toSend = false, navigation }) => {
+    const { setDesign } = useContext(ObjectContext);
     // Function to open the HTTPS link
     const handleOutfitPress = (link) => {
         Linking.openURL(link).catch((err) => console.error('Error opening URL', err));
@@ -24,13 +15,13 @@ const DesignInfo = ({ toSend = true }) => {
         <View style={styles.container}>
             {/* Top Appbar */}
             <Appbar.Header>
-                <Appbar.BackAction onPress={() => { }} />
+                <Appbar.BackAction onPress={() => { navigation.goBack() }} />
                 <Appbar.Content title="Pick Clothes" />
             </Appbar.Header>
 
             {/* List of Outfits wrapped in a ScrollView */}
             <ScrollView style={styles.listContainer}>
-                {outfits.map((outfit) => (
+                {clothes.map((outfit) => (
                     <List.Item
                         key={outfit.id}
                         title={outfit.name}
@@ -52,7 +43,8 @@ const DesignInfo = ({ toSend = true }) => {
                     )}
                     onPress={() => {
                         // Add your functionality here
-                        console.log('AI Mix & Match clicked');
+                        setDesign(clothes)
+                        navigation.navigate('mixAndMatch')
                     }}
                 />
             </View>
@@ -63,8 +55,7 @@ const DesignInfo = ({ toSend = true }) => {
                     <Button
                         mode="contained"
                         style={styles.selectButton}
-                        onPress={() => console.log('Selected outfit:', selectedOutfitId)}
-                        disabled={selectedOutfitId === null}
+                        onPress={() => console.log('pressed')}
                     >
                         Select
                     </Button>
@@ -77,6 +68,7 @@ const DesignInfo = ({ toSend = true }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: '#fff',
     },
     listContainer: {
         flex: 1,
