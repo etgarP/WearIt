@@ -8,7 +8,6 @@ import {AppNavigator} from './components/navigation/AppNavigator.js';
 export default function App() {
   return (
     <PaperProvider>
-
       <AppNavigator />
     </PaperProvider>
   );

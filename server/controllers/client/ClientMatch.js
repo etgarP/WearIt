@@ -1,9 +1,10 @@
-const clientInfoService = require('../../services/Client/ClientInfoService.js');
-const jwt = require('jsonwebtoken');
-const authService = require('../../services/Client/ClientAuthService');
-const infoService = require('../../services/Client/ClientInfoService.js')
-const designerProfileService = require('../../services/designer/DesignerProfileService');
-const secretToken = "even doctor evil won't crack this bad boy"
+const clientInfoService = require("../../services/Client/ClientInfoService.js");
+const jwt = require("jsonwebtoken");
+const authService = require("../../services/Client/ClientAuthService");
+const infoService = require("../../services/Client/ClientInfoService.js");
+const designerProfileService = require("../../services/designer/DesignerProfileService");
+const secretToken = "even doctor evil won't crack this bad boy";
+
 
 /*  
     input: json web token, 
@@ -14,19 +15,19 @@ const changeInfo = async (req, res) => {
     try {
         const authorization = req.headers.authorization;
         if (!authorization) {
-            return res.status(401).send("Authorization token is missing");
+            return res.status(401).json("Authorization token is missing");
         }
-        const token = authorization.split(' ')[1];
+        const token = authorization.split(" ")[1];
         const decoded = jwt.verify(token, secretToken);
         const newInfo = req.body || {};
-        newInfo.username = decoded.username
+        newInfo.username = decoded.username;
         await clientInfoService.setClientInfo(decoded.username, newInfo);
-        return res.status(200).send("Info updated successfully");
+        return res.status(200).json("Info updated successfully");
     } catch (error) {
         if (error.message === "Username mismatch") {
-            return res.status(400).send("Username mismatch");
+            return res.status(400).json("Username mismatch");
         }
-        return res.status(500).send("Internal Server Error");
+        return res.status(500).json("Internal Server Error");
     }
 };
 
@@ -39,19 +40,21 @@ const getInfo = async (req, res) => {
     try {
         const authorization = req.headers.authorization;
         if (!authorization) {
-            return res.status(401).send("Authorization token is missing");
+            return res.status(401).json("Authorization token is missing");
         }
-        const token = authorization.split(' ')[1];
+        const token = authorization.split(" ")[1];
         const decoded = jwt.verify(token, secretToken);
         const newInfo = req.body || {};
-        newInfo.username = decoded.username
-        const {_id, __v, ...info} = await clientInfoService.getClientInfo(decoded.username);
-        return res.status(200).send(info);
+        newInfo.username = decoded.username;
+        const { _id, __v, ...info } = await clientInfoService.getClientInfo(
+            decoded.username
+        );
+        return res.status(200).json(info);
     } catch (error) {
         if (error.message === "Username mismatch") {
-            return res.status(400).send("Username mismatch");
+            return res.status(400).json("Username mismatch");
         }
-        return res.status(500).send("Internal Server Error");
+        return res.status(500).json("Internal Server Error");
     }
 };
 
@@ -88,16 +91,16 @@ function calculateMatchScore(client, designer) {
     output: their match score
 */
 const filterTopNMatches = async (client, designers, N) => {
-    const designerMatches = designers.map(designer => {
+    const designerMatches = designers.map((designer) => {
         const designerInfo = designer.designerInfo;
         designer.designerInfo = null;
-        var score = calculateMatchScore(client, designerInfo)
-        designer.score = score
-        return designer
+        var score = calculateMatchScore(client, designerInfo);
+        designer.score = score;
+        return designer;
     });
     designerMatches.sort((a, b) => b.score - a.score); // Sort in descending order based on score
     return designerMatches.slice(0, N); // Return the top N matches
-}
+};
 
 /*  
     input: jsonwebtoken
@@ -105,15 +108,15 @@ const filterTopNMatches = async (client, designers, N) => {
 */
 const matches = async (req, res) => {
     try {
-        const token = req.headers.authorization.split(' ')[1];
+        const token = req.headers.authorization.split(" ")[1];
         const decoded = jwt.verify(token, secretToken);
-        const clientProfile = await infoService.getClientInfo(decoded.username)
-        const AllDesigners = await designerProfileService.getAllProfiles()
-        const result = await filterTopNMatches(clientProfile, AllDesigners, 10)
-        return res.status(200).send(result);
+        const clientProfile = await infoService.getClientInfo(decoded.username);
+        const AllDesigners = await designerProfileService.getAllProfiles();
+        const result = await filterTopNMatches(clientProfile, AllDesigners, 10);
+        return res.status(200).json(result);
     } catch (error) {
-        return res.status(500).send("Internal Server Error");
+        return res.status(500).json("Internal Server Error");
     }
-}
+};
 
-module.exports = { changeInfo, getInfo, matches }
+module.exports = { changeInfo, getInfo, matches };
