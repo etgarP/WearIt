@@ -4,14 +4,14 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BottomNav from './bottomNavigation';
 import DesignerPage from '../designerPage';
 import OrderHolder from '../ordering/orderHolder';
-import { ProfileProvider } from './ProfileProvider'; 
+import { ObjectProvider } from './ObjectProvider'; 
 
 
 const Stack = createNativeStackNavigator();
 
 export const AppNavigator = () => {
     return (
-        <ProfileProvider>
+        <ObjectProvider>
             <NavigationContainer>
                 <Stack.Navigator
                     initialRouteName="HomeClient"
@@ -34,6 +34,6 @@ export const AppNavigator = () => {
                     />
                 </Stack.Navigator>
             </NavigationContainer>
-        </ProfileProvider>
+        </ObjectProvider>
     );
 };

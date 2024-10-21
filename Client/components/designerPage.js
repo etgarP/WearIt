@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Dimensions, View, Text, StyleSheet, ScrollView } from 'react-native';
 import { Avatar, Button, Chip, Appbar } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { ProfileContext } from './navigation/ProfileProvider'; 
+import { ProfileContext } from './navigation/ObjectProvider'; 
 
 const { width, height } = Dimensions.get('screen');
 
