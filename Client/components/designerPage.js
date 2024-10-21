@@ -2,12 +2,13 @@ import React, { useContext } from 'react';
 import { Dimensions, View, Text, StyleSheet, ScrollView } from 'react-native';
 import { Avatar, Button, Chip, Appbar } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { ProfileContext } from './navigation/ObjectProvider'; 
+import { ObjectContext } from './navigation/ObjectProvider'; 
 
 const { width, height } = Dimensions.get('screen');
 
 const DesignerPage = ({ navigation }) => {
-    const { profile } = useContext(ProfileContext);
+    const { profile } = useContext(ObjectContext);
+    console.log(profile.image)
     const { image, name, bio, reviews = [], specialization = [] } = profile; // Include specialization field
     // Calculate average rating
     let averageRating = 0;

@@ -3,13 +3,12 @@ import { Text } from 'react-native';
 import { BottomNavigation, Appbar } from 'react-native-paper';
 import MatchRoute from '../matchScreen/HomeScreen';
 import OrdersRoute from '../orderScreen/orderPage';
-import { ProfileContext } from './ObjectProvider';
+import { ObjectContext } from './ObjectProvider';
+import FinishedDesigns from '../designScreen/finishedDesigns'
 
-// const GroupMatchRoute = () => <Text>Group Match</Text>;
-const DesignsRoute = () => <Text>Designs</Text>;
 
 export default function BottomNav({ navigation }) {
-    const { setProfilePage } = useContext(ProfileContext);
+    const { setProfilePage } = useContext(ObjectContext);
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
         { key: 'match', title: 'Match', focusedIcon: 'face-man-shimmer', unfocusedIcon: 'face-man-shimmer-outline' },
@@ -19,10 +18,10 @@ export default function BottomNav({ navigation }) {
     ]);
 
     const renderScene = BottomNavigation.SceneMap({
-        match: (props) => <MatchRoute {...props} setProfilePage={setProfilePage} navigation={navigation} />,
+        match: () => <MatchRoute setProfilePage={setProfilePage} navigation={navigation} />,
         // groupMatch: GroupMatchRoute,
         orders: OrdersRoute,
-        design: DesignsRoute,
+        design: () => <FinishedDesigns navigation={navigation} />,
     });
 
     return (

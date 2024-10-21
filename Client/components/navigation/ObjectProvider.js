@@ -1,13 +1,14 @@
 import React, { useState, createContext } from 'react';
 
-export const ProfileContext = createContext();
+export const ObjectContext = createContext();
 
 export function ObjectProvider({ children }) {
     const [profile, setProfilePage] = useState(null);
+    const [design, setDesign] = useState(null)
 
     return (
-        <ProfileContext.Provider value={{ profile, setProfilePage }}>
+        <ObjectContext.Provider value={{ profile, setProfilePage, design, setDesign }}>
             {children}
-        </ProfileContext.Provider>
+        </ObjectContext.Provider>
     );
 }
