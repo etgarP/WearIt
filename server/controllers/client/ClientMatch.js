@@ -5,6 +5,7 @@ const infoService = require("../../services/Client/ClientInfoService.js");
 const designerProfileService = require("../../services/designer/DesignerProfileService");
 const secretToken = "even doctor evil won't crack this bad boy";
 
+
 /*  
     input: json web token, 
     output: json web token (sent as token)
