@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { ScrollView, View, StyleSheet } from 'react-native';
 import { List, Divider, Avatar, Text } from 'react-native-paper';
-import { orders } from '../../data/orders';
-import { design } from '../../data/design'
+import { orders } from '../../../data/orders';
+import { design } from '../../../data/design'
 import { ObjectContext } from '../navigation/ObjectProvider';
 
 const FinishedDesigns = ({ navigation }) => {
@@ -48,7 +48,6 @@ const FinishedDesigns = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
         marginBottom: 20,
         marginHorizontal: 20
     },

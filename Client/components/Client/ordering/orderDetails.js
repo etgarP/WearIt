@@ -96,11 +96,11 @@ const styles = StyleSheet.create({
         width: width,
         flex: 1,
         padding: 20,
-        backgroundColor: '#fff',
+        backgroundColor: '#fffbfe',
     },
     appbar: {
         width: width,
-        backgroundColor: '#fff',
+        backgroundColor: '#fffbfe',
     },
     informativeText: {
         fontSize: 16,

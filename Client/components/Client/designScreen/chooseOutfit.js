@@ -3,9 +3,9 @@ import { View, StyleSheet, Image, ScrollView } from 'react-native';
 import { Appbar, List, Button, RadioButton } from 'react-native-paper';
 
 const outfits = [
-    { id: 1, name: 'Outfit 1', image: require('../../assets/shirt.png') },
-    { id: 2, name: 'Outfit 2', image: require('../../assets/pants_black.png') },
-    { id: 3, name: 'Outfit 3', image: require('../../assets/pants_tan.png') },
+    { id: 1, name: 'Outfit 1', image: require('../../../assets/shirt.png') },
+    { id: 2, name: 'Outfit 2', image: require('../../../assets/pants_black.png') },
+    { id: 3, name: 'Outfit 3', image: require('../../../assets/pants_tan.png') },
 ];
 
 const ChooseOutfit = ({ navigation }) => {
@@ -64,7 +64,7 @@ const ChooseOutfit = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#fffbfe',
     },
     listContainer: {
         flex: 1,

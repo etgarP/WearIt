@@ -1,8 +1,5 @@
-import { PaperProvider, Appbar } from 'react-native-paper';
-import BottomNav from './components/navigation/bottomNavigation.js'
-import { StyleSheet, View, Text, EditScreenInfo, TouchableHighlight } from 'react-native';
-import DesignerCard from './components/designerPage.js'
-import {AppNavigator} from './components/navigation/AppNavigator.js';
+import { PaperProvider } from 'react-native-paper';
+import {AppNavigator} from './components/Client/navigation/AppNavigator.js';
 
 
 export default function App() {

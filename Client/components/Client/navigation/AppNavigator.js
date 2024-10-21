@@ -2,7 +2,7 @@ import React, { useState, createContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BottomNav from './bottomNavigation';
-import DesignerPage from '../designerPage';
+import DesignerPage from '../../designerPage';
 import OrderHolder from '../ordering/orderHolder';
 import { ObjectProvider } from './ObjectProvider'; 
 import DesignInfo from '../designScreen/designInfo';

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import PriceDropdownChip from './dropDownMenu';
-import { categories } from '../../../data/categories';
+import { categories } from '../../../../data/categories';
 
 const TopBtns = ({ setPriceFilter, setCategoryFilter, setSubcategoryFilter, setReviewFilter }) => {
     const [selectedCategory, setSelectedCategory] = useState('');

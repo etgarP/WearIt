@@ -16,7 +16,7 @@ const MixAndMatch = ({ navigation }) => {
             {/* Model Image */}
             <View style={styles.modelContainer}>
                 <Image
-                    source={require('../../assets/model.png')}
+                    source={require('../../../assets/model.png')}
                     style={styles.modelImage}
                 />
             </View>
@@ -50,7 +50,7 @@ const MixAndMatch = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'white'
+        backgroundColor: '#fffbfe'
     },
     modelContainer: {
         flex: 2,

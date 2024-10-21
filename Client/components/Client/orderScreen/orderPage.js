@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ScrollView, View, StyleSheet } from 'react-native';
 import { List, Divider, Avatar, Text } from 'react-native-paper';
-import { orders } from '../../data/orders'; // Adjust the import path accordingly
+import { orders } from '../../../data/orders'; // Adjust the import path accordingly
 
 const OrdersRoute = () => {
     // Filter orders based on their status
@@ -64,7 +64,6 @@ const OrdersRoute = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
         marginBottom: 20,
         marginHorizontal: 20
     },

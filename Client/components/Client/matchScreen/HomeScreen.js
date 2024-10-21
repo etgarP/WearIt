@@ -3,8 +3,8 @@ import { StyleSheet, View } from 'react-native';
 import Search from './Search';
 import MyCarousel from './carousel/carousel';
 import TopBtns from './btns/buttons';
-import { data } from '../../data/designers';
-import { categories } from '../../data/categories';  // Import the categories data
+import { data } from '../../../data/designers';
+import { categories } from '../../../data/categories';  // Import the categories data
 
 export default function MatchRoute({ setProfilePage, navigation }) {
     const [filtered, setFiltered] = useState(data);  // State for filtered data

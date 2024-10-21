@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { View, StyleSheet, Image, ScrollView, Linking } from 'react-native';
 import { Appbar, List, Button } from 'react-native-paper';
 import { ObjectContext } from '../navigation/ObjectProvider';
-import { clothes } from '../../data/design';
+import { clothes } from '../../../data/design';
 
 const DesignInfo = ({ toSend = false, navigation }) => {
     const { setDesign } = useContext(ObjectContext);
@@ -68,7 +68,7 @@ const DesignInfo = ({ toSend = false, navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#fffbfe',
     },
     listContainer: {
         flex: 1,
