@@ -5,7 +5,7 @@ import { ClientNavigator } from '../Client/navigation/ClientNavigator';
 import { DesignerNavigator } from '../designer/navigation/designerNavigator';
 import SignIn from '../auth/signIn/signIn'
 import SignOut from '../auth/signUp/signUp'
-import { AppObjectProvider } from './AppObjectProvider';
+import { AppObjectProvider } from './appObjectProvider';
 
 const Stack = createNativeStackNavigator();
 
@@ -14,7 +14,7 @@ export default AppNavigator = () => {
         <AppObjectProvider>
             <NavigationContainer>
                 <Stack.Navigator
-                    initialRouteName="client"
+                    initialRouteName="SignIn"
                     screenOptions={{
                         headerShown: false,
                         cardStyle: { backgroundColor: 'white' }, // Adjust as needed

@@ -64,26 +64,39 @@ const getInfo = async (req, res) => {
 */
 function calculateMatchScore(client, designer) {
     let score = 0;
+    const maxScore = 100;
+
+    // Weights for each criteria (adjust based on importance)
+    const genderWeight = 20;
+    const cityWeight = 20;
+    const religionWeight = 20;
+    const ageWeight = 40;  // Give age more weight since it has multiple ranges
+
     // Match on gender
     if (client.gender === designer.gender) {
-        score += 10;
+        score += genderWeight;
     }
+
     // Match on city
     if (client.city === designer.city) {
-        score += 10;
+        score += cityWeight;
     }
+
     // Match on religion
     if (client.religion === designer.religion) {
-        score += 10;
+        score += religionWeight;
     }
+
     // Age proximity
     const ageDifference = Math.abs(client.age - designer.age);
     if (ageDifference <= 5) {
-        score += 10;
+        score += ageWeight;  // Full weight for close age range
     } else if (ageDifference <= 10) {
-        score += 5;
+        score += ageWeight * 0.5;  // Half weight for medium age difference
     }
-    return score;
+
+    // Return score out of 100
+    return Math.min(score, maxScore);
 }
 
 /*  
@@ -115,6 +128,7 @@ const matches = async (req, res) => {
         const result = await filterTopNMatches(clientProfile, AllDesigners, 10);
         return res.status(200).json(result);
     } catch (error) {
+        console.log(error)
         return res.status(500).json("Internal Server Error");
     }
 };

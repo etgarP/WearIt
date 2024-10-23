@@ -4,31 +4,31 @@ import { Appbar, TextInput, Button } from 'react-native-paper';
 import { Dropdown } from 'react-native-paper-dropdown';
 import { ClientObjectContext } from '../navigation/ClientObjectProvider';
 
-
-const { width, height } = Dimensions.get('window'); // Get the width of the device
+const { width } = Dimensions.get('window'); // Get the width of the device
 
 const convertToOptions = (list) => {
     return list.map(item => ({ label: item, value: item.toLowerCase() }));
 };
 
 const OrderDetails = ({ navigation, onClick }) => {
-    const { profile } = useContext(ClientObjectContext);
+    const { profile, setOrderInfo } = useContext(ClientObjectContext);
     const { pricePerItem, specialization = [] } = profile; // Include specialization field
-    const options = convertToOptions(specialization)
+    const options = convertToOptions(specialization);
 
     const [outfits, setOutfits] = React.useState('');
     const [occasions, setOccasions] = React.useState('');
     const [preferences, setPreferences] = React.useState('');
     const finalPrice = Math.min(Math.max(parseInt(outfits) || 0, 1), 100) * pricePerItem; // Calculate final price
-    const arrivalTime = 'Your order will approved in 2-3 days';
+    const arrivalTime = 'Your order will be approved in 2-3 days';
+
+    // Condition for enabling the button (outfits between 1 and 100 and occasion selected)
+    const isButtonEnabled = outfits >= 1 && outfits <= 100 && occasions;
 
     return (
         <>
             <Appbar.Header style={styles.appbar}>
                 <Appbar.BackAction onPress={() => navigation.goBack()} />
-                <Appbar.Content
-                    title="Order Details"
-                />
+                <Appbar.Content title="Order Details" />
             </Appbar.Header>
             <View style={styles.container}>
                 {/* Appbar with Back Button and Arrival Time */}
@@ -71,7 +71,6 @@ const OrderDetails = ({ navigation, onClick }) => {
                         style={styles.input}
                     />
                 </View>
-                
 
                 <Text style={styles.priceText}>Final price: ${finalPrice}</Text>
 
@@ -82,8 +81,19 @@ const OrderDetails = ({ navigation, onClick }) => {
 
                 <Button
                     mode="contained"
-                    onPress={onClick}
-                    style={styles.button}>
+                    onPress={() => {
+                        onClick()
+                        setOrderInfo({
+                            "numberOfOutfits": parseInt(outfits) || 1,
+                            "isGroup": false,
+                            "occasion": occasions,
+                            "preferences": preferences,
+                            "designer": profile.username,
+                        })
+                    }}
+                    disabled={!isButtonEnabled} // Disable button based on conditions
+                    style={[styles.button, !isButtonEnabled && styles.disabledButton]} // Add greyed out style if disabled
+                >
                     Request Design
                 </Button>
             </View>
@@ -129,6 +139,9 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginTop: 20,
         paddingHorizontal: 30,
+    },
+    disabledButton: {
+        backgroundColor: '#d3d3d3', // Greyed out color for disabled button
     },
     textContainer: {
         flex: 1

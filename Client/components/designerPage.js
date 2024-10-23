@@ -8,7 +8,6 @@ const { width, height } = Dimensions.get('screen');
 
 const DesignerPage = ({ navigation }) => {
     const { profile } = useContext(ClientObjectContext);
-    console.log(profile.image)
     const { image, name, bio, reviews = [], specialization = [] } = profile; // Include specialization field
     // Calculate average rating
     let averageRating = 0;

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { View, Text, StyleSheet, StatusBar, Animated, Dimensions } from 'react-native';
 import OrderDetails from './orderDetails';
-import OrderCompletePage from './orderCompletePage/orderComplete';
+import { CompletingOrder } from './orderCompletePage/completingOrder';
 
 const { width, height } = Dimensions.get('window'); // Get the width of the device
 const statusBarHeight = StatusBar.currentHeight || 0; // Fallback if currentHeight is undefined
@@ -47,7 +47,7 @@ const OrderHolder = ({ navigation }) => {
                 {/* Second Page */}
                 <View style={styles.page}>
                     {orderComplete ? (
-                        <OrderCompletePage onGoBack={handleGoBack} />
+                        <CompletingOrder onGoBack={handleGoBack} />
                     ) : (
                         <></>
                     )}

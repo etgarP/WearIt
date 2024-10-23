@@ -1,120 +1,84 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useState, useEffect, useContext } from 'react';
+import { StyleSheet, View, Text, ActivityIndicator, Image } from 'react-native';
 import Search from './Search';
 import MyCarousel from './carousel/carousel';
 import TopBtns from './btns/buttons';
-import { data } from '../../../data/designers';
-import { categories } from '../../../data/categories';  // Import the categories data
+import { getMatches } from '../../../apiServices/client/getMatches.js'; // Import the fetch function
+import { filterDesigners } from '../../../utils/client/filterLogic'; // Import the filter logic
+import { AppObjectContext } from '../../appNavigation/appObjectProvider';
+import ConnectedMatchRoute from './homeScreenConnected'
 
-export default function MatchRoute({ setProfilePage, navigation }) {
-    const [filtered, setFiltered] = useState(data);  // State for filtered data
-    const [priceFilter, setPriceFilter] = useState('');
-    const [categoryFilter, setCategoryFilter] = useState('');
-    const [subcategoryFilter, setSubcategoryFilter] = useState('');  // Add subcategory filter
-    const [reviewFilter, setReviewFilter] = useState('');
-    const [searchText, setSearchText] = useState('');
+export default function MatchRoute({ setProfilePage, navigation }) { 
+    const [filtered, setFiltered] = useState([]);
+    const { userDetails: { token } } = useContext(AppObjectContext);
+    const [alertShown, setAlertShown] = useState(false); // State to track if alert has been shown
+    const [loading, setLoading] = useState(true); // State to track loading
+    
+
     useEffect(() => {
-        let filteredData = data;
-
-        // console.log("priceFilter, categoryFilter, subcategoryFilter, reviewFilter, searchText:", priceFilter, categoryFilter, subcategoryFilter, reviewFilter, searchText);
-
-        // Price filtering
-        if (priceFilter && priceFilter !== '') {
-            filteredData = filteredData.filter(item => {
-                print(item.pricePerItem)
-                if (priceFilter === 'Cheap') return item.pricePerItem < 5;
-                if (priceFilter === 'Affordable') return item.pricePerItem >= 5 && item.pricePerItem < 20;
-                if (priceFilter === 'Expensive') return item.pricePerItem >= 20;
-                return true;
-            });
-        }
-
-        // Category filtering
-        if (categoryFilter) {
-            // Find the picked category in the categories array
-            const pickedCategory = categories.find(category => category.title === categoryFilter);
-            if (pickedCategory) {
-                // Check if any specialization is in the picked category's items
-                filteredData = filteredData.filter(item => {
-                    return item.specialization.some(specializationItem =>
-                        pickedCategory.items.includes(specializationItem)
-                    );
-                });
+        const fetchData = async () => {
+            setLoading(true); // Set loading to true when starting fetch
+            try {
+                const data = await getMatches(token);
+                setFiltered(data);  // Initialize filtered data
+                setAlertShown(false); // Hide alert if data is fetched successfully
+            } catch (error) {
+                setAlertShown(true); // Show alert if there's an error
+            } finally {
+                setLoading(false); // Set loading to false when fetch completes
             }
-        }
+        };
 
-        // Subcategory filtering
-        if (subcategoryFilter) {
-            // filteredData = filteredData.filter(item => item.subcategory === subcategoryFilter);
-            if (categoryFilter) {
-                filteredData = filteredData.filter(item => {
-                    return item.specialization.some(specializationItem =>
-                        subcategoryFilter === specializationItem
-                    );
-                });
-            }   
-        }
-
-        // Review filtering
-        if (reviewFilter && reviewFilter !== '') {
-            filteredData = filteredData.filter(item => {
-                const avgRating = calculateAverageRating(item.reviews);
-                if (reviewFilter === '3+ Stars') return avgRating >= 3;
-                if (reviewFilter === '4+ Stars') return avgRating >= 4;
-                if (reviewFilter === '5 Stars') return avgRating === 5;
-                return true;
-            });
-        }
-
-        // Search text filtering
-        if (searchText) {
-            filteredData = filteredData.filter(designer =>
-                designer.name.toLowerCase().includes(searchText.toLowerCase())
-            );
-        }
-
-        // Update filtered state
-        setFiltered(filteredData);
-    }, [priceFilter, categoryFilter, subcategoryFilter, reviewFilter, searchText]);  // Add subcategoryFilter to dependencies
-
-    const handleSearchChange = (text) => {
-        setSearchText(text);  // Update search text filter
-    };
-
-    // Function to calculate average rating
-    const calculateAverageRating = (reviews) => {
-        if (reviews.length === 0) return 0;
-        const total = reviews.reduce((acc, review) => acc + review.rating, 0);
-        return total / reviews.length;
-    };
-
-    return (
-        <View style={styles.container}>
-            <View style={styles.search}>
-                <Search onChange={handleSearchChange} />
+        fetchData();
+    }, [token]); // No need to track alertShown in dependencies
+    if (loading) {
+        return (
+            <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="#0000ff" style={styles.spinner} />
+                <Text style={styles.loadingText}>Fetching your matches...</Text>
             </View>
-            <View style={styles.btnscontainer}>
-                <TopBtns setPriceFilter={setPriceFilter} setCategoryFilter={setCategoryFilter} setSubcategoryFilter={setSubcategoryFilter} setReviewFilter={setReviewFilter} />
+        );
+    }
+    if (alertShown) {
+        return (
+            <Text style={styles.errorText}>
+                NETWORK ERROR
+            </Text>
+        );
+    }
+    else {
+        return (
+            <View style={styles.container}>
+                <ConnectedMatchRoute setProfilePage={setProfilePage} navigation={navigation} designersData={filtered} />
             </View>
-            <View>
-                <MyCarousel setProfilePage={setProfilePage} navigation={navigation} data={filtered} />
-            </View>
-        </View>
-    );
+        );
+    }
+    
 }
-
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
-        backgroundColor: '#fff',
+        flex: 1,
     },
-    btnscontainer: {
-        paddingTop: 20,
-        flexDirection: 'row',
-        justifyContent: 'space-around',
+    loadingContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 1,
     },
-    search: {
-        width: '100%',
-        paddingHorizontal: 10,
+    loadingIcon: {
+        width: 80,
+        height: 80,
+    },
+    spinner: {
+        marginBottom: 20,
+    },
+    loadingText: {
+        fontSize: 16,
+        color: '#333',
+    },
+    errorText: {
+        fontSize: 18,
+        color: 'red',
+        marginTop: 20,
     },
 });

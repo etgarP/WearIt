@@ -1,11 +1,9 @@
 import React, { useContext } from 'react';
-import { Text } from 'react-native';
 import { BottomNavigation, Appbar } from 'react-native-paper';
-import MatchRoute from '../matchScreen/HomeScreen';
+import MatchRoute from '../matchScreen/homeScreen';
 import OrdersRoute from '../orderScreen/orderPage';
 import { ClientObjectContext } from './ClientObjectProvider';
 import FinishedDesigns from '../designScreen/finishedDesigns'
-
 
 export default function BottomNav({ navigation }) {
     const { setProfilePage } = useContext(ClientObjectContext);

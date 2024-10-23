@@ -1,12 +1,16 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 import { View, Text, StyleSheet, Animated, Dimensions, TouchableOpacity } from 'react-native';
 import ConfettiCannon from 'react-native-confetti-cannon';
 import { Button, Card } from 'react-native-paper'
 import SuccessImage from './success';
+import { AppObjectContext } from '../../../appNavigation/appObjectProvider';
+import { ClientObjectContext } from '../../navigation/ClientObjectProvider';
 
 const { width, height } = Dimensions.get('window');
 
 const OrderCompletePage = ({ onGoBack }) => {
+    const { orderInfo } = useContext(ClientObjectContext);
+    const { userDetails: { token } } = useContext(AppObjectContext)
     const scaleValue = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
