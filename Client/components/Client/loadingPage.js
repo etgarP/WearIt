@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 
-export const LoadingPage = () => {
+export const LoadingPage = (loadingText) => {
     return (
         <View style={styles.container}>
             <ActivityIndicator size="large" color="#0000ff" />
-            <Text style={styles.text}>Finalizing your order...</Text>
+            <Text style={styles.text}>{loadingText}</Text>
         </View>
     );
 };

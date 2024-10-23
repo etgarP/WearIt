@@ -1,13 +1,12 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import { createOrder } from '../../../../apiServices/client/createOrder';  // API service for order creation
-import OrderCompletePage from './orderCompleteScreen';
+import OrderPage from './orderPage';
 import { LoadingPage } from '../../loadingPage';
-import RefreshPage from '../../refreshPage';
 import { ClientObjectContext } from '../../navigation/ClientObjectProvider';
 import { AppObjectContext } from '../../../appNavigation/appObjectProvider';
 
-export const CompletingOrder = ({ onGoBack, navigation }) => {
+export const OrdersRoute = ({ onGoBack, navigation }) => {
     const { orderInfo } = useContext(ClientObjectContext);
     const { userDetails: { token } } = useContext(AppObjectContext);
     const [loading, setLoading] = useState(false);  // To manage the loading state
@@ -47,7 +46,7 @@ export const CompletingOrder = ({ onGoBack, navigation }) => {
     }
 
     if (orderFailed) {
-        return <RefreshPage tryAgain={onRetry} />;  // Show error page with retry option if order creation failed
+        return <Text>NETWORK ERROR</Text>;  // Show error page with retry option if order creation failed
     }
 
     return null;  // Return nothing if no state is active

@@ -3,7 +3,7 @@ import { ScrollView, View, StyleSheet } from 'react-native';
 import { List, Divider, Avatar, Text } from 'react-native-paper';
 import { orders } from '../../../data/orders'; // Adjust the import path accordingly
 
-const OrdersRoute = () => {
+const OrdersPage = () => {
     // Filter orders based on their status
     const pendingOrders = orders.orders.filter(order => order.status === 'pending');
     const approvedOrders = orders.orders.filter(order => order.status === 'accepted');
