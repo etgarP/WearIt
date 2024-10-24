@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { createOrder } from '../../../../apiServices/client/createOrder';  // API service for order creation
 import OrderCompletePage from './orderCompleteScreen';
 import { LoadingPage } from '../../loadingPage';
-import RefreshPage from '../../refreshPage';
+import RefreshErrorPage from '../../refreshErrorPage';
 import { ClientObjectContext } from '../../navigation/ClientObjectProvider';
 import { AppObjectContext } from '../../../appNavigation/appObjectProvider';
 
@@ -47,7 +47,7 @@ export const CompletingOrder = ({ onGoBack, navigation }) => {
     }
 
     if (orderFailed) {
-        return <RefreshPage tryAgain={onRetry} />;  // Show error page with retry option if order creation failed
+        return <RefreshErrorPage tryAgain={onRetry} />;  // Show error page with retry option if order creation failed
     }
 
     return null;  // Return nothing if no state is active

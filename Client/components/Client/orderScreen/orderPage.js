@@ -1,71 +1,68 @@
-import * as React from 'react';
-import { ScrollView, View, StyleSheet } from 'react-native';
-import { List, Divider, Avatar, Text } from 'react-native-paper';
-import { orders } from '../../../data/orders'; // Adjust the import path accordingly
+import React from 'react';
+import { View, StyleSheet, Text } from 'react-native';
+import { List, Divider, Avatar } from 'react-native-paper';
 
-const OrdersPage = () => {
+const OrdersRoute = ({ orders }) => {
     // Filter orders based on their status
-    const pendingOrders = orders.orders.filter(order => order.status === 'pending');
-    const approvedOrders = orders.orders.filter(order => order.status === 'accepted');
+    const pendingOrders = orders.filter(order => order.status === 'pending');
+    const approvedOrders = orders.filter(order => order.status === 'accepted');
 
     return (
-        <ScrollView >
-            <View style={styles.container}>
-                {/* Not Yet Approved Section */}
-                <Text style={styles.sectionHeader}>Not Yet Approved</Text>
-                {pendingOrders.length > 0 ? (
-                    pendingOrders.map(order => (
-                        <React.Fragment key={order._id}>
-                            <List.Item
-                                title={`Ordered from ${order.designer}`}
-                                description={`Status: ${order.status}`}
-                                left={() => (
-                                    <Avatar.Image
-                                        size={50}
-                                        source={{ uri: 'https://example.com/designer-image.jpg' }} // Replace with real image
-                                    />
-                                )}
-                                descriptionStyle={styles.statusPending}
-                            />
-                            <Divider />
-                        </React.Fragment>
-                    ))
-                ) : (
-                    <Text>No pending orders.</Text>
-                )}
+        <View style={styles.container}>
+            {/* Not Yet Approved Section */}
+            <Text style={styles.sectionHeader}>Not Yet Approved</Text>
+            {pendingOrders.length > 0 ? (
+                pendingOrders.map(order => (
+                    <React.Fragment key={order._id}>
+                        <List.Item
+                            title={`Ordered from ${order.designer}`}
+                            description={`Status: ${order.status}`}
+                            left={() => (
+                                <Avatar.Image
+                                    size={50}
+                                    source={{ uri: 'https://example.com/designer-image.jpg' }} // Replace with real image
+                                />
+                            )}
+                            descriptionStyle={styles.statusPending}
+                        />
+                        <Divider />
+                    </React.Fragment>
+                ))
+            ) : (
+                <Text>No pending orders.</Text>
+            )}
 
-                {/* Approved Section */}
-                <Text style={styles.sectionHeader}>Approved</Text>
-                {approvedOrders.length > 0 ? (
-                    approvedOrders.map(order => (
-                        <React.Fragment key={order._id}>
-                            <List.Item
-                                title={`Ordered from ${order.designer}`}
-                                description={`Status: ${order.status}`}
-                                left={() => (
-                                    <Avatar.Image
-                                        size={50}
-                                        source={{ uri: 'https://example.com/designer-image.jpg' }} // Replace with real image
-                                    />
-                                )}
-                                descriptionStyle={styles.statusApproved}
-                            />
-                            <Divider />
-                        </React.Fragment>
-                    ))
-                ) : (
-                    <Text>No active approved orders.</Text>
-                )}
-            </View>
-        </ScrollView>
+            {/* Approved Section */}
+            <Text style={styles.sectionHeader}>Approved</Text>
+            {approvedOrders.length > 0 ? (
+                approvedOrders.map(order => (
+                    <React.Fragment key={order._id}>
+                        <List.Item
+                            title={`Ordered from ${order.designer}`}
+                            description={`Status: ${order.status}`}
+                            left={() => (
+                                <Avatar.Image
+                                    size={50}
+                                    source={{ uri: 'https://example.com/designer-image.jpg' }} // Replace with real image
+                                />
+                            )}
+                            descriptionStyle={styles.statusApproved}
+                        />
+                        <Divider />
+                    </React.Fragment>
+                ))
+            ) : (
+                <Text>No active approved orders.</Text>
+            )}
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flexGrow: 1,  // Ensure the container can grow and allow scrolling
         marginBottom: 20,
-        marginHorizontal: 20
+        marginHorizontal: 20,
     },
     sectionHeader: {
         fontSize: 18,

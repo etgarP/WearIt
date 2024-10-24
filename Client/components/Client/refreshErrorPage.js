@@ -4,10 +4,10 @@ import {
   SafeAreaView,
   ScrollView,
   StyleSheet,
-  View,
+  Text,
 } from 'react-native';
 
-const RefreshPage = ({children, tryAgain}) => {
+const RefreshErrorPage = ({tryAgain}) => {
   const [refreshing, setRefreshing] = React.useState(false);
 
   const onRefresh = React.useCallback(() => {
@@ -25,9 +25,7 @@ const RefreshPage = ({children, tryAgain}) => {
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }>
-        <View style={styles.scrollContent}>
-          {children}
-        </View>
+        <Text>Network error, swipe down to retry</Text>
       </ScrollView>
     </SafeAreaView>
   );
@@ -38,12 +36,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollView: {
-    flexGrow: 1,
+    flex: 1,
+    backgroundColor: 'pink',
+    alignItems: 'center',
     justifyContent: 'center',
-  },
-  scrollContent: {
-    flexGrow: 1, // Forces content to stretch and allow scrolling
   },
 });
 
-export default RefreshPage;
+export default RefreshErrorPage;

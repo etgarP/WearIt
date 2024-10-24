@@ -1,9 +1,8 @@
 import React, { useContext } from 'react';
 import { BottomNavigation, Appbar } from 'react-native-paper';
 import MatchRoute from '../matchScreen/homeScreen';
-import OrdersRoute from '../orderScreen/orderPage';
+import OrdersRoutePre from '../orderScreen/orderPagePre';
 import { ClientObjectContext } from './ClientObjectProvider';
-import FinishedDesigns from '../designScreen/finishedDesigns'
 
 export default function BottomNav({ navigation }) {
     const { setProfilePage } = useContext(ClientObjectContext);
@@ -18,8 +17,8 @@ export default function BottomNav({ navigation }) {
     const renderScene = BottomNavigation.SceneMap({
         match: () => <MatchRoute setProfilePage={setProfilePage} navigation={navigation} />,
         // groupMatch: GroupMatchRoute,
-        orders: OrdersRoute,
-        design: () => <FinishedDesigns navigation={navigation} />,
+        orders: () => <OrdersRoutePre navigation={navigation} isDesign={false} />,
+        design: () => <OrdersRoutePre navigation={navigation} isDesign={true} />,
     });
 
     return (

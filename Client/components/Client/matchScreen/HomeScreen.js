@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, View, Text, ActivityIndicator, Image } from 'react-native';
-import Search from './Search';
-import MyCarousel from './carousel/carousel';
-import TopBtns from './btns/buttons';
+import RefreshErrorPage from '../refreshErrorPage';
 import { getMatches } from '../../../apiServices/client/getMatches.js'; // Import the fetch function
-import { filterDesigners } from '../../../utils/client/filterLogic'; // Import the filter logic
 import { AppObjectContext } from '../../appNavigation/appObjectProvider';
-import ConnectedMatchRoute from './homeScreenConnected'
+import LoadingPage from '../loadingPage';
+import ConnectedMatchRoute from './homeScreenConnected';
 
 export default function MatchRoute({ setProfilePage, navigation }) { 
     const [filtered, setFiltered] = useState([]);
@@ -15,35 +13,35 @@ export default function MatchRoute({ setProfilePage, navigation }) {
     const [loading, setLoading] = useState(true); // State to track loading
     
 
-    useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true); // Set loading to true when starting fetch
-            try {
-                const data = await getMatches(token);
-                setFiltered(data);  // Initialize filtered data
-                setAlertShown(false); // Hide alert if data is fetched successfully
-            } catch (error) {
-                setAlertShown(true); // Show alert if there's an error
-            } finally {
-                setLoading(false); // Set loading to false when fetch completes
-            }
-        };
+    const fetchData = async () => {
+        setLoading(true); // Set loading to true when starting fetch
+        try {
+            const data = await getMatches(token);
+            setFiltered(data);  // Initialize filtered data
+            setAlertShown(false); // Hide alert if data is fetched successfully
+        } catch (error) {
+            setAlertShown(true); // Show alert if there's an error
+        } finally {
+            setLoading(false); // Set loading to false when fetch completes
+        }
+    };
 
+    useEffect(() => {
         fetchData();
     }, [token]); // No need to track alertShown in dependencies
+
+    // Retry function for error page
+    const onRetry = () => {
+        fetchData();  // Retry the order submission
+    };
+
+
     if (loading) {
-        return (
-            <View style={styles.loadingContainer}>
-                <ActivityIndicator size="large" color="#0000ff" style={styles.spinner} />
-                <Text style={styles.loadingText}>Fetching your matches...</Text>
-            </View>
-        );
+        return (<LoadingPage loadingText={"Fetching your matches..."}></LoadingPage>)
     }
     if (alertShown) {
         return (
-            <Text style={styles.errorText}>
-                NETWORK ERROR
-            </Text>
+            <RefreshErrorPage tryAgain={onRetry}></RefreshErrorPage>
         );
     }
     else {
