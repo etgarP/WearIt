@@ -10,10 +10,11 @@ const SignIn = ({ navigation }) => {
                 title='SignIn'
                 onPress={() => {
                     setUserDetails({
-                        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvaG5fZG9lIiwiaWF0IjoxNzI5NTMxMTAzfQ.T5_yF70MX20GRNMlxCjx-DS-AptKjqTqjn5iVmEgBPE',
-                        username: 'john_doe'
-                    })
-                    navigation.replace('client')
+                      token:
+                        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN0eWxpc3QxMjMiLCJpYXQiOjE3MzAwNjY4MjF9.88Bei65OvUp6qAMbejKB0Lw_lYbnHFpSC6hcN-8Lfxg",
+                      username: "stylist123",
+                    });
+                    navigation.replace("designer");
                 }}
             >
             </Button>

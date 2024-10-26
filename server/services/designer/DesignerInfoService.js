@@ -1,8 +1,4 @@
-const Designer = require('../../models/desinger/DesignerInfo');
-const LoginInfo = require('../../models/LoginInfo');
-const DesignerProfile = require('../../models/desinger/DesignerProfile');
 const DesignerInfo = require('../../models/desinger/DesignerInfo');
-const bcrypt = require('bcryptjs');
 
 /*  
     input: designer username and designerInfo (name, gender, city, age, religion, specialization)

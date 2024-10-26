@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { BottomNavigation, Appbar } from 'react-native-paper';
-import MatchRoute from '../matchScreen/homeScreen';
+import MatchRoute from '../matchScreen/HomeScreen';
 import OrdersRoutePre from '../orderScreen/orderPagePre';
 import { ClientObjectContext } from './ClientObjectProvider';
 
