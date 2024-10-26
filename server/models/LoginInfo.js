@@ -1,11 +1,20 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// the login info of a client/designer
-const LoginInfo = new Schema({
+// the login info of a client
+const ClientLoginInfo = new Schema({
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    isDesigner: { type: Boolean, required: true }
 });
 
-module.exports = mongoose.model('LoginInfo', LoginInfo);
+// the login info of a designer
+const DesignerLoginInfo = new Schema({
+    username: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+});
+
+// Export both schemas
+module.exports = {
+    ClientLoginInfo: mongoose.model('ClientLoginInfo', ClientLoginInfo),
+    DesignerLoginInfo: mongoose.model('DesignerLoginInfo', DesignerLoginInfo)
+};

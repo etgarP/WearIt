@@ -1,5 +1,5 @@
 const Client = require('../../models/client/ClientInfo');
-const LoginInfo = require('../../models/LoginInfo');
+const {ClientLoginInfo} = require('../../models/LoginInfo');
 const bcrypt = require('bcryptjs');
 
 /*  
@@ -9,7 +9,7 @@ const bcrypt = require('bcryptjs');
     its the same as the one in the database and returns the user
 */
 const authenticate = async (username, password) => {
-    const user = await LoginInfo.findOne({ username, isDesigner: false });
+    const user = await ClientLoginInfo.findOne({ username, isDesigner: false });
     if (user && await bcrypt.compare(password, user.password)) {
         return user;
     }
@@ -23,7 +23,7 @@ const authenticate = async (username, password) => {
 */
 const createClient = async (username, password) => {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const loginInfo = new LoginInfo({ username, password: hashedPassword, isDesigner: false });
+    const loginInfo = new ClientLoginInfo({ username, password: hashedPassword, isDesigner: false });
     await loginInfo.save();
 };
 
