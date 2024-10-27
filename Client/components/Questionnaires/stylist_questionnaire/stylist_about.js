@@ -47,19 +47,25 @@ export default function StylistAbout({
 
   const handleNext = async () => {
     // Prepare data to be sent to the server
-    const data = {
+    const info = {
       name: questionnaireData.name,
       gender: questionnaireData.gender,
       city: questionnaireData.city,
       religion: questionnaireData.religion,
       age: questionnaireData.age,
       specialization: questionnaireData.specialization,
-      username: "stylist123",
     };
-    console.log(data);
+
+    const profile = {
+      name: questionnaireData.name,
+      specialization: questionnaireData.specialization,
+      bio: questionnaireData.stylistAbout,
+      image: questionnaireData.image,
+      pricePerItem: questionnaireData.pricePerItem,
+    };
 
     try {
-      const response = await fetch(
+      const infoResponse = await fetch(
         "http://192.168.1.162:12345/api/designer/info",
         {
           method: "POST",
@@ -68,12 +74,25 @@ export default function StylistAbout({
             Authorization:
               "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN0eWxpc3QxMjMiLCJpYXQiOjE3MzAwNDM4NDF9.f4eMfjwd3yPDUCI75Wu07MN9xzMzutVMECrVBZ2BhWI",
           },
-          body: JSON.stringify(data),
+          body: JSON.stringify(info),
+        }
+      );
+
+      const profileResponse = await fetch(
+        "http://192.168.1.162:12345/api/designer/info",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN0eWxpc3QxMjMiLCJpYXQiOjE3MzAwNDM4NDF9.f4eMfjwd3yPDUCI75Wu07MN9xzMzutVMECrVBZ2BhWI",
+          },
+          body: JSON.stringify(profile),
         }
       );
 
       // Check if the request was successful
-      if (response.ok) {
+      if (infoResponse.ok && profileResponse.ok) {
         // Update questionnaireData with preferences
         setQuestionnaireData({
           ...questionnaireData,
@@ -83,7 +102,7 @@ export default function StylistAbout({
         // Navigate to the next screen
         navigation.navigate("Home"); // Replace "Home" with the actual next screen name
       } else {
-        console.error("Error sending data:", response.statusText);
+        console.error("Error sending data:", infoResponse.statusText);
         Alert.alert("Error", "Failed to send data. Please try again later.");
       }
     } catch (error) {
