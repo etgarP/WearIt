@@ -26,9 +26,15 @@ const orderIsFinished = async (username, designer) => {
 */
 const purchaseOrder = async (username, order) => {
     const newOrder = new Order({ ...order, username });
-    await newOrder.save();
-    console.log(newOrder)
-    return newOrder
+
+    try {
+        const savedOrder = await newOrder.save();
+        console.log("Saved Order:", savedOrder);  // Check if order is saved
+        return savedOrder;
+    } catch (error) {
+        console.error("Error saving order to MongoDB:", error);  // Log any errors
+        return null;  // Return null if there's an error
+    }
 };
 
 /*  

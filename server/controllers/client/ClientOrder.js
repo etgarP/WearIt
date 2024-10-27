@@ -19,6 +19,7 @@ const getMyOrders = async (req, res) => {
         // returns them
         return res.status(200).json(orders);
     } catch (error) {
+        console.log(error)
         return res.status(500).json("Internal Server Error");
     }
 };
@@ -37,18 +38,32 @@ const purchaseOrder = async (req, res) => {
         // Retrieve the designer profile based on the order's username
         const profile = await designerProfileService.getProfile(order.designer);
 
+        // Find the matching specialization (case-insensitive)
+        const matchingSpecialization = profile.specialization.find(specialty =>
+            specialty.toLowerCase() === order.occasion.toLowerCase()
+        );
+
         // Validate profile and order details
-        if (!profile || profile.numberOfOutfits > 100 
-            || order.numberOfOutfits < 0 || !profile.specialization.includes(order.occasion)) {
+        if (!profile || profile.numberOfOutfits > 100
+            || order.numberOfOutfits < 0 || !matchingSpecialization) {
+            console.log(!matchingSpecialization, profile.specialization, order.occasion);
             return res.status(400).json("Invalid order details");
         }
+
+        // Update order occasion to the exact case found in the profile's specialization
+        order.occasion = matchingSpecialization;
 
         // Update order information with the decoded token's username
         order.username = decoded.username;
         order.status = 'pending';
+        console.log(order);
 
         // Save the order and check for success
         const savedOrder = await orderService.purchaseOrder(decoded.username, order);
+        if (!savedOrder) {
+            console.error("Order was not saved to MongoDB");
+            return res.status(500).json("Failed to save order");
+        }
 
         // Save an empty design linked to the saved order's ID
         const designResult = await designerService.saveDesign(savedOrder._id, []);
@@ -62,6 +77,7 @@ const purchaseOrder = async (req, res) => {
         return res.status(500).json("Internal Server Error");
     }
 };
+
 
 /*  
     input: review(designerUsername, number, review)
