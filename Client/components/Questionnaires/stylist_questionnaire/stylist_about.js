@@ -12,14 +12,16 @@ import { Colors } from "../../../constants/colors";
 import { styles } from "../QuestionnaireStyles";
 import { Strings } from "../../../constants/strings";
 
-export default function Others({
+export default function Stylist_About({
   navigation,
   setQuestionnaireData,
   questionnaireData,
 }) {
   const [fontSize, setFontSize] = useState(0);
   const [dimensions, setDimensions] = useState(Dimensions.get("window"));
-  const [other, setOther] = useState(questionnaireData.other || ""); // Initialize with existing data
+  const [stylistAbout, setStylistAbout] = useState(
+    questionnaireData.stylistAbout || ""
+  );
 
   useEffect(() => {
     const onChange = ({ window }) => {
@@ -48,32 +50,29 @@ export default function Others({
     const data = {
       info: {
         ...questionnaireData,
-        other: other, // Assuming 'other' is defined in your component
+        stylistAbout: stylistAbout,
         username: "john_doe7",
       },
     };
     console.log(data);
 
     try {
-      const response = await fetch(
-        "http://10.0.2.2:12345/api/client/matches/info",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvaG5fZG9lNyIsImlhdCI6MTcyODc3MTQwN30.l8NHS8FoYdopvJxpvIR6FKD-KCnGql0afG38aGp6A00",
-          },
-          body: JSON.stringify(data),
-        }
-      );
+      const response = await fetch("http://localhost:12345/api/designer/info", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvaG5fZG9lNyIsImlhdCI6MTcyODc3MTQwN30.l8NHS8FoYdopvJxpvIR6FKD-KCnGql0afG38aGp6A00",
+        },
+        body: JSON.stringify(data),
+      });
 
       // Check if the request was successful
       if (response.ok) {
         // Update questionnaireData with preferences
         setQuestionnaireData({
           ...questionnaireData,
-          other: other,
+          stylistAbout: stylistAbout,
         });
 
         // Navigate to the next screen
@@ -126,22 +125,26 @@ export default function Others({
       </View>
       <View style={styles.body}>
         <Text style={[styles.title, { fontSize: fontSize }]}>
-          {Strings.othersTitle}
+          {Strings.aboutTitle}
         </Text>
 
         {/* Label and Input for Preferences */}
-        <Text style={styles.label}>Preferences</Text>
+        <Text style={styles.label}>Bio</Text>
         <TextInput
           style={styles.input}
           placeholder="Enter your preferences"
-          value={other}
-          onChangeText={setOther} // Update state on text change
+          value={stylistAbout}
+          onChangeText={setStylistAbout} // Update state on text change
         />
       </View>
 
       <View style={styles.footer}>
         <View style={styles.backContainer}>
-          <TouchableOpacity onPress={() => navigation.navigate("Measurements")}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("QuestionnairePicture", { isClient: false })
+            }
+          >
             <Feather name="arrow-left" size={40} color="black" />
           </TouchableOpacity>
         </View>

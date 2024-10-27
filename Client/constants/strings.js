@@ -7,6 +7,7 @@ export const Strings = {
     stylistInfo: "Stylist Information",
     measurementTitle: "Measurements",
     othersTitle: "Others",
+    aboutTitle: "About",
     next: "Next",
     back: "Back",
 };
