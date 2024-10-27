@@ -12,7 +12,7 @@ import { Colors } from "../../../constants/colors";
 import { styles } from "../QuestionnaireStyles";
 import { Strings } from "../../../constants/strings";
 
-export default function Stylist_About({
+export default function StylistAbout({
   navigation,
   setQuestionnaireData,
   questionnaireData,
@@ -48,24 +48,29 @@ export default function Stylist_About({
   const handleNext = async () => {
     // Prepare data to be sent to the server
     const data = {
-      info: {
-        ...questionnaireData,
-        stylistAbout: stylistAbout,
-        username: "john_doe7",
-      },
+      name: questionnaireData.name,
+      gender: questionnaireData.gender,
+      city: questionnaireData.city,
+      religion: questionnaireData.religion,
+      age: questionnaireData.age,
+      specialization: questionnaireData.specialization,
+      username: "stylist123",
     };
     console.log(data);
 
     try {
-      const response = await fetch("http://localhost:12345/api/designer/info", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvaG5fZG9lNyIsImlhdCI6MTcyODc3MTQwN30.l8NHS8FoYdopvJxpvIR6FKD-KCnGql0afG38aGp6A00",
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        "http://192.168.1.162:12345/api/designer/info",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN0eWxpc3QxMjMiLCJpYXQiOjE3MzAwNDM4NDF9.f4eMfjwd3yPDUCI75Wu07MN9xzMzutVMECrVBZ2BhWI",
+          },
+          body: JSON.stringify(data),
+        }
+      );
 
       // Check if the request was successful
       if (response.ok) {

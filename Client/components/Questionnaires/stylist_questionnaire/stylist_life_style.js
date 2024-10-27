@@ -23,7 +23,9 @@ export default function StylistLifeStyle({
 
   const [city, setCity] = useState(questionnaireData.city || "");
   const [religion, setReligion] = useState(questionnaireData.religion || "");
-  const [expertise, setExpertise] = useState(questionnaireData.expertise || []);
+  const [specialization, setSpecialization] = useState(
+    questionnaireData.specialization || []
+  );
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
@@ -57,7 +59,7 @@ export default function StylistLifeStyle({
       Alert.alert("Validation Error", "Religion is required.");
       return false;
     }
-    if (expertise.length === 0) {
+    if (specialization.length === 0) {
       Alert.alert("Validation Error", "At least one expertise is required.");
       return false;
     }
@@ -70,14 +72,14 @@ export default function StylistLifeStyle({
         ...questionnaireData,
         city,
         religion,
-        expertise,
+        specialization,
       });
       navigation.navigate("QuestionnairePicture", { isClient: false });
     }
   };
 
   const toggleExpertise = (option) => {
-    setExpertise((prev) => {
+    setSpecialization((prev) => {
       if (prev.includes(option)) {
         return prev.filter((item) => item !== option);
       } else {
@@ -86,7 +88,7 @@ export default function StylistLifeStyle({
     });
   };
 
-  const expertiseOptions = [
+  const specializationOptions = [
     "Casual Wear",
     "Formal Wear",
     "Business Casual",
@@ -176,9 +178,9 @@ export default function StylistLifeStyle({
       <ExpertiseModal
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
-        expertise={expertise}
-        setExpertise={setExpertise}
-        expertiseOptions={expertiseOptions}
+        specialization={specialization}
+        setSpecialization={setSpecialization}
+        specializationOptions={specializationOptions}
       />
 
       <View style={styles.footer}>

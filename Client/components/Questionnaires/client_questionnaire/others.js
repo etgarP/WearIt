@@ -52,7 +52,6 @@ export default function Others({
         username: "john_doe7",
       },
     };
-    console.log(data);
 
     try {
       const response = await fetch(

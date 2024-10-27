@@ -6,12 +6,12 @@ import { styles } from "../QuestionnaireStyles"; // Adjust path as needed
 export default function ExpertiseModal({
   modalVisible,
   setModalVisible,
-  expertise,
-  setExpertise,
-  expertiseOptions,
+  specialization,
+  setSpecialization,
+  specializationOptions,
 }) {
   const toggleExpertise = (option) => {
-    setExpertise((prev) => {
+    setSpecialization((prev) => {
       if (prev.includes(option)) {
         return prev.filter((item) => item !== option);
       } else {
@@ -21,15 +21,15 @@ export default function ExpertiseModal({
   };
 
   // Render the list of expertise options
-  const renderExpertiseOptions = () => {
-    return expertiseOptions.map((option) => (
+  const renderSpecializationOptions = () => {
+    return specializationOptions.map((option) => (
       <List.Item
         key={option}
         title={option}
         style={{ margin: 0, padding: 0 }}
         right={() => (
           <Switch
-            value={expertise.includes(option)}
+            value={specialization.includes(option)}
             onValueChange={() => toggleExpertise(option)}
           />
         )}
@@ -47,7 +47,7 @@ export default function ExpertiseModal({
       <View style={styles.modalContainer}>
         <View style={styles.modalView}>
           <Text style={styles.modalTitle}>Select Expertise</Text>
-          <ScrollView>{renderExpertiseOptions()}</ScrollView>
+          <ScrollView>{renderSpecializationOptions()}</ScrollView>
           <TouchableOpacity
             style={styles.closeButton}
             onPress={() => setModalVisible(false)}

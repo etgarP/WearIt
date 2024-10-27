@@ -86,7 +86,6 @@ export default function Questionnaire_picture({
       );
     }
     // Navigate to the next screen with the image (if selected)
-    console.log(isClient);
     if (isClient) {
       navigation.navigate("Measurements");
     } else {

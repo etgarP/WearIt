@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
@@ -12,6 +12,7 @@ import Measurements from "./components/Questionnaires/client_questionnaire/measu
 import Others from "./components/Questionnaires/client_questionnaire/others";
 import StylistInfo from "./components/Questionnaires/stylist_questionnaire/stylist_info";
 import StylistLifeStyle from "./components/Questionnaires/stylist_questionnaire/stylist_life_style";
+import StylistAbout from "./components/Questionnaires/stylist_questionnaire/stylist_about";
 
 const Stack = createStackNavigator();
 
@@ -58,7 +59,7 @@ export default function App() {
     },
     other: "",
     price: null,
-    expertise: "",
+    specialization: "",
     stylistAbout: "",
   });
 
@@ -131,7 +132,7 @@ export default function App() {
         </Stack.Screen>
         <Stack.Screen name="stylistAbout">
           {(props) => (
-            <Others
+            <StylistAbout
               {...props}
               setQuestionnaireData={setQuestionnaireData}
               questionnaireData={questionnaireData}
