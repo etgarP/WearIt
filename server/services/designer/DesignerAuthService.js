@@ -11,7 +11,7 @@ const bcrypt = require('bcryptjs');
     its the same as the one in the database and returns the user
 */
 const authenticate = async (username, password) => {
-    const user = await DesignerLoginInfo.findOne({ username, isDesigner: true });
+    const user = await DesignerLoginInfo.findOne({ username });
     if (user && await bcrypt.compare(password, user.password)) {
         return user;
     }
@@ -62,7 +62,7 @@ const createDesigner = async (username, password) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Save the login info
-    const loginInfo = new DesignerLoginInfo({ username, password: hashedPassword, isDesigner: true });
+    const loginInfo = new DesignerLoginInfo({ username, password: hashedPassword });
     await loginInfo.save();
 
     // Set default info and profile
