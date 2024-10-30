@@ -7,7 +7,7 @@ import { Avatar, Badge } from "react-native-paper";
 import axios from "axios";
 import ClientsOrders from "../clientsOrdersComponent/clientsOrders";
 
-export default function DesignerHome({ navigation, setProfile }) {
+export default function DesignerHome({ navigation }) {
   const [clientOrders, setClientOrders] = useState({});
   const [pendingOrdersCount, setPendingOrdersCount] = useState(0); // State for pending orders count
   const {
@@ -51,34 +51,16 @@ export default function DesignerHome({ navigation, setProfile }) {
     }
   };
 
-  const getProfile = async () => {
-    try {
-      const response = await axios.get(
-        "http://192.168.1.162:12345/api/designer/profile",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      const data = response.data;
-      // Set the designer profile
-      setProfile(data);
-      setAlertShown(false);
-    } catch (error) {
-      setAlertShown(true);
-    } finally {
-      setLoading(false);
-    }
-  };
+  
 
   const fetchData = async () => {
     setLoading(true);
     await clientsOrdersRequest();
-    await getProfile();
   };
 
   useEffect(() => {
     fetchData();
-  }, [token]);
+  }, []);
 
   const onRetry = () => {
     fetchData();

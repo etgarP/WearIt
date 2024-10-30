@@ -2,13 +2,11 @@ import React, { useEffect, useContext } from "react";
 import { BottomNavigation, Appbar, IconButton } from "react-native-paper";
 import DesignerHome from "../homeScreen/designerHome";
 import ClientsOrders from "../clientsOrdersComponent/clientsOrders";
-import DesignerPage from "../../designerPage";
 import { DesingerObjectContext } from "./designerObjectProvider";
+import GetProfile from "../designerProfile/getProfile";
 
 export default function DesignerBottomNav({ route, navigation }) {
   const [index, setIndex] = React.useState(0);
-  const { profile, setProfile } = useContext(DesingerObjectContext);
-
   const [routes] = React.useState([
     {
       key: "home",
@@ -38,10 +36,8 @@ export default function DesignerBottomNav({ route, navigation }) {
   }, [route.params]);
 
   const renderScene = BottomNavigation.SceneMap({
-    home: () => (
-      <DesignerHome navigation={navigation} setProfile={setProfile} />
-    ),
-    profile: () => <DesignerPage navigation={navigation} profile={profile}/>,
+    home: () => <DesignerHome navigation={navigation} />,
+    profile: () => <GetProfile navigation={navigation} />,
     pending: () => <ClientsOrders status={"pending"} />,
   });
 
