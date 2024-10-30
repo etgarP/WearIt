@@ -1,10 +1,14 @@
-import React, { useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { BottomNavigation, Appbar, IconButton } from "react-native-paper";
 import DesignerHome from "../homeScreen/designerHome";
+import ClientsOrders from "../clientsOrdersComponent/clientsOrders";
+import DesignerPage from "../../designerPage";
+import { DesingerObjectContext } from "./designerObjectProvider";
 
-export default function DesignerBottomNav({ navigation }) {
-  // const { setProfilePage } = useContext(ClientObjectContext);
+export default function DesignerBottomNav({ route, navigation }) {
   const [index, setIndex] = React.useState(0);
+  const { profile, setProfile } = useContext(DesingerObjectContext);
+
   const [routes] = React.useState([
     {
       key: "home",
@@ -13,25 +17,36 @@ export default function DesignerBottomNav({ navigation }) {
       unfocusedIcon: "home-outline",
     },
     {
-      key: "groupMatch",
-      title: "Group Match",
-      focusedIcon: "account-group",
-      unfocusedIcon: "account-group-outline",
+      key: "profile",
+      title: "Profile",
+      focusedIcon: "face-man-shimmer",
+      unfocusedIcon: "face-man-shimmer-outline",
     },
-    // { key: 'orders', title: 'Orders', focusedIcon: 'shopping', unfocusedIcon: 'shopping-outline' },
-    // { key: 'design', title: 'Design', focusedIcon: 'palette', unfocusedIcon: 'palette-outline' },
+    {
+      key: "pending",
+      title: "Pending",
+      focusedIcon: "dots-horizontal-circle",
+      unfocusedIcon: "dots-horizontal-circle-outline",
+    },
   ]);
 
+  // Set index based on navigation params if available
+  useEffect(() => {
+    if (route.params?.initialTab === "pending") {
+      setIndex(2); // Set to "Pending" tab if passed in navigation params
+    }
+  }, [route.params]);
+
   const renderScene = BottomNavigation.SceneMap({
-    home: () => <DesignerHome />,
-    groupMatch: () => <DesignerHome />,
-    // orders: OrdersRoute,
-    // design: () => <FinishedDesigns navigation={navigation} />,
+    home: () => (
+      <DesignerHome navigation={navigation} setProfile={setProfile} />
+    ),
+    profile: () => <DesignerPage navigation={navigation} profile={profile}/>,
+    pending: () => <ClientsOrders status={"pending"} />,
   });
 
   return (
     <>
-      {/* Update the Appbar title dynamically based on the selected route */}
       <Appbar.Header mode="center-aligned">
         <Appbar.Content title={routes[index].title} />
         <IconButton icon="account" size={24} onPress={() => {}} />

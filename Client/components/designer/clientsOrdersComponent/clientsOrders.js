@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View } from "react-native";
 import RefreshErrorPage from "../../Client/refreshErrorPage";
 import { AppObjectContext } from "../../appNavigation/appObjectProvider";
 import LoadingPage from "../../Client/loadingPage";
-import { Avatar, Badge } from "react-native-paper";
+import { Avatar, List, Divider } from "react-native-paper";
 import axios from "axios";
-import ClientsOrders from "../clientsOrdersComponent/clientsOrders";
 
-export default function DesignerHome({ navigation, setProfile }) {
+export default function ClientsOrders({ status }) {
   const [clientOrders, setClientOrders] = useState({});
   const [pendingOrdersCount, setPendingOrdersCount] = useState(0); // State for pending orders count
   const {
@@ -16,7 +15,8 @@ export default function DesignerHome({ navigation, setProfile }) {
   const [alertShown, setAlertShown] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const clientsOrdersRequest = async () => {
+  const fetchData = async () => {
+    setLoading(true);
     try {
       const response = await axios.get(
         "http://192.168.1.162:12345/api/designer/orders/",
@@ -32,7 +32,7 @@ export default function DesignerHome({ navigation, setProfile }) {
 
       // Process data to group only accepted orders by username
       const groupedOrders = data.reduce((acc, order) => {
-        if (order.status === "accepted") {
+        if (order.status === status) {
           if (!acc[order.username]) {
             acc[order.username] = { count: 0, orders: [] };
           }
@@ -51,34 +51,9 @@ export default function DesignerHome({ navigation, setProfile }) {
     }
   };
 
-  const getProfile = async () => {
-    try {
-      const response = await axios.get(
-        "http://192.168.1.162:12345/api/designer/profile",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      const data = response.data;
-      // Set the designer profile
-      setProfile(data);
-      setAlertShown(false);
-    } catch (error) {
-      setAlertShown(true);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchData = async () => {
-    setLoading(true);
-    await clientsOrdersRequest();
-    await getProfile();
-  };
-
   useEffect(() => {
     fetchData();
-  }, [token]);
+  }, []);
 
   const onRetry = () => {
     fetchData();
@@ -94,24 +69,23 @@ export default function DesignerHome({ navigation, setProfile }) {
 
   return (
     <View style={styles.container}>
-      {/* Order Requests section with pending orders count */}
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate("HomeClient", { initialTab: "pending" });
-        }}
-      >
-        <View style={styles.orderRequests}>
-          <Avatar.Image
-            size={50}
-            source={{ uri: "https://example.com/user-photo.png" }}
-          />
-          <Badge style={styles.badge}>{pendingOrdersCount}</Badge>
-          <Text style={styles.orderText}>Order Requests</Text>
-        </View>
-      </TouchableOpacity>
-
-      <Text style={styles.clientsText}>My clients</Text>
-      <ClientsOrders status={"accepted"}></ClientsOrders>
+      <View style={styles.clientList}>
+        {Object.keys(clientOrders).map((username, index) => (
+          <React.Fragment key={index}>
+            <List.Item
+              title={username}
+              left={() => (
+                <Avatar.Image
+                  size={50}
+                  source={{ uri: "https://example.com/designer-image.jpg" }} // Replace with real image
+                />
+              )}
+              descriptionStyle={styles.orderRequests}
+            />
+            <Divider />
+          </React.Fragment>
+        ))}
+      </View>
     </View>
   );
 }
