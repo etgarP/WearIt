@@ -5,7 +5,7 @@ import DesignerBottomNav from "./designerbottomNavigation";
 import ClientOrderDetails from "../ClientOrderDetails";
 import MixAndMatch from "../../designScreen/mix&match";
 import DesignInfo from "../../designScreen/designInfo";
-import ChooseOutfit from "../../designScreen/chooseOutfit";
+import ManageOrder from "../manageOrder";
 import AILoadingScreen from "../../designScreen/AILoadingScreen";
 
 const Stack = createNativeStackNavigator();
@@ -30,8 +30,8 @@ export const DesignerNavigator = () => {
         <Stack.Screen name="mixAndMatch">
           {(props) => <MixAndMatch {...props} />}
         </Stack.Screen>
-        <Stack.Screen name="ChooseOutfit">
-          {(props) => <ChooseOutfit {...props} />}
+        <Stack.Screen name="ManageOrder">
+          {(props) => <ManageOrder {...props} />}
         </Stack.Screen>
         <Stack.Screen name="AILoadingScreen">
           {(props) => <AILoadingScreen {...props} />}

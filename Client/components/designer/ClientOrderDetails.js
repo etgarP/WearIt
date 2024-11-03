@@ -71,7 +71,7 @@ const ClientOrderDetails = ({ navigation, route }) => {
   };
 
   const handleMixAndMatch = () => {
-    navigation.navigate("ChooseOutfit");
+    navigation.navigate("ManageOrder");
   };
 
   if (!clientData) {
