@@ -19,7 +19,7 @@ const ChooseOutfit = ({ navigation }) => {
         <View style={styles.container}>
             {/* Top Appbar */}
             <Appbar.Header>
-                <Appbar.BackAction onPress={() => { }} />
+                <Appbar.BackAction onPress={() => { navigation.goBack()}} />
                 <Appbar.Content title="Add to Mix & Match" />
             </Appbar.Header>
 

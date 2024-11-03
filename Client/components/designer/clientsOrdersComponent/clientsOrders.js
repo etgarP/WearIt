@@ -5,7 +5,7 @@ import { AppObjectContext } from "../../appNavigation/appObjectProvider";
 import LoadingPage from "../../Client/loadingPage";
 import { Avatar, List, Divider } from "react-native-paper";
 import axios from "axios";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
 export default function ClientsOrders({ status }) {
   const [clientOrders, setClientOrders] = useState({});
@@ -50,9 +50,12 @@ export default function ClientsOrders({ status }) {
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // Use useFocusEffect to refresh data on screen focus
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchData();
+    }, [token, status]) // Add dependencies to re-fetch data when they change
+  );
 
   const onRetry = () => {
     fetchData();
@@ -88,7 +91,7 @@ export default function ClientsOrders({ status }) {
                 title={`Order ${order._id.substring(0, 6)}...`} // Shorten ID for display
                 description={`Outfits: ${order.numberOfOutfits}, Occasion: ${order.occasion}`}
                 onPress={() =>
-                  navigation.navigate("ApproveOrDenyClient", {
+                  navigation.navigate("ClientOrderDetails", {
                     type: "approve", // Assuming you want to navigate for approval here
                     order: order,
                   })

@@ -43,7 +43,11 @@ const ClientOrderDetails = ({ navigation, route }) => {
       );
       if (response.status === 200) {
         Alert.alert("Success", "Order approved successfully.");
-        navigation.navigate("HomeScreen");
+
+        // Instead of passing navigation, just use it directly
+        navigation.replace(route.name, {
+          order: { ...order, status: "accepted" },
+        });
       }
     } catch (error) {
       Alert.alert("Error", "Failed to approve the order.");
@@ -53,7 +57,7 @@ const ClientOrderDetails = ({ navigation, route }) => {
   const handleDeny = async () => {
     try {
       const response = await axios.post(
-        `http://192.168.1.162:12345/api/designer/orders/acc/6657745c78671858be54d4d9`,
+        `http://192.168.1.162:12345/api/designer/orders/acc/${order._id}`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -67,7 +71,7 @@ const ClientOrderDetails = ({ navigation, route }) => {
   };
 
   const handleMixAndMatch = () => {
-    navigation.navigate("mixAndMatch", { orderId: order._id });
+    navigation.navigate("ChooseOutfit");
   };
 
   if (!clientData) {

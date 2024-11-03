@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native"; // Import ScrollView
 import RefreshErrorPage from "../../Client/refreshErrorPage";
 import { AppObjectContext } from "../../appNavigation/appObjectProvider";
 import LoadingPage from "../../Client/loadingPage";
@@ -51,8 +57,6 @@ export default function DesignerHome({ navigation }) {
     }
   };
 
-  
-
   const fetchData = async () => {
     setLoading(true);
     await clientsOrdersRequest();
@@ -93,7 +97,10 @@ export default function DesignerHome({ navigation }) {
       </TouchableOpacity>
 
       <Text style={styles.clientsText}>My clients</Text>
-      <ClientsOrders status={"accepted"}></ClientsOrders>
+      {/* Use ScrollView to allow scrolling through the ClientsOrders */}
+      <ScrollView style={styles.scrollView}>
+        <ClientsOrders status={"accepted"} />
+      </ScrollView>
     </View>
   );
 }
@@ -103,15 +110,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     backgroundColor: "#fff",
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
   },
   orderRequests: {
     flexDirection: "row",
@@ -134,17 +132,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 24,
   },
-  clientList: {
-    marginTop: 16,
-  },
-  clientItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginVertical: 8,
-    position: "relative",
-  },
-  clientName: {
-    fontSize: 16,
-    marginLeft: 12,
+  scrollView: {
+    marginTop: 16, // Add some margin for spacing
   },
 });
