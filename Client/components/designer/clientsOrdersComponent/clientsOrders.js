@@ -5,15 +5,17 @@ import { AppObjectContext } from "../../appNavigation/appObjectProvider";
 import LoadingPage from "../../Client/loadingPage";
 import { Avatar, List, Divider } from "react-native-paper";
 import axios from "axios";
+import { useNavigation } from "@react-navigation/native";
 
 export default function ClientsOrders({ status }) {
   const [clientOrders, setClientOrders] = useState({});
-  const [pendingOrdersCount, setPendingOrdersCount] = useState(0); // State for pending orders count
+  const [pendingOrdersCount, setPendingOrdersCount] = useState(0);
   const {
     userDetails: { token },
   } = useContext(AppObjectContext);
   const [alertShown, setAlertShown] = useState(false);
   const [loading, setLoading] = useState(true);
+  const navigation = useNavigation();
 
   const fetchData = async () => {
     setLoading(true);
@@ -26,18 +28,15 @@ export default function ClientsOrders({ status }) {
       );
       const data = response.data;
 
-      // Calculate the number of pending orders
       const pendingOrders = data.filter((order) => order.status === "pending");
       setPendingOrdersCount(pendingOrders.length);
 
-      // Process data to group only accepted orders by username
       const groupedOrders = data.reduce((acc, order) => {
         if (order.status === status) {
           if (!acc[order.username]) {
-            acc[order.username] = { count: 0, orders: [] };
+            acc[order.username] = [];
           }
-          acc[order.username].count += 1;
-          acc[order.username].orders.push(order);
+          acc[order.username].push(order); // Group orders by username
         }
         return acc;
       }, {});
@@ -71,19 +70,33 @@ export default function ClientsOrders({ status }) {
     <View style={styles.container}>
       <View style={styles.clientList}>
         {Object.keys(clientOrders).map((username, index) => (
-          <React.Fragment key={index}>
+          <View key={index}>
             <List.Item
               title={username}
               left={() => (
                 <Avatar.Image
                   size={50}
-                  source={{ uri: "https://example.com/designer-image.jpg" }} // Replace with real image
+                  source={{ uri: "https://example.com/designer-image.jpg" }}
                 />
               )}
               descriptionStyle={styles.orderRequests}
             />
             <Divider />
-          </React.Fragment>
+            {clientOrders[username].map((order) => (
+              <List.Item
+                key={order._id}
+                title={`Order ${order._id.substring(0, 6)}...`} // Shorten ID for display
+                description={`Outfits: ${order.numberOfOutfits}, Occasion: ${order.occasion}`}
+                onPress={() =>
+                  navigation.navigate("ClientScreen", {
+                    type: "approve", // Assuming you want to navigate for approval here
+                    orderId: order._id,
+                  })
+                }
+                right={() => <List.Icon icon="chevron-right" />}
+              />
+            ))}
+          </View>
         ))}
       </View>
     </View>
@@ -96,47 +109,13 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: "#fff",
   },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
+  clientList: {
+    marginTop: 16,
   },
   orderRequests: {
     flexDirection: "row",
     alignItems: "center",
     marginTop: 16,
     position: "relative",
-  },
-  badge: {
-    position: "absolute",
-    top: -4,
-    left: 36,
-    backgroundColor: "red",
-  },
-  orderText: {
-    fontSize: 16,
-    marginLeft: 8,
-  },
-  clientsText: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginTop: 24,
-  },
-  clientList: {
-    marginTop: 16,
-  },
-  clientItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginVertical: 8,
-    position: "relative",
-  },
-  clientName: {
-    fontSize: 16,
-    marginLeft: 12,
   },
 });

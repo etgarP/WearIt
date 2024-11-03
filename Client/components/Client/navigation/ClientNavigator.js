@@ -33,7 +33,9 @@ export const ClientNavigator = () => {
           {(props) => <BottomNav {...props} userDetails={userDetails} />}
         </Stack.Screen>
         <Stack.Screen name="ProfileDetails">
-          {(props) => <DesignerPage {...props} userDetails={userDetails} />}
+          {(props) => (
+            <DesignerPage {...props} userDetails={userDetails} isDesigner={false}/>
+          )}
         </Stack.Screen>
         {/* Design screens */}
         <Stack.Screen name="DesignInfo">

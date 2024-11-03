@@ -1,9 +1,9 @@
 import { AppObjectContext } from "../../appNavigation/appObjectProvider";
 import LoadingPage from "../../Client/loadingPage";
 import RefreshErrorPage from "../../Client/refreshErrorPage";
-import DesignerPage from "../../designerPage";
 import React, { useEffect, useContext, useState } from "react";
 import axios from "axios";
+import DesignerProfile from "./designerProfile";
 
 export default function GetProfile({ navigation }) {
   const {
@@ -52,6 +52,10 @@ export default function GetProfile({ navigation }) {
   }
 
   return (
-    <DesignerPage navigation={navigation} profile={profileData}></DesignerPage>
+    <DesignerProfile
+      navigation={navigation}
+      profile={profileData}
+      isDesigner={true}
+    ></DesignerProfile>
   );
 }

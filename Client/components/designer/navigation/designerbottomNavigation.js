@@ -2,7 +2,6 @@ import React, { useEffect, useContext } from "react";
 import { BottomNavigation, Appbar, IconButton } from "react-native-paper";
 import DesignerHome from "../homeScreen/designerHome";
 import ClientsOrders from "../clientsOrdersComponent/clientsOrders";
-import { DesingerObjectContext } from "./designerObjectProvider";
 import GetProfile from "../designerProfile/getProfile";
 
 export default function DesignerBottomNav({ route, navigation }) {
@@ -41,12 +40,16 @@ export default function DesignerBottomNav({ route, navigation }) {
     pending: () => <ClientsOrders status={"pending"} />,
   });
 
+  const showAppBarDetails = routes[index].key !== "profile"; // Hide title for "home" tab
+  
   return (
     <>
-      <Appbar.Header mode="center-aligned">
-        <Appbar.Content title={routes[index].title} />
-        <IconButton icon="account" size={24} onPress={() => {}} />
-      </Appbar.Header>
+      {showAppBarDetails && (
+        <Appbar.Header mode="center-aligned">
+          <Appbar.Content title={routes[index].title} />
+          <IconButton icon="account" size={24} onPress={() => {}} />
+        </Appbar.Header>
+      )}
 
       <BottomNavigation
         navigationState={{ index, routes }}
