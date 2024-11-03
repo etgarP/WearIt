@@ -1,8 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef } from 'react';
 import { BottomNavigation, Appbar } from 'react-native-paper';
-import MatchRoute from '../matchScreen/homeScreen';
+import MatchRoute from '../matchScreen/HomeScreen';
 import OrdersRoutePre from '../orderScreen/orderPagePre';
 import { ClientObjectContext } from './ClientObjectProvider';
+import Sheet from '../../sheet';
+
+
 
 export default function BottomNav({ navigation }) {
     const { setProfilePage } = useContext(ClientObjectContext);
@@ -21,18 +24,27 @@ export default function BottomNav({ navigation }) {
         design: () => <OrdersRoutePre navigation={navigation} isDesign={true} />,
     });
 
+    const sheetRef = useRef(null);
+
+    const openBottomSheet = () => {
+        sheetRef.current?.openSheet();
+    };
+
     return (
         <>
-            {/* Update the Appbar title dynamically based on the selected route */}
-            <Appbar.Header mode="center-aligned">
-                <Appbar.Content title={routes[index].title} />
-            </Appbar.Header>
-
-            <BottomNavigation
-                navigationState={{ index, routes }}
-                onIndexChange={setIndex}
-                renderScene={renderScene}
-            />
+            
+            <Sheet ref={sheetRef}>
+                <Appbar.Header mode="center-aligned">
+                    <Appbar.Content title={routes[index].title} />
+                    <Appbar.Action icon='dots-vertical' onPress={openBottomSheet} />
+                </Appbar.Header>
+                {/* Update the Appbar title dynamically based on the selected route */}
+                <BottomNavigation
+                    navigationState={{ index, routes }}
+                    onIndexChange={setIndex}
+                    renderScene={renderScene}
+                />
+            </Sheet>
         </>
     );
 }
