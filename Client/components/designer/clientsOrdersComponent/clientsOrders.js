@@ -88,9 +88,9 @@ export default function ClientsOrders({ status }) {
                 title={`Order ${order._id.substring(0, 6)}...`} // Shorten ID for display
                 description={`Outfits: ${order.numberOfOutfits}, Occasion: ${order.occasion}`}
                 onPress={() =>
-                  navigation.navigate("ClientScreen", {
+                  navigation.navigate("ApproveOrDenyClient", {
                     type: "approve", // Assuming you want to navigate for approval here
-                    orderId: order._id,
+                    order: order,
                   })
                 }
                 right={() => <List.Icon icon="chevron-right" />}
