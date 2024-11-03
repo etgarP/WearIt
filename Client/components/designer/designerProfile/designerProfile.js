@@ -12,6 +12,7 @@ const DesignerProfile = ({ navigation, profile, isDesigner }) => {
     reviews.length > 0
       ? reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length
       : "No reviews yet";
+
   return (
     <View style={styles.container}>
       <View style={styles.appbar}>

@@ -7,8 +7,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Appbar, IconButton } from "react-native-paper";
-import { ClientObjectContext } from "../navigation/ClientObjectProvider";
-import { clothes } from "../../../data/design";
+import { ClientObjectContext } from "../Client/navigation/ClientObjectProvider";
+import { clothes } from "../../data/design";
 
 const MixAndMatch = ({ navigation }) => {
   const design = clothes;

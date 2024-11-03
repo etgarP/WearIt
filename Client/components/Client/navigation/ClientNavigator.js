@@ -8,10 +8,10 @@ import {
   ClientObjectContext,
   ClientObjectProvider,
 } from "./ClientObjectProvider";
-import DesignInfo from "../designScreen/designInfo";
-import MixAndMatch from "../designScreen/mix&match";
-import AILoadingScreen from "../designScreen/AILoadingScreen";
-import ChooseOutfit from "../designScreen/chooseOutfit";
+import DesignInfo from "../../designScreen/designInfo";
+import MixAndMatch from "../../designScreen/mix&match";
+import AILoadingScreen from "../../designScreen/AILoadingScreen";
+import ChooseOutfit from "../../designScreen/chooseOutfit";
 import { AppObjectContext } from "../../appNavigation/appObjectProvider";
 
 const Stack = createNativeStackNavigator();
@@ -34,7 +34,11 @@ export const ClientNavigator = () => {
         </Stack.Screen>
         <Stack.Screen name="ProfileDetails">
           {(props) => (
-            <DesignerPage {...props} userDetails={userDetails} isDesigner={false}/>
+            <DesignerPage
+              {...props}
+              userDetails={userDetails}
+              isDesigner={false}
+            />
           )}
         </Stack.Screen>
         {/* Design screens */}

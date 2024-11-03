@@ -3,10 +3,10 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { DesignerObjectProvider } from "./designerObjectProvider";
 import DesignerBottomNav from "./designerbottomNavigation";
 import ClientOrderDetails from "../ClientOrderDetails";
-import MixAndMatch from "../../Client/designScreen/mix&match";
-import DesignInfo from "../../Client/designScreen/designInfo";
-import ChooseOutfit from "../../Client/designScreen/chooseOutfit";
-import AILoadingScreen from "../../Client/designScreen/AILoadingScreen";
+import MixAndMatch from "../../designScreen/mix&match";
+import DesignInfo from "../../designScreen/designInfo";
+import ChooseOutfit from "../../designScreen/chooseOutfit";
+import AILoadingScreen from "../../designScreen/AILoadingScreen";
 
 const Stack = createNativeStackNavigator();
 
