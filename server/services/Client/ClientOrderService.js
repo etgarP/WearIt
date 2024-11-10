@@ -32,7 +32,6 @@ const purchaseOrder = async (username, order) => {
         console.log("Saved Order:", savedOrder);  // Check if order is saved
         return savedOrder;
     } catch (error) {
-        console.error("Error saving order to MongoDB:", error);  // Log any errors
         return null;  // Return null if there's an error
     }
 };
@@ -42,12 +41,25 @@ const purchaseOrder = async (username, order) => {
     output: all the designs for the client
     save the current design
 */
-const getClientDesigns = async (username) => {
-    return await Design.find().populate({
-        path: 'orderId',
-        match: { username: username, status: 'finished' },
-    }); 
-}
+const getDesign = async (orderId, username) => {
+    // First find the order and check ownership
+    const order = await Order.findOne({
+        _id: orderId,
+        username: username
+    });
+
+    if (!order) {
+        throw new Error('Order not found or unauthorized access');
+    }
+
+    // Once verified, get the design
+    const design = await Design.findOne({ orderId });
+    if (!design) {
+        throw new Error('Design not found');
+    }
+
+    return design;
+};
 
 /*  
     input: review
@@ -71,4 +83,4 @@ const addReview = async (username, reviewData) => {
     );
 };
 
-module.exports = { orderIsFinished, addReview, getClientOrders, purchaseOrder, getClientDesigns };
+module.exports = { orderIsFinished, addReview, getClientOrders, purchaseOrder, getDesign };

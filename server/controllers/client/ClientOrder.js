@@ -104,15 +104,16 @@ const addReview = async (req, res) => {
     input: jsonwebtoken
     output: all finished order designs
 */
-const getDesigns = async (req, res) => {
+const getDesign = async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, secretToken);
-        const designs = await orderService.getClientDesigns(decoded.username);
+        const orderId = req.headers.orderId
+        const designs = await orderService.getDesign(orderId, decoded.username);
         return res.status(200).json(designs);
     } catch (error) {
         return res.status(500).json("Internal Server Error");
     }
 };
 
-module.exports = { getMyOrders, purchaseOrder, addReview, getDesigns };
+module.exports = { getMyOrders, purchaseOrder, addReview, getDesign };

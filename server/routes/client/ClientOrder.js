@@ -7,7 +7,7 @@ router.route('/')
     .post(ClientOrderController.purchaseOrder);
 
 router.route('/design')
-    .get(ClientOrderController.getDesigns);
+    .get(ClientOrderController.getDesign);
 
 router.route('/review')
     .post(ClientOrderController.addReview);
