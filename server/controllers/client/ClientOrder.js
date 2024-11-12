@@ -66,7 +66,7 @@ const purchaseOrder = async (req, res) => {
         }
 
         // Save an empty design linked to the saved order's ID
-        const designResult = await designerService.saveDesign(savedOrder._id, []);
+        const designResult = await designerService.newDesign(savedOrder._id, []);
         if (!designResult) {
             return res.status(500).json("Failed to create design");
         }

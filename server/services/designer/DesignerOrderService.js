@@ -1,6 +1,7 @@
 const Order = require('../../models/Order');
 const Design = require('../../models/desinger/Design');
 const ClientInfo = require('../../models/client/ClientInfo');
+const path = require('path');
 
 /*  
     input: username
@@ -27,13 +28,12 @@ const getOrderDetails = async (orderId) => {
     output: None.
     saves order as in diferent status
 */
-const sendOrder = async (orderId, design, status) => {
+const sendOrder = async (orderId) => {
     const order = await Order.findById(orderId);
+    console.log(order)
     if (order) {
-        if (order.status == 'finished') return false
-        order.status = status;
+        order.status = 'finished';
         await order.save();
-        await saveDesign(orderId, design.urls)
         return true
     }
     return false
@@ -55,6 +55,29 @@ const acceptOrder = async (orderId) => {
     return false
 };
 
+/*  
+    input: design
+    output: None
+    save the current design
+*/
+const newDesign = async (orderId) => {
+    const order = await Order.findById(orderId);
+    if (!order) {
+        console.log('Order not found')
+        throw new Error('Order not found');
+    }
+    if (order.status !== 'finished') {
+        await Design.findOneAndUpdate(
+            { orderId },
+            { orderId, items: [] }, // new: true returns the updated document and set, upsert inserts if not there
+            { new: true, upsert: true, setDefaultsOnInsert: true }
+        );
+        return true
+    }
+    return false
+};
+
+
 
 /*  
     input: order id
@@ -71,60 +94,43 @@ const rejectOrder = async (orderId) => {
     return false
 };
 
+
 /*  
-    input: design
-    output: None
-    save the current design
+    input: username, orderId
+    output: if the username is the client in that order
 */
-const saveDesign = async (orderId, urls) => {
-    const order = await Order.findById(orderId);
-    if (!order) {
-        console.log('Order not found')
-        throw new Error('Order not found');
-    }
-    if (order.status !== 'finished') {
-        await Design.findOneAndUpdate(
-            { orderId },
-            { orderId, urls }, // new: true returns the updated document and set, upsert inserts if not there
-            { new: true, upsert: true, setDefaultsOnInsert: true }
-        );
-        return true
-    }
-    return false
+const isDesignerInOrder = async (orderId, designer) => {
+    console.log(orderId, designer)
+    // First find the order and check ownership
+    const order = await Order.findOne({
+        _id: orderId,
+        designer: designer
+    });
+
+    return order != null
 };
 
-const addDesignEntry = async (username, orderId, newUrl) => {
-    if (!isClientInOrder(orderId, username)) {
-        throw new Error('Order not found or unauthorized access');
-    }
-
+const addDesignEntry = async ( orderId, newUrl) => {
     // Find the existing design document
     const design = await Design.findOne({ orderId });
     if (!design) {
         throw new Error('Design not found for the given orderId');
     }
-
     // Create the new design entry
     const newDesignEntry = {
         url: newUrl,
         imageOfCloth: path.join(__dirname, "cloth.png"),
-        imageOfWornCloth: path.join(__dirname, 'worn.png'),
         typeOfCloth: 'shirt' // Default type, can be modified as needed
     };
-
     // Add the new entry to the items array
     design.items.push(newDesignEntry);
-
     // Save the updated design document
     const updatedDesign = await design.save();
     console.log("New Design Entry Added:", updatedDesign); // Check if new entry is added
     return updatedDesign;
 };
 
-const removeDesignEntry = async (username, orderId, urlToRemove) => {
-    if (!isClientInOrder(orderId, username)) {
-        throw new Error('Order not found or unauthorized access');
-    }
+const removeDesignEntry = async (orderId, urlToRemove) => {
 
     // Find the existing design document
     const design = await Design.findOne({ orderId });
@@ -150,4 +156,4 @@ const removeDesignEntry = async (username, orderId, urlToRemove) => {
 };
 
 
-module.exports = { getOrders, removeDesignEntry, addDesignEntry, getOrderDetails, acceptOrder, rejectOrder, sendOrder, saveDesign };
+module.exports = { getOrders, removeDesignEntry, newDesign, addDesignEntry, isDesignerInOrder, getOrderDetails, acceptOrder, rejectOrder, sendOrder };

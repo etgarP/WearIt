@@ -4,8 +4,8 @@ const { Schema } = mongoose;
 // Define the schema for each design entry
 const DesignEntrySchema = new Schema({
     url: { type: String, required: true },
-    imageOfCloth: { type: String, required: true },
-    imageOfWornCloth: { type: String, required: true },
+    imageOfCloth: { type: String },
+    imageOfWornCloth: { type: String },
     typeOfCloth: {
         type: String,
         required: true,

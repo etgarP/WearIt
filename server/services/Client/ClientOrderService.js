@@ -26,9 +26,9 @@ const orderIsFinished = async (username, designer) => {
     adds the order to the database
 */
 const purchaseOrder = async (username, order) => {
-    image = getClientImage(username)
+    image = await getClientImage(username)
     // Add the client's image to the order
-    const newOrder = new Order({ ...order, username, clientImage: clientInfo.image });
+    const newOrder = new Order({ ...order, username, clientImage: image });
 
     // Save the order to the database
     const savedOrder = await newOrder.save();
@@ -110,7 +110,6 @@ const tryOn = async (username, orderId, url) => {
     // Check if an entry with the same URL already exists and update it
     const existingEntry = design.items.find(item => item.url === url);
     if (existingEntry) {
-        existingEntry.imageOfCloth = path.join(__dirname, "cloth.png");
         existingEntry.imageOfWornCloth = path.join(__dirname, 'worn.png');
         existingEntry.typeOfCloth = 'shirt'; // Default type, can be modified as needed
     } 

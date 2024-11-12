@@ -63,6 +63,7 @@ const createDesigner = async (username, password) => {
 
     // Save the login info
     const loginInfo = new DesignerLoginInfo({ username, password: hashedPassword });
+    console.log(username)
     await loginInfo.save();
 
     // Set default info and profile

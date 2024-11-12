@@ -32,18 +32,6 @@ const signUpDesigner = async (req, res) => {
     try {
         const { username, password } = req.body;
 
-        // // Check for required fields in designerInfo
-        // if (!designerInfo.name || !designerInfo.gender || !designerInfo.city || !designerInfo.age) {
-        //     return res.status(400).json("Missing required designer information");
-        // }
-
-        // // Check for required fields in profileInfo
-        // if (!profileInfo.name || !profileInfo.image || !profileInfo.specialization) {
-        //     return res.status(400).json("Missing required profile information");
-        // }
-        // designerInfo.username = username
-        // profileInfo.username = username
-
         await designerService.createDesigner(username, password);
         return res.status(201).json("Designer created successfully");
     } catch (error) {

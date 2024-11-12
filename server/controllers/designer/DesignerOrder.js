@@ -24,9 +24,8 @@ const getOrders = async (req, res) => {
 */
 const manageOrder = async (req, res) => {
     try {
-        const token = req.headers.authorization.split(' ')[1];
-        const decoded = jwt.verify(token, secretToken);
         const { orderId } = req.params;
+        checkInOrder(req, orderId)
         const { clientInfo, design } = await designerService.getOrderDetails(orderId);
         return res.status(200).json({ clientInfo, design });
     } catch (error) {
@@ -35,6 +34,14 @@ const manageOrder = async (req, res) => {
     }
 };
 
+const checkInOrder = (req, orderId) => {
+    const token = req.headers.authorization.split(' ')[1];
+    username = jwt.verify(token, secretToken).username;
+    if (!designerService.isDesignerInOrder(orderId, username)) {
+        throw new Error('Order not found or unauthorized access');
+    }
+}
+
 /*  
     input: Design
     output: None
@@ -42,36 +49,16 @@ const manageOrder = async (req, res) => {
 */
 const sendOrder = async (req, res) => {
     try {
-        const token = req.headers.authorization.split(' ')[1];
-        jwt.verify(token, secretToken);
-        const design = req.body.design;
-        const success = await designerService.sendOrder(design.orderId, design, 'finished');
+        const orderId = req.params.orderId;
+        checkInOrder(req, orderId)
+        const success = await designerService.sendOrder(orderId);
         if (success)
             return res.status(200).json("Order sent successfully");
         else
             return res.status(401).json("Wrong details");
 
     } catch (error) {
-        return res.status(500).json("Internal Server Error");
-    }
-};
-
-/*  
-    input: Design
-    output: None
-    saves design
-*/
-const saveOrder = async (req, res) => {
-    try {
-        const token = req.headers.authorization.split(' ')[1];
-        jwt.verify(token, secretToken);
-        const design = req.body.design;
-        const success = await designerService.saveDesign(design.orderId, design.url);
-        if (success)
-            return res.status(200).json("Order saved successfully");
-        else
-            return res.status(401).json("Wrong details");
-    } catch (error) {
+        console.log(error)
         return res.status(500).json("Internal Server Error");
     }
 };
@@ -83,9 +70,8 @@ const saveOrder = async (req, res) => {
 */
 const acceptOrder = async (req, res) => {
     try {
-        const token = req.headers.authorization.split(' ')[1];
-        jwt.verify(token, secretToken);
         const orderId = req.params.orderId;
+        checkInOrder(req, orderId)
         const success = await designerService.acceptOrder(orderId);
         if (success)
             return res.status(200).json("Order saved successfully");
@@ -104,9 +90,8 @@ const acceptOrder = async (req, res) => {
 */
 const rejectOrder = async (req, res) => {
     try {
-        const token = req.headers.authorization.split(' ')[1];
-        jwt.verify(token, secretToken);
         const orderId = req.params.orderId;
+        checkInOrder(req, orderId)
         const success = await designerService.rejectOrder(orderId);
         if (success)
             return res.status(200).json("Order saved successfully");
@@ -117,4 +102,27 @@ const rejectOrder = async (req, res) => {
     }
 };
 
-module.exports = { getOrders, acceptOrder, rejectOrder, manageOrder, sendOrder, saveOrder };
+const addDesignEntry = async (req, res) => {
+    try {
+        const { orderId, url } = req.body
+        checkInOrder(req, orderId)
+        const designs = await designerService.addDesignEntry(orderId, url);
+        return res.status(200).json(designs);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json("Internal Server Error");
+    }
+}
+
+const removeDesignEntry = async (req, res) => {
+    try {
+        const { orderId, url } = req.body
+        checkInOrder(req, orderId)
+        const designs = await designerService.removeDesignEntry(orderId, url);
+        return res.status(200).json(designs);
+    } catch (error) {
+        return res.status(500).json("Internal Server Error");
+    }
+}
+
+module.exports = { getOrders, acceptOrder, rejectOrder, manageOrder, sendOrder, addDesignEntry, removeDesignEntry };
