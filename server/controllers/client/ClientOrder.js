@@ -108,7 +108,7 @@ const getDesign = async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, secretToken);
-        const orderId = req.headers.orderId
+        const orderId = req.body.orderId
         const designs = await orderService.getDesign(orderId, decoded.username);
         return res.status(200).json(designs);
     } catch (error) {
@@ -116,4 +116,16 @@ const getDesign = async (req, res) => {
     }
 };
 
-module.exports = { getMyOrders, purchaseOrder, addReview, getDesign };
+const tryOn = async (req, res) => {
+    try {
+        const token = req.headers.authorization.split(' ')[1];
+        const decoded = jwt.verify(token, secretToken);
+        const {orderId, url} = req.body
+        const designs = await orderService.tryOn(orderId, url, decoded.username);
+        return res.status(200).json(designs);
+    } catch (error) {
+        return res.status(500).json("Internal Server Error");
+    }
+}
+
+module.exports = { getMyOrders, purchaseOrder, addReview, getDesign, tryOn };

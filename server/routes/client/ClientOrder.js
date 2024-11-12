@@ -12,4 +12,7 @@ router.route('/design')
 router.route('/review')
     .post(ClientOrderController.addReview);
 
+router.route('try-on') 
+    .post(ClientOrderController.tryOn)
+
 module.exports = router;

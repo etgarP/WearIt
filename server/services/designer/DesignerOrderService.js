@@ -93,4 +93,61 @@ const saveDesign = async (orderId, urls) => {
     return false
 };
 
-module.exports = { getOrders, getOrderDetails, acceptOrder, rejectOrder, sendOrder, saveDesign };
+const addDesignEntry = async (username, orderId, newUrl) => {
+    if (!isClientInOrder(orderId, username)) {
+        throw new Error('Order not found or unauthorized access');
+    }
+
+    // Find the existing design document
+    const design = await Design.findOne({ orderId });
+    if (!design) {
+        throw new Error('Design not found for the given orderId');
+    }
+
+    // Create the new design entry
+    const newDesignEntry = {
+        url: newUrl,
+        imageOfCloth: path.join(__dirname, "cloth.png"),
+        imageOfWornCloth: path.join(__dirname, 'worn.png'),
+        typeOfCloth: 'shirt' // Default type, can be modified as needed
+    };
+
+    // Add the new entry to the items array
+    design.items.push(newDesignEntry);
+
+    // Save the updated design document
+    const updatedDesign = await design.save();
+    console.log("New Design Entry Added:", updatedDesign); // Check if new entry is added
+    return updatedDesign;
+};
+
+const removeDesignEntry = async (username, orderId, urlToRemove) => {
+    if (!isClientInOrder(orderId, username)) {
+        throw new Error('Order not found or unauthorized access');
+    }
+
+    // Find the existing design document
+    const design = await Design.findOne({ orderId });
+    if (!design) {
+        throw new Error('Design not found for the given orderId');
+    }
+
+    // Filter out the design entry with the given URL
+    const filteredItems = design.items.filter(item => item.url !== urlToRemove);
+
+    // Check if any entry was removed
+    if (filteredItems.length === design.items.length) {
+        throw new Error('Design entry not found for the given URL');
+    }
+
+    // Update the items array
+    design.items = filteredItems;
+
+    // Save the updated design document
+    const updatedDesign = await design.save();
+    console.log("Design Entry Removed:", updatedDesign); // Check if entry is removed
+    return updatedDesign;
+};
+
+
+module.exports = { getOrders, removeDesignEntry, addDesignEntry, getOrderDetails, acceptOrder, rejectOrder, sendOrder, saveDesign };

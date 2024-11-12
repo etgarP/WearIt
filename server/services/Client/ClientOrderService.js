@@ -2,6 +2,7 @@ const Order = require('../../models/Order');
 const DesignerProfile = require('../../models/desinger/DesignerProfile');
 const Design = require('../../models/desinger/Design');
 const Review = require('../../models/Review');
+const { getClientImage } = require('../../services/Client/ClientInfoService')
 /*  
     input: client username
     output: list of client orders
@@ -25,16 +26,36 @@ const orderIsFinished = async (username, designer) => {
     adds the order to the database
 */
 const purchaseOrder = async (username, order) => {
-    const newOrder = new Order({ ...order, username });
+    image = getClientImage(username)
+    // Add the client's image to the order
+    const newOrder = new Order({ ...order, username, clientImage: clientInfo.image });
 
-    try {
-        const savedOrder = await newOrder.save();
-        console.log("Saved Order:", savedOrder);  // Check if order is saved
-        return savedOrder;
-    } catch (error) {
-        return null;  // Return null if there's an error
-    }
+    // Save the order to the database
+    const savedOrder = await newOrder.save();
+    console.log("Saved Order:", savedOrder); // Check if order is saved
+    // Create a corresponding design entry for the new order
+    const newDesign = new Design({
+        orderId: savedOrder._id,
+        items: [] // Populate this with initial design entries as needed
+    });
+    const savedDesign = await newDesign.save();    
+    return savedOrder;
 };
+
+/*  
+    input: username, orderId
+    output: if the username is the client in that order
+*/
+const isClientInOrder = async (orderId, username) => {
+    // First find the order and check ownership
+    const order = await Order.findOne({
+        _id: orderId,
+        username: username
+    });
+
+    return order != null
+};
+
 
 /*  
     input: username 
@@ -42,13 +63,7 @@ const purchaseOrder = async (username, order) => {
     save the current design
 */
 const getDesign = async (orderId, username) => {
-    // First find the order and check ownership
-    const order = await Order.findOne({
-        _id: orderId,
-        username: username
-    });
-
-    if (!order) {
+    if (!isClientInOrder( orderId, username)) {
         throw new Error('Order not found or unauthorized access');
     }
 
@@ -83,4 +98,30 @@ const addReview = async (username, reviewData) => {
     );
 };
 
-module.exports = { orderIsFinished, addReview, getClientOrders, purchaseOrder, getDesign };
+const tryOn = async (username, orderId, url) => {
+    if (!isClientInOrder(orderId, username)) {
+        throw new Error('Order not found or unauthorized access');
+    }
+    const design = await Design.findOne({ orderId });
+    if (!design) {
+        throw new Error('Design not found for the given orderId');
+    }
+
+    // Check if an entry with the same URL already exists and update it
+    const existingEntry = design.items.find(item => item.url === url);
+    if (existingEntry) {
+        existingEntry.imageOfCloth = path.join(__dirname, "cloth.png");
+        existingEntry.imageOfWornCloth = path.join(__dirname, 'worn.png');
+        existingEntry.typeOfCloth = 'shirt'; // Default type, can be modified as needed
+    } 
+    else {
+        throw Error('no url')
+    }
+
+    // Save the updated design document
+    const updatedDesign = await design.save();
+    console.log("Updated Design:", updatedDesign); // Check if design is updated
+    return updatedDesign;
+};
+
+module.exports = { orderIsFinished, addReview, getClientOrders, purchaseOrder, getDesign, tryOn };

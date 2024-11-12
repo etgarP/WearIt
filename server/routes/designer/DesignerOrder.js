@@ -5,8 +5,11 @@ const router = express.Router();
 router.route('/')
     .get(DesignerOrderController.getOrders);
 
-router.route('/save')
-    .post(DesignerOrderController.saveOrder);
+router.route('/add-design')
+    .post(DesignerOrderController.addDesignEntry);
+
+router.route('/remove-design')
+    .post(DesignerOrderController.removeDesignEntry);
 
 router.route('/:orderId')
     .get(DesignerOrderController.manageOrder)

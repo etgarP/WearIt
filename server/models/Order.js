@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 const OrderSchema = new Schema({
     numberOfOutfits: { type: Number, required: true },
     group: { type: String },
+    cLientImage: { type: String, required: true },
     isGroup: { type: Boolean, required: true },
     occasion: { type: String },
     preferences: { type: String },
