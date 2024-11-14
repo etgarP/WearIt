@@ -1,14 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { createOrder } from '../../../../apiServices/client/createOrder';  // API service for order creation
-import OrderCompletePage from './orderCompleteScreen';
-import { LoadingPage } from '../../../loadingPages/loadingPage';
-import RefreshErrorPage from '../../../loadingPages/refreshErrorPage';
-import { ClientObjectContext } from '../../navigation/ClientObjectProvider';
-import { AppObjectContext } from '../../../appNavigation/appObjectProvider';
+import { View, StyleSheet, Text } from 'react-native';
+import { LoadingPage } from './loadingPages/loadingPage'
+import RefreshErrorPage from './loadingPages/refreshErrorPage';
+import { AppObjectContext } from '../components/appNavigation/appObjectProvider';
+import RefreshPage from './loadingPages/refreshPage';
 
-export const CompletingOrder = ({ onGoBack, navigation }) => {
-    const { orderInfo } = useContext(ClientObjectContext);
+export const WithServerCall = ({ getObject, setObject, children, secondInput }) => {
     const { userDetails: { token } } = useContext(AppObjectContext);
     const [loading, setLoading] = useState(false);  // To manage the loading state
     const [orderSuccess, setOrderSuccess] = useState(false);  // To manage success state
@@ -19,7 +16,9 @@ export const CompletingOrder = ({ onGoBack, navigation }) => {
         setLoading(true);
         setOrderFailed(false); // Reset the error state when retrying
         try {
-            await createOrder(orderInfo, token);  // Make the POST request to create the order
+            console.log("hello")
+            const gotten = await getObject(token, secondInput);  // Make the POST request to create the order
+            setObject(gotten)
             setOrderSuccess(true);  // If successful, show success screen
         } catch (error) {
             setOrderFailed(true);  // Set error state if an error occurred
@@ -39,11 +38,13 @@ export const CompletingOrder = ({ onGoBack, navigation }) => {
     };
 
     if (loading) {
-        return <LoadingPage loadingText={"Finalizing your order..."}/>;  // Show loading screen while request is processing
+        return <LoadingPage loadingText={"Finalizing your order..."} />;  // Show loading screen while request is processing
     }
 
     if (orderSuccess) {
-        return <OrderCompletePage onGoBack={onGoBack} />;  // Show success page if the order was created
+        return <RefreshPage tryAgain={onRetry}>
+            {children}
+        </RefreshPage>;  // Show success page if the order was created
     }
 
     if (orderFailed) {
@@ -53,7 +54,7 @@ export const CompletingOrder = ({ onGoBack, navigation }) => {
     return null;  // Return nothing if no state is active
 };
 
-export default CompletingOrder;
+export default WithServerCall;
 
 const styles = StyleSheet.create({
     container: {

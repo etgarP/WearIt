@@ -1,13 +1,12 @@
 import React, { useContext } from 'react';
 import { ScrollView, View, StyleSheet } from 'react-native';
 import { List, Divider, Avatar, Text } from 'react-native-paper';
-import { design } from '../../../data/design'
 import { ClientObjectContext } from '../navigation/ClientObjectProvider';
 
 const FinishedDesigns = ({ navigation, orders }) => {
     // Filter orders based on their status
     const approvedOrders = orders.filter(order => order.status == 'finished');
-    const { setDesign } = useContext(ClientObjectContext);
+    const { setOrderId } = useContext(ClientObjectContext);
 
     return (
         <View style={styles.container}>
@@ -28,7 +27,7 @@ const FinishedDesigns = ({ navigation, orders }) => {
                             descriptionStyle={styles.statusApproved}
                             // Set design when item is pressed
                             onPress={() => {
-                                setDesign(design)
+                                setOrderId(order._id)
                                 navigation.navigate("DesignInfo");
                             }}  // Assuming 'order.design' holds the design data
                         />

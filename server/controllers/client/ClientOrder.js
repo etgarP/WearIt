@@ -3,6 +3,7 @@ const designerProfileService = require('../../services/designer/DesignerProfileS
 const jwt = require('jsonwebtoken');
 const designerService = require('../../services/designer/DesignerOrderService');
 const secretToken = "even doctor evil won't crack this bad boy"
+const { getClientImage } = require('../../services/Client/ClientInfoService')
 
 /*  
     input: jsonwebtoken in headers 
@@ -56,7 +57,6 @@ const purchaseOrder = async (req, res) => {
         // Update order information with the decoded token's username
         order.username = decoded.username;
         order.status = 'pending';
-        console.log(order);
 
         // Save the order and check for success
         const savedOrder = await orderService.purchaseOrder(decoded.username, order);
@@ -108,10 +108,17 @@ const getDesign = async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, secretToken);
-        const orderId = req.body.orderId
-        const designs = await orderService.getDesign(orderId, decoded.username);
+        const {orderId} = req.params
+        const designs = await orderService.getDesign(orderId, decoded.username)
+        designs.beforeImage = await getClientImage(decoded.username)
+        for (let key in designs) {
+            if (designs.hasOwnProperty(key)) {
+                console.log(key);
+            }
+        }
         return res.status(200).json(designs);
     } catch (error) {
+        console.log(error)
         return res.status(500).json("Internal Server Error");
     }
 };

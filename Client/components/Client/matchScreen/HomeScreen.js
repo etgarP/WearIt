@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, View, Text, ActivityIndicator, Image } from 'react-native';
-import RefreshErrorPage from '../refreshErrorPage';
+import RefreshErrorPage from '../../loadingPages/refreshErrorPage';
 import { getMatches } from '../../../apiServices/client/getMatches.js'; // Import the fetch function
 import { AppObjectContext } from '../../appNavigation/appObjectProvider';
-import LoadingPage from '../loadingPage';
+import LoadingPage from '../../loadingPages/loadingPage';
 import ConnectedMatchRoute from './homeScreenConnected';
 
 export default function MatchRoute({ setProfilePage, navigation }) { 

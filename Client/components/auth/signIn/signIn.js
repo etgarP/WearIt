@@ -10,7 +10,7 @@ const SignIn = ({ navigation }) => {
                 title='SignIn'
                 onPress={() => {
                     setUserDetails({
-                        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvaG5fZG9lIiwiaWF0IjoxNzI5NTMxMTAzfQ.T5_yF70MX20GRNMlxCjx-DS-AptKjqTqjn5iVmEgBPE',
+                        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvaG5fZG9lIiwiaWF0IjoxNzE3MDA1OTM2fQ.O4h6cAx78lRaTHA4QCKPF0Xt9kUm-of_a0NA74n_q9c',
                         username: 'john_doe'
                     })
                     navigation.replace('client')

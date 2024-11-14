@@ -2,11 +2,11 @@ import React, { useState, useContext, useEffect } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { getOrders } from '../../../apiServices/client/getOrders';  // API service for order creation
 import OrderPage from './orderPage';
-import { LoadingPage } from '../loadingPage';
-import RefreshErrorPage from '../refreshErrorPage';
+import { LoadingPage } from '../../loadingPages/loadingPage';
+import RefreshErrorPage from '../../loadingPages/refreshErrorPage';
 import { AppObjectContext } from '../../appNavigation/appObjectProvider';
 import FinishedDesigns from '../designScreen/finishedDesigns';
-import RefreshPage from '../refreshPage'
+import RefreshPage from '../../loadingPages/refreshPage'
 
 export const OrdersRoutePre = ({ onGoBack, navigation, isDesign = false }) => {
     const { userDetails: { token } } = useContext(AppObjectContext);

@@ -5,6 +5,12 @@ import { ClientObjectContext } from '../navigation/ClientObjectProvider';
 
 const MixAndMatch = ({ navigation }) => {
     const { design } = useContext(ClientObjectContext);
+    for (let key in design) {
+        if (design.hasOwnProperty(key)) {
+            console.log(key);
+        }
+    }
+    const clothes = design.items
     return (
         <View style={styles.container}>
             {/* Top Appbar */}
@@ -16,7 +22,7 @@ const MixAndMatch = ({ navigation }) => {
             {/* Model Image */}
             <View style={styles.modelContainer}>
                 <Image
-                    source={require('../../../assets/model.png')}
+                    source={{uri: design.beforeImage}}
                     style={styles.modelImage}
                 />
             </View>
@@ -24,14 +30,14 @@ const MixAndMatch = ({ navigation }) => {
             {/* Scrollable Clothes Section */}
             <View style={styles.scrollContainer}>
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                    {design.map((item) => (
+                    {clothes.map((item) => (
                         <TouchableOpacity
-                            key={item.id} // Add unique key here
+                            key={item._id} // Add unique key here
                             style={styles.plusButton}
                             onPress={() => console.log('image Pressed')}
                         >
-                            <Image
-                                source={item.image}
+                            <Image 
+                                source={{ uri: item.imageOfCloth }}
                                 style={styles.clothesImage}
                             />
                         </TouchableOpacity>

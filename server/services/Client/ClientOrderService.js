@@ -3,6 +3,7 @@ const DesignerProfile = require('../../models/desinger/DesignerProfile');
 const Design = require('../../models/desinger/Design');
 const Review = require('../../models/Review');
 const { getClientImage } = require('../../services/Client/ClientInfoService')
+
 /*  
     input: client username
     output: list of client orders
@@ -66,13 +67,11 @@ const getDesign = async (orderId, username) => {
     if (!isClientInOrder( orderId, username)) {
         throw new Error('Order not found or unauthorized access');
     }
-
     // Once verified, get the design
-    const design = await Design.findOne({ orderId });
+    const design = await Design.findOne({ orderId }).lean();
     if (!design) {
         throw new Error('Design not found');
     }
-
     return design;
 };
 
@@ -98,6 +97,15 @@ const addReview = async (username, reviewData) => {
     );
 };
 
+const getDesignString = (path) => {
+    // Read the image file as a buffer
+    const imageBuffer = fs.readFileSync(path);
+
+    // Convert the image buffer to a Base64 string
+    const base64Image = imageBuffer.toString('base64');
+    return `data:image/png;base64,${base64Image}`
+}
+
 const tryOn = async (username, orderId, url) => {
     if (!isClientInOrder(orderId, username)) {
         throw new Error('Order not found or unauthorized access');
@@ -110,7 +118,7 @@ const tryOn = async (username, orderId, url) => {
     // Check if an entry with the same URL already exists and update it
     const existingEntry = design.items.find(item => item.url === url);
     if (existingEntry) {
-        existingEntry.imageOfWornCloth = path.join(__dirname, 'worn.png');
+        existingEntry.imageOfWornCloth = getDesignString('worn.png');
         existingEntry.typeOfCloth = 'shirt'; // Default type, can be modified as needed
     } 
     else {

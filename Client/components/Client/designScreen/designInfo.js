@@ -2,10 +2,11 @@ import React, { useContext } from 'react';
 import { View, StyleSheet, Image, ScrollView, Linking } from 'react-native';
 import { Appbar, List, Button } from 'react-native-paper';
 import { ClientObjectContext } from '../navigation/ClientObjectProvider';
-import { clothes } from '../../../data/design';
 
 const DesignInfo = ({ toSend = false, navigation }) => {
-    const { setDesign } = useContext(ClientObjectContext);
+    const { design } = useContext(ClientObjectContext)
+    // Iterate over each JSON object and print only the field names (keys)
+    const clothes = design.items
     // Function to open the HTTPS link
     const handleOutfitPress = (link) => {
         Linking.openURL(link).catch((err) => console.error('Error opening URL', err));
@@ -24,10 +25,10 @@ const DesignInfo = ({ toSend = false, navigation }) => {
                 {clothes.map((outfit) => (
                     <List.Item
                         key={outfit.id}
-                        title={outfit.name}
-                        left={() => <Image source={outfit.image} style={styles.outfitImage} />}
+                        title={outfit.typeOfCloth}
+                        left={() => <Image source={{ uri: outfit.imageOfCloth }} style={styles.outfitImage} />}
                         right={() => <List.Icon icon="chevron-right" />}
-                        onPress={() => handleOutfitPress(outfit.link)}
+                        onPress={() => handleOutfitPress(outfit.url)}
                     />
                 ))}
             </ScrollView>
@@ -43,7 +44,6 @@ const DesignInfo = ({ toSend = false, navigation }) => {
                     )}
                     onPress={() => {
                         // Add your functionality here
-                        setDesign(clothes)
                         navigation.navigate('mixAndMatch')
                     }}
                 />

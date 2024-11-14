@@ -6,6 +6,7 @@ const OrdersRoute = ({ orders }) => {
     // Filter orders based on their status
     const pendingOrders = orders.filter(order => order.status === 'pending');
     const approvedOrders = orders.filter(order => order.status === 'accepted');
+    const rejectedOrders = orders.filter(order => order.status === 'rejected');
 
     return (
         <View style={styles.container}>
@@ -53,6 +54,28 @@ const OrdersRoute = ({ orders }) => {
                 ))
             ) : (
                 <Text>No active approved orders.</Text>
+            )}
+            {/* Approved Section */}
+            <Text style={styles.sectionHeader}>Rejected</Text>
+            {rejectedOrders.length > 0 ? (
+                rejectedOrders.map(order => (
+                    <React.Fragment key={order._id}>
+                        <List.Item
+                            title={`Ordered from ${order.designer}`}
+                            description={`Status: ${order.status}`}
+                            left={() => (
+                                <Avatar.Image
+                                    size={50}
+                                    source={{ uri: 'https://example.com/designer-image.jpg' }} // Replace with real image
+                                />
+                            )}
+                            descriptionStyle={styles.statusApproved}
+                        />
+                        <Divider />
+                    </React.Fragment>
+                ))
+            ) : (
+                <Text>No rejected  orders.</Text>
             )}
         </View>
     );

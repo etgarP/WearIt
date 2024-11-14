@@ -6,7 +6,7 @@ router.route('/')
     .get(ClientOrderController.getMyOrders)
     .post(ClientOrderController.purchaseOrder);
 
-router.route('/design')
+router.route('/:orderId')
     .get(ClientOrderController.getDesign);
 
 router.route('/review')
