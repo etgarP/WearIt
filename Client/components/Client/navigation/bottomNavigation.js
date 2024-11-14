@@ -32,7 +32,6 @@ export default function BottomNav({ navigation }) {
 
     return (
         <>
-            
             <Sheet ref={sheetRef}>
                 <Appbar.Header mode="center-aligned">
                     <Appbar.Content title={routes[index].title} />

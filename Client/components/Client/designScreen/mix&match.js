@@ -1,16 +1,16 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { Appbar, IconButton } from 'react-native-paper';
 import { ClientObjectContext } from '../navigation/ClientObjectProvider';
 
+
 const MixAndMatch = ({ navigation }) => {
     const { design } = useContext(ClientObjectContext);
-    for (let key in design) {
-        if (design.hasOwnProperty(key)) {
-            console.log(key);
-        }
-    }
-    const clothes = design.items
+    const [selectedImage, setSelectedImage] = useState(design.beforeImage);
+
+    // Filter clothes that have 'imageOfWornCloth'
+    const clothes = design.items.filter(item => item.imageOfWornCloth);
+
     return (
         <View style={styles.container}>
             {/* Top Appbar */}
@@ -22,7 +22,7 @@ const MixAndMatch = ({ navigation }) => {
             {/* Model Image */}
             <View style={styles.modelContainer}>
                 <Image
-                    source={{uri: design.beforeImage}}
+                    source={{ uri: selectedImage }}
                     style={styles.modelImage}
                 />
             </View>
@@ -34,9 +34,15 @@ const MixAndMatch = ({ navigation }) => {
                         <TouchableOpacity
                             key={item._id} // Add unique key here
                             style={styles.plusButton}
-                            onPress={() => console.log('image Pressed')}
+                            onPress={() => {
+                                if (selectedImage != item.imageOfWornCloth) {
+                                    setSelectedImage(item.imageOfWornCloth)
+                                } else {
+                                    setSelectedImage(design.beforeImage)
+                                }
+                            }} // Update image when pressed
                         >
-                            <Image 
+                            <Image
                                 source={{ uri: item.imageOfCloth }}
                                 style={styles.clothesImage}
                             />

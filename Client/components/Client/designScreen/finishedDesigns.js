@@ -21,7 +21,7 @@ const FinishedDesigns = ({ navigation, orders }) => {
                             left={() => (
                                 <Avatar.Image
                                     size={50}
-                                    source={{ uri: 'https://example.com/designer-image.jpg' }} // Replace with real image
+                                    source={{ uri: 'https://example.com/designer-image.jpg' }} 
                                 />
                             )}
                             descriptionStyle={styles.statusApproved}

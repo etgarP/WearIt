@@ -41,7 +41,7 @@ export const OrdersRoutePre = ({ onGoBack, navigation, isDesign = false }) => {
     };
 
     if (loading) {
-        return <LoadingPage loadingText={"Finalizing your order..."}/>;  // Show loading screen while request is processing
+        return <LoadingPage loadingText={"Loaidng your orders..."}/>;  // Show loading screen while request is processing
     }
 
     if (orderSuccess && isDesign) {

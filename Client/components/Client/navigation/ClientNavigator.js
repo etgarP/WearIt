@@ -38,7 +38,7 @@ export const ClientNavigator = () => {
                     {/* Design screens */}
                     <Stack.Screen name="DesignInfo">
                         {(props) => 
-                            <WithServerCall getObject={getDesign} setObject={setDesign} secondInput={orderId}>
+                            <WithServerCall getObject={getDesign} setObject={setDesign} secondInput={orderId} loadingText={"Loading your costume picked outfits..."}>
                                 <DesignInfo {...props} userDetails={userDetails} />
                             </WithServerCall>
                         }

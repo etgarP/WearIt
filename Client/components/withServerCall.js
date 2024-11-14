@@ -5,7 +5,7 @@ import RefreshErrorPage from './loadingPages/refreshErrorPage';
 import { AppObjectContext } from '../components/appNavigation/appObjectProvider';
 import RefreshPage from './loadingPages/refreshPage';
 
-export const WithServerCall = ({ getObject, setObject, children, secondInput }) => {
+export const WithServerCall = ({ getObject, setObject, children, secondInput, loadingText }) => {
     const { userDetails: { token } } = useContext(AppObjectContext);
     const [loading, setLoading] = useState(false);  // To manage the loading state
     const [orderSuccess, setOrderSuccess] = useState(false);  // To manage success state
@@ -38,7 +38,7 @@ export const WithServerCall = ({ getObject, setObject, children, secondInput }) 
     };
 
     if (loading) {
-        return <LoadingPage loadingText={"Finalizing your order..."} />;  // Show loading screen while request is processing
+        return <LoadingPage loadingText={loadingText} />;  // Show loading screen while request is processing
     }
 
     if (orderSuccess) {
