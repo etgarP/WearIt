@@ -36,12 +36,16 @@ export default function SignUpScreen({ navigation, route }) {
         },
         body: JSON.stringify(authenticationInfo),
       });
-
+      console.log("test");
       // Check if the request was successful
       if (response.ok) {
         // Parse the JSON response if needed
         const responseData = await response.json();
         console.log("Data sent successfully:", responseData);
+
+        selectedTab == "designer"
+          ? navigation.navigate("stylistQuestionnaire")
+          : navigation.navigate("clientQuestionnaire");
       } else {
         const errorData = await response.json(); // Parse error response from server
         console.error("Error sending data:", response.statusText);
@@ -69,7 +73,7 @@ export default function SignUpScreen({ navigation, route }) {
   };
 
   // Validation for sign-up with trimming and length checks
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     const trimmedUsername = username.trim();
     const trimmedPassword = password.trim();
     const trimmedConfirmPassword = confirmPassword.trim();
@@ -98,8 +102,7 @@ export default function SignUpScreen({ navigation, route }) {
       username,
       password,
     };
-    sendRequest(authenticationInfo);
-    navigation.navigate("SignIn");
+    await sendRequest(authenticationInfo);
     // Proceed with sign-up logic (e.g., API call)
     Alert.alert("Success", `Account created for ${trimmedUsername}!`);
   };
@@ -167,14 +170,17 @@ export default function SignUpScreen({ navigation, route }) {
       </View>
 
       {/* Sign Up Button */}
-      <TouchableOpacity style={styles.button} onPress={handleSignUp}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={async () => await handleSignUp()}
+      >
         <Text style={styles.buttonText}>SIGN UP</Text>
       </TouchableOpacity>
 
       {/* Sign In Link */}
       <TouchableOpacity
         onPress={() =>
-          navigation.navigate("SignInScreen", {
+          navigation.navigate("SignIn", {
             selectedTab: selectedTab,
           })
         }

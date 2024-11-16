@@ -83,7 +83,7 @@ export default function DesignerHome({ navigation }) {
       {/* Order Requests section with pending orders count */}
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate("HomeClient", { initialTab: "pending" });
+          navigation.navigate("HomeDesigner", { initialTab: "pending" });
         }}
       >
         <View style={styles.orderRequests}>

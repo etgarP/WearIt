@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -9,12 +9,14 @@ import {
 } from "react-native";
 import { styles } from "./AuthenticationStyles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AppObjectContext } from "../appNavigation/appObjectProvider";
 
 export default function SignInScreen({ navigation, route }) {
   const [selectedTab, setSelectedTab] = useState("designer");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [url, setUrl] = useState("");
+  const { setUserDetails } = useContext(AppObjectContext);
   // Update selectedTab only when route.params.selectedTab changes
   useEffect(() => {
     if (route.params?.selectedTab) {
@@ -43,11 +45,14 @@ export default function SignInScreen({ navigation, route }) {
 
         //TODO Update token
         await AsyncStorage.setItem("userToken", responseData.key);
-
+        setUserDetails({
+          token: responseData.key,
+          username: username,
+        });
         // Navigate to the next screen
         selectedTab == "designer"
-          ? navigation.navigate("stylistInfo")
-          : navigation.navigate("personalInfo");
+          ? navigation.navigate("designer")
+          : navigation.navigate("client");
       } else {
         console.error("Error sending data:", response.statusText);
         Alert.alert("Error", "Failed to sign in. Please try again later.");
@@ -153,7 +158,7 @@ export default function SignInScreen({ navigation, route }) {
       {/* Sign Up Link */}
       <TouchableOpacity
         onPress={() =>
-          navigation.navigate("SignUpScreen", {
+          navigation.navigate("SignUp", {
             selectedTab: selectedTab,
           })
         }

@@ -76,7 +76,7 @@ export default function Others({
         });
 
         // Navigate to the next screen
-        navigation.navigate("Home"); // Replace "Home" with the actual next screen name
+        navigation.navigate("SignIn"); // Replace "Home" with the actual next screen name
       } else {
         console.error("Error sending data:", response.statusText);
         Alert.alert("Error", "Failed to send data. Please try again later.");

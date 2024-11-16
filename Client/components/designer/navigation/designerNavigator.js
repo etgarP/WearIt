@@ -14,13 +14,13 @@ export const DesignerNavigator = () => {
   return (
     <DesignerObjectProvider>
       <Stack.Navigator
-        initialRouteName="HomeClient"
+        initialRouteName="HomeDesigner"
         screenOptions={{
           headerShown: false,
           cardStyle: { backgroundColor: "white" }, // Adjust as needed
         }}
       >
-        <Stack.Screen name="HomeClient" component={DesignerBottomNav} />
+        <Stack.Screen name="HomeDesigner" component={DesignerBottomNav} />
         <Stack.Screen name="ClientOrderDetails">
           {(props) => <ClientOrderDetails {...props} />}
         </Stack.Screen>

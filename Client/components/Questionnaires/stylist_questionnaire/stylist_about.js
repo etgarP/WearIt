@@ -99,8 +99,8 @@ export default function StylistAbout({
           stylistAbout: stylistAbout,
         });
 
-        // Navigate to the next screen
-        navigation.navigate("Home"); // Replace "Home" with the actual next screen name
+        // Navigate to the next screen - We are going to SignIn because the token isnt avaliabe during signUp
+        navigation.navigate("SignIn");
       } else {
         console.error("Error sending data:", infoResponse.statusText);
         Alert.alert("Error", "Failed to send data. Please try again later.");
