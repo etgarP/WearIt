@@ -11,6 +11,7 @@ import { MaterialIcons, Feather } from "@expo/vector-icons";
 import { Colors } from "../../constants/colors";
 import { styles } from "./QuestionnaireStyles";
 import * as ImagePicker from "expo-image-picker";
+import * as FileSystem from "expo-file-system";
 import { Strings } from "../../constants/strings";
 
 export default function Questionnaire_picture({
@@ -61,19 +62,34 @@ export default function Questionnaire_picture({
   }, []);
 
   const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 6], // Aspect ratio for full-body photos
-      quality: 1,
-    });
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 6], // Full-body aspect ratio
+        quality: 1,
+      });
 
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-      setQuestionnaireData({
-        ...questionnaireData,
-        image: result.assets[0].uri,
-      }); // Update questionnaireData
+      if (!result.canceled) {
+        const imageUri = result.assets[0].uri;
+        setImage(imageUri);
+
+        // Convert image to base64
+        const base64 = await FileSystem.readAsStringAsync(imageUri, {
+          encoding: FileSystem.EncodingType.Base64,
+        });
+
+        // Store base64 string in your questionnaire data
+        setQuestionnaireData({
+          ...questionnaireData,
+          image: base64,
+        });
+
+        console.log("Base64 Image: ", base64); // You can remove this after testing
+      }
+    } catch (error) {
+      console.error("Error picking image:", error);
+      Alert.alert("Error", "Failed to pick image. Please try again.");
     }
   };
 

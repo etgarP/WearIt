@@ -18,6 +18,7 @@
     "@types/react": "~18.2.79",
     "@types/react-native-snap-carousel": "^3.8.11",
     "expo": "~51.0.38",
+    "expo-file-system": "^18.0.3",
     "expo-image-picker": "~15.0.5",
     "expo-linear-gradient": "^13.0.2",
     "expo-router": "^3.5.23",
