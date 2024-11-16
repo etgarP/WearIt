@@ -8,6 +8,11 @@ const getProfile = async (username) => {
     return await DesignerProfile.findOne({ username });
 };
 
+const getDesignerImage = async (username) => {
+    const designer = await DesignerProfile.findOne({ username })
+    return designer.image;
+};
+
 /*  
     input: None 
     output: all desingers profile with info
@@ -30,4 +35,4 @@ const saveProfile = async (username, bio, image, name, specialization, pricePerI
     );
 };
 
-module.exports = { getProfile, saveProfile, getAllProfiles };
+module.exports = { getProfile, saveProfile, getAllProfiles, getDesignerImage };

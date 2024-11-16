@@ -21,7 +21,7 @@ const MyCard = ({ profile, setProfilePage, navigation }) => {
             {/* Avatar and Name */}
             <View style={styles.avatarContainer}>
                 {/* Using profile.image or a default placeholder image */}
-                <Avatar.Image size={100} source={{ uri: image || 'https://picsum.photos/100' }} />
+                <Avatar.Image size={100} source={{ uri: image }} />
                 <Text style={styles.name}>{name}</Text>
             </View>
 

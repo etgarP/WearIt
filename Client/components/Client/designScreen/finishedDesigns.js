@@ -1,16 +1,14 @@
 import React, { useContext } from 'react';
-import { ScrollView, View, StyleSheet } from 'react-native';
-import { List, Divider, Avatar, Text } from 'react-native-paper';
+import { View, StyleSheet } from 'react-native';
+import { List, Divider, Avatar, Text, Button } from 'react-native-paper';
 import { ClientObjectContext } from '../navigation/ClientObjectProvider';
 
 const FinishedDesigns = ({ navigation, orders }) => {
-    // Filter orders based on their status
     const approvedOrders = orders.filter(order => order.status == 'finished');
     const { setOrderId } = useContext(ClientObjectContext);
 
     return (
         <View style={styles.container}>
-            {/* Finished Section */}
             <Text style={styles.sectionHeader}>Finished</Text>
             {approvedOrders.length > 0 ? (
                 approvedOrders.map(order => (
@@ -21,15 +19,28 @@ const FinishedDesigns = ({ navigation, orders }) => {
                             left={() => (
                                 <Avatar.Image
                                     size={50}
-                                    source={{ uri: 'https://example.com/designer-image.jpg' }} 
+                                    source={{ uri: order.designerImage }}
                                 />
                             )}
+                            // right={() => (
+                                // <Button
+                                //     mode="contained"
+                                //     onPress={() => {
+                                //         // Handle add review navigation
+                                //         setOrderId(order._id);
+                                //         // navigation.navigate("AddReview");
+                                //     }}
+                                //     style={styles.reviewButton}
+                                //     labelStyle={styles.buttonLabel}
+                                // >
+                                //     add review
+                                // </Button>
+                            // )}
                             descriptionStyle={styles.statusApproved}
-                            // Set design when item is pressed
                             onPress={() => {
-                                setOrderId(order._id)
+                                setOrderId(order._id);
                                 navigation.navigate("DesignInfo");
-                            }}  // Assuming 'order.design' holds the design data
+                            }}
                         />
                         <Divider />
                     </React.Fragment>
@@ -57,8 +68,18 @@ const styles = StyleSheet.create({
         color: '#555',
     },
     statusApproved: {
-        color: '#000', // Customize approved status color if needed
+        color: '#000',
     },
+    reviewButton: {
+        backgroundColor: '#BA8EF7',
+        borderRadius: 20,
+        marginLeft: 8,
+    },
+    buttonLabel: {
+        fontSize: 14,
+        color: '#000000',
+        textTransform: 'none', // This prevents automatic capitalization
+    }
 });
 
 export default FinishedDesigns;

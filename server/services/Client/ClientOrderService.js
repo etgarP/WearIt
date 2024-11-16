@@ -5,6 +5,7 @@ const DesignerProfile = require('../../models/desinger/DesignerProfile');
 const Design = require('../../models/desinger/Design');
 const Review = require('../../models/Review');
 const { getClientImage } = require('../../services/Client/ClientInfoService')
+const { getDesignerImage } = require('../../services/Designer/DesignerProfileService')
 
 /*  
     input: client username
@@ -30,8 +31,11 @@ const orderIsFinished = async (username, designer) => {
 */
 const purchaseOrder = async (username, order) => {
     image = await getClientImage(username)
+    console.log(order.designer)
+    image2 = await getDesignerImage(order.designer)
+    console.log("image2", image2)
     // Add the client's image to the order
-    const newOrder = new Order({ ...order, username, clientImage: image });
+    const newOrder = new Order({ ...order, username, clientImage: image, designerImage: image2 });
 
     // Save the order to the database
     const savedOrder = await newOrder.save();

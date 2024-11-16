@@ -21,7 +21,7 @@ const OrdersRoute = ({ orders }) => {
                             left={() => (
                                 <Avatar.Image
                                     size={50}
-                                    source={{ uri: 'https://example.com/designer-image.jpg' }} // Replace with real image
+                                    source={{ uri: order.designerImage }} // Replace with real image
                                 />
                             )}
                             descriptionStyle={styles.statusPending}
@@ -44,7 +44,7 @@ const OrdersRoute = ({ orders }) => {
                             left={() => (
                                 <Avatar.Image
                                     size={50}
-                                    source={{ uri: 'https://example.com/designer-image.jpg' }} // Replace with real image
+                                    source={{ uri: order.designerImage }} // Replace with real image
                                 />
                             )}
                             descriptionStyle={styles.statusApproved}
@@ -66,7 +66,7 @@ const OrdersRoute = ({ orders }) => {
                             left={() => (
                                 <Avatar.Image
                                     size={50}
-                                    source={{ uri: 'https://example.com/designer-image.jpg' }} // Replace with real image
+                                    source={{ uri: order.designerImage }} // Replace with real image
                                 />
                             )}
                             descriptionStyle={styles.statusApproved}
