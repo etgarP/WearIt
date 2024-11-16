@@ -71,37 +71,45 @@ export default function ClientsOrders({ status }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.clientList}>
-        {Object.keys(clientOrders).map((username, index) => (
-          <View key={index}>
-            <List.Item
-              title={username}
-              left={() => (
-                <Avatar.Image
-                  size={50}
-                  source={{ uri: "https://example.com/designer-image.jpg" }}
-                />
-              )}
-              descriptionStyle={styles.orderRequests}
-            />
-            <Divider />
-            {clientOrders[username].map((order) => (
+      {Object.keys(clientOrders).length === 0 ? (
+        <List.Item
+          title="No Pending Orders"
+          description="You have no orders to review at the moment."
+          left={() => <List.Icon icon="clipboard-alert-outline" />}
+        />
+      ) : (
+        <View style={styles.clientList}>
+          {Object.keys(clientOrders).map((username, index) => (
+            <View key={index}>
               <List.Item
-                key={order._id}
-                title={`Order ${order._id.substring(0, 6)}...`} // Shorten ID for display
-                description={`Outfits: ${order.numberOfOutfits}, Occasion: ${order.occasion}`}
-                onPress={() =>
-                  navigation.navigate("ClientOrderDetails", {
-                    type: "approve", // Assuming you want to navigate for approval here
-                    order: order,
-                  })
-                }
-                right={() => <List.Icon icon="chevron-right" />}
+                title={username}
+                left={() => (
+                  <Avatar.Image
+                    size={50}
+                    source={{ uri: "https://example.com/designer-image.jpg" }}
+                  />
+                )}
+                descriptionStyle={styles.orderRequests}
               />
-            ))}
-          </View>
-        ))}
-      </View>
+              <Divider />
+              {clientOrders[username].map((order) => (
+                <List.Item
+                  key={order._id}
+                  title={`Order ${order._id.substring(0, 6)}...`}
+                  description={`Outfits: ${order.numberOfOutfits}, Occasion: ${order.occasion}`}
+                  onPress={() =>
+                    navigation.navigate("ClientOrderDetails", {
+                      type: "approve",
+                      order: order,
+                    })
+                  }
+                  right={() => <List.Icon icon="chevron-right" />}
+                />
+              ))}
+            </View>
+          ))}
+        </View>
+      )}
     </View>
   );
 }
