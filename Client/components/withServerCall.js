@@ -5,12 +5,11 @@ import RefreshErrorPage from './loadingPages/refreshErrorPage';
 import { AppObjectContext } from '../components/appNavigation/appObjectProvider';
 import RefreshPage from './loadingPages/refreshPage';
 
-export const WithServerCall = ({ getObject, setObject, children, secondInput, loadingText }) => {
+export const WithServerCall = ({ getObject, setObject, children, secondInput, loadingText, top}) => {
     const { userDetails: { token } } = useContext(AppObjectContext);
     const [loading, setLoading] = useState(false);  // To manage the loading state
     const [orderSuccess, setOrderSuccess] = useState(false);  // To manage success state
     const [orderFailed, setOrderFailed] = useState(false);  // To manage error state
-
     // Function to handle order submission
     const handleOrderSubmission = async () => {
         setLoading(true);
@@ -42,7 +41,7 @@ export const WithServerCall = ({ getObject, setObject, children, secondInput, lo
     }
 
     if (orderSuccess) {
-        return <RefreshPage tryAgain={onRetry}>
+        return <RefreshPage tryAgain={onRetry} top={top}>
             {children}
         </RefreshPage>;  // Show success page if the order was created
     }

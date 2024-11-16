@@ -111,11 +111,6 @@ const getDesign = async (req, res) => {
         const {orderId} = req.params
         const designs = await orderService.getDesign(orderId, decoded.username)
         designs.beforeImage = await getClientImage(decoded.username)
-        for (let key in designs) {
-            if (designs.hasOwnProperty(key)) {
-                console.log(key);
-            }
-        }
         return res.status(200).json(designs);
     } catch (error) {
         console.log(error)
@@ -128,9 +123,11 @@ const tryOn = async (req, res) => {
         const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, secretToken);
         const {orderId, url} = req.body
+        console.log(orderId, url)
         const designs = await orderService.tryOn(orderId, url, decoded.username);
         return res.status(200).json(designs);
     } catch (error) {
+        console.log(error)
         return res.status(500).json("Internal Server Error");
     }
 }

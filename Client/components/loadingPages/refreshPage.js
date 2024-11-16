@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 
-const RefreshPage = ({children, tryAgain}) => {
+const RefreshPage = ({children, tryAgain, top, bottom}) => {
   const [refreshing, setRefreshing] = React.useState(false);
 
   const onRefresh = React.useCallback(() => {
@@ -20,6 +20,7 @@ const RefreshPage = ({children, tryAgain}) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      {top? top: null}
       <ScrollView
         contentContainerStyle={styles.scrollView}
         refreshControl={
@@ -29,6 +30,7 @@ const RefreshPage = ({children, tryAgain}) => {
           {children}
         </View>
       </ScrollView>
+        {bottom}
     </SafeAreaView>
   );
 };

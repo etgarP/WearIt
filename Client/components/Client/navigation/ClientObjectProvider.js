@@ -7,13 +7,15 @@ export function ClientObjectProvider({ children }) {
     const [design, setDesign] = useState(null)
     const [orderInfo, setOrderInfo] = useState(null) 
     const [orderId, setOrderId] = useState(null)
+    const [chosenUrl, setChosenUrl] = useState(null)
 
     return (
         <ClientObjectContext.Provider value={{ 
             profile, setProfilePage, 
             design, setDesign, 
             orderInfo, setOrderInfo,
-            orderId, setOrderId
+            orderId, setOrderId,
+            chosenUrl, setChosenUrl
         }}>
             {children}
         </ClientObjectContext.Provider>

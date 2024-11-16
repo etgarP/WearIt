@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { View } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BottomNav from './bottomNavigation';
 import DesignerPage from '../../designerPage';
@@ -11,6 +12,7 @@ import { AppObjectContext } from '../../appNavigation/appObjectProvider';
 import { ClientObjectContext, ClientObjectProvider } from './ClientObjectProvider';
 import { WithServerCall } from '../../withServerCall';
 import { getDesign } from '../../../apiServices/client/getDesign';
+import AppBar from '../../AppBar';
 
 const Stack = createNativeStackNavigator();
 
@@ -37,10 +39,14 @@ export const ClientNavigator = () => {
                     </Stack.Screen>
                     {/* Design screens */}
                     <Stack.Screen name="DesignInfo">
-                        {(props) => 
-                            <WithServerCall getObject={getDesign} setObject={setDesign} secondInput={orderId} loadingText={"Loading your costume picked outfits..."}>
+                        {(props) =>
+                            <WithServerCall {...props} getObject={getDesign} setObject={setDesign} 
+                            secondInput={orderId} loadingText={"Loading your costume picked outfits..."}
+                            top={<AppBar {...props} text={"Choosen Outfits"} />}
+                            >
                                 <DesignInfo {...props} userDetails={userDetails} />
                             </WithServerCall>
+                            
                         }
                     </Stack.Screen>
                     <Stack.Screen name="mixAndMatch">

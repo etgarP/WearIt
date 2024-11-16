@@ -1,3 +1,5 @@
+const fs = require('fs');
+const paths = require('path');
 const Order = require('../../models/Order');
 const DesignerProfile = require('../../models/desinger/DesignerProfile');
 const Design = require('../../models/desinger/Design');
@@ -99,17 +101,21 @@ const addReview = async (username, reviewData) => {
 
 const getDesignString = (path) => {
     // Read the image file as a buffer
-    const imageBuffer = fs.readFileSync(path);
-
+    const imagePath = paths.join(__dirname, 'worn.png');
+    const imageBuffer = fs.readFileSync(imagePath);
     // Convert the image buffer to a Base64 string
     const base64Image = imageBuffer.toString('base64');
     return `data:image/png;base64,${base64Image}`
 }
 
-const tryOn = async (username, orderId, url) => {
-    if (!isClientInOrder(orderId, username)) {
+const mongoose = require('mongoose');
+
+const tryOn = async (orderId, url, username) => {
+    if (!await isClientInOrder(orderId, username)) {
         throw new Error('Order not found or unauthorized access');
     }
+
+    // Ensure orderId is a valid ObjectId
     const design = await Design.findOne({ orderId });
     if (!design) {
         throw new Error('Design not found for the given orderId');
@@ -120,15 +126,15 @@ const tryOn = async (username, orderId, url) => {
     if (existingEntry) {
         existingEntry.imageOfWornCloth = getDesignString('worn.png');
         existingEntry.typeOfCloth = 'shirt'; // Default type, can be modified as needed
-    } 
-    else {
-        throw Error('no url')
+    } else {
+        throw new Error('No URL found in the design items');
     }
 
     // Save the updated design document
     const updatedDesign = await design.save();
-    console.log("Updated Design:", updatedDesign); // Check if design is updated
     return updatedDesign;
 };
 
+
 module.exports = { orderIsFinished, addReview, getClientOrders, purchaseOrder, getDesign, tryOn };
+

@@ -2,55 +2,46 @@ import React, { useContext } from 'react';
 import { View, StyleSheet, Image, ScrollView, Linking } from 'react-native';
 import { Appbar, List, Button } from 'react-native-paper';
 import { ClientObjectContext } from '../navigation/ClientObjectProvider';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const DesignInfo = ({ toSend = false, navigation }) => {
-    const { design } = useContext(ClientObjectContext)
-    // Iterate over each JSON object and print only the field names (keys)
-    const clothes = design.items
-    // Function to open the HTTPS link
+    const { design } = useContext(ClientObjectContext);
+    const clothes = design.items;
+
     const handleOutfitPress = (link) => {
         Linking.openURL(link).catch((err) => console.error('Error opening URL', err));
     };
 
     return (
         <View style={styles.container}>
-            {/* Top Appbar */}
-            <Appbar.Header>
-                <Appbar.BackAction onPress={() => { navigation.goBack() }} />
-                <Appbar.Content title="Pick Clothes" />
-            </Appbar.Header>
 
-            {/* List of Outfits wrapped in a ScrollView */}
-            <ScrollView style={styles.listContainer}>
-                {clothes.map((outfit) => (
-                    <List.Item
-                        key={outfit.id}
-                        title={outfit.typeOfCloth}
-                        left={() => <Image source={{ uri: outfit.imageOfCloth }} style={styles.outfitImage} />}
-                        right={() => <List.Icon icon="chevron-right" />}
-                        onPress={() => handleOutfitPress(outfit.url)}
-                    />
-                ))}
-            </ScrollView>
+            {/* Scrollable list of outfits */}
+            <View style={styles.scrollableListContainer}>
+                <ScrollView contentContainerStyle={styles.listContent}>
+                    {clothes.map((outfit) => (
+                        <List.Item
+                            key={outfit.id}
+                            title={outfit.typeOfCloth}
+                            left={() => <Image source={{ uri: outfit.imageOfCloth }} style={styles.outfitImage} />}
+                            right={() => <List.Icon icon="chevron-right" />}
+                            onPress={() => handleOutfitPress(outfit.url)}
+                        />
+                    ))}
+                </ScrollView>
+            </View>
 
             {/* AI Mix & Match Section */}
             <View style={styles.aiMixMatchContainer}>
                 <List.Item
                     title="AI Mix & Match"
-                    right={() => (
-                        <View>
-                            <List.Icon icon="star" color="#FFD700" />
-                        </View>
-                    )}
-                    onPress={() => {
-                        // Add your functionality here
-                        navigation.navigate('mixAndMatch')
-                    }}
+                    titleStyle={{ fontSize: 18 }}
+                    right={props => <Icon {...props} color="#FFD700" size={30} name="star" />}
+                    onPress={() => navigation.navigate('mixAndMatch')}
                 />
             </View>
 
             {/* Send to Customer Button */}
-            {toSend ? (
+            {toSend && (
                 <View style={styles.buttonContainer}>
                     <Button
                         mode="contained"
@@ -60,7 +51,7 @@ const DesignInfo = ({ toSend = false, navigation }) => {
                         Select
                     </Button>
                 </View>
-            ) : (<></>)}
+            )}
         </View>
     );
 };
@@ -70,9 +61,11 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fffbfe',
     },
-    listContainer: {
-        flex: 1,
-        padding: 10,
+    scrollableListContainer: {
+        flex: 1, // Allows the ScrollView to take up available space
+    },
+    listContent: {
+        paddingHorizontal: 10,
     },
     outfitImage: {
         width: 50,
