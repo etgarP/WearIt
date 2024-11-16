@@ -86,7 +86,7 @@ export default function SignInScreen({ navigation, route }) {
             username,
             password,
         };
-        sendRequest(authenticationInfo);
+        await sendRequest(authenticationInfo);
 
         // Proceed with sign-in logic (e.g., API call)
         Alert.alert("Success", `Welcome, ${trimmedUsername}!`);
