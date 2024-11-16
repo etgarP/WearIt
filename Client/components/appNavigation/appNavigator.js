@@ -8,45 +8,37 @@ import SignOut from '../auth/signUp/signUp'
 import { AppObjectProvider } from './appObjectProvider';
 import { StylistQuestionnaireNavigator } from '../Questionnaires/stylist_questionnaire/StylistQuestionnaireNavigator';
 import { ClientQuestionnaireNavigator } from '../Questionnaires/client_questionnaire/ClientQuestionnaireNavigator';
+import SignInScreen from '../Authentication/SignInScreen';
+import SignUpScreen from '../Authentication/SignUpScreen';
 
 const Stack = createNativeStackNavigator();
 
 export default AppNavigator = () => {
     return (
-        <AppObjectProvider>
-            <NavigationContainer>
-                <Stack.Navigator
-                    initialRouteName="SignIn"
-                    screenOptions={{
-                        headerShown: false,
-                        cardStyle: { backgroundColor: 'white' }, // Adjust as needed
-                    }}
-                >
-                    <Stack.Screen
-                        name="SignIn"
-                        component={SignIn}
-                    />
-                    <Stack.Screen
-                        name="SignUp"
-                        component={SignOut}
-                    />
-                    <Stack.Screen
-                        name="stylistQuestionnaire"
-                        component={StylistQuestionnaireNavigator} />
-                    <Stack.Screen
-                        name="clientQuestionnaire"
-                        component={ClientQuestionnaireNavigator} />
-                    <Stack.Screen
-                        name="client"
-                        component={ClientNavigator}
-                    />
-                    {/* Design screen */}
-                    <Stack.Screen
-                        name="designer"
-                        component={DesignerNavigator}
-                    />
-                </Stack.Navigator>
-            </NavigationContainer>
-        </AppObjectProvider>
+      <AppObjectProvider>
+        <NavigationContainer>
+          <Stack.Navigator
+            initialRouteName="SignIn"
+            screenOptions={{
+              headerShown: false,
+              cardStyle: { backgroundColor: "white" }, // Adjust as needed
+            }}
+          >
+            <Stack.Screen name="SignIn" component={SignInScreen} />
+            <Stack.Screen name="SignUp" component={SignUpScreen} />
+            <Stack.Screen
+              name="stylistQuestionnaire"
+              component={StylistQuestionnaireNavigator}
+            />
+            <Stack.Screen
+              name="clientQuestionnaire"
+              component={ClientQuestionnaireNavigator}
+            />
+            <Stack.Screen name="client" component={ClientNavigator} />
+            {/* Design screen */}
+            <Stack.Screen name="designer" component={DesignerNavigator} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </AppObjectProvider>
     );
 };
