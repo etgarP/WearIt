@@ -1,8 +1,9 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useRef } from "react";
 import { BottomNavigation, Appbar, IconButton } from "react-native-paper";
 import DesignerHome from "../homeScreen/designerHome";
 import ClientsOrders from "../clientsOrdersComponent/clientsOrders";
 import GetProfile from "../designerProfile/getProfile";
+import Sheet from "../../sheet";
 
 export default function DesignerBottomNav({ route, navigation }) {
   const [index, setIndex] = React.useState(0);
@@ -41,13 +42,24 @@ export default function DesignerBottomNav({ route, navigation }) {
   });
 
   const showAppBarDetails = routes[index].key !== "profile"; // Hide title for "home" tab
-  
+
+  const sheetRef = useRef(null);
+
+  const openBottomSheet = () => {
+    sheetRef.current?.openSheet();
+  };
+
   return (
-    <>
+    <Sheet
+      navigation={navigation}
+      ref={sheetRef}
+      isClient={false}
+      onChangeInfo={() => console.log("add")}
+    >
       {showAppBarDetails && (
         <Appbar.Header mode="center-aligned">
           <Appbar.Content title={routes[index].title} />
-          <IconButton icon="account" size={24} onPress={() => {}} />
+          <IconButton icon="account" size={24} onPress={openBottomSheet} />
         </Appbar.Header>
       )}
 
@@ -56,6 +68,6 @@ export default function DesignerBottomNav({ route, navigation }) {
         onIndexChange={setIndex}
         renderScene={renderScene}
       />
-    </>
+    </Sheet>
   );
 }
