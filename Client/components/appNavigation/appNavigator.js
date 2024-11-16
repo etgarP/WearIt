@@ -6,6 +6,8 @@ import { DesignerNavigator } from '../designer/navigation/designerNavigator';
 import SignIn from '../auth/signIn/signIn'
 import SignOut from '../auth/signUp/signUp'
 import { AppObjectProvider } from './appObjectProvider';
+import { StylistQuestionnaireNavigator } from '../Questionnaires/stylist_questionnaire/StylistQuestionnaireNavigator';
+import { ClientQuestionnaireNavigator } from '../Questionnaires/client_questionnaire/ClientQuestionnaireNavigator';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +30,12 @@ export default AppNavigator = () => {
                         name="SignUp"
                         component={SignOut}
                     />
+                    <Stack.Screen
+                        name="stylistQuestionnaire"
+                        component={StylistQuestionnaireNavigator} />
+                    <Stack.Screen
+                        name="clientQuestionnaire"
+                        component={ClientQuestionnaireNavigator} />
                     <Stack.Screen
                         name="client"
                         component={ClientNavigator}
