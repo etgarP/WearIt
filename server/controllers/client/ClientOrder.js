@@ -96,6 +96,7 @@ const addReview = async (req, res) => {
         await orderService.addReview(decoded.username, review);
         return res.status(200).json("Review added successfully");
     } catch (error) {
+        console.log(error)
         return res.status(500).json("Internal Server Error");
     }
 };
@@ -123,7 +124,6 @@ const tryOn = async (req, res) => {
         const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, secretToken);
         const {orderId, url} = req.body
-        console.log(orderId, url)
         const designs = await orderService.tryOn(orderId, url, decoded.username);
         return res.status(200).json(designs);
     } catch (error) {
@@ -131,5 +131,18 @@ const tryOn = async (req, res) => {
         return res.status(500).json("Internal Server Error");
     }
 }
+
+// const getReview = async (req, res) => {
+//     try {
+//         const token = req.headers.authorization.split(' ')[1];
+//         const decoded = jwt.verify(token, secretToken);
+//         const { designer } = req.params
+//         const review = await orderService.getReview(designer, decoded.username)
+//         return res.status(200).json(review);
+//     } catch (error) {
+//         console.log(error)
+//         return res.status(500).json("Internal Server Error");
+//     }
+// }
 
 module.exports = { getMyOrders, purchaseOrder, addReview, getDesign, tryOn };

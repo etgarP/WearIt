@@ -4,6 +4,7 @@ import { Appbar, List, Button } from 'react-native-paper';
 import { ClientObjectContext } from '../navigation/ClientObjectProvider';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+
 const DesignInfo = ({ toSend = false, navigation }) => {
     const { design } = useContext(ClientObjectContext);
     const clothes = design.items;
@@ -20,7 +21,7 @@ const DesignInfo = ({ toSend = false, navigation }) => {
                 <ScrollView contentContainerStyle={styles.listContent}>
                     {clothes.map((outfit) => (
                         <List.Item
-                            key={outfit.id}
+                            key={outfit._id}
                             title={outfit.typeOfCloth}
                             left={() => <Image source={{ uri: outfit.imageOfCloth }} style={styles.outfitImage} />}
                             right={() => <List.Icon icon="chevron-right" />}

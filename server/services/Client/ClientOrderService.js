@@ -1,19 +1,42 @@
 const fs = require('fs');
 const paths = require('path');
 const Order = require('../../models/Order');
-const DesignerProfile = require('../../models/desinger/DesignerProfile');
 const Design = require('../../models/desinger/Design');
-const Review = require('../../models/Review');
 const { getClientImage } = require('../../services/Client/ClientInfoService')
 const { getDesignerImage } = require('../../services/Designer/DesignerProfileService')
-
+const { Review, DesignerProfile } = require('../../models/desinger/DesignerProfile')
 /*  
     input: client username
     output: list of client orders
 */
 const getClientOrders = async (username) => {
-    return await Order.find({ username });
+    try {
+        // Find all orders for the specified client username
+        const orders = await Order.find({ username });
+
+        // Iterate through each order to check if its status is 'finished'
+        const ordersWithReviews = await Promise.all(orders.map(async (order) => {
+            if (order.status === 'finished') {
+                // Find the review for the designer made by this user using getReview function
+                const review = await getReview(order.designer, order.username);
+
+                // Attach the review to the order if found
+                return {
+                    ...order.toObject(),
+                    review: review || null  // Attach the review or null if not found
+                };
+            } else {
+                return order;
+            }
+        }));
+
+        return ordersWithReviews;
+    } catch (error) {
+        console.error('Error fetching client orders:', error);
+        throw error;
+    }
 };
+
 
 /*  
     input: client username, orderId
@@ -47,6 +70,27 @@ const purchaseOrder = async (username, order) => {
     });
     const savedDesign = await newDesign.save();    
     return savedOrder;
+};
+
+/**
+ * get a specific review by a user for a designer.
+ * takes: the designers username, reviewers username
+ * returns the review object if found, or null if not found
+ */
+const getReview = async (designerUsername, username) => {
+    // Find the designer's profile by their username
+    const designerProfile = await DesignerProfile.findOne({ username: designerUsername });
+
+    // If designer profile doesn't exist, return null
+    if (!designerProfile) {
+        throw new Error('Error fetching designer');
+    }
+
+    // Find the review left by the specific user
+    const review = designerProfile.reviews.find(r => r.username === username);
+
+    // Return the review if found, else null
+    return review || null;
 };
 
 /*  
@@ -87,21 +131,44 @@ const getDesign = async (orderId, username) => {
     adds a new review to a profile page
 */
 const addReview = async (username, reviewData) => {
-    // Find and update the review if it exists, or create a new one if it doesn't (upsert)
-    const review = await Review.findOneAndUpdate(
-        { username, designerUsername: reviewData.designerUsername },
-        {
+    // Find the designer's profile
+    const designerProfile = await DesignerProfile.findOne({ username: reviewData.designerUsername });
+
+    if (!designerProfile) {
+        throw new Error('Designer not found');
+    }
+
+    reviewData.userPicture = await getClientImage(username);
+
+    // Check if the review already exists for the user
+    const existingReview = designerProfile.reviews.find(
+        (review) => review.username === username
+    );
+
+    if (existingReview) {
+        // If review exists, update it
+        existingReview.number = reviewData.number;
+        existingReview.review = reviewData.review;
+    } else {
+        // If no review exists, create a new one and add it to the reviews array
+        const newReview = {
+            designerUsername: reviewData.designerUsername, // Make sure to add this line
+            username,
             number: reviewData.number,
-            review: reviewData.review
-        }, // new: true returns the updated document and set, upsert inserts if not there
-        { new: true, upsert: true, setDefaultsOnInsert: true } 
-    );
-    // Add the review ID to the designer's profile if it's not already present
-    await DesignerProfile.findOneAndUpdate(
-        { username: reviewData.designerUsername },
-        { $addToSet: { reviews: review._id } } // $addToSet ensures the ID is not added multiple times
-    );
+            review: reviewData.review,
+            userPicture: reviewData.userPicture,
+        };
+        designerProfile.reviews.push(newReview);
+    }
+
+    // Save the updated designer profile
+    await designerProfile.save();
+
+    return designerProfile; // Return the updated designer profile
 };
+
+
+
 
 const getDesignString = (path) => {
     // Read the image file as a buffer
@@ -140,5 +207,5 @@ const tryOn = async (orderId, url, username) => {
 };
 
 
-module.exports = { orderIsFinished, addReview, getClientOrders, purchaseOrder, getDesign, tryOn };
+module.exports = { getReview, orderIsFinished, addReview, getClientOrders, purchaseOrder, getDesign, tryOn };
 

@@ -1,4 +1,4 @@
-const DesignerProfile = require('../../models/desinger/DesignerProfile');
+const {DesignerProfile} = require('../../models/desinger/DesignerProfile');
 
 /*  
     input: username 

@@ -176,12 +176,20 @@ const itemsDelivered = async (orderId) => {
     return false
 }
 
-const isAtLimit = async (orderId) => {
+const notAbleToAdd = async (orderId) => {
     const design = await Design.findOne({ orderId })
-    if (design.items.length < 100) {
+    if (!design || design.items.length < 100 || design.status =='finished') {
         return false
     }
     return true
 }
 
-module.exports = { isAtLimit, getOrders, itemsDelivered, removeDesignEntry, newDesign, addDesignEntry, isDesignerInOrder, getOrderDetails, acceptOrder, rejectOrder, sendOrder };
+const notAbleToRemove = async (orderId) => {
+    const design = await Design.findOne({ orderId })
+    if (!design || design.status == 'finished') {
+        return false
+    }
+    return true
+}
+
+module.exports = { notAbleToAdd, notAbleToRemove, getOrders, itemsDelivered, removeDesignEntry, newDesign, addDesignEntry, isDesignerInOrder, getOrderDetails, acceptOrder, rejectOrder, sendOrder };

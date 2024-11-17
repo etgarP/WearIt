@@ -54,11 +54,11 @@ export const AILoadingScreen = ({ navigation }) => {
     const handleOrderSubmission = async () => {
         setOrderFailed(false); // Reset the error state when retrying
         try {
-            console.log("hello")
             const gotten = await tryOn(token, chosenUrl, orderId);  // Make the POST request to create the order
             setDesign(gotten)
-            navigation.goBack()
-            navigation.goBack()
+            setTimeout(() => {
+                navigation.pop(2); // Go back two pages
+            }, 5000);
         } catch (error) {
             setOrderFailed(true);  // Set error state if an error occurred
         }
@@ -78,7 +78,7 @@ export const AILoadingScreen = ({ navigation }) => {
         return <RefreshErrorPage tryAgain={onRetry} />;  // Show error page with retry option if order creation failed
     }
 
-    return AILoadingScreenPage;  // Return nothing if no state is active
+    return <AILoadingScreenPage/>;  // Return nothing if no state is active
 };
 
 const AILoadingScreenPage = () => {

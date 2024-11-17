@@ -109,9 +109,9 @@ const addDesignEntry = async (req, res) => {
     try {
         const { orderId, url } = req.body
         checkInOrder(req, orderId)
-        let atLimit = await designerService.isAtLimit(orderId)
-        if (atLimit) {
-            return res.status(401).json("too many outfits");
+        let notAbleToAdd = await designerService.notAbleToAdd(orderId)
+        if (notAbleToAdd) {
+            return res.status(401).json("too many outfits or finished order");
         }
         const designs = await designerService.addDesignEntry(orderId, url);
         return res.status(200).json(designs);
@@ -125,6 +125,10 @@ const removeDesignEntry = async (req, res) => {
     try {
         const { orderId, url } = req.body
         checkInOrder(req, orderId)
+        let notAbleToRemove = await designerService.notAbleToRemove(orderId)
+        if (notAbleToRemove) {
+            return res.status(401).json("finished order");
+        }
         const designs = await designerService.removeDesignEntry(orderId, url);
         return res.status(200).json(designs);
     } catch (error) {

@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { List, Divider, Avatar, Text, Button } from 'react-native-paper';
 import { ClientObjectContext } from '../navigation/ClientObjectProvider';
+import ReviewModal from './reviewModel';
 
-const FinishedDesigns = ({ navigation, orders }) => {
+const FinishedDesignsInnerPage = ({ navigation, orders, onReview, setOrderIdForReview }) => {
     const approvedOrders = orders.filter(order => order.status == 'finished');
     const { setOrderId } = useContext(ClientObjectContext);
 
@@ -22,26 +23,33 @@ const FinishedDesigns = ({ navigation, orders }) => {
                                     source={{ uri: order.designerImage }}
                                 />
                             )}
-                            // right={() => (
-                                // <Button
-                                //     mode="contained"
-                                //     onPress={() => {
-                                //         // Handle add review navigation
-                                //         setOrderId(order._id);
-                                //         // navigation.navigate("AddReview");
-                                //     }}
-                                //     style={styles.reviewButton}
-                                //     labelStyle={styles.buttonLabel}
-                                // >
-                                //     add review
-                                // </Button>
-                            // )}
+
                             descriptionStyle={styles.statusApproved}
-                            onPress={() => {
-                                setOrderId(order._id);
-                                navigation.navigate("DesignInfo");
-                            }}
                         />
+                        <View style={styles.btns}>
+                            <Button
+                                mode="contained"
+                                onPress={() => {
+                                    setOrderIdForReview(order._id)
+                                    onReview(order.review);
+                                }}
+                                style={styles.reviewButton}
+                                labelStyle={styles.buttonLabel}
+                            >
+                                Add Review
+                            </Button>
+                            <Button
+                                mode="contained"
+                                onPress={() => {
+                                    setOrderId(order._id);
+                                    navigation.navigate("DesignInfo");
+                                }}
+                                style={styles.reviewButton}
+                                labelStyle={styles.buttonLabel}
+                            >
+                                View Order
+                            </Button>
+                        </View>
                         <Divider />
                     </React.Fragment>
                 ))
@@ -52,11 +60,52 @@ const FinishedDesigns = ({ navigation, orders }) => {
     );
 };
 
+
+const FinishedDesigns = ({ navigation, orders }) => {
+    // Create a reference for the ReviewModal
+    const reviewModalRef = useRef(null);
+    const [ordersState, setOrdersState] = useState(orders)
+    const [orderId, setOrdersId] = useState('')
+
+    const updateReview = (newReview) => {
+        // Find the order with the given orderId
+        const orderIndex = ordersState.findIndex(order => order._id === orderId);
+        console.log(orderIndex)
+        // If order is found, update its review
+        if (orderIndex !== -1) {
+            const updatedOrders = [...orders];
+            updatedOrders[orderIndex].review = newReview;
+            setOrdersState(updatedOrders)
+            console.log(newReview)
+        } 
+    };
+
+    // Function to open the modal
+    const showReviewModal = (reviewData) => {
+        reviewModalRef.current?.openModal(reviewData);
+    };
+
+    return (
+        <View >
+            <FinishedDesignsInnerPage setOrderIdForReview={setOrdersId} navigation={navigation} 
+                orders={ordersState} onReview={showReviewModal}/>
+            {/* Include the ReviewModal component */}
+            <ReviewModal ref={reviewModalRef} updateReview={updateReview}/>
+        </View>
+    );
+};
+
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         marginBottom: 20,
         marginHorizontal: 20
+    },
+    btns: {
+        flexDirection: "row",
+        justifyContent: 'center',
+        marginBottom: 10
     },
     sectionHeader: {
         fontSize: 18,
@@ -71,13 +120,13 @@ const styles = StyleSheet.create({
         color: '#000',
     },
     reviewButton: {
-        backgroundColor: '#BA8EF7',
+        backgroundColor: '#6750a4',
         borderRadius: 20,
         marginLeft: 8,
     },
     buttonLabel: {
         fontSize: 14,
-        color: '#000000',
+        color: 'white',
         textTransform: 'none', // This prevents automatic capitalization
     }
 });

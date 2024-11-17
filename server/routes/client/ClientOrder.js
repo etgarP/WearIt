@@ -15,4 +15,7 @@ router.route('/review')
 router.route('/try-on') 
     .post(ClientOrderController.tryOn)
 
+// router.route('/review/:designer')
+//     .get(ClientOrderController.getReview)
+
 module.exports = router;
