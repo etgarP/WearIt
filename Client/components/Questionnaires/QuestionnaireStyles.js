@@ -3,7 +3,6 @@ import { Colors } from "../../constants/colors";
 
 export const styles = StyleSheet.create({
     container: {
-        backgroundColor: Colors.background,
         height: "100%",
         flexGrow: 1,
     },

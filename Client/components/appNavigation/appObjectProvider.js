@@ -1,10 +1,10 @@
-import React, { useState, createContext } from 'react';
+import React, { useState, createContext } from "react";
 
 export const AppObjectContext = createContext();
 
 export function AppObjectProvider({ children }) {
-    const [userDetails, setUserDetails] = useState(null);
-    const [questionnaireData, setQuestionnaireData] = useState({
+  const [userDetails, setUserDetails] = useState(null);
+  const [questionnaireData, setQuestionnaireData] = useState({
     name: "",
     age: "",
     gender: "",
@@ -28,9 +28,16 @@ export function AppObjectProvider({ children }) {
     stylistAbout: "",
   });
 
-    return (
-        <AppObjectContext.Provider value={{ userDetails, setUserDetails, questionnaireData, setQuestionnaireData }}>
-            {children}
-        </AppObjectContext.Provider>
-    );
+  return (
+    <AppObjectContext.Provider
+      value={{
+        userDetails,
+        setUserDetails,
+        questionnaireData,
+        setQuestionnaireData,
+      }}
+    >
+      {children}
+    </AppObjectContext.Provider>
+  );
 }

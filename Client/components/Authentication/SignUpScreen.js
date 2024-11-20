@@ -6,11 +6,13 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Alert,
+  Image,
 } from "react-native";
 import { styles } from "./AuthenticationStyles";
 import { AppObjectContext } from "../appNavigation/appObjectProvider";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { constants } from "../../constants/api";
+import BackgroundWrapper from "../backgroundWrapper";
 
 export default function SignUpScreen({ navigation, route }) {
   const [selectedTab, setSelectedTab] = useState("designer");
@@ -113,85 +115,92 @@ export default function SignUpScreen({ navigation, route }) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      {/* Header - Sign Up */}
-      <Text style={styles.titleText}>SIGN UP</Text>
+    <BackgroundWrapper>
+      <SafeAreaView style={styles.container}>
+        <Image
+          source={require("../../assets/logo.png")} // path to your image
+          resizeMode="contain"
+          style={{ marginBottom: "25%" }}
+        />
+        {/* Header - Sign Up */}
+        <Text style={styles.titleText}>SIGN UP</Text>
 
-      {/* Tab Selection */}
-      <View style={styles.tabContainer}>
-        <TouchableOpacity
-          style={[styles.tab, selectedTab === "designer" && styles.activeTab]}
-          onPress={() => setSelectedTab("designer")}
-        >
-          <Text
-            style={[
-              styles.tabText,
-              selectedTab === "designer" && styles.activeTabText,
-            ]}
+        {/* Tab Selection */}
+        <View style={styles.tabContainer}>
+          <TouchableOpacity
+            style={[styles.tab, selectedTab === "designer" && styles.activeTab]}
+            onPress={() => setSelectedTab("designer")}
           >
-            STYLIST
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.tab, selectedTab === "client" && styles.activeTab]}
-          onPress={() => setSelectedTab("client")}
-        >
-          <Text
-            style={[
-              styles.tabText,
-              selectedTab === "client" && styles.activeTabText,
-            ]}
+            <Text
+              style={[
+                styles.tabText,
+                selectedTab === "designer" && styles.activeTabText,
+              ]}
+            >
+              STYLIST
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.tab, selectedTab === "client" && styles.activeTab]}
+            onPress={() => setSelectedTab("client")}
           >
-            CUSTOMER
-          </Text>
+            <Text
+              style={[
+                styles.tabText,
+                selectedTab === "client" && styles.activeTabText,
+              ]}
+            >
+              CUSTOMER
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Username, Password, and Confirm Password Fields */}
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="USERNAME"
+            placeholderTextColor="#A9A9A9"
+            value={username}
+            onChangeText={setUsername}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="PASSWORD"
+            placeholderTextColor="#A9A9A9"
+            secureTextEntry
+            value={password}
+            onChangeText={setPassword}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="CONFIRM PASSWORD"
+            placeholderTextColor="#A9A9A9"
+            secureTextEntry
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+          />
+        </View>
+
+        {/* Sign Up Button */}
+        <TouchableOpacity
+          style={styles.button}
+          onPress={async () => await handleSignUp()}
+        >
+          <Text style={styles.buttonText}>SIGN UP</Text>
         </TouchableOpacity>
-      </View>
 
-      {/* Username, Password, and Confirm Password Fields */}
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="USERNAME"
-          placeholderTextColor="#A9A9A9"
-          value={username}
-          onChangeText={setUsername}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="PASSWORD"
-          placeholderTextColor="#A9A9A9"
-          secureTextEntry
-          value={password}
-          onChangeText={setPassword}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="CONFIRM PASSWORD"
-          placeholderTextColor="#A9A9A9"
-          secureTextEntry
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-        />
-      </View>
-
-      {/* Sign Up Button */}
-      <TouchableOpacity
-        style={styles.button}
-        onPress={async () => await handleSignUp()}
-      >
-        <Text style={styles.buttonText}>SIGN UP</Text>
-      </TouchableOpacity>
-
-      {/* Sign In Link */}
-      <TouchableOpacity
-        onPress={() =>
-          navigation.navigate("SignIn", {
-            selectedTab: selectedTab,
-          })
-        }
-      >
-        <Text style={styles.linkText}>ALREADY HAVE AN ACCOUNT? SIGN IN</Text>
-      </TouchableOpacity>
-    </SafeAreaView>
+        {/* Sign In Link */}
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("SignIn", {
+              selectedTab: selectedTab,
+            })
+          }
+        >
+          <Text style={styles.linkText}>ALREADY HAVE AN ACCOUNT? SIGN IN</Text>
+        </TouchableOpacity>
+      </SafeAreaView>
+    </BackgroundWrapper>
   );
 }

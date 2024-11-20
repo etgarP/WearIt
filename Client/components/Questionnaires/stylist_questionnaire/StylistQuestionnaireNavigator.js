@@ -6,6 +6,7 @@ import StylistLifeStyle from "./stylist_life_style";
 import Questionnaire_picture from "../picture";
 import StylistAbout from "./stylist_about";
 import { SafeAreaView, StyleSheet } from "react-native";
+import BackgroundWrapper from "../../backgroundWrapper";
 
 const Stack = createNativeStackNavigator();
 
@@ -27,50 +28,50 @@ export const StylistQuestionnaireNavigator = () => {
         },
       }}
     >
-      <Stack.Screen name="stylistInfo">
-        {(props) => (
-          <ScreenWrapper>
-            <StylistInfo
-              {...props}
-              setQuestionnaireData={setQuestionnaireData}
-              questionnaireData={questionnaireData}
-            />
-          </ScreenWrapper>
-        )}
-      </Stack.Screen>
-      <Stack.Screen name="stylistLifeStyle">
-        {(props) => (
-          <ScreenWrapper>
-            <StylistLifeStyle
-              {...props}
-              setQuestionnaireData={setQuestionnaireData}
-              questionnaireData={questionnaireData}
-            />
-          </ScreenWrapper>
-        )}
-      </Stack.Screen>
-      <Stack.Screen name="QuestionnairePicture">
-        {(props) => (
-          <ScreenWrapper>
-            <Questionnaire_picture
-              {...props}
-              setQuestionnaireData={setQuestionnaireData}
-              questionnaireData={questionnaireData}
-            />
-          </ScreenWrapper>
-        )}
-      </Stack.Screen>
-      <Stack.Screen name="stylistAbout">
-        {(props) => (
-          <ScreenWrapper>
-            <StylistAbout
-              {...props}
-              setQuestionnaireData={setQuestionnaireData}
-              questionnaireData={questionnaireData}
-            />
-          </ScreenWrapper>
-        )}
-      </Stack.Screen>
+        <Stack.Screen name="stylistInfo">
+          {(props) => (
+            <ScreenWrapper>
+              <StylistInfo
+                {...props}
+                setQuestionnaireData={setQuestionnaireData}
+                questionnaireData={questionnaireData}
+              />
+            </ScreenWrapper>
+          )}
+        </Stack.Screen>
+        <Stack.Screen name="stylistLifeStyle">
+          {(props) => (
+            <ScreenWrapper>
+              <StylistLifeStyle
+                {...props}
+                setQuestionnaireData={setQuestionnaireData}
+                questionnaireData={questionnaireData}
+              />
+            </ScreenWrapper>
+          )}
+        </Stack.Screen>
+        <Stack.Screen name="QuestionnairePicture">
+          {(props) => (
+            <ScreenWrapper>
+              <Questionnaire_picture
+                {...props}
+                setQuestionnaireData={setQuestionnaireData}
+                questionnaireData={questionnaireData}
+              />
+            </ScreenWrapper>
+          )}
+        </Stack.Screen>
+        <Stack.Screen name="stylistAbout">
+          {(props) => (
+            <ScreenWrapper>
+              <StylistAbout
+                {...props}
+                setQuestionnaireData={setQuestionnaireData}
+                questionnaireData={questionnaireData}
+              />
+            </ScreenWrapper>
+          )}
+        </Stack.Screen>
     </Stack.Navigator>
   );
 };
