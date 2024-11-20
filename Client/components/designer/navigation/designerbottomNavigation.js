@@ -1,38 +1,73 @@
-import React, { useContext } from 'react';
-import { Text } from 'react-native';
-import { BottomNavigation, Appbar } from 'react-native-paper';
-import DesignerHome from '../homeScreen/designerHome';
+import React, { useEffect, useRef } from "react";
+import { BottomNavigation, Appbar, IconButton } from "react-native-paper";
+import DesignerHome from "../homeScreen/designerHome";
+import ClientsOrders from "../clientsOrdersComponent/clientsOrders";
+import GetProfile from "../designerProfile/getProfile";
+import Sheet from "../../sheet";
 
+export default function DesignerBottomNav({ route, navigation }) {
+  const [index, setIndex] = React.useState(0);
+  const [routes] = React.useState([
+    {
+      key: "home",
+      title: "WearIT",
+      focusedIcon: "home",
+      unfocusedIcon: "home-outline",
+    },
+    {
+      key: "profile",
+      title: "Profile",
+      focusedIcon: "face-man-shimmer",
+      unfocusedIcon: "face-man-shimmer-outline",
+    },
+    {
+      key: "pending",
+      title: "Pending",
+      focusedIcon: "dots-horizontal-circle",
+      unfocusedIcon: "dots-horizontal-circle-outline",
+    },
+  ]);
 
-export default function DesignerBottomNav({ navigation }) {
-    // const { setProfilePage } = useContext(ClientObjectContext);
-    const [index, setIndex] = React.useState(0);
-    const [routes] = React.useState([
-        { key: 'home', title: 'Home', focusedIcon: 'face-man-shimmer', unfocusedIcon: 'face-man-shimmer-outline' },
-        // { key: 'groupMatch', title: 'Group Match', focusedIcon: 'account-group', unfocusedIcon: 'account-group-outline' },
-        // { key: 'orders', title: 'Orders', focusedIcon: 'shopping', unfocusedIcon: 'shopping-outline' },
-        // { key: 'design', title: 'Design', focusedIcon: 'palette', unfocusedIcon: 'palette-outline' },
-    ]);
+  // Set index based on navigation params if available
+  useEffect(() => {
+    if (route.params?.initialTab === "pending") {
+      setIndex(2); // Set to "Pending" tab if passed in navigation params
+    }
+  }, [route.params]);
 
-    const renderScene = BottomNavigation.SceneMap({
-        home: () => <DesignerHome/>,
-        // groupMatch: GroupMatchRoute,
-        // orders: OrdersRoute,
-        // design: () => <FinishedDesigns navigation={navigation} />,
-    });
+  const renderScene = BottomNavigation.SceneMap({
+    home: () => <DesignerHome navigation={navigation} />,
+    profile: () => <GetProfile navigation={navigation} />,
+    pending: () => <ClientsOrders navigation={navigation} status={"pending"} />,
+  });
 
-    return (
-        <>
-            {/* Update the Appbar title dynamically based on the selected route */}
-            <Appbar.Header mode="center-aligned">
-                <Appbar.Content title={routes[index].title} />
-            </Appbar.Header>
+  const showAppBarDetails = routes[index].key !== "profile"; // Hide title for "home" tab
 
-            <BottomNavigation
-                navigationState={{ index, routes }}
-                onIndexChange={setIndex}
-                renderScene={renderScene}
-            />
-        </>
-    );
+  const sheetRef = useRef(null);
+
+  const openBottomSheet = () => {
+    sheetRef.current?.openSheet();
+  };
+
+  return (
+    <Sheet
+      navigation={navigation}
+      ref={sheetRef}
+      isClient={false}
+      onChangeInfo={() => navigation.navigate("stylistQuestionnaire")}
+    >
+      {showAppBarDetails && (
+        <Appbar.Header mode="center-aligned">
+          <Appbar.Content title={routes[index].title} />
+          <IconButton icon="account" size={24} onPress={openBottomSheet} />
+        </Appbar.Header>
+      )}
+
+      <BottomNavigation
+        navigationState={{ index, routes }}
+        onIndexChange={setIndex}
+        renderScene={renderScene}
+      />
+    </Sheet>
+  );
 }

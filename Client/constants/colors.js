@@ -5,5 +5,4 @@ export const Colors = {
   line: "lightgray",
   text: "black",
   btnText: "white",
-  background: "white",
 };

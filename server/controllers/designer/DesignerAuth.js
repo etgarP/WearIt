@@ -33,7 +33,8 @@ const signUpDesigner = async (req, res) => {
         const { username, password } = req.body;
 
         await designerService.createDesigner(username, password);
-        return res.status(201).json("Designer created successfully");
+        const token = jwt.sign({ username: username }, secretToken);
+        return res.status(200).json({ key: token });
     } catch (error) {
         console.log(error);
         if (error.code === 11000) {

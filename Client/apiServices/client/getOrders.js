@@ -1,6 +1,7 @@
 import { fetchWithTimeout } from "../fetchWithTimeout";
+import { constants } from "../../constants/api";
 
-const API_URL = 'http://10.0.2.2:12345/api/client/orders'; // Adjust the base URL if needed
+const API_URL = `${constants.clientBaseAddress}orders`; // Replace with your actual URL
 
 export const getOrders = async (token) => {
     try {
