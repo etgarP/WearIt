@@ -2,8 +2,8 @@ import React, { useEffect, useContext, useState, useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import axios from "axios";
 import { AppObjectContext } from "../../appNavigation/appObjectProvider";
-import LoadingPage from "../../Client/loadingPage";
-import RefreshErrorPage from "../../Client/refreshErrorPage";
+import LoadingPage from "../../loadingPages/loadingPage";
+import RefreshErrorPage from "../../loadingPages/refreshErrorPage";
 import DesignerProfile from "./designerProfile";
 import { constants } from "../../../constants/api";
 

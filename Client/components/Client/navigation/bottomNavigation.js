@@ -27,9 +27,13 @@ export default function BottomNav({ navigation }) {
         sheetRef.current?.openSheet();
     };
 
+    const onChangeInfo = () => {
+        navigation.navigate("clientQuestionnaire")
+    }
+
     return (
         <>
-            <Sheet ref={sheetRef}>
+            <Sheet ref={sheetRef} onChangeInfo={onChangeInfo}>
                 <Appbar.Header mode="center-aligned">
                     {/* Display logo in the center */}
                     <View style={styles.imageContainer}>

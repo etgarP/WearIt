@@ -1,7 +1,5 @@
 import { PaperProvider } from 'react-native-paper';
-import AppNavigator from './components/appNavigation/appNavigator';
 import React from "react";
-import { PaperProvider } from "react-native-paper";
 import { useFonts } from "expo-font";
 import AppNavigator from "./components/appNavigation/appNavigator";
 

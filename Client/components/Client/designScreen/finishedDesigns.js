@@ -2,7 +2,7 @@ import React, { useContext, useRef, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { List, Divider, Avatar, Text, Button } from 'react-native-paper';
 import { ClientObjectContext } from '../navigation/ClientObjectProvider';
-import ReviewModal from './reviewModel';
+import ReviewModal from '../../designScreen/reviewModel';
 
 const FinishedDesignsInnerPage = ({ navigation, orders, onReview, setOrderIdForReview }) => {
     const approvedOrders = orders.filter(order => order.status == 'finished');

@@ -24,7 +24,7 @@ const MixAndMatch = ({ navigation }) => {
       {/* Model Image */}
       <View style={styles.modelContainer}>
         <Image
-          source={require("C:/Users/ranen/OneDrive/Desktop/WearIT/WearIt/Client/assets/model.png")}
+          source={require("../../assets/model.png")}
           style={styles.modelImage}
         />
       </View>

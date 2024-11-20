@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { StyleSheet, View } from "react-native";
-import RefreshErrorPage from "../../Client/refreshErrorPage";
+import RefreshErrorPage from "../../loadingPages/refreshErrorPage";
 import { AppObjectContext } from "../../appNavigation/appObjectProvider";
-import LoadingPage from "../../Client/loadingPage";
+import LoadingPage from "../../loadingPages/loadingPage";
 import { Avatar, List, Divider } from "react-native-paper";
 import axios from "axios";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";

@@ -1,10 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, Animated } from 'react-native';
-import { Card } from 'react-native-paper'
-import { ClientObjectContext } from '../navigation/ClientObjectProvider';
-import { AppObjectContext } from '../../appNavigation/appObjectProvider';
-import { tryOn } from '../../../apiServices/client/tryOn';
-import RefreshErrorPage from '../../loadingPages/refreshErrorPage';
+import { ClientObjectContext } from '../Client/navigation/ClientObjectProvider';
+import { tryOn } from '../../apiServices/client/tryOn';
+import RefreshErrorPage from '../loadingPages/refreshErrorPage';
 
 const Star = ({ delay }) => {
     const opacity = React.useRef(new Animated.Value(0)).current;

@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
+import { CommonActions } from '@react-navigation/native';
 import { MaterialIcons, Feather } from "@expo/vector-icons";
 import { Colors } from "../../../constants/colors";
 import { styles } from "../QuestionnaireStyles";
@@ -15,6 +16,7 @@ import { AppObjectContext } from "../../appNavigation/appObjectProvider";
 import { constants } from "../../../constants/api";
 
 export default function StylistAbout({
+  appNavigator,
   navigation,
   setQuestionnaireData,
   questionnaireData,
@@ -107,7 +109,13 @@ export default function StylistAbout({
 
       // Check if the request was successful
       if (infoResponse.ok && profileResponse.ok) {
-        navigation.navigate("designer");
+        console.log("hi")
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0, // The index of the route you want to show
+            routes: [{ name: 'designer' }], // Replace with your home screen's name
+          })
+        );
       } else {
         console.error("Error sending data:", infoResponse.statusText);
         Alert.alert("Error", "Failed to send data. Please try again later.");

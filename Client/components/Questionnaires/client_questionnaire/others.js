@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
+import { CommonActions } from '@react-navigation/native';
 import { MaterialIcons, Feather } from "@expo/vector-icons";
 import { Colors } from "../../../constants/colors";
 import { styles } from "../QuestionnaireStyles";
@@ -79,7 +80,12 @@ export default function Others({
         });
 
         // Navigate to the next screen
-        navigation.navigate("client");
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0, // The index of the route you want to show
+            routes: [{ name: 'client' }], // Replace with your home screen's name
+          })
+        );
       } else {
         console.error("Error sending data:", response.statusText);
         Alert.alert("Error", "Failed to send data. Please try again later.");

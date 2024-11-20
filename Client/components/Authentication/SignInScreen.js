@@ -25,10 +25,9 @@ export default function SignInScreen({ navigation, route }) {
 
   useEffect(() => {
     const checkSignInStatus = async () => {
-      await AsyncStorage.removeItem("userToken");
-      await AsyncStorage.removeItem("selectedTab");
       const storedToken = await AsyncStorage.getItem("userToken");
       const page = await AsyncStorage.getItem("selectedTab");
+      console.log(storedToken, page)
 
       if (storedToken != null) {
         setUserDetails({
@@ -199,7 +198,10 @@ export default function SignInScreen({ navigation, route }) {
               })
             }
           >
-            <Text style={styles.linkText}>DON'T HAVE AN ACCOUNT? SIGN UP</Text>
+            <Text style={styles.linkText}>
+              DON'T HAVE AN ACCOUNT?{' '}
+              <Text style={[styles.linkText, { color: 'black' }]}>SIGN UP</Text>
+            </Text>
           </TouchableOpacity>
         </SafeAreaView>
       </BackgroundWrapper>

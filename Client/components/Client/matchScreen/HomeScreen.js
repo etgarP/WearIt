@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { StyleSheet, View, Text, ActivityIndicator, Image } from 'react-native';
-import RefreshErrorPage from '../../loadingPages/refreshErrorPage';
-import { getMatches } from '../../../apiServices/client/getMatches.js'; // Import the fetch function
-import { AppObjectContext } from '../../appNavigation/appObjectProvider';
-import LoadingPage from '../../loadingPages/loadingPage';
-import ConnectedMatchRoute from './homeScreenConnected';
+import React, { useState, useEffect, useContext } from "react";
+import { StyleSheet, View, Text, ActivityIndicator, Image } from "react-native";
+import RefreshErrorPage from "../../loadingPages/refreshErrorPage.js";
+import { getMatches } from "../../../apiServices/client/getMatches.js"; // Import the fetch function
+import { AppObjectContext } from "../../appNavigation/appObjectProvider";
+import LoadingPage from "../../loadingPages/loadingPage.js";
+import ConnectedMatchRoute from "./homeScreenConnected";
 
 export default function MatchRoute({ setProfilePage, navigation }) {
   const [filtered, setFiltered] = useState([]);

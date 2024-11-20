@@ -6,13 +6,14 @@ import DesignerPage from '../../designerPage';
 import OrderHolder from '../ordering/orderHolder';
 import DesignInfo from '../designScreen/designInfo';
 import MixAndMatch from '../designScreen/mix&match';
-import AILoadingScreen from '../designScreen/AILoadingScreen';
-import ChooseOutfit from '../designScreen/chooseOutfit';
+import AILoadingScreen from '../../designScreen/AILoadingScreen';
+import ChooseOutfit from '../../designScreen/chooseOutfit';
 import { AppObjectContext } from '../../appNavigation/appObjectProvider';
 import { ClientObjectContext, ClientObjectProvider } from './ClientObjectProvider';
 import { WithServerCall } from '../../withServerCall';
 import { getDesign } from '../../../apiServices/client/getDesign';
 import AppBar from '../../AppBar';
+
 
 const Stack = createNativeStackNavigator();
 

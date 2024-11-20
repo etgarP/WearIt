@@ -1,8 +1,9 @@
 import { fetchWithTimeout } from "../fetchWithTimeout";
+import { constants } from "../../constants/api";
 
 
 export const submitReview = async (token, reviewData) => {
-    const API_URL = `http://10.0.2.2:12345/api/client/orders/review` // Adjust the base URL if needed
+    const API_URL = `${constants.clientBaseAddress}orders/review` // Adjust the base URL if needed
     try {
         const response = await fetchWithTimeout(
             5000, // 5 seconds timeout

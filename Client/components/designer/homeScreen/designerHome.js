@@ -6,9 +6,9 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native"; // Import ScrollView
-import RefreshErrorPage from "../../Client/refreshErrorPage";
+import RefreshErrorPage from "../../loadingPages/refreshErrorPage";
 import { AppObjectContext } from "../../appNavigation/appObjectProvider";
-import LoadingPage from "../../Client/loadingPage";
+import LoadingPage from "../../loadingPages/loadingPage";
 import { Avatar, Badge } from "react-native-paper";
 import axios from "axios";
 import ClientsOrders from "../clientsOrdersComponent/clientsOrders";

@@ -65,6 +65,7 @@ export const styles = StyleSheet.create({
   },
   linkText: {
     color: "#A9A9A9",
+    fontWeight: 'bold',
     marginTop: 20,
   },
 });

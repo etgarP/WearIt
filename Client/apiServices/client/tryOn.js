@@ -1,8 +1,9 @@
 import { fetchWithTimeout } from "../fetchWithTimeout";
+import { constants } from "../../constants/api";
 
 export const tryOn = async (token, url, orderId) => {
     console.log(token, url, orderId)
-    const API_URL = `http://10.0.2.2:12345/api/client/orders/try-on`;
+    const API_URL = `${constants.clientBaseAddress}orders/try-on`;
     console.log("in try-on request")
     try {
         const response = await fetchWithTimeout(

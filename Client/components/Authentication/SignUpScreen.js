@@ -198,7 +198,10 @@ export default function SignUpScreen({ navigation, route }) {
             })
           }
         >
-          <Text style={styles.linkText}>ALREADY HAVE AN ACCOUNT? SIGN IN</Text>
+          <Text style={styles.linkText}>
+            ALREADY HAVE AN ACCOUNT?{' '}
+            <Text style={[styles.linkText, { color: 'black' }]}>SIGN IN</Text>
+          </Text>
         </TouchableOpacity>
       </SafeAreaView>
     </BackgroundWrapper>

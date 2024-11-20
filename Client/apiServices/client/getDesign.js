@@ -1,7 +1,8 @@
 import { fetchWithTimeout } from "../fetchWithTimeout";
+import { constants } from "../../constants/api";
 
 export const getDesign = async (token, orderId) => {
-    const API_URL = `http://10.0.2.2:12345/api/client/orders/${orderId}`; 
+    const API_URL = `${constants.clientBaseAddress}orders/${orderId}`; 
     console.log(API_URL, token)
     try {
         const response = await fetchWithTimeout(
