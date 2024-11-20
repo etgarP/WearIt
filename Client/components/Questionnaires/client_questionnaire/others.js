@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Text,
   View,
@@ -11,6 +11,8 @@ import { MaterialIcons, Feather } from "@expo/vector-icons";
 import { Colors } from "../../../constants/colors";
 import { styles } from "../QuestionnaireStyles";
 import { Strings } from "../../../constants/strings";
+import { AppObjectContext } from "../../appNavigation/appObjectProvider";
+import { constants } from "../../../constants/api";
 
 export default function Others({
   navigation,
@@ -19,7 +21,10 @@ export default function Others({
 }) {
   const [fontSize, setFontSize] = useState(0);
   const [dimensions, setDimensions] = useState(Dimensions.get("window"));
-  const [other, setOther] = useState(questionnaireData.other || ""); // Initialize with existing data
+  const [other, setOther] = useState(questionnaireData.other || "");
+  const {
+    userDetails: { token },
+  } = useContext(AppObjectContext);
 
   useEffect(() => {
     const onChange = ({ window }) => {
@@ -48,20 +53,18 @@ export default function Others({
     const data = {
       info: {
         ...questionnaireData,
-        other: other, // Assuming 'other' is defined in your component
-        username: "john_doe7",
+        other: other,
       },
     };
 
     try {
       const response = await fetch(
-        "http://10.0.2.2:12345/api/client/matches/info",
+        `${constants.clientBaseAddress}matches/info`,
         {
           method: "POST",
           headers: {
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvaG5fZG9lNyIsImlhdCI6MTcyODc3MTQwN30.l8NHS8FoYdopvJxpvIR6FKD-KCnGql0afG38aGp6A00",
           },
           body: JSON.stringify(data),
         }
@@ -76,7 +79,7 @@ export default function Others({
         });
 
         // Navigate to the next screen
-        navigation.navigate("SignIn"); // Replace "Home" with the actual next screen name
+        navigation.navigate("client");
       } else {
         console.error("Error sending data:", response.statusText);
         Alert.alert("Error", "Failed to send data. Please try again later.");

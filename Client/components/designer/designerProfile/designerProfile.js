@@ -16,12 +16,14 @@ const DesignerProfile = ({ navigation, profile, isDesigner }) => {
   return (
     <View style={styles.container}>
       <View style={styles.appbar}>
-        <MaterialCommunityIcons
-          name="arrow-left"
-          size={30}
-          style={styles.arrowIcon} // Updated style reference
-          onPress={() => navigation.goBack()}
-        />
+        {!isDesigner && (
+          <MaterialCommunityIcons
+            name="arrow-left"
+            size={30}
+            style={styles.arrowIcon} // Updated style reference
+            onPress={() => navigation.goBack()}
+          />
+        )}
         {isDesigner && (
           <MaterialCommunityIcons
             name="pencil"
@@ -29,7 +31,7 @@ const DesignerProfile = ({ navigation, profile, isDesigner }) => {
             style={styles.pencilIcon}
             onPress={() => {
               // Handle edit functionality here
-              console.log("Edit pressed");
+              navigation.navigate("stylistQuestionnaire");
             }}
           />
         )}
@@ -37,7 +39,18 @@ const DesignerProfile = ({ navigation, profile, isDesigner }) => {
 
       <View style={styles.banner}>
         <View style={styles.avatarContainer}>
-          <Avatar.Image size={100} source={{ uri: image }} />
+          <Avatar.Image
+            size={100}
+            source={
+              image
+                ? image.startsWith("data:")
+                  ? { uri: image }
+                  : { uri: `data:image/jpeg;base64,${image}` }
+                : null // Fallback image if no image is provided
+            }
+            style={styles.avatar}
+          />
+
           <Text style={styles.name}>{name}</Text>
         </View>
       </View>

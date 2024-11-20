@@ -6,24 +6,22 @@ import LoadingPage from "../../Client/loadingPage";
 import { Avatar, List, Divider } from "react-native-paper";
 import axios from "axios";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { constants } from "../../../constants/api";
 
-export default function ClientsOrders({ status }) {
+export default function ClientsOrders({ navigation, status }) {
   const [clientOrders, setClientOrders] = useState({});
   const [pendingOrdersCount, setPendingOrdersCount] = useState(0);
-  const {
-    userDetails: { token },
-  } = useContext(AppObjectContext);
+  const { userDetails } = useContext(AppObjectContext);
   const [alertShown, setAlertShown] = useState(false);
   const [loading, setLoading] = useState(true);
-  const navigation = useNavigation();
 
   const fetchData = async () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        "http://192.168.1.162:12345/api/designer/orders/",
+        `${constants.designerBaseAddress}orders/`,
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: `Bearer ${userDetails.token}` },
         }
       );
       const data = response.data;
@@ -53,8 +51,11 @@ export default function ClientsOrders({ status }) {
   // Use useFocusEffect to refresh data on screen focus
   useFocusEffect(
     React.useCallback(() => {
+      if (!userDetails) {
+        return;
+      }
       fetchData();
-    }, [token, status]) // Add dependencies to re-fetch data when they change
+    }, [userDetails, status]) // Add dependencies to re-fetch data when they change
   );
 
   const onRetry = () => {

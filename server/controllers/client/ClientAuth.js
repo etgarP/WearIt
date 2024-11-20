@@ -31,7 +31,8 @@ const signUpClient = async (req, res) => {
   try {
     const { username, password } = req.body;
     await clientService.createClient(username, password);
-    return res.status(201).json("Client created successfully");
+    const token = jwt.sign({ username: username }, secretToken);
+    return res.status(200).json({ key: token });
   } catch (error) {
     console.log(error);
     if (error.code === 11000) {

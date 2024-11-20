@@ -11,54 +11,15 @@ export default function App() {
   const [fontsLoaded] = useFonts({
     kalam: require("./assets/fonts/Kalam-Regular.ttf"),
   });
+
   if (!fontsLoaded) {
-    return null;
+    return null; // Optionally show a loading spinner
   }
+
   return (
     <PaperProvider>
       <AppNavigator />
     </PaperProvider>
   );
 }
-const Stack = createStackNavigator();
 
-// export default function App() {
-//   const [questionnaireData, setQuestionnaireData] = useState({
-//     name: "",
-//     age: "",
-//     gender: "",
-//     allergies: "",
-//     work: "",
-//     city: "",
-//     religion: "",
-//     image: null,
-//     measurements: {
-//       shoulders: "",
-//       bust: "",
-//       waist: "",
-//       hips: "",
-//       thighs: "",
-//       calves: "",
-//       legs: "",
-//     },
-//     other: "",
-//     price: null,
-//     specialization: "",
-//     stylistAbout: "",
-//   });
-
-//   return (
-//     <NavigationContainer>
-
-//     </NavigationContainer>
-//   );
-// }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

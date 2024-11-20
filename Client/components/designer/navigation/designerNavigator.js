@@ -17,7 +17,6 @@ export const DesignerNavigator = () => {
         initialRouteName="HomeDesigner"
         screenOptions={{
           headerShown: false,
-          cardStyle: { backgroundColor: "white" }, // Adjust as needed
         }}
       >
         <Stack.Screen name="HomeDesigner" component={DesignerBottomNav} />

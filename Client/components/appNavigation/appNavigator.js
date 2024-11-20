@@ -1,10 +1,8 @@
-import React, { useState, createContext } from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ClientNavigator } from '../Client/navigation/ClientNavigator';
 import { DesignerNavigator } from '../designer/navigation/designerNavigator';
-import SignIn from '../auth/signIn/signIn'
-import SignOut from '../auth/signUp/signUp'
 import { AppObjectProvider } from './appObjectProvider';
 import { StylistQuestionnaireNavigator } from '../Questionnaires/stylist_questionnaire/StylistQuestionnaireNavigator';
 import { ClientQuestionnaireNavigator } from '../Questionnaires/client_questionnaire/ClientQuestionnaireNavigator';
@@ -21,7 +19,6 @@ export default AppNavigator = () => {
             initialRouteName="SignIn"
             screenOptions={{
               headerShown: false,
-              cardStyle: { backgroundColor: "white" }, // Adjust as needed
             }}
           >
             <Stack.Screen name="SignIn" component={SignInScreen} />

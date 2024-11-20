@@ -1,6 +1,7 @@
 import { fetchWithTimeout } from "../fetchWithTimeout";
+import { constants } from "../../constants/api";
 
-const API_URL = 'http://10.0.2.2:12345/api/client/matches'; // Replace with your actual URL
+const API_URL = `${constants.clientBaseAddress}matches`; // Replace with your actual URL
 
 export const getMatches = async (token) => {
     try {

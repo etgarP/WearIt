@@ -12,22 +12,21 @@ import LoadingPage from "../../Client/loadingPage";
 import { Avatar, Badge } from "react-native-paper";
 import axios from "axios";
 import ClientsOrders from "../clientsOrdersComponent/clientsOrders";
+import { constants } from "../../../constants/api";
 
 export default function DesignerHome({ navigation }) {
   const [clientOrders, setClientOrders] = useState({});
   const [pendingOrdersCount, setPendingOrdersCount] = useState(0); // State for pending orders count
-  const {
-    userDetails: { token },
-  } = useContext(AppObjectContext);
   const [alertShown, setAlertShown] = useState(false);
   const [loading, setLoading] = useState(true);
+  const { userDetails } = useContext(AppObjectContext);
 
   const clientsOrdersRequest = async () => {
     try {
       const response = await axios.get(
-        "http://192.168.1.162:12345/api/designer/orders/",
+        `${constants.designerBaseAddress}orders/`,
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: `Bearer ${userDetails.token}` },
         }
       );
       const data = response.data;
@@ -99,7 +98,7 @@ export default function DesignerHome({ navigation }) {
       <Text style={styles.clientsText}>My clients</Text>
       {/* Use ScrollView to allow scrolling through the ClientsOrders */}
       <ScrollView style={styles.scrollView}>
-        <ClientsOrders status={"accepted"} />
+        <ClientsOrders navigation={navigation} status={"accepted"} />
       </ScrollView>
     </View>
   );

@@ -10,13 +10,37 @@ import {
 import { styles } from "./AuthenticationStyles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AppObjectContext } from "../appNavigation/appObjectProvider";
+import { constants } from "../../constants/api";
 
 export default function SignInScreen({ navigation, route }) {
   const [selectedTab, setSelectedTab] = useState("designer");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [url, setUrl] = useState("");
+  const [isSignedInAlready, setIsSignedInAlready] = useState(false);
   const { setUserDetails } = useContext(AppObjectContext);
+
+  useEffect(() => {
+    const checkSignInStatus = async () => {
+      const storedToken = await AsyncStorage.getItem("userToken");
+      const page = await AsyncStorage.getItem("selectedTab");
+
+      if (storedToken != null) {
+        setUserDetails({
+          token: storedToken,
+        });
+        // Navigate to the next screen
+        page == "designer"
+          ? navigation.replace("designer")
+          : navigation.replace("client");
+      } else {
+        setIsSignedInAlready(true);
+      }
+    };
+
+    checkSignInStatus();
+  }, []); // Only run this effect once
+
   // Update selectedTab only when route.params.selectedTab changes
   useEffect(() => {
     if (route.params?.selectedTab) {
@@ -24,7 +48,7 @@ export default function SignInScreen({ navigation, route }) {
     }
   }, [route.params?.selectedTab]);
   useEffect(() => {
-    setUrl(`http://10.0.2.2:12345/api/${selectedTab}/auth/signin`);
+    setUrl(`${constants.baseAddress}${selectedTab}/auth/signin`);
   }, [selectedTab]);
 
   const sendRequest = async (authenticationInfo) => {
@@ -41,18 +65,18 @@ export default function SignInScreen({ navigation, route }) {
       if (response.ok) {
         // Parse the JSON response if needed
         const responseData = await response.json();
-        console.log("Data sent successfully:", responseData);
-
+        
         //TODO Update token
         await AsyncStorage.setItem("userToken", responseData.key);
+        await AsyncStorage.setItem("selectedTab", selectedTab);
         setUserDetails({
           token: responseData.key,
           username: username,
         });
         // Navigate to the next screen
         selectedTab == "designer"
-          ? navigation.navigate("designer")
-          : navigation.navigate("client");
+          ? navigation.replace("designer")
+          : navigation.replace("client");
       } else {
         console.error("Error sending data:", response.statusText);
         Alert.alert("Error", "Failed to sign in. Please try again later.");
@@ -91,80 +115,79 @@ export default function SignInScreen({ navigation, route }) {
       password,
     };
     await sendRequest(authenticationInfo);
-
-    // Proceed with sign-in logic (e.g., API call)
-    Alert.alert("Success", `Welcome, ${trimmedUsername}!`);
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      {/* Header - Sign In */}
-      <Text style={styles.titleText}>SIGN IN</Text>
+    isSignedInAlready && (
+      <SafeAreaView style={styles.container}>
+        {/* Header - Sign In */}
+        <Text style={styles.titleText}>SIGN IN</Text>
 
-      {/* Tab Selection */}
-      <View style={styles.tabContainer}>
-        <TouchableOpacity
-          style={[styles.tab, selectedTab === "designer" && styles.activeTab]}
-          onPress={() => setSelectedTab("designer")}
-        >
-          <Text
-            style={[
-              styles.tabText,
-              selectedTab === "designer" && styles.activeTabText,
-            ]}
+        {/* Tab Selection */}
+        <View style={styles.tabContainer}>
+          <TouchableOpacity
+            style={[styles.tab, selectedTab === "designer" && styles.activeTab]}
+            onPress={() => setSelectedTab("designer")}
           >
-            STYLIST
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.tab, selectedTab === "client" && styles.activeTab]}
-          onPress={() => setSelectedTab("client")}
-        >
-          <Text
-            style={[
-              styles.tabText,
-              selectedTab === "client" && styles.activeTabText,
-            ]}
+            <Text
+              style={[
+                styles.tabText,
+                selectedTab === "designer" && styles.activeTabText,
+              ]}
+            >
+              STYLIST
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.tab, selectedTab === "client" && styles.activeTab]}
+            onPress={() => setSelectedTab("client")}
           >
-            CUSTOMER
-          </Text>
+            <Text
+              style={[
+                styles.tabText,
+                selectedTab === "client" && styles.activeTabText,
+              ]}
+            >
+              CUSTOMER
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Username and Password Fields */}
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="USERNAME"
+            placeholderTextColor="#A9A9A9"
+            value={username}
+            onChangeText={setUsername}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="PASSWORD"
+            placeholderTextColor="#A9A9A9"
+            secureTextEntry
+            value={password}
+            onChangeText={setPassword}
+          />
+        </View>
+
+        {/* Sign In Button */}
+        <TouchableOpacity style={styles.button} onPress={handleSignIn}>
+          <Text style={styles.buttonText}>SIGN IN</Text>
         </TouchableOpacity>
-      </View>
 
-      {/* Username and Password Fields */}
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="USERNAME"
-          placeholderTextColor="#A9A9A9"
-          value={username}
-          onChangeText={setUsername}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="PASSWORD"
-          placeholderTextColor="#A9A9A9"
-          secureTextEntry
-          value={password}
-          onChangeText={setPassword}
-        />
-      </View>
-
-      {/* Sign In Button */}
-      <TouchableOpacity style={styles.button} onPress={handleSignIn}>
-        <Text style={styles.buttonText}>SIGN IN</Text>
-      </TouchableOpacity>
-
-      {/* Sign Up Link */}
-      <TouchableOpacity
-        onPress={() =>
-          navigation.navigate("SignUp", {
-            selectedTab: selectedTab,
-          })
-        }
-      >
-        <Text style={styles.linkText}>DON'T HAVE AN ACCOUNT? SIGN UP</Text>
-      </TouchableOpacity>
-    </SafeAreaView>
+        {/* Sign Up Link */}
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("SignUp", {
+              selectedTab: selectedTab,
+            })
+          }
+        >
+          <Text style={styles.linkText}>DON'T HAVE AN ACCOUNT? SIGN UP</Text>
+        </TouchableOpacity>
+      </SafeAreaView>
+    )
   );
 }

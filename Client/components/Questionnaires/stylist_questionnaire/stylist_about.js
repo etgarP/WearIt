@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Text,
   View,
@@ -11,6 +11,8 @@ import { MaterialIcons, Feather } from "@expo/vector-icons";
 import { Colors } from "../../../constants/colors";
 import { styles } from "../QuestionnaireStyles";
 import { Strings } from "../../../constants/strings";
+import { AppObjectContext } from "../../appNavigation/appObjectProvider";
+import { constants } from "../../../constants/api";
 
 export default function StylistAbout({
   navigation,
@@ -22,6 +24,12 @@ export default function StylistAbout({
   const [stylistAbout, setStylistAbout] = useState(
     questionnaireData.stylistAbout || ""
   );
+  const [charCount, setCharCount] = useState(stylistAbout.length);
+  const charLimit = 250;
+
+  const {
+    userDetails: { token },
+  } = useContext(AppObjectContext);
 
   useEffect(() => {
     const onChange = ({ window }) => {
@@ -45,7 +53,15 @@ export default function StylistAbout({
 
   const iconSize = Math.min(dimensions.width, dimensions.height) * 0.1;
 
-  const handleNext = async () => {
+  // Function to handle text input change with character limit validation
+  const handleStylistAboutChange = (text) => {
+    if (text.length <= charLimit) {
+      setStylistAbout(text);
+      setCharCount(text.length); // Update character count
+    }
+  };
+
+  const sendRequests = async () => {
     // Prepare data to be sent to the server
     const info = {
       name: questionnaireData.name,
@@ -59,33 +75,31 @@ export default function StylistAbout({
     const profile = {
       name: questionnaireData.name,
       specialization: questionnaireData.specialization,
-      bio: questionnaireData.stylistAbout,
+      bio: stylistAbout,
       image: questionnaireData.image,
       pricePerItem: questionnaireData.pricePerItem,
     };
 
     try {
       const infoResponse = await fetch(
-        "http://192.168.1.162:12345/api/designer/info",
+        `${constants.designerBaseAddress}info/`,
         {
           method: "POST",
           headers: {
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN0eWxpc3QxMjMiLCJpYXQiOjE3MzAwNDM4NDF9.f4eMfjwd3yPDUCI75Wu07MN9xzMzutVMECrVBZ2BhWI",
           },
           body: JSON.stringify(info),
         }
       );
 
       const profileResponse = await fetch(
-        "http://192.168.1.162:12345/api/designer/info",
+        `${constants.designerBaseAddress}profile/`,
         {
           method: "POST",
           headers: {
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN0eWxpc3QxMjMiLCJpYXQiOjE3MzAwNDM4NDF9.f4eMfjwd3yPDUCI75Wu07MN9xzMzutVMECrVBZ2BhWI",
           },
           body: JSON.stringify(profile),
         }
@@ -93,14 +107,7 @@ export default function StylistAbout({
 
       // Check if the request was successful
       if (infoResponse.ok && profileResponse.ok) {
-        // Update questionnaireData with preferences
-        setQuestionnaireData({
-          ...questionnaireData,
-          stylistAbout: stylistAbout,
-        });
-
-        // Navigate to the next screen - We are going to SignIn because the token isnt avaliabe during signUp
-        navigation.navigate("SignIn");
+        navigation.navigate("designer");
       } else {
         console.error("Error sending data:", infoResponse.statusText);
         Alert.alert("Error", "Failed to send data. Please try again later.");
@@ -112,6 +119,15 @@ export default function StylistAbout({
         "Failed to send data. Please check your network connection."
       );
     }
+  };
+
+  const handleNext = async () => {
+    // Update questionnaireData with preferences
+    setQuestionnaireData({
+      ...questionnaireData,
+      stylistAbout: stylistAbout,
+    });
+    await sendRequests();
   };
 
   return (
@@ -158,8 +174,12 @@ export default function StylistAbout({
           style={styles.input}
           placeholder="Enter your preferences"
           value={stylistAbout}
-          onChangeText={setStylistAbout} // Update state on text change
+          onChangeText={handleStylistAboutChange} // Update state on text change
+          maxLength={charLimit} // Prevents typing more than 300 characters
         />
+        <Text style={styles.charCount}>
+          {charCount}/{charLimit} characters
+        </Text>
       </View>
 
       <View style={styles.footer}>

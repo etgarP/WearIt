@@ -2,6 +2,7 @@ import React, {
   useCallback,
   useRef,
   useState,
+  useContext,
   useImperativeHandle,
   forwardRef,
 } from "react";
@@ -10,6 +11,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { List, Divider } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AppObjectContext } from "./appNavigation/appObjectProvider";
 
 const Sheet = forwardRef(
   ({ navigation, children, isClient = true, onChangeInfo }, ref) => {
@@ -17,8 +19,36 @@ const Sheet = forwardRef(
     const [isSheetOpen, setIsSheetOpen] = useState(false);
     const [flag, setFlag] = useState(false);
 
+    const { setUserDetails, setQuestionnaireData } =
+      useContext(AppObjectContext);
+
     const handleSignOut = async () => {
       await AsyncStorage.removeItem("userToken");
+      await AsyncStorage.removeItem("selectedTab");
+      setUserDetails(null);
+      setQuestionnaireData({
+        name: "",
+        age: "",
+        gender: "",
+        allergies: "",
+        work: "",
+        city: "",
+        religion: "",
+        image: null,
+        measurements: {
+          shoulders: "",
+          bust: "",
+          waist: "",
+          hips: "",
+          thighs: "",
+          calves: "",
+          legs: "",
+        },
+        other: "",
+        price: null,
+        specialization: "",
+        stylistAbout: "",
+      });
       navigation.reset({
         index: 0,
         routes: [{ name: "SignIn" }],
@@ -30,7 +60,6 @@ const Sheet = forwardRef(
     }, []);
 
     const openSheet = () => {
-      console.log("im opened");
       bottomSheetRef.current?.snapToIndex(0);
       setFlag(true);
       setIsSheetOpen(true);

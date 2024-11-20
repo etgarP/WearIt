@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -8,6 +8,9 @@ import {
   Alert,
 } from "react-native";
 import { styles } from "./AuthenticationStyles";
+import { AppObjectContext } from "../appNavigation/appObjectProvider";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { constants } from "../../constants/api";
 
 export default function SignUpScreen({ navigation, route }) {
   const [selectedTab, setSelectedTab] = useState("designer");
@@ -15,6 +18,7 @@ export default function SignUpScreen({ navigation, route }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [url, setUrl] = useState("");
+  const { setUserDetails } = useContext(AppObjectContext);
 
   // Update selectedTab only when route.params.selectedTab changes
   useEffect(() => {
@@ -23,12 +27,11 @@ export default function SignUpScreen({ navigation, route }) {
     }
   }, [route.params?.selectedTab]);
   useEffect(() => {
-    setUrl(`http://10.0.2.2:12345/api/${selectedTab}/auth/signup`);
+    setUrl(`${constants.baseAddress}${selectedTab}/auth/signup`);
   }, [selectedTab]);
 
   const sendRequest = async (authenticationInfo) => {
     try {
-      console.log(url);
       const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -36,16 +39,20 @@ export default function SignUpScreen({ navigation, route }) {
         },
         body: JSON.stringify(authenticationInfo),
       });
-      console.log("test");
       // Check if the request was successful
       if (response.ok) {
         // Parse the JSON response if needed
         const responseData = await response.json();
-        console.log("Data sent successfully:", responseData);
+        await AsyncStorage.setItem("userToken", responseData.key);
+        await AsyncStorage.setItem("selectedTab", selectedTab);
+        setUserDetails({
+          token: responseData.key,
+          username: username,
+        });
 
         selectedTab == "designer"
-          ? navigation.navigate("stylistQuestionnaire")
-          : navigation.navigate("clientQuestionnaire");
+          ? navigation.replace("stylistQuestionnaire")
+          : navigation.replace("clientQuestionnaire");
       } else {
         const errorData = await response.json(); // Parse error response from server
         console.error("Error sending data:", response.statusText);
@@ -103,8 +110,6 @@ export default function SignUpScreen({ navigation, route }) {
       password,
     };
     await sendRequest(authenticationInfo);
-    // Proceed with sign-up logic (e.g., API call)
-    Alert.alert("Success", `Account created for ${trimmedUsername}!`);
   };
 
   return (

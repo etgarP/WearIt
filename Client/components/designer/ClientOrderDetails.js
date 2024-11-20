@@ -10,6 +10,7 @@ import {
 } from "react-native-paper";
 import axios from "axios";
 import { AppObjectContext } from "../appNavigation/appObjectProvider";
+import { constants } from "../../constants/api";
 
 const ClientOrderDetails = ({ navigation, route }) => {
   const { order } = route.params;
@@ -23,7 +24,7 @@ const ClientOrderDetails = ({ navigation, route }) => {
     const fetchClientData = async () => {
       try {
         const response = await axios.get(
-          `http://192.168.1.162:12345/api/designer/orders/${order._id}`,
+          `${constants.designerBaseAddress}orders/${order._id}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setClientData(response.data);
@@ -37,7 +38,7 @@ const ClientOrderDetails = ({ navigation, route }) => {
   const handleApprove = async () => {
     try {
       const response = await axios.post(
-        `http://192.168.1.162:12345/api/designer/orders/acc/${order._id}`,
+        `${constants.designerBaseAddress}orders/acc/${order._id}`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -57,7 +58,7 @@ const ClientOrderDetails = ({ navigation, route }) => {
   const handleDeny = async () => {
     try {
       const response = await axios.post(
-        `http://192.168.1.162:12345/api/designer/orders/acc/${order._id}`,
+        `${constants.designerBaseAddress}orders/acc/${order._id}`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );

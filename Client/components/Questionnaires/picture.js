@@ -72,20 +72,16 @@ export default function Questionnaire_picture({
 
       if (!result.canceled) {
         const imageUri = result.assets[0].uri;
-        setImage(imageUri);
-
         // Convert image to base64
         const base64 = await FileSystem.readAsStringAsync(imageUri, {
           encoding: FileSystem.EncodingType.Base64,
         });
-
+        setImage(base64);
         // Store base64 string in your questionnaire data
         setQuestionnaireData({
           ...questionnaireData,
           image: base64,
         });
-
-        console.log("Base64 Image: ", base64); // You can remove this after testing
       }
     } catch (error) {
       console.error("Error picking image:", error);
@@ -153,7 +149,16 @@ export default function Questionnaire_picture({
         <Text style={styles.label}>Upload Full-Body Image (Optional)</Text>
         <View style={styles.previewContainer}>
           {image ? (
-            <Image source={{ uri: image }} style={styles.previewImage} />
+            <Image
+              source={
+                image
+                  ? image.startsWith("data:")
+                    ? { uri: image }
+                    : { uri: `data:image/jpeg;base64,${image}` }
+                  : null // Fallback image if no image is provided
+              }
+              style={styles.previewImage}
+            />
           ) : (
             <Text>{Strings.imagePlaceholder}</Text>
           )}
