@@ -48,7 +48,7 @@ def download_last_image(url):
         print("No images found on the page.")
     
 # Example: Replace this with the URL you want to scrape
-url = "https://www.everlane.com/products/womens-silky-cttn-cropped-shirt-chambray-blue?collection=womens-tops"
+url = "https://www.everlane.com/products/womens-ribbed-turtleneck-ultrasoft-merino-gold?collection=womens-sweaters"
 download_last_image(url)
 
 
