@@ -22,7 +22,15 @@ const FinishedDesigns = ({ navigation, orders }) => {
               left={() => (
                 <Avatar.Image
                   size={50}
-                  source={{ uri: "https://example.com/designer-image.jpg" }} // Replace with real image
+                  source={
+                    order.designerImage
+                      ? order.designerImage.startsWith("data:")
+                        ? { uri: order.designerImage }
+                        : {
+                            uri: `data:image/jpeg;base64,${order.designerImage}`,
+                          }
+                      : null // Fallback image if no image is provided
+                  }
                 />
               )}
               descriptionStyle={styles.statusApproved}

@@ -107,7 +107,15 @@ const ClientOrderDetails = ({ navigation, route }) => {
           left={() => (
             <Avatar.Image
               size={50}
-              source={{ uri: "https://example.com/designer-image.jpg" }}
+              source={
+                clientInfo.image
+                  ? clientInfo.image.startsWith("data:")
+                    ? { uri: clientInfo.image }
+                    : {
+                        uri: `data:image/jpeg;base64,${clientInfo.image}`,
+                      }
+                  : null // Fallback image if no image is provided
+              }
             />
           )}
           descriptionStyle={styles.orderRequests}
