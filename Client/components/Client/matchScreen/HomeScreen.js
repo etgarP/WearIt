@@ -33,7 +33,6 @@ export default function MatchRoute({ setProfilePage, navigation }) {
   };
 
   useEffect(() => {
-    console.log(userDetails.token);
     fetchData();
   }, [userDetails.token]); // No need to track alertShown in dependencies
 
