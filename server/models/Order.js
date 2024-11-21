@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const { getClientImage } = require('../services/Client/ClientInfoService')
-
 
 // the order details
 const OrderSchema = new Schema({
@@ -17,11 +15,5 @@ const OrderSchema = new Schema({
     username: { type: String }
 });
 
-OrderSchema.pre('save', function (next) {
-    if (this.username) {
-        this.clientImage = getClientImage(this.username);
-    }
-    next();
-});
 
 module.exports = mongoose.model('Order', OrderSchema);
