@@ -9,75 +9,99 @@ const OrdersRoute = ({ orders }) => {
     const rejectedOrders = orders.filter(order => order.status === 'rejected');
 
     return (
-        <View style={styles.container}>
-            {/* Not Yet Approved Section */}
-            <Text style={styles.sectionHeader}>Not Yet Approved</Text>
-            {pendingOrders.length > 0 ? (
-                pendingOrders.map(order => (
-                    <React.Fragment key={order._id}>
-                        <List.Item
-                            title={`Ordered from ${order.designer}`}
-                            description={`Status: ${order.status}`}
-                            left={() => (
-                                <Avatar.Image
-                                    size={50}
-                                    source={{ uri: order.designerImage }} // Replace with real image
-                                />
-                            )}
-                            descriptionStyle={styles.statusPending}
-                        />
-                        <Divider />
-                    </React.Fragment>
-                ))
-            ) : (
-                <Text>No pending orders.</Text>
-            )}
+      <View style={styles.container}>
+        {/* Not Yet Approved Section */}
+        <Text style={styles.sectionHeader}>Not Yet Approved</Text>
+        {pendingOrders.length > 0 ? (
+          pendingOrders.map((order) => (
+            <React.Fragment key={order._id}>
+              <List.Item
+                title={`Ordered from ${order.designer}`}
+                description={`Status: ${order.status}`}
+                left={() => (
+                  <Avatar.Image
+                    size={50}
+                    source={
+                      order.designerImage
+                        ? order.designerImage.startsWith("data:")
+                          ? { uri: order.designerImage }
+                          : {
+                              uri: `data:image/jpeg;base64,${order.designerImage}`,
+                            }
+                        : null // Fallback image if no image is provided
+                    }
+                  />
+                )}
+                descriptionStyle={styles.statusPending}
+              />
+              <Divider />
+            </React.Fragment>
+          ))
+        ) : (
+          <Text>No pending orders.</Text>
+        )}
 
-            {/* Approved Section */}
-            <Text style={styles.sectionHeader}>Approved</Text>
-            {approvedOrders.length > 0 ? (
-                approvedOrders.map(order => (
-                    <React.Fragment key={order._id}>
-                        <List.Item
-                            title={`Ordered from ${order.designer}`}
-                            description={`Status: ${order.status}`}
-                            left={() => (
-                                <Avatar.Image
-                                    size={50}
-                                    source={{ uri: order.designerImage }} // Replace with real image
-                                />
-                            )}
-                            descriptionStyle={styles.statusApproved}
-                        />
-                        <Divider />
-                    </React.Fragment>
-                ))
-            ) : (
-                <Text>No active approved orders.</Text>
-            )}
-            {/* Approved Section */}
-            <Text style={styles.sectionHeader}>Rejected</Text>
-            {rejectedOrders.length > 0 ? (
-                rejectedOrders.map(order => (
-                    <React.Fragment key={order._id}>
-                        <List.Item
-                            title={`Ordered from ${order.designer}`}
-                            description={`Status: ${order.status}`}
-                            left={() => (
-                                <Avatar.Image
-                                    size={50}
-                                    source={{ uri: order.designerImage }} // Replace with real image
-                                />
-                            )}
-                            descriptionStyle={styles.statusApproved}
-                        />
-                        <Divider />
-                    </React.Fragment>
-                ))
-            ) : (
-                <Text>No rejected  orders.</Text>
-            )}
-        </View>
+        {/* Approved Section */}
+        <Text style={styles.sectionHeader}>Approved</Text>
+        {approvedOrders.length > 0 ? (
+          approvedOrders.map((order) => (
+            <React.Fragment key={order._id}>
+              <List.Item
+                title={`Ordered from ${order.designer}`}
+                description={`Status: ${order.status}`}
+                left={() => (
+                  <Avatar.Image
+                    size={50}
+                    source={
+                      order.designerImage
+                        ? order.designerImage.startsWith("data:")
+                          ? { uri: order.designerImage }
+                          : {
+                              uri: `data:image/jpeg;base64,${order.designerImage}`,
+                            }
+                        : null // Fallback image if no image is provided
+                    }
+                  />
+                )}
+                descriptionStyle={styles.statusApproved}
+              />
+              <Divider />
+            </React.Fragment>
+          ))
+        ) : (
+          <Text>No active approved orders.</Text>
+        )}
+        {/* Approved Section */}
+        <Text style={styles.sectionHeader}>Rejected</Text>
+        {rejectedOrders.length > 0 ? (
+          rejectedOrders.map((order) => (
+            <React.Fragment key={order._id}>
+              <List.Item
+                title={`Ordered from ${order.designer}`}
+                description={`Status: ${order.status}`}
+                left={() => (
+                  <Avatar.Image
+                    size={50}
+                    source={
+                      order.designerImage
+                        ? order.designerImage.startsWith("data:")
+                          ? { uri: order.designerImage }
+                          : {
+                              uri: `data:image/jpeg;base64,${order.designerImage}`,
+                            }
+                        : null // Fallback image if no image is provided
+                    }
+                  />
+                )}
+                descriptionStyle={styles.statusApproved}
+              />
+              <Divider />
+            </React.Fragment>
+          ))
+        ) : (
+          <Text>No rejected orders.</Text>
+        )}
+      </View>
     );
 };
 
