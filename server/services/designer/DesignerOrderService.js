@@ -4,6 +4,8 @@ const ClientInfo = require('../../models/client/ClientInfo');
 const path = require('path');
 const fs = require('fs');
 const { getClientImage } = require('../../services/Client/ClientInfoService')
+const { getDesignerImage } = require('../../services/Designer/DesignerProfileService')
+
 
 /*  
     input: username
@@ -16,6 +18,7 @@ const getOrders = async (username) => {
     for (const order of orders) {
         if (order.username) {
             order.clientImage = await getClientImage(order.username);
+            order.designerImage = await getDesignerImage(order.designer);
             await order.save(); // Persist the changes to the database
         }
     }
