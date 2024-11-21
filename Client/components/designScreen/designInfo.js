@@ -63,7 +63,7 @@ const DesignInfo = ({ toSend = false, navigation }) => {
           <Button
             mode="contained"
             style={styles.selectButton}
-            onPress={() => console.log("pressed")}
+            onPress={() => "TODO" }
           >
             Select
           </Button>

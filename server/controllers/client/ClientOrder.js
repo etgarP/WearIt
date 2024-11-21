@@ -132,17 +132,4 @@ const tryOn = async (req, res) => {
     }
 }
 
-// const getReview = async (req, res) => {
-//     try {
-//         const token = req.headers.authorization.split(' ')[1];
-//         const decoded = jwt.verify(token, secretToken);
-//         const { designer } = req.params
-//         const review = await orderService.getReview(designer, decoded.username)
-//         return res.status(200).json(review);
-//     } catch (error) {
-//         console.log(error)
-//         return res.status(500).json("Internal Server Error");
-//     }
-// }
-
 module.exports = { getMyOrders, purchaseOrder, addReview, getDesign, tryOn };

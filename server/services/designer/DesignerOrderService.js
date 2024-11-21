@@ -4,6 +4,8 @@ const ClientInfo = require('../../models/client/ClientInfo');
 const path = require('path');
 const fs = require('fs');
 const { getClientImage } = require('../../services/Client/ClientInfoService')
+const { getDesignerImage } = require('../../services/Designer/DesignerProfileService')
+
 
 /*  
     input: username
@@ -16,6 +18,7 @@ const getOrders = async (username) => {
     for (const order of orders) {
         if (order.username) {
             order.clientImage = await getClientImage(order.username);
+            order.designerImage = await getDesignerImage(order.designer);
             await order.save(); // Persist the changes to the database
         }
     }
@@ -110,6 +113,7 @@ const rejectOrder = async (orderId) => {
     output: if the username is the client in that order
 */
 const isDesignerInOrder = async (orderId, designer) => {
+    console.log(orderId,designer)
     // First find the order and check ownership
     const order = await Order.findOne({
         _id: orderId,
@@ -203,4 +207,31 @@ const notAbleToRemove = async (orderId) => {
     return true
 }
 
-module.exports = { notAbleToAdd, notAbleToRemove, getOrders, itemsDelivered, removeDesignEntry, newDesign, addDesignEntry, isDesignerInOrder, getOrderDetails, acceptOrder, rejectOrder, sendOrder };
+
+const tryOn = async (orderId, url, username) => {
+    if (!await isDesignerInOrder(orderId, username)) {
+        throw new Error('Order not found or unauthorized access');
+    }
+
+    // Ensure orderId is a valid ObjectId
+    const design = await Design.findOne({ orderId });
+    if (!design) {
+        throw new Error('Design not found for the given orderId');
+    }
+
+    // Check if an entry with the same URL already exists and update it
+    const existingEntry = design.items.find(item => item.url === url);
+    if (existingEntry) {
+        existingEntry.imageOfWornCloth = getDesignString('../../services/client/worn.png');
+        existingEntry.typeOfCloth = 'shirt'; // Default type, can be modified as needed
+    } else {
+        throw new Error('No URL found in the design items');
+    }
+
+    // Save the updated design document
+    const updatedDesign = await design.save();
+    return updatedDesign;
+};
+
+
+module.exports = { tryOn, notAbleToAdd, notAbleToRemove, getOrders, itemsDelivered, removeDesignEntry, newDesign, addDesignEntry, isDesignerInOrder, getOrderDetails, acceptOrder, rejectOrder, sendOrder };
