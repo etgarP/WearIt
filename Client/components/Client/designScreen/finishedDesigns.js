@@ -9,54 +9,61 @@ const FinishedDesignsInnerPage = ({ navigation, orders, onReview, setOrderIdForR
     const { setOrderId } = useContext(ClientObjectContext);
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.sectionHeader}>Finished</Text>
-            {approvedOrders.length > 0 ? (
-                approvedOrders.map(order => (
-                    <React.Fragment key={order._id}>
-                        <List.Item
-                            title={`Ordered from ${order.designer}`}
-                            description={`Status: ${order.status}`}
-                            left={() => (
-                                <Avatar.Image
-                                    size={50}
-                                    source={{ uri: order.designerImage }}
-                                />
-                            )}
-
-                            descriptionStyle={styles.statusApproved}
-                        />
-                        <View style={styles.btns}>
-                            <Button
-                                mode="contained"
-                                onPress={() => {
-                                    setOrderIdForReview(order._id)
-                                    onReview(order.review);
-                                }}
-                                style={styles.reviewButton}
-                                labelStyle={styles.buttonLabel}
-                            >
-                                Add Review
-                            </Button>
-                            <Button
-                                mode="contained"
-                                onPress={() => {
-                                    setOrderId(order._id);
-                                    navigation.navigate("DesignInfo");
-                                }}
-                                style={styles.reviewButton}
-                                labelStyle={styles.buttonLabel}
-                            >
-                                View Order
-                            </Button>
-                        </View>
-                        <Divider />
-                    </React.Fragment>
-                ))
-            ) : (
-                <Text>No approved orders.</Text>
-            )}
-        </View>
+      <View style={styles.container}>
+        <Text style={styles.sectionHeader}>Finished</Text>
+        {approvedOrders.length > 0 ? (
+          approvedOrders.map((order) => (
+            <React.Fragment key={order._id}>
+              <List.Item
+                title={`Ordered from ${order.designer}`}
+                description={`Status: ${order.status}`}
+                left={() => (
+                  <Avatar.Image
+                    size={50}
+                    source={
+                      order.designerImage
+                        ? order.designerImage.startsWith("data:")
+                          ? { uri: order.designerImage }
+                          : {
+                              uri: `data:image/jpeg;base64,${order.designerImage}`,
+                            }
+                        : null // Fallback image if no image is provided
+                    }
+                  />
+                )}
+                descriptionStyle={styles.statusApproved}
+              />
+              <View style={styles.btns}>
+                <Button
+                  mode="contained"
+                  onPress={() => {
+                    setOrderIdForReview(order._id);
+                    onReview(order.review);
+                  }}
+                  style={styles.reviewButton}
+                  labelStyle={styles.buttonLabel}
+                >
+                  Add Review
+                </Button>
+                <Button
+                  mode="contained"
+                  onPress={() => {
+                    setOrderId(order._id);
+                    navigation.navigate("DesignInfo");
+                  }}
+                  style={styles.reviewButton}
+                  labelStyle={styles.buttonLabel}
+                >
+                  View Order
+                </Button>
+              </View>
+              <Divider />
+            </React.Fragment>
+          ))
+        ) : (
+          <Text>No approved orders.</Text>
+        )}
+      </View>
     );
 };
 

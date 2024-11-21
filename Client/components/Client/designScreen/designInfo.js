@@ -14,46 +14,60 @@ const DesignInfo = ({ toSend = false, navigation }) => {
     };
 
     return (
-        <View style={styles.container}>
-
-            {/* Scrollable list of outfits */}
-            <View style={styles.scrollableListContainer}>
-                <ScrollView contentContainerStyle={styles.listContent}>
-                    {clothes.map((outfit) => (
-                        <List.Item
-                            key={outfit._id}
-                            title={outfit.typeOfCloth}
-                            left={() => <Image source={{ uri: outfit.imageOfCloth }} style={styles.outfitImage} />}
-                            right={() => <List.Icon icon="chevron-right" />}
-                            onPress={() => handleOutfitPress(outfit.url)}
-                        />
-                    ))}
-                </ScrollView>
-            </View>
-
-            {/* AI Mix & Match Section */}
-            <View style={styles.aiMixMatchContainer}>
-                <List.Item
-                    title="AI Mix & Match"
-                    titleStyle={{ fontSize: 18 }}
-                    right={props => <Icon {...props} color="#FFD700" size={30} name="star" />}
-                    onPress={() => navigation.navigate('mixAndMatch')}
-                />
-            </View>
-
-            {/* Send to Customer Button */}
-            {toSend && (
-                <View style={styles.buttonContainer}>
-                    <Button
-                        mode="contained"
-                        style={styles.selectButton}
-                        onPress={() => console.log('pressed')}
-                    >
-                        Select
-                    </Button>
-                </View>
-            )}
+      <View style={styles.container}>
+        {/* Scrollable list of outfits */}
+        <View style={styles.scrollableListContainer}>
+          <ScrollView contentContainerStyle={styles.listContent}>
+            {clothes.map((outfit) => (
+              <List.Item
+                key={outfit._id}
+                title={outfit.typeOfCloth}
+                left={() => (
+                  <Image
+                    source={
+                      outfit.imageOfCloth
+                        ? outfit.imageOfCloth.startsWith("data:")
+                          ? { uri: outfit.imageOfCloth }
+                          : {
+                              uri: `data:image/jpeg;base64,${outfit.imageOfCloth}`,
+                            }
+                        : null // Fallback image if no image is provided
+                    }
+                    style={styles.outfitImage}
+                  />
+                )}
+                right={() => <List.Icon icon="chevron-right" />}
+                onPress={() => handleOutfitPress(outfit.url)}
+              />
+            ))}
+          </ScrollView>
         </View>
+
+        {/* AI Mix & Match Section */}
+        <View style={styles.aiMixMatchContainer}>
+          <List.Item
+            title="AI Mix & Match"
+            titleStyle={{ fontSize: 18 }}
+            right={(props) => (
+              <Icon {...props} color="#FFD700" size={30} name="star" />
+            )}
+            onPress={() => navigation.navigate("mixAndMatch")}
+          />
+        </View>
+
+        {/* Send to Customer Button */}
+        {toSend && (
+          <View style={styles.buttonContainer}>
+            <Button
+              mode="contained"
+              style={styles.selectButton}
+              onPress={() => console.log("pressed")}
+            >
+              Select
+            </Button>
+          </View>
+        )}
+      </View>
     );
 };
 

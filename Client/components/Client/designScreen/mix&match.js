@@ -12,50 +12,69 @@ const MixAndMatch = ({ navigation }) => {
     const clothes = design.items.filter(item => item.imageOfWornCloth);
 
     return (
-        <View style={styles.container}>
-            {/* Top Appbar */}
-            <Appbar.Header>
-                <Appbar.BackAction onPress={() => navigation.goBack()} />
-                <Appbar.Content title="Mix & Match" />
-            </Appbar.Header>
+      <View style={styles.container}>
+        {/* Top Appbar */}
+        <Appbar.Header>
+          <Appbar.BackAction onPress={() => navigation.goBack()} />
+          <Appbar.Content title="Mix & Match" />
+        </Appbar.Header>
 
-            {/* Model Image */}
-            <View style={styles.modelContainer}>
-                <Image
-                    source={{ uri: selectedImage }}
-                    style={styles.modelImage}
-                />
-            </View>
-
-            {/* Scrollable Clothes Section */}
-            <View style={styles.scrollContainer}>
-                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                    {clothes.map((item) => (
-                        <TouchableOpacity
-                            key={item._id} // Add unique key here
-                            style={styles.plusButton}
-                            onPress={() => {
-                                if (selectedImage != item.imageOfWornCloth) {
-                                    setSelectedImage(item.imageOfWornCloth)
-                                } else {
-                                    setSelectedImage(design.beforeImage)
-                                }
-                            }} // Update image when pressed
-                        >
-                            <Image
-                                source={{ uri: item.imageOfCloth }}
-                                style={styles.clothesImage}
-                            />
-                        </TouchableOpacity>
-                    ))}
-
-                    {/* Plus Button */}
-                    <TouchableOpacity style={styles.plusButton} onPress={() => navigation.navigate('ChooseOutfit')}>
-                        <IconButton icon="plus" size={30} color="black" />
-                    </TouchableOpacity>
-                </ScrollView>
-            </View>
+        {/* Model Image */}
+        <View style={styles.modelContainer}>
+          <Image
+            source={
+              selectedImage
+                ? selectedImage.startsWith("data:")
+                  ? { uri: selectedImage }
+                  : {
+                      uri: `data:image/jpeg;base64,${selectedImage}`,
+                    }
+                : null // Fallback image if no image is provided
+            }
+            style={styles.modelImage}
+          />
         </View>
+
+        {/* Scrollable Clothes Section */}
+        <View style={styles.scrollContainer}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {clothes.map((item) => (
+              <TouchableOpacity
+                key={item._id} // Add unique key here
+                style={styles.plusButton}
+                onPress={() => {
+                  if (selectedImage != item.imageOfWornCloth) {
+                    setSelectedImage(item.imageOfWornCloth);
+                  } else {
+                    setSelectedImage(design.beforeImage);
+                  }
+                }} // Update image when pressed
+              >
+                <Image
+                  source={
+                    item.imageOfCloth
+                      ? item.imageOfCloth.startsWith("data:")
+                        ? { uri: item.imageOfCloth }
+                        : {
+                            uri: `data:image/jpeg;base64,${item.imageOfCloth}`,
+                          }
+                      : null // Fallback image if no image is provided
+                  }
+                  style={styles.clothesImage}
+                />
+              </TouchableOpacity>
+            ))}
+
+            {/* Plus Button */}
+            <TouchableOpacity
+              style={styles.plusButton}
+              onPress={() => navigation.navigate("ChooseOutfit")}
+            >
+              <IconButton icon="plus" size={30} color="black" />
+            </TouchableOpacity>
+          </ScrollView>
+        </View>
+      </View>
     );
 };
 
