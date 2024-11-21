@@ -6,12 +6,13 @@ import React, {
   useImperativeHandle,
   forwardRef,
 } from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { List, Divider } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AppObjectContext } from "./appNavigation/appObjectProvider";
+import { CommonActions } from "@react-navigation/native";
 
 const Sheet = forwardRef(
   ({ navigation, children, isClient = true, onChangeInfo }, ref) => {
@@ -49,10 +50,12 @@ const Sheet = forwardRef(
         specialization: "",
         stylistAbout: "",
       });
-      navigation.reset({
-        index: 0,
-        routes: [{ name: "SignIn" }],
-      });
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: "SignIn" }],
+        })
+      );
     };
 
     const handleSheetChanges = useCallback((index) => {

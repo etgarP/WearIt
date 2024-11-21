@@ -38,7 +38,7 @@ export default function ClientsOrders({ navigation, status }) {
         }
         return acc;
       }, {});
-
+      
       setClientOrders(groupedOrders);
       setAlertShown(false);
     } catch (error) {
@@ -87,7 +87,17 @@ export default function ClientsOrders({ navigation, status }) {
                 left={() => (
                   <Avatar.Image
                     size={50}
-                    source={{ uri: "https://example.com/designer-image.jpg" }}
+                    source={
+                      clientOrders[username][0].clientImage
+                        ? clientOrders[username][0].clientImage.startsWith(
+                            "data:"
+                          )
+                          ? { uri: clientOrders[username][0].clientImage }
+                          : {
+                              uri: `data:image/jpeg;base64,${clientOrders[username][0].clientImage}`,
+                            }
+                        : null
+                    }
                   />
                 )}
                 descriptionStyle={styles.orderRequests}

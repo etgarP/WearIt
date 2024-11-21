@@ -20,6 +20,7 @@ export default function DesignerHome({ navigation }) {
   const [alertShown, setAlertShown] = useState(false);
   const [loading, setLoading] = useState(true);
   const { userDetails } = useContext(AppObjectContext);
+  const [lastOrderImage, setLastOrderImage] = useState(null); // State to store the last order's image
 
   const clientsOrdersRequest = async () => {
     try {
@@ -34,6 +35,12 @@ export default function DesignerHome({ navigation }) {
       // Calculate the number of pending orders
       const pendingOrders = data.filter((order) => order.status === "pending");
       setPendingOrdersCount(pendingOrders.length);
+      
+      // Extract the last order's image
+      if (data.length > 0) {
+        const lastOrder = data[data.length - 1]; // Assuming the last item is the most recent order
+        setLastOrderImage(lastOrder.clientImage); // Assuming "image" is the field containing the image URL
+      }
 
       // Process data to group only accepted orders by username
       const groupedOrders = data.reduce((acc, order) => {
@@ -88,7 +95,13 @@ export default function DesignerHome({ navigation }) {
         <View style={styles.orderRequests}>
           <Avatar.Image
             size={50}
-            source={{ uri: "https://example.com/user-photo.png" }}
+            source={
+              lastOrderImage
+                ? lastOrderImage.startsWith("data:")
+                  ? { uri: lastOrderImage }
+                  : { uri: `data:image/jpeg;base64,${lastOrderImage}` }
+                : null // Fallback image if no image is provided
+            }
           />
           <Badge style={styles.badge}>{pendingOrdersCount}</Badge>
           <Text style={styles.orderText}>Order Requests</Text>

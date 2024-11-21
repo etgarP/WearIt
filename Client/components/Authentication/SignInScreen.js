@@ -69,7 +69,6 @@ export default function SignInScreen({ navigation, route }) {
         // Parse the JSON response if needed
         const responseData = await response.json();
 
-        //TODO Update token
         await AsyncStorage.setItem("userToken", responseData.key);
         await AsyncStorage.setItem("selectedTab", selectedTab);
         setUserDetails({
@@ -198,8 +197,8 @@ export default function SignInScreen({ navigation, route }) {
             }
           >
             <Text style={styles.linkText}>
-              DON'T HAVE AN ACCOUNT?{' '}
-              <Text style={[styles.linkText, { color: 'black' }]}>SIGN UP</Text>
+              DON'T HAVE AN ACCOUNT?{" "}
+              <Text style={[styles.linkText, { color: "black" }]}>SIGN UP</Text>
             </Text>
           </TouchableOpacity>
         </SafeAreaView>
