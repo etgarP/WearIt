@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { View, StyleSheet, Image, ScrollView, Linking } from 'react-native';
-import { Appbar, List, Button } from 'react-native-paper';
+import { IconButton, List, Button } from 'react-native-paper';
 import { ClientObjectContext } from '../navigation/ClientObjectProvider';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -36,7 +36,13 @@ const DesignInfo = ({ toSend = false, navigation }) => {
                 <List.Item
                     title="AI Mix & Match"
                     titleStyle={{ fontSize: 18 }}
-                    right={props => <Icon {...props} color="#FFD700" size={30} name="star" />}
+                    right={props => <IconButton
+                        icon="star-four-points-outline"
+                        iconColor="#ffcc00"
+                        size={40} // Adjust size as needed
+                        style={styles.icon}
+                        onPress={() => navigation.navigate("AILoadingScreen")}
+                    />}
                     onPress={() => navigation.navigate('mixAndMatch')}
                 />
             </View>
@@ -75,7 +81,7 @@ const styles = StyleSheet.create({
         marginLeft: 20,
     },
     aiMixMatchContainer: {
-        paddingVertical: 20,
+        paddingVertical: 5,
         paddingHorizontal: 10,
         borderTopWidth: 1,
         borderTopColor: '#eee',
