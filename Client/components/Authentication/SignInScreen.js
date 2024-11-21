@@ -27,7 +27,6 @@ export default function SignInScreen({ navigation, route }) {
     const checkSignInStatus = async () => {
       const storedToken = await AsyncStorage.getItem("userToken");
       const page = await AsyncStorage.getItem("selectedTab");
-      console.log(storedToken, page)
 
       if (storedToken != null) {
         setUserDetails({

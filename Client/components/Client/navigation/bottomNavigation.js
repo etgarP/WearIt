@@ -33,7 +33,7 @@ export default function BottomNav({ navigation }) {
 
     return (
         <>
-            <Sheet ref={sheetRef} onChangeInfo={onChangeInfo}>
+            <Sheet navigation={navigation} ref={sheetRef} onChangeInfo={onChangeInfo}>
                 <Appbar.Header mode="center-aligned">
                     {/* Display logo in the center */}
                     <View style={styles.imageContainer}>

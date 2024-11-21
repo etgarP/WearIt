@@ -49,7 +49,6 @@ export default function SignUpScreen({ navigation, route }) {
         await AsyncStorage.setItem("selectedTab", selectedTab);
         setUserDetails({
           token: responseData.key,
-          username: username,
         });
 
         selectedTab == "designer"

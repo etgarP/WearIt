@@ -8,10 +8,10 @@ import ConnectedMatchRoute from "./homeScreenConnected";
 
 export default function MatchRoute({ setProfilePage, navigation }) {
   const [filtered, setFiltered] = useState([]);
-  const { userDetails } = useContext(AppObjectContext);
   const [alertShown, setAlertShown] = useState(false); // State to track if alert has been shown
   const [loading, setLoading] = useState(true); // State to track loading
-  
+  const { userDetails } = useContext(AppObjectContext);
+
   if (!userDetails) {
     useEffect(() => {
       navigation.navigate("SignIn");
@@ -33,6 +33,7 @@ export default function MatchRoute({ setProfilePage, navigation }) {
   };
 
   useEffect(() => {
+    console.log(userDetails.token);
     fetchData();
   }, [userDetails.token]); // No need to track alertShown in dependencies
 

@@ -56,7 +56,7 @@ const purchaseOrder = async (username, order) => {
     image = await getClientImage(username)
     console.log(order.designer)
     image2 = await getDesignerImage(order.designer)
-    console.log("image2", image2)
+    console.log("image", image)
     // Add the client's image to the order
     const newOrder = new Order({ ...order, username, clientImage: image, designerImage: image2 });
 

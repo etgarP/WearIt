@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
-import { CommonActions } from '@react-navigation/native';
+import { CommonActions } from "@react-navigation/native";
 import { MaterialIcons, Feather } from "@expo/vector-icons";
 import { Colors } from "../../../constants/colors";
 import { styles } from "../QuestionnaireStyles";
@@ -52,10 +52,8 @@ export default function Others({
   const handleNext = async () => {
     // Prepare data to be sent to the server
     const data = {
-      info: {
-        ...questionnaireData,
-        other: other,
-      },
+      ...questionnaireData,
+      other: other,
     };
 
     try {
@@ -83,7 +81,7 @@ export default function Others({
         navigation.dispatch(
           CommonActions.reset({
             index: 0, // The index of the route you want to show
-            routes: [{ name: 'client' }], // Replace with your home screen's name
+            routes: [{ name: "client" }], // Replace with your home screen's name
           })
         );
       } else {
