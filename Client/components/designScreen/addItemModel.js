@@ -24,7 +24,7 @@ const AddItemContent = ({
         <View style={styles.headerContainer}>
           <Text style={styles.headerText}>Add New Item</Text>
           <TouchableOpacity onPress={closeModal}>
-            <Text style={styles.closeButton}>×</Text>
+            <Text style={styles.closeButton}></Text>
           </TouchableOpacity>
         </View>
         <View style={styles.textInputContainer}>
