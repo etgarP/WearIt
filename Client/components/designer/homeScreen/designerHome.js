@@ -35,7 +35,7 @@ export default function DesignerHome({ navigation }) {
       // Calculate the number of pending orders
       const pendingOrders = data.filter((order) => order.status === "pending");
       setPendingOrdersCount(pendingOrders.length);
-      
+
       // Extract the last order's image
       if (data.length > 0) {
         const lastOrder = data[data.length - 1]; // Assuming the last item is the most recent order

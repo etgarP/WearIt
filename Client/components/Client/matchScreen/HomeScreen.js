@@ -5,47 +5,58 @@ import { getMatches } from "../../../apiServices/client/getMatches.js"; // Impor
 import { AppObjectContext } from "../../appNavigation/appObjectProvider";
 import LoadingPage from "../../loadingPages/loadingPage.js";
 import ConnectedMatchRoute from "./homeScreenConnected";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function MatchRoute({ setProfilePage, navigation }) {
   const [filtered, setFiltered] = useState([]);
   const [alertShown, setAlertShown] = useState(false); // State to track if alert has been shown
   const [loading, setLoading] = useState(true); // State to track loading
-  const { userDetails } = useContext(AppObjectContext);
+  const [userDetailsState, setUserDetailsState] = useState(null); // Local state for userDetails
+  const { userDetails } = useContext(AppObjectContext); // Context value
 
-  if (!userDetails) {
-    useEffect(() => {
-      navigation.navigate("SignIn");
-    }, []);
-    return null; // Prevents further rendering
-  }
-
-  const fetchData = async () => {
-    setLoading(true); // Set loading to true when starting fetch
-    try {
-      const data = await getMatches(userDetails.token);
-      setFiltered(data); // Initialize filtered data
-      setAlertShown(false); // Hide alert if data is fetched successfully
-    } catch (error) {
-      setAlertShown(true); // Show alert if there's an error
-    } finally {
-      setLoading(false); // Set loading to false when fetch completes
-    }
-  };
-
+  // Store userDetails in local state only once when the component is first mounted
   useEffect(() => {
-    fetchData();
-  }, [userDetails.token]); // No need to track alertShown in dependencies
+    if (userDetails) {
+      setUserDetailsState(userDetails); // Only set once
+    } else {
+      navigation.navigate("SignIn");
+    }
+  }, [userDetails, navigation]); // Only runs on initial mount or when userDetails changes
+
+  // Fetch data if userDetails is available
+  useEffect(() => {
+    if (userDetailsState) {
+      const fetchData = async () => {
+        const page = await AsyncStorage.getItem("selectedTab");
+        if (page === "client") {
+          setLoading(true); // Set loading to true when starting fetch
+          try {
+            const data = await getMatches(userDetailsState.token); // Use the local userDetails state
+            setFiltered(data); // Initialize filtered data
+            setAlertShown(false); // Hide alert if data is fetched successfully
+          } catch (error) {
+            setAlertShown(true); // Show alert if there's an error
+          } finally {
+            setLoading(false); // Set loading to false when fetch completes
+          }
+        }
+      };
+
+      fetchData();
+    }
+  }, [userDetailsState]); // Only trigger effect when userDetailsState changes
 
   // Retry function for error page
   const onRetry = () => {
+    setLoading(true); // Re-trigger loading
     fetchData(); // Retry the order submission
   };
 
   if (loading) {
-    return <LoadingPage loadingText={"Fetching your matches..."}></LoadingPage>;
+    return <LoadingPage loadingText={"Fetching your matches..."} />;
   }
   if (alertShown) {
-    return <RefreshErrorPage tryAgain={onRetry}></RefreshErrorPage>;
+    return <RefreshErrorPage tryAgain={onRetry} />;
   } else {
     return (
       <View style={styles.container}>
@@ -58,6 +69,7 @@ export default function MatchRoute({ setProfilePage, navigation }) {
     );
   }
 }
+
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",

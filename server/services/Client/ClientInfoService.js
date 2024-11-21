@@ -16,7 +16,7 @@ const getClientInfo = async (username) => {
 const setClientInfo = async (username, newInfo) => {
     // Remove the _id and __v fields if they are present in newInfo
     const { _id, __v, ...updateInfo } = newInfo;
-
+    updateInfo.username = username;
     await Client.findOneAndUpdate(
         { username: username },   // Match the username
         { $set: updateInfo },     // Use the $set operator to update the fields
