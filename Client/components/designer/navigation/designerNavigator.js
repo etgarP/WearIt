@@ -3,11 +3,11 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { DesignerObjectProvider } from "./designerObjectProvider";
 import DesignerBottomNav from "./designerbottomNavigation";
 import ClientOrderDetails from "../ClientOrderDetails";
-import MixAndMatch from "../../designScreenDesigner/mix&match";
-import DesignInfo from "../../designScreenDesigner/designInfo";
+import MixAndMatch from "../designScreenDesigner/mix&match";
+import DesignInfo from "../designScreenDesigner/designInfo";
 import ManageOrder from "../manageOrder";
-import AILoadingScreen from "../../designScreenDesigner/AILoadingScreen";
-import ChooseOutfit from "../../designScreenDesigner/chooseOutfit";
+import AILoadingScreen from "../designScreenDesigner/AILoadingScreen";
+import ChooseOutfit from "../designScreenDesigner/chooseOutfit";
 
 const Stack = createNativeStackNavigator();
 
@@ -25,7 +25,7 @@ export const DesignerNavigator = () => {
           {(props) => <ClientOrderDetails {...props} />}
         </Stack.Screen>
         <Stack.Screen name="DesignInfo">
-          {(props) => <DesignInfo {...props}/>}
+          {(props) => <DesignInfo {...props} />}
         </Stack.Screen>
         <Stack.Screen name="mixAndMatch">
           {(props) => <MixAndMatch {...props} />}

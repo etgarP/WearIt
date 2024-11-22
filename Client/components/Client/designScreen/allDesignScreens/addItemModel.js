@@ -24,7 +24,7 @@ const AddItemContent = ({
         <View style={styles.headerContainer}>
           <Text style={styles.headerText}>Add New Item</Text>
           <TouchableOpacity onPress={closeModal}>
-            <Text style={styles.closeButton}></Text>
+            <Text style={styles.closeButton}>×</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.textInputContainer}>
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
   },
   textInputContainer: {
     marginBottom: 30,
-  }
+  },
 });
 
 export default AddItemModal;
