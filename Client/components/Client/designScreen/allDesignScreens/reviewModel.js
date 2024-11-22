@@ -2,8 +2,8 @@ import React, { useState, forwardRef, useImperativeHandle, useContext } from 're
 import { View, StyleSheet, Modal, TouchableOpacity, TextInput, Text, ActivityIndicator } from 'react-native';
 import { Button } from 'react-native-paper';
 import { FontAwesome } from '@expo/vector-icons';
-import { submitReview } from '../../apiServices/client/submitReview';
-import { AppObjectContext } from '../appNavigation/appObjectProvider';
+import { submitReview } from '../../../../apiServices/client/submitReview';
+import { AppObjectContext } from '../../../appNavigation/appObjectProvider';
 
 const ModelContent = ({ handleRating, loadingReview, reviewText, rating, sendReview, setReviewText, closeModal, retrySendingReview }) => {
     return (

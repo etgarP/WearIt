@@ -3,10 +3,11 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { DesignerObjectProvider } from "./designerObjectProvider";
 import DesignerBottomNav from "./designerbottomNavigation";
 import ClientOrderDetails from "../ClientOrderDetails";
-import MixAndMatch from "../../designScreen/mix&match";
-import DesignInfo from "../../designScreen/designInfo";
+import MixAndMatch from "../../designScreenDesigner/mix&match";
+import DesignInfo from "../../designScreenDesigner/designInfo";
 import ManageOrder from "../manageOrder";
-import AILoadingScreen from "../../designScreen/AILoadingScreen";
+import AILoadingScreen from "../../designScreenDesigner/AILoadingScreen";
+import ChooseOutfit from "../../designScreenDesigner/chooseOutfit";
 
 const Stack = createNativeStackNavigator();
 
@@ -24,12 +25,15 @@ export const DesignerNavigator = () => {
           {(props) => <ClientOrderDetails {...props} />}
         </Stack.Screen>
         <Stack.Screen name="DesignInfo">
-          {(props) => <DesignInfo {...props} userDetails={userDetails} />}
+          {(props) => <DesignInfo {...props}/>}
         </Stack.Screen>
         <Stack.Screen name="mixAndMatch">
           {(props) => <MixAndMatch {...props} />}
         </Stack.Screen>
         <Stack.Screen name="ManageOrder">
+          {(props) => <ManageOrder {...props} />}
+        </Stack.Screen>
+        <Stack.Screen name="chooseOutfit">
           {(props) => <ManageOrder {...props} />}
         </Stack.Screen>
         <Stack.Screen name="AILoadingScreen">

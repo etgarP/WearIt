@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import { View, StyleSheet, Image, ScrollView, Linking } from 'react-native';
 import { IconButton, List, Button } from 'react-native-paper';
-import { ClientObjectContext } from '../navigation/ClientObjectProvider';
+import { ClientObjectContext } from '../Client/navigation/ClientObjectProvider';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const DesignInfo = ({ toSend = false, navigation }) => {
-    const { design } = useContext(ClientObjectContext);
-    const clothes = design.items;
-
+    // const { design } = useContext(ClientObjectContext);
+    // const clothes = design.items;
+    clothes = []
     const handleOutfitPress = (link) => {
         Linking.openURL(link).catch((err) => console.error('Error opening URL', err));
     };

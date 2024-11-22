@@ -1,8 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, Animated } from 'react-native';
-import { ClientObjectContext } from '../Client/navigation/ClientObjectProvider';
-import { tryOn } from '../../apiServices/client/tryOn';
-import RefreshErrorPage from '../loadingPages/refreshErrorPage';
+import { Card } from 'react-native-paper'
+import { ClientObjectContext } from '../navigation/ClientObjectProvider';
+import { AppObjectContext } from '../../appNavigation/appObjectProvider';
+import { tryOn } from '../../../apiServices/client/tryOn';
+import RefreshErrorPage from '../../loadingPages/refreshErrorPage';
 
 const Star = ({ delay }) => {
     const opacity = React.useRef(new Animated.Value(0)).current;
@@ -56,7 +58,7 @@ export const AILoadingScreen = ({ navigation }) => {
             setDesign(gotten)
             setTimeout(() => {
                 navigation.pop(2); // Go back two pages
-            }, 5000);
+            }, 5000); // TODO remove
         } catch (error) {
             setOrderFailed(true);  // Set error state if an error occurred
         }
@@ -76,7 +78,7 @@ export const AILoadingScreen = ({ navigation }) => {
         return <RefreshErrorPage tryAgain={onRetry} />;  // Show error page with retry option if order creation failed
     }
 
-    return <AILoadingScreenPage/>;  // Return nothing if no state is active
+    return <AILoadingScreenPage />;  // Return nothing if no state is active
 };
 
 const AILoadingScreenPage = () => {
@@ -97,25 +99,25 @@ const AILoadingScreenPage = () => {
     return (
         <View style={styles.container}>
             {/* <Card style={styles.card}> */}
-                {/* <View style={styles.insideContainer}> */}
-                    {/* Three flickering stars with staggered delays */}
-                <View style={styles.starsContainer}>
-                    <Star delay={0} />
-                    <Star delay={250} />
-                    <Star delay={500} />
-                </View>
-                {/* Animated Loading Message */}
-                <Text style={styles.message}>
-                    {messages[messageIndex]}
-                </Text>
-                {/* Additional Tip to Engage Users */}
-                <Text style={styles.tip}>
-                    Hold tight! Great things take time.
-                </Text>
-                {/* </View> */}
-                
+            {/* <View style={styles.insideContainer}> */}
+            {/* Three flickering stars with staggered delays */}
+            <View style={styles.starsContainer}>
+                <Star delay={0} />
+                <Star delay={250} />
+                <Star delay={500} />
+            </View>
+            {/* Animated Loading Message */}
+            <Text style={styles.message}>
+                {messages[messageIndex]}
+            </Text>
+            {/* Additional Tip to Engage Users */}
+            <Text style={styles.tip}>
+                Hold tight! Great things take time.
+            </Text>
+            {/* </View> */}
+
             {/* </Card> */}
-            
+
         </View>
     );
 };
