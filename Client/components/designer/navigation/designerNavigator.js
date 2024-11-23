@@ -7,7 +7,6 @@ import MixAndMatch from "../designScreenDesigner/mix&match";
 import DesignInfo from "../designScreenDesigner/designInfo";
 import ManageOrder from "../manageOrder";
 import AILoadingScreen from "../designScreenDesigner/AILoadingScreen";
-import ChooseOutfit from "../designScreenDesigner/chooseOutfit";
 
 const Stack = createNativeStackNavigator();
 

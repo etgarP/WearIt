@@ -72,7 +72,9 @@ const ClientOrderDetails = ({ navigation, route }) => {
   };
 
   const handleMixAndMatch = () => {
-    navigation.navigate("DesignInfo");
+    navigation.navigate("DesignInfo", {
+      design: clientData.design[0],
+      orderId: order._id,});
   };
 
   if (!clientData) {

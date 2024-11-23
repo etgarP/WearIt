@@ -1,4 +1,9 @@
-import React, { useState, forwardRef, useImperativeHandle } from "react";
+import React, {
+  useState,
+  useContext,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import {
   View,
   StyleSheet,
@@ -6,8 +11,12 @@ import {
   TouchableOpacity,
   TextInput,
   Text,
+  Alert,
 } from "react-native";
 import { Button, IconButton } from "react-native-paper";
+import axios from "axios";
+import { constants } from "../../../../constants/api";
+import { AppObjectContext } from "../../../appNavigation/appObjectProvider";
 
 const AddItemContent = ({
   closeModal,
@@ -79,10 +88,11 @@ const AddItemContent = ({
   );
 };
 
-const AddItemModal = forwardRef((props, ref) => {
+const AddItemModal = forwardRef(({ orderId, items, setItems }, ref) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [itemLink, setItemLink] = useState("");
   const [selectedType, setSelectedType] = useState(null);
+  const { userDetails } = useContext(AppObjectContext);
 
   // Check if the URL is valid (starts with "https://www.everlane.com/products/")
   const isLinkValid = itemLink.startsWith("https://www.everlane.com/products/");
@@ -98,12 +108,32 @@ const AddItemModal = forwardRef((props, ref) => {
   };
 
   const handleTypeSelection = (type) => {
+    console.log(type);
     setSelectedType(type);
   };
 
-  const addItem = () => {
+  const addItem = async () => {
     // Your logic to handle item addition
-    console.log({ itemLink, type: selectedType });
+    const requestBody = {
+      orderId,
+      url: itemLink,
+      typeOfCloth: selectedType,
+    };
+    try {
+      const response = await axios.post(
+        `${constants.designerBaseAddress}orders/add-design`,
+        requestBody,
+        { headers: { Authorization: `Bearer ${userDetails.token}` } }
+      );
+      if (response.status === 200) {
+        const updatedItems = response.data.items;
+        setItems(updatedItems);
+      } else {
+        Alert.alert("Error", "Failed to add item");
+      }
+    } catch (error) {
+      console.error("Error adding design:", error);
+    }
     closeModal();
   };
 

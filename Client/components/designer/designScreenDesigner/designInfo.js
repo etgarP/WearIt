@@ -1,12 +1,14 @@
-import React, { useRef } from "react";
+import React, { useState, useRef } from "react";
 import { View, StyleSheet, Image, ScrollView, Linking } from "react-native";
 import { IconButton, List, Button } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import AddItemModal from "../../Client/designScreen/allDesignScreens/addItemModel";
-import { clothes } from "../../../data/design";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-const DesignInfo = ({ navigation }) => {
-  const addItemModalRef = useRef(null); // Create a ref for the modal
+const DesignInfo = ({ navigation, route }) => {
+  const { design, orderId } = route.params;
+  const addItemModalRef = useRef(null);
+  const [items, setItems] = useState(design.items);
 
   const handleOutfitPress = (link) => {
     Linking.openURL(link).catch((err) =>
@@ -21,83 +23,90 @@ const DesignInfo = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
-      {/* Scrollable list of outfits */}
-      <View style={styles.scrollableListContainer}>
-        <ScrollView contentContainerStyle={styles.listContent}>
-          {clothes.map((outfit) => (
-            <List.Item
-              key={outfit._id}
-              title={outfit.typeOfCloth}
-              left={() => (
-                <Image
-                  source={
-                    outfit.imageOfCloth
-                      ? outfit.imageOfCloth.startsWith("data:")
-                        ? { uri: outfit.imageOfCloth }
-                        : {
-                            uri: `data:image/jpeg;base64,${outfit.imageOfCloth}`,
-                          }
-                      : null // Fallback image if no image is provided
-                  }
-                  style={styles.outfitImage}
-                />
-              )}
-              right={() => (
-                <View style={styles.iconButtonContainer}>
-                  <IconButton
-                    icon="trash-can"
-                    size={24}
-                    onPress={() => {
-                      console.log("Delete button pressed");
-                    }}
+    <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
+        {/* Scrollable list of outfits */}
+        <View style={styles.scrollableListContainer}>
+          <ScrollView contentContainerStyle={styles.listContent}>
+            {(items || []).map((item) => (
+              <List.Item
+                key={item._id}
+                title={item.typeOfCloth}
+                description={item.url}
+                titleStyle={{ fontWeight: "bold", fontSize: 16 }}
+                left={() => (
+                  <Image
+                    source={
+                      item.imageOfCloth
+                        ? item.imageOfCloth.startsWith("data:")
+                          ? { uri: item.imageOfCloth }
+                          : {
+                              uri: `data:image/jpeg;base64,${item.imageOfCloth}`,
+                            }
+                        : null
+                    }
+                    style={styles.outfitImage}
                   />
-                </View>
-              )}
-              onPress={() => handleOutfitPress(outfit.url)}
-            />
-          ))}
-        </ScrollView>
-      </View>
-      {/* Add Item Button */}
-      <View style={styles.addButtonContainer}>
-        <Button
-          mode="contained"
-          icon="plus"
-          onPress={handleAddItem}
-          style={styles.addItemButton}
-          labelStyle={styles.addItemButtonText}
-        >
-          Add Item
-        </Button>
-      </View>
+                )}
+                right={() => (
+                  <View style={styles.iconButtonContainer}>
+                    <IconButton
+                      icon="trash-can"
+                      size={24}
+                      onPress={() => console.log(`Delete item ${item._id}`)}
+                    />
+                  </View>
+                )}
+                onPress={() => handleOutfitPress(item.url)}
+              />
+            ))}
+          </ScrollView>
+        </View>
+        {/* Add Item Button */}
+        <View style={styles.addButtonContainer}>
+          <Button
+            mode="contained"
+            icon="plus"
+            onPress={handleAddItem}
+            style={styles.addItemButton}
+            labelStyle={styles.addItemButtonText}
+          >
+            Add Item
+          </Button>
+        </View>
 
-      {/* AI Mix & Match Section */}
-      <View style={styles.aiMixMatchContainer}>
-        <List.Item
-          title="AI Mix & Match"
-          titleStyle={{ fontSize: 18 }}
-          right={(props) => (
-            <Icon {...props} color="#FFD700" size={30} name="star" />
-          )}
-          onPress={() => navigation.navigate("mixAndMatch")}
+        {/* AI Mix & Match Section */}
+        <View style={styles.aiMixMatchContainer}>
+          <List.Item
+            title="AI Mix & Match"
+            titleStyle={{ fontSize: 18 }}
+            right={(props) => (
+              <Icon {...props} color="#FFD700" size={30} name="star" />
+            )}
+            onPress={() => navigation.navigate("mixAndMatch")}
+          />
+        </View>
+
+        {/* Send to Customer Button */}
+        <View style={styles.buttonContainer}>
+          <Button
+            mode="contained"
+            style={styles.selectButton}
+            onPress={() => console.log("Select button pressed")}
+          >
+            Select
+          </Button>
+        </View>
+
+        {/* Add Item Modal */}
+        <AddItemModal
+          ref={addItemModalRef}
+          orderId={orderId}
+          items={items}
+          setItems={setItems}
         />
       </View>
-
-      {/* Send to Customer Button */}
-      <View style={styles.buttonContainer}>
-        <Button
-          mode="contained"
-          style={styles.selectButton}
-          onPress={() => console.log("Select button pressed")}
-        >
-          Select
-        </Button>
-      </View>
-
-      {/* Add Item Modal */}
-      <AddItemModal ref={addItemModalRef} />
-    </View>
+    </SafeAreaView>
   );
 };
 
