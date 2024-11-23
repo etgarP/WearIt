@@ -82,6 +82,6 @@ const styles = StyleSheet.create({
   image: {
     marginLeft: 45,
     width: 120, // Adjust the size of the image
-    height: 20, // Adjust the size of the image
+    height: 25, // Adjust the size of the image
   },
 });
