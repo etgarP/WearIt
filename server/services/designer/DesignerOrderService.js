@@ -208,7 +208,7 @@ const notAbleToRemove = async (orderId) => {
 }
 
 
-const tryOn = async (orderId, url, username) => {
+const tryOn = async (orderId, url, type, username) => {
     if (!await isDesignerInOrder(orderId, username)) {
         throw new Error('Order not found or unauthorized access');
     }
@@ -223,7 +223,7 @@ const tryOn = async (orderId, url, username) => {
     const existingEntry = design.items.find(item => item.url === url);
     if (existingEntry) {
         existingEntry.imageOfWornCloth = getDesignString('../../services/client/worn.png');
-        existingEntry.typeOfCloth = 'shirt'; // Default type, can be modified as needed
+        existingEntry.typeOfCloth = type == 'shirt' ? 'shirt': 'other'; // Default type, can be modified as needed
     } else {
         throw new Error('No URL found in the design items');
     }

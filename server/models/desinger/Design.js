@@ -9,7 +9,7 @@ const DesignEntrySchema = new Schema({
     typeOfCloth: {
         type: String,
         required: true,
-        enum: ['shirt', 'pants'] // Enum restricts the values to 'shirt' or 'pants'
+        enum: ['shirt', 'other'] // Enum restricts the values to 'shirt' or 'other'
     }
 });
 
