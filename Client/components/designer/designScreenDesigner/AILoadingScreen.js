@@ -5,6 +5,7 @@ import { ClientObjectContext } from "../../Client/navigation/ClientObjectProvide
 import { AppObjectProvider } from "../../appNavigation/appObjectProvider";
 import { tryOn } from "../../../apiServices/client/tryOn";
 import RefreshErrorPage from "../../loadingPages/refreshErrorPage";
+import { DesingerObjectContext } from "../navigation/designerObjectProvider";
 
 const Star = ({ delay }) => {
   const opacity = React.useRef(new Animated.Value(0)).current;
@@ -49,7 +50,7 @@ export const AILoadingScreen = ({ navigation }) => {
     userDetails: { token },
   } = useContext(AppObjectContext);
   const [orderFailed, setOrderFailed] = useState(false); // To manage error state
-  const { setDesign, chosenUrl, orderId } = useContext(ClientObjectContext);
+  const { setDesign, chosenUrl, orderId } = useContext(DesingerObjectContext);
   // Function to handle order submission
   const handleOrderSubmission = async () => {
     setOrderFailed(false); // Reset the error state when retrying

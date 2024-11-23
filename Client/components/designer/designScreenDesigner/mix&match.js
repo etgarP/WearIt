@@ -7,16 +7,14 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Appbar, IconButton } from "react-native-paper";
-import { ClientObjectContext } from "../../Client/navigation/ClientObjectProvider";
+import { DesingerObjectContext } from "../navigation/designerObjectProvider";
 
 const MixAndMatch = ({ navigation }) => {
-  // const { design } = useContext(ClientObjectContext);
-  // const [selectedImage, setSelectedImage] = useState(design.beforeImage);
+  const { design } = useContext(DesingerObjectContext);
+  const [selectedImage, setSelectedImage] = useState(design?.beforeImage || null);
 
   // // Filter clothes that have 'imageOfWornCloth'
-  // const clothes = design.items.filter(item => item.imageOfWornCloth);
-  clothes = [];
-  selectedImage = "";
+  const clothes = design?.items?.filter((item) => item.imageOfWornCloth) || [];
   return (
     <View style={styles.container}>
       {/* Top Appbar */}
