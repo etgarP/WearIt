@@ -6,6 +6,7 @@ import { AppObjectContext } from "../../appNavigation/appObjectProvider";
 import LoadingPage from "../../loadingPages/loadingPage.js";
 import ConnectedMatchRoute from "./homeScreenConnected";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import BackgroundWrapper from "../../backgroundWrapper.js";
 
 export default function MatchRoute({ setProfilePage, navigation }) {
   const [filtered, setFiltered] = useState([]);
@@ -59,13 +60,15 @@ export default function MatchRoute({ setProfilePage, navigation }) {
     return <RefreshErrorPage tryAgain={onRetry} />;
   } else {
     return (
-      <View style={styles.container}>
-        <ConnectedMatchRoute
-          setProfilePage={setProfilePage}
-          navigation={navigation}
-          designersData={filtered}
-        />
-      </View>
+      <BackgroundWrapper>
+        <View style={styles.container}>
+          <ConnectedMatchRoute
+            setProfilePage={setProfilePage}
+            navigation={navigation}
+            designersData={filtered}
+          />
+        </View>
+      </BackgroundWrapper>
     );
   }
 }

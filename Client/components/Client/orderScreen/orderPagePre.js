@@ -7,6 +7,7 @@ import RefreshErrorPage from "../../loadingPages/refreshErrorPage";
 import { AppObjectContext } from "../../appNavigation/appObjectProvider";
 import FinishedDesigns from "../designScreen/finishedDesigns";
 import RefreshPage from "../../loadingPages/refreshPage";
+import BackgroundWrapper from "../../backgroundWrapper";
 
 export const OrdersRoutePre = ({ onGoBack, navigation, isDesign = false }) => {
   const [loading, setLoading] = useState(false); // To manage the loading state
@@ -53,17 +54,21 @@ export const OrdersRoutePre = ({ onGoBack, navigation, isDesign = false }) => {
 
   if (orderSuccess && isDesign) {
     return (
-      <RefreshPage tryAgain={onRetry}>
-        <FinishedDesigns navigation={navigation} orders={orders} />
-      </RefreshPage>
+      <BackgroundWrapper>
+        <RefreshPage tryAgain={onRetry}>
+          <FinishedDesigns navigation={navigation} orders={orders} />
+        </RefreshPage>
+      </BackgroundWrapper>
     );
   }
 
   if (orderSuccess && !isDesign) {
     return (
-      <RefreshPage tryAgain={onRetry}>
-        <OrderPage orders={orders} />
-      </RefreshPage>
+      <BackgroundWrapper>
+        <RefreshPage tryAgain={onRetry}>
+          <OrderPage orders={orders} />
+        </RefreshPage>
+      </BackgroundWrapper>
     ); // Show success page if the order was created
   }
 

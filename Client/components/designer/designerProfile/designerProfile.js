@@ -125,7 +125,6 @@ const DesignerProfile = ({ navigation, profile, isDesigner }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
   },
   appbar: {
     width: width,

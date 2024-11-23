@@ -13,6 +13,7 @@ import { Avatar, Badge } from "react-native-paper";
 import axios from "axios";
 import ClientsOrders from "../clientsOrdersComponent/clientsOrders";
 import { constants } from "../../../constants/api";
+import BackgroundWrapper from "../../backgroundWrapper";
 
 export default function DesignerHome({ navigation }) {
   const [clientOrders, setClientOrders] = useState({});
@@ -85,35 +86,37 @@ export default function DesignerHome({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
-      {/* Order Requests section with pending orders count */}
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate("HomeDesigner", { initialTab: "pending" });
-        }}
-      >
-        <View style={styles.orderRequests}>
-          <Avatar.Image
-            size={50}
-            source={
-              lastOrderImage
-                ? lastOrderImage.startsWith("data:")
-                  ? { uri: lastOrderImage }
-                  : { uri: `data:image/jpeg;base64,${lastOrderImage}` }
-                : null // Fallback image if no image is provided
-            }
-          />
-          <Badge style={styles.badge}>{pendingOrdersCount}</Badge>
-          <Text style={styles.orderText}>Order Requests</Text>
-        </View>
-      </TouchableOpacity>
+    <BackgroundWrapper>
+      <View style={styles.container}>
+        {/* Order Requests section with pending orders count */}
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("HomeDesigner", { initialTab: "pending" });
+          }}
+        >
+          <View style={styles.orderRequests}>
+            <Avatar.Image
+              size={50}
+              source={
+                lastOrderImage
+                  ? lastOrderImage.startsWith("data:")
+                    ? { uri: lastOrderImage }
+                    : { uri: `data:image/jpeg;base64,${lastOrderImage}` }
+                  : null // Fallback image if no image is provided
+              }
+            />
+            <Badge style={styles.badge}>{pendingOrdersCount}</Badge>
+            <Text style={styles.orderText}>Order Requests</Text>
+          </View>
+        </TouchableOpacity>
 
-      <Text style={styles.clientsText}>My clients</Text>
-      {/* Use ScrollView to allow scrolling through the ClientsOrders */}
-      <ScrollView style={styles.scrollView}>
-        <ClientsOrders navigation={navigation} status={"accepted"} />
-      </ScrollView>
-    </View>
+        <Text style={styles.clientsText}>My clients</Text>
+        {/* Use ScrollView to allow scrolling through the ClientsOrders */}
+        <ScrollView style={styles.scrollView}>
+          <ClientsOrders navigation={navigation} status={"accepted"} />
+        </ScrollView>
+      </View>
+    </BackgroundWrapper>
   );
 }
 
@@ -121,12 +124,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: "#fff",
   },
   orderRequests: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 16,
     position: "relative",
   },
   badge: {
@@ -142,9 +143,6 @@ const styles = StyleSheet.create({
   clientsText: {
     fontSize: 18,
     fontWeight: "bold",
-    marginTop: 24,
-  },
-  scrollView: {
-    marginTop: 16, // Add some margin for spacing
+    marginTop: 16,
   },
 });

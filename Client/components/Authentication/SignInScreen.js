@@ -125,8 +125,12 @@ export default function SignInScreen({ navigation, route }) {
         <SafeAreaView style={styles.container}>
           <Image
             source={require("../../assets/logo.png")} // path to your image
-            resizeMode="contain"
-            style={{ marginBottom: "25%" }}
+            style={{
+              marginBottom: "10%",
+              width: "100%", // Set the desired width
+              height: "8%", // Set the desired height
+              resizeMode: "contain", // Ensure the image is scaled without distortion
+            }}
           />
           {/* Header - Sign In */}
           <Text style={styles.titleText}>SIGN IN</Text>
