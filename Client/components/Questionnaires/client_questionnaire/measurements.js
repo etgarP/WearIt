@@ -12,6 +12,7 @@ import { MaterialIcons, Feather } from "@expo/vector-icons";
 import { Colors } from "../../../constants/colors";
 import { styles } from "../QuestionnaireStyles";
 import { Strings } from "../../../constants/strings";
+import BackgroundWrapper from "../../backgroundWrapper";
 
 export default function Measurements({
   navigation,
@@ -94,7 +95,7 @@ export default function Measurements({
   const iconSize = Math.min(dimensions.width, dimensions.height) * 0.1;
 
   return (
-    <>
+    <BackgroundWrapper>
       <ScrollView style={styles.container}>
         <View style={styles.head}>
           <Icon
@@ -222,7 +223,7 @@ export default function Measurements({
           </TouchableOpacity>
         </View>
       </View>
-    </>
+    </BackgroundWrapper>
   );
 }
 

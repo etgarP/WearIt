@@ -14,6 +14,7 @@ import { styles } from "../QuestionnaireStyles";
 import { Strings } from "../../../constants/strings";
 import { AppObjectContext } from "../../appNavigation/appObjectProvider";
 import { constants } from "../../../constants/api";
+import BackgroundWrapper from "../../backgroundWrapper";
 
 export default function Others({
   navigation,
@@ -98,66 +99,86 @@ export default function Others({
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.head}>
-        <Icon
-          name="check-circle"
-          color={Colors.check_circle_on}
-          iconSize={iconSize}
-        />
-        <Icon name="horizontal-rule" color={Colors.line} iconSize={iconSize} />
-        <Icon
-          name="check-circle"
-          color={Colors.check_circle_on}
-          iconSize={iconSize}
-        />
-        <Icon name="horizontal-rule" color={Colors.line} iconSize={iconSize} />
-        <Icon
-          name="check-circle"
-          color={Colors.check_circle_on}
-          iconSize={iconSize}
-        />
-        <Icon name="horizontal-rule" color={Colors.line} iconSize={iconSize} />
-        <Icon
-          name="check-circle"
-          color={Colors.check_circle_on}
-          iconSize={iconSize}
-        />
-        <Icon name="horizontal-rule" color={Colors.line} iconSize={iconSize} />
-        <Icon
-          name="check-circle-outline"
-          color={Colors.check_circle_on}
-          iconSize={iconSize}
-        />
-      </View>
-      <View style={styles.body}>
-        <Text style={[styles.title, { fontSize: fontSize }]}>
-          {Strings.othersTitle}
-        </Text>
-
-        {/* Label and Input for Preferences */}
-        <Text style={styles.label}>Preferences</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter your preferences"
-          value={other}
-          onChangeText={setOther} // Update state on text change
-        />
-      </View>
-
-      <View style={styles.footer}>
-        <View style={styles.backContainer}>
-          <TouchableOpacity onPress={() => navigation.navigate("Measurements")}>
-            <Feather name="arrow-left" size={40} color="black" />
-          </TouchableOpacity>
+    <BackgroundWrapper>
+      <View style={styles.container}>
+        <View style={styles.head}>
+          <Icon
+            name="check-circle"
+            color={Colors.check_circle_on}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="horizontal-rule"
+            color={Colors.line}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="check-circle"
+            color={Colors.check_circle_on}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="horizontal-rule"
+            color={Colors.line}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="check-circle"
+            color={Colors.check_circle_on}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="horizontal-rule"
+            color={Colors.line}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="check-circle"
+            color={Colors.check_circle_on}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="horizontal-rule"
+            color={Colors.line}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="check-circle-outline"
+            color={Colors.check_circle_on}
+            iconSize={iconSize}
+          />
         </View>
-        <View style={styles.nextContainer}>
-          <TouchableOpacity onPress={handleNext}>
-            <Feather name="arrow-right" size={40} color="black" />
-          </TouchableOpacity>
+        <View style={styles.body}>
+          <Text style={[styles.title, { fontSize: fontSize }]}>
+            {Strings.othersTitle}
+          </Text>
+
+          {/* Label and Input for Preferences */}
+          <Text style={styles.label}>Preferences</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your preferences"
+            value={other}
+            onChangeText={setOther} // Update state on text change
+          />
+        </View>
+
+        <View style={styles.footer}>
+          <View style={styles.backContainer}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Measurements")}
+            >
+              <Feather name="arrow-left" size={40} color="black" />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.nextContainer}>
+            <TouchableOpacity onPress={handleNext}>
+              <Feather name="arrow-right" size={40} color="black" />
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
+    </BackgroundWrapper>
   );
 }
 

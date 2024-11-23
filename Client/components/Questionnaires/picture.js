@@ -13,6 +13,7 @@ import { styles } from "./QuestionnaireStyles";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
 import { Strings } from "../../constants/strings";
+import BackgroundWrapper from "../backgroundWrapper";
 
 export default function Questionnaire_picture({
   navigation,
@@ -108,85 +109,103 @@ export default function Questionnaire_picture({
   const iconSize = Math.min(dimensions.width, dimensions.height) * 0.1;
 
   return (
-    <View style={styles.container}>
-      <View style={styles.head}>
-        <Icon
-          name="check-circle"
-          color={Colors.check_circle_on}
-          iconSize={iconSize}
-        />
-        <Icon name="horizontal-rule" color={Colors.line} iconSize={iconSize} />
-        <Icon
-          name="check-circle"
-          color={Colors.check_circle_on}
-          iconSize={iconSize}
-        />
-        <Icon name="horizontal-rule" color={Colors.line} iconSize={iconSize} />
-        <Icon
-          name="check-circle"
-          color={Colors.check_circle_on}
-          iconSize={iconSize}
-        />
-        <Icon name="horizontal-rule" color={Colors.line} iconSize={iconSize} />
-        <Icon
-          name="check-circle-outline"
-          color={Colors.check_circle_off}
-          iconSize={iconSize}
-        />
-        <Icon name="horizontal-rule" color={Colors.line} iconSize={iconSize} />
-        <Icon
-          name="check-circle-outline"
-          color={Colors.check_circle_off}
-          iconSize={iconSize}
-        />
-      </View>
-      <View style={styles.body}>
-        <Text style={[styles.title, { fontSize: fontSize }]}>
-          {Strings.pictureTitle}
-        </Text>
+    <BackgroundWrapper>
+      <View style={styles.container}>
+        <View style={styles.head}>
+          <Icon
+            name="check-circle"
+            color={Colors.check_circle_on}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="horizontal-rule"
+            color={Colors.line}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="check-circle"
+            color={Colors.check_circle_on}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="horizontal-rule"
+            color={Colors.line}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="check-circle"
+            color={Colors.check_circle_on}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="horizontal-rule"
+            color={Colors.line}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="check-circle-outline"
+            color={Colors.check_circle_off}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="horizontal-rule"
+            color={Colors.line}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="check-circle-outline"
+            color={Colors.check_circle_off}
+            iconSize={iconSize}
+          />
+        </View>
+        <View style={styles.body}>
+          <Text style={[styles.title, { fontSize: fontSize }]}>
+            {Strings.pictureTitle}
+          </Text>
 
-        {/* Image Upload Label */}
-        <Text style={styles.label}>Upload Full-Body Image (Optional)</Text>
-        <View style={styles.previewContainer}>
-          {image ? (
-            <Image
-              source={
-                image
-                  ? image.startsWith("data:")
-                    ? { uri: image }
-                    : { uri: `data:image/jpeg;base64,${image}` }
-                  : null // Fallback image if no image is provided
+          {/* Image Upload Label */}
+          <Text style={styles.label}>Upload Full-Body Image (Optional)</Text>
+          <View style={styles.previewContainer}>
+            {image ? (
+              <Image
+                source={
+                  image
+                    ? image.startsWith("data:")
+                      ? { uri: image }
+                      : { uri: `data:image/jpeg;base64,${image}` }
+                    : null // Fallback image if no image is provided
+                }
+                style={styles.previewImage}
+              />
+            ) : (
+              <Text>{Strings.imagePlaceholder}</Text>
+            )}
+          </View>
+
+          <TouchableOpacity onPress={pickImage} style={styles.pictureBtn}>
+            <Text style={styles.pictureBtnText}>{Strings.pictureBtn}</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.footer}>
+          <View style={styles.backContainer}>
+            <TouchableOpacity
+              onPress={() =>
+                isClient
+                  ? navigation.navigate("clientLifeStyle")
+                  : navigation.navigate("stylistLifeStyle")
               }
-              style={styles.previewImage}
-            />
-          ) : (
-            <Text>{Strings.imagePlaceholder}</Text>
-          )}
-        </View>
-
-        <TouchableOpacity onPress={pickImage} style={styles.pictureBtn}>
-          <Text style={styles.pictureBtnText}>{Strings.pictureBtn}</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.footer}>
-        <View style={styles.backContainer}>
-          <TouchableOpacity
-            onPress={() =>
-              isClient
-                ? navigation.navigate("clientLifeStyle")
-                : navigation.navigate("stylistLifeStyle")
-            }
-          >
-            <Feather name="arrow-left" size={40} color="black" />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.nextContainer}>
-          <TouchableOpacity onPress={validateAndProceed}>
-            <Feather name="arrow-right" size={40} color="black" />
-          </TouchableOpacity>
+            >
+              <Feather name="arrow-left" size={40} color="black" />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.nextContainer}>
+            <TouchableOpacity onPress={validateAndProceed}>
+              <Feather name="arrow-right" size={40} color="black" />
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
+    </BackgroundWrapper>
   );
 }
 
