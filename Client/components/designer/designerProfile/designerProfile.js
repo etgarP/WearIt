@@ -10,7 +10,7 @@ const DesignerProfile = ({ navigation, profile, isDesigner }) => {
 
   let averageRating =
     reviews.length > 0
-      ? reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length
+      ? reviews.reduce((acc, review) => acc + review.number, 0) / reviews.length
       : "No reviews yet";
 
   return (
@@ -20,7 +20,7 @@ const DesignerProfile = ({ navigation, profile, isDesigner }) => {
           <MaterialCommunityIcons
             name="arrow-left"
             size={30}
-            style={styles.arrowIcon} // Updated style reference
+            style={styles.arrowIcon}
             onPress={() => navigation.goBack()}
           />
         )}
@@ -30,7 +30,6 @@ const DesignerProfile = ({ navigation, profile, isDesigner }) => {
             size={30}
             style={styles.pencilIcon}
             onPress={() => {
-              // Handle edit functionality here
               navigation.navigate("stylistQuestionnaire");
             }}
           />
@@ -46,11 +45,10 @@ const DesignerProfile = ({ navigation, profile, isDesigner }) => {
                 ? image.startsWith("data:")
                   ? { uri: image }
                   : { uri: `data:image/jpeg;base64,${image}` }
-                : null // Fallback image if no image is provided
+                : null
             }
             style={styles.avatar}
           />
-
           <Text style={styles.name}>{name}</Text>
         </View>
       </View>
@@ -72,9 +70,9 @@ const DesignerProfile = ({ navigation, profile, isDesigner }) => {
             style={styles.specializationScroll}
           >
             {specialization.map((item, index) => (
-              <Chip key={index} style={styles.chip}>
-                {item}
-              </Chip>
+              <View key={index} style={styles.specializationItem}>
+                <Chip style={styles.chip}>{item}</Chip>
+              </View>
             ))}
           </ScrollView>
           <MaterialCommunityIcons
@@ -94,20 +92,20 @@ const DesignerProfile = ({ navigation, profile, isDesigner }) => {
 
         <ScrollView
           horizontal
-          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
           style={styles.reviewsScroll}
         >
           {reviews.length > 0 ? (
             reviews.map((review, index) => (
-              <View key={index} style={styles.reviewContainer}>
-                <Text style={styles.reviewText}>{review.reviewText}</Text>
+              <View key={index} style={styles.reviewItem}>
+                <Text style={styles.reviewText}>{review.review}</Text>
                 <View style={styles.rating}>
                   {Array.from({ length: 5 }).map((_, idx) => (
                     <MaterialCommunityIcons
                       key={idx}
                       name="star"
                       size={24}
-                      color={idx < review.rating ? "black" : "gray"}
+                      color={idx < review.number ? "black" : "gray"}
                     />
                   ))}
                 </View>
@@ -128,19 +126,19 @@ const styles = StyleSheet.create({
   },
   appbar: {
     width: width,
-    paddingTop: "30%", // You might need to adjust this
+    paddingTop: "30%",
     backgroundColor: "#eee8f4",
-    flexDirection: "row", // Ensure the appbar has row layout
-    alignItems: "center", // Center icons vertically
+    flexDirection: "row",
+    alignItems: "center",
   },
   arrowIcon: {
     position: "absolute",
-    top: 60, // Ensure the vertical alignment matches the pencil icon
+    top: 60,
     left: 10,
   },
   pencilIcon: {
     position: "absolute",
-    top: 60, // Ensure the vertical alignment matches the pencil icon
+    top: 60,
     left: 340,
   },
   innerContainer: {
@@ -174,9 +172,13 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
   },
-  chip: {
+  specializationItem: {
+    alignItems: "center",
     marginHorizontal: 5,
+  },
+  chip: {
     backgroundColor: "#e0f7fa",
+    paddingHorizontal: 10,
   },
   averageRating: {
     textAlign: "center",
@@ -185,12 +187,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   reviewsScroll: {
-    flexDirection: "row",
     marginBottom: 16,
     maxHeight: 150,
   },
-  reviewContainer: {
-    width: "80%",
+  reviewItem: {
+    width: 120,
     flexDirection: "column",
     alignItems: "center",
     padding: 8,
@@ -199,18 +200,26 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     borderRadius: 8,
     backgroundColor: "#fff",
+    position: "relative",  // Ensure positioning of stars is relative to this container
   },
   reviewText: {
-    flex: 1,
-    marginRight: 8,
+    marginBottom: 8,
+    textAlign: "center",
   },
   rating: {
+    position: "absolute",  // Position the stars at the bottom of the review container
+    bottom: 8,  // Adjust the distance from the bottom
     flexDirection: "row",
+    justifyContent: "space-evenly", // Evenly distribute the stars
+    width: "100%",  // Ensure stars span the full width of the review container
   },
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+  },
+  scrollArrow: {
+    marginHorizontal: 10,
   },
 });
 

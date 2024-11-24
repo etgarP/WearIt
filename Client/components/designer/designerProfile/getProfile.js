@@ -27,7 +27,7 @@ export default function GetProfile({ navigation }) {
           headers: { Authorization: `Bearer ${userDetails.token}` },
         }
       );
-      setProfileData(response.data);
+      setProfileData(await response.data);
       setAlertShown(false);
     } catch (error) {
       setAlertShown(true);
