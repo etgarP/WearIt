@@ -32,7 +32,7 @@ const saveProfile = async (req, res) => {
         await designerService.saveProfile(
             decoded.username,
             profile.bio,
-            profile.image,
+            profile.image ? profile.image : "",
             profile.name,
             profile.specialization,  // Add specialization
             profile.pricePerItem      // Add pricePerItem

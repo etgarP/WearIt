@@ -40,7 +40,7 @@ const createDefaultDesignerInfoAndProfile = async (username) => {
     username: defaultDesignerInfo.username, // Use the same username
     name: defaultDesignerInfo.name, // Default name
     bio: "This is a default bio. No bio provided yet.",
-    image: "https://example.com/default-profile-image.jpg", // Default profile image
+    image: "", // Default profile image
     pricePerItem: 50, // Default price per item
     specialization: defaultDesignerInfo.specialization, // Default specializations
     designerInfo: designerId, // Use the retrieved _id from DesignerInfo
