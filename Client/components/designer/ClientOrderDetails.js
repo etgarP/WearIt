@@ -11,13 +11,14 @@ import {
 import axios from "axios";
 import { AppObjectContext } from "../appNavigation/appObjectProvider";
 import { constants } from "../../constants/api";
+import { DesingerObjectContext } from "./navigation/designerObjectProvider";
 
 const ClientOrderDetails = ({ navigation, route }) => {
   const { order } = route.params;
   const {
     userDetails: { token },
   } = useContext(AppObjectContext);
-  const [clientData, setClientData] = useState(null);
+  const { setDesign, design } = useContext(DesingerObjectContext);
   const [expandedIndex, setExpandedIndex] = useState(null); // State to track opened accordion
 
   useEffect(() => {
@@ -27,7 +28,7 @@ const ClientOrderDetails = ({ navigation, route }) => {
           `${constants.designerBaseAddress}orders/${order._id}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        setClientData(response.data);
+        setDesign(response.data);
       } catch (error) {
         Alert.alert("Error", "Failed to load client data.");
       }
@@ -73,15 +74,17 @@ const ClientOrderDetails = ({ navigation, route }) => {
 
   const handleMixAndMatch = () => {
     navigation.navigate("DesignInfo", {
-      design: clientData.design[0],
-      orderId: order._id,});
+      design: design.design[0],
+      orderId: order._id,
+      numberOfOutfits: order.numberOfOutfits,
+    });
   };
 
-  if (!clientData) {
+  if (!design) {
     return <Text>Loading...</Text>;
   }
 
-  const clientInfo = clientData.clientInfo[0];
+  const clientInfo = design.clientInfo[0];
 
   const handleAccordionPress = (index) => {
     setExpandedIndex(expandedIndex === index ? null : index);

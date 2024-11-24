@@ -17,6 +17,7 @@ import { Button, IconButton } from "react-native-paper";
 import axios from "axios";
 import { constants } from "../../../../constants/api";
 import { AppObjectContext } from "../../../appNavigation/appObjectProvider";
+import { DesingerObjectContext } from "../../../designer/navigation/designerObjectProvider";
 
 const AddItemContent = ({
   closeModal,
@@ -88,11 +89,12 @@ const AddItemContent = ({
   );
 };
 
-const AddItemModal = forwardRef(({ orderId, items, setItems }, ref) => {
+const AddItemModal = forwardRef(({ orderId }, ref) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [itemLink, setItemLink] = useState("");
   const [selectedType, setSelectedType] = useState(null);
   const { userDetails } = useContext(AppObjectContext);
+  const { setDesign } = useContext(DesingerObjectContext);
 
   // Check if the URL is valid (starts with "https://www.everlane.com/products/")
   const isLinkValid = itemLink.startsWith("https://www.everlane.com/products/");
@@ -127,7 +129,15 @@ const AddItemModal = forwardRef(({ orderId, items, setItems }, ref) => {
       );
       if (response.status === 200) {
         const updatedItems = response.data.items;
-        setItems(updatedItems);
+        setDesign((prevDesign) => ({
+          ...prevDesign, // Spread the previous design object
+          design: [
+            {
+              ...prevDesign.design[0], // Spread the first design object to keep other fields intact
+              items: updatedItems, // Update only the items field
+            },
+          ],
+        }));
       } else {
         Alert.alert("Error", "Failed to add item");
       }

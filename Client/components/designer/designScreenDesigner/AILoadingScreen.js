@@ -1,11 +1,11 @@
 import React, { useState, useContext, useEffect } from "react";
 import { View, Text, StyleSheet, Animated } from "react-native";
-import { Card } from "react-native-paper";
-import { ClientObjectContext } from "../../Client/navigation/ClientObjectProvider";
-import { AppObjectProvider } from "../../appNavigation/appObjectProvider";
+import { AppObjectContext } from "../../appNavigation/appObjectProvider";
 import { tryOn } from "../../../apiServices/client/tryOn";
 import RefreshErrorPage from "../../loadingPages/refreshErrorPage";
 import { DesingerObjectContext } from "../navigation/designerObjectProvider";
+import { constants } from "../../../constants/api";
+import { fetchWithTimeout } from "../../../apiServices/fetchWithTimeout";
 
 const Star = ({ delay }) => {
   const opacity = React.useRef(new Animated.Value(0)).current;
@@ -45,18 +45,52 @@ const Star = ({ delay }) => {
   return <Animated.View style={[styles.star, { opacity }]} />;
 };
 
+const handleTryOn = async (token, url, orderId) => {
+  const API_URL = `${constants.designerBaseAddress}orders/try-on`;
+  try {
+    const response = await fetchWithTimeout(
+      5000, // 5 seconds timeout
+      fetch(API_URL, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`, // Ensure correct capitalization
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ orderId, url }),
+      })
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Error:", errorText);
+      throw new Error(errorText); // Throw error to be caught in the calling function
+    }
+    const data = await response.json();
+    return data; // This should return the array of orders
+  } catch (error) {
+    console.error("Error fetching orders:", error.message);
+    throw error; // Ensure error is caught and handled appropriately
+  }
+};
+
 export const AILoadingScreen = ({ navigation }) => {
   const {
     userDetails: { token },
   } = useContext(AppObjectContext);
   const [orderFailed, setOrderFailed] = useState(false); // To manage error state
-  const { setDesign, chosenUrl, orderId } = useContext(DesingerObjectContext);
+  const { design, setDesign, chosenUrl, orderId } = useContext(
+    DesingerObjectContext
+  );
+
   // Function to handle order submission
   const handleOrderSubmission = async () => {
     setOrderFailed(false); // Reset the error state when retrying
     try {
-      const gotten = await tryOn(token, chosenUrl, orderId); // Make the POST request to create the order
-      setDesign(gotten);
+      const gotten = await handleTryOn(token, chosenUrl, orderId);
+      setDesign((prevDesign) => ({
+        ...prevDesign, // Spread the previous design object
+        design: [gotten],
+      }));
       setTimeout(() => {
         navigation.pop(2); // Go back two pages
       }, 5000); // TODO remove

@@ -202,9 +202,9 @@ const notAbleToAdd = async (orderId) => {
 const notAbleToRemove = async (orderId) => {
     const design = await Design.findOne({ orderId })
     if (!design || design.status == 'finished') {
-        return false
+        return true
     }
-    return true
+    return false
 }
 
 

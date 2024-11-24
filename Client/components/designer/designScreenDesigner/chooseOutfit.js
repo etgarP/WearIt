@@ -1,13 +1,13 @@
 import React, { useState, useContext } from "react";
 import { View, StyleSheet, Image, ScrollView } from "react-native";
 import { Appbar, List, Button, RadioButton } from "react-native-paper";
-import { ClientObjectContext } from "../../Client/navigation/ClientObjectProvider";
+import { DesingerObjectContext } from "../navigation/designerObjectProvider";
 
 const ChooseOutfit = ({ navigation }) => {
-  const { design, setChosenUrl } = useContext(ClientObjectContext);
-  const clothes = design.items;
+  const { design, setChosenUrl } = useContext(DesingerObjectContext);
+  const clothes = design.design[0].items;
   // Filter clothes that have dont have 'imageOfWornCloth'
-  const outfits = design.items.filter((item) => item.imageOfWornCloth == null);
+  const outfits = clothes.filter((item) => item.imageOfWornCloth == null);
   const [selectedOutfitId, setSelectedOutfitId] = useState(null);
   const [currentUrl, setCurrentUrl] = useState(null);
 

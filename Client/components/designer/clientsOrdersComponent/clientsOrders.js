@@ -8,6 +8,7 @@ import axios from "axios";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { constants } from "../../../constants/api";
 import BackgroundWrapper from "../../backgroundWrapper";
+import { DesingerObjectContext } from "../navigation/designerObjectProvider";
 
 export default function ClientsOrders({ navigation, status }) {
   const [clientOrders, setClientOrders] = useState({});
@@ -15,6 +16,7 @@ export default function ClientsOrders({ navigation, status }) {
   const { userDetails } = useContext(AppObjectContext);
   const [alertShown, setAlertShown] = useState(false);
   const [loading, setLoading] = useState(true);
+  const { setOrderId } = useContext(DesingerObjectContext);
 
   const fetchData = async () => {
     setLoading(true);
@@ -39,7 +41,7 @@ export default function ClientsOrders({ navigation, status }) {
         }
         return acc;
       }, {});
-      
+
       setClientOrders(groupedOrders);
       setAlertShown(false);
     } catch (error) {
@@ -110,12 +112,13 @@ export default function ClientsOrders({ navigation, status }) {
                     key={order._id}
                     title={`Order ${order._id.substring(0, 6)}...`}
                     description={`Outfits: ${order.numberOfOutfits}, Occasion: ${order.occasion}`}
-                    onPress={() =>
+                    onPress={() => {
+                      setOrderId(order._id);
                       navigation.navigate("ClientOrderDetails", {
                         type: "approve",
                         order: order,
-                      })
-                    }
+                      });
+                    }}
                     right={() => <List.Icon icon="chevron-right" />}
                   />
                 ))}
