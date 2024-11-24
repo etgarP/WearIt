@@ -132,7 +132,7 @@ const getDesign = async (orderId, username) => {
 const addReview = async (username, reviewData) => {
     // Find the designer's profile
     const designerProfile = await DesignerProfile.findOne({ username: reviewData.designerUsername });
-
+    console.log(reviewData)
     if (!designerProfile) {
         throw new Error('Designer not found');
     }
