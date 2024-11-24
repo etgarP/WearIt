@@ -38,7 +38,7 @@ const FinishedDesignsInnerPage = ({ navigation, orders, onReview, setOrderIdForR
                   mode="contained"
                   onPress={() => {
                     setOrderIdForReview(order._id);
-                    onReview(order.review);
+                    onReview(order.review ? order.review : { review: '', number: 0, designerUsername: order.designer });
                   }}
                   style={styles.reviewButton}
                   labelStyle={styles.buttonLabel}

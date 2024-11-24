@@ -46,10 +46,10 @@ const DesignInfo = ({ toSend = false, navigation }) => {
                                     : () => (
                                         <View style={styles.iconButtonContainer}>
                                             <IconButton
-                                                icon="trash-can"
+                                                icon="arrow-right"
                                                 size={24}
                                                 onPress={() => {
-                                                    console.log("Delete button pressed");
+                                                    handleOutfitPress(outfit.url);
                                                 }}
                                             />
                                         </View>

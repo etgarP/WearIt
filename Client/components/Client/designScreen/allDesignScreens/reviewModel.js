@@ -71,6 +71,7 @@ const ReviewModal = forwardRef((props, ref) => {
     const [loadingReview, setLoadingReview] = useState(null); 
     const openModal = (reviewData) => {
         setModalVisible(true);
+        console.log("reviewData")
         if (reviewData == null) {
             return
         }
@@ -79,7 +80,7 @@ const ReviewModal = forwardRef((props, ref) => {
         setReviewText(review)
         setDesignerUsername(designerUsername)
     };
-
+    
     const closeModal = () => {
         setModalVisible(false);
         setRating(0);
