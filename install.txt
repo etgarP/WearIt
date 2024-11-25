@@ -1,0 +1,4 @@
+conda env create --file environment.yml
+conda activate tryontest
+conda env create --file environmentParse.yml
+conda activate tryontest
