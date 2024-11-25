@@ -3,6 +3,7 @@ const designerProfileService = require('../../services/designer/DesignerProfileS
 const jwt = require('jsonwebtoken');
 const designerService = require('../../services/designer/DesignerOrderService');
 const secretToken = "even doctor evil won't crack this bad boy"
+const { getClientImage } = require('../../services/Client/ClientInfoService')
 
 /*  
     input: jsonwebtoken in headers 
@@ -56,7 +57,6 @@ const purchaseOrder = async (req, res) => {
         // Update order information with the decoded token's username
         order.username = decoded.username;
         order.status = 'pending';
-        console.log(order);
 
         // Save the order and check for success
         const savedOrder = await orderService.purchaseOrder(decoded.username, order);
@@ -66,7 +66,7 @@ const purchaseOrder = async (req, res) => {
         }
 
         // Save an empty design linked to the saved order's ID
-        const designResult = await designerService.saveDesign(savedOrder._id, []);
+        const designResult = await designerService.newDesign(savedOrder._id, []);
         if (!designResult) {
             return res.status(500).json("Failed to create design");
         }
@@ -96,6 +96,7 @@ const addReview = async (req, res) => {
         await orderService.addReview(decoded.username, review);
         return res.status(200).json("Review added successfully");
     } catch (error) {
+        console.log(error)
         return res.status(500).json("Internal Server Error");
     }
 };
@@ -104,15 +105,31 @@ const addReview = async (req, res) => {
     input: jsonwebtoken
     output: all finished order designs
 */
-const getDesigns = async (req, res) => {
+const getDesign = async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, secretToken);
-        const designs = await orderService.getClientDesigns(decoded.username);
+        const {orderId} = req.params
+        const designs = await orderService.getDesign(orderId, decoded.username)
+        designs.beforeImage = await getClientImage(decoded.username)
         return res.status(200).json(designs);
     } catch (error) {
+        console.log(error)
         return res.status(500).json("Internal Server Error");
     }
 };
 
-module.exports = { getMyOrders, purchaseOrder, addReview, getDesigns };
+const tryOn = async (req, res) => {
+    try {
+        const token = req.headers.authorization.split(' ')[1];
+        const decoded = jwt.verify(token, secretToken);
+        const {orderId, url} = req.body
+        const designs = await orderService.tryOn(orderId, url, decoded.username);
+        return res.status(200).json(designs);
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json("Internal Server Error");
+    }
+}
+
+module.exports = { getMyOrders, purchaseOrder, addReview, getDesign, tryOn };

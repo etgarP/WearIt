@@ -2,8 +2,8 @@ import React, { useState, useContext, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { createOrder } from '../../../../apiServices/client/createOrder';  // API service for order creation
 import OrderCompletePage from './orderCompleteScreen';
-import { LoadingPage } from '../../loadingPage';
-import RefreshErrorPage from '../../refreshErrorPage';
+import { LoadingPage } from '../../../loadingPages/loadingPage';
+import RefreshErrorPage from '../../../loadingPages/refreshErrorPage';
 import { ClientObjectContext } from '../../navigation/ClientObjectProvider';
 import { AppObjectContext } from '../../../appNavigation/appObjectProvider';
 

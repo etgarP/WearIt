@@ -1,11 +1,19 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const ReviewSchema = new Schema({
+    designerUsername: { type: String, required: true },
+    username: { type: String, required: true, unique: true },
+    number: { type: Number, min: 1, max: 5, required: true },
+    review: { type: String, required: true },
+    userPicture: { type: String, required: true }
+});
+
 const DesignerProfileSchema = new Schema({
     username: { type: String, required: true },
     name: { type: String, required: true },
     bio: { type: String, maxlength: 250 },
-    reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }],
+    reviews: [ReviewSchema],
     image: { type: String },
     pricePerItem: { type: Number },
     specialization: { // Added specialization here as well
@@ -26,4 +34,7 @@ const DesignerProfileSchema = new Schema({
     designerInfo: { type: Schema.Types.ObjectId, ref: 'DesignerInfo' } // Reference to DesignerInfo
 });
 
-module.exports = mongoose.model('DesignerProfile', DesignerProfileSchema);
+module.exports = {
+    DesignerProfile: mongoose.model('DesignerProfile', DesignerProfileSchema),
+    Review: mongoose.model('Review', ReviewSchema)
+};

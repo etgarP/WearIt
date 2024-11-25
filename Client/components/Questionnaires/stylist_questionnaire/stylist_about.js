@@ -7,14 +7,17 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
+import { CommonActions } from '@react-navigation/native';
 import { MaterialIcons, Feather } from "@expo/vector-icons";
 import { Colors } from "../../../constants/colors";
 import { styles } from "../QuestionnaireStyles";
 import { Strings } from "../../../constants/strings";
 import { AppObjectContext } from "../../appNavigation/appObjectProvider";
 import { constants } from "../../../constants/api";
+import BackgroundWrapper from "../../backgroundWrapper";
 
 export default function StylistAbout({
+  appNavigator,
   navigation,
   setQuestionnaireData,
   questionnaireData,
@@ -107,7 +110,13 @@ export default function StylistAbout({
 
       // Check if the request was successful
       if (infoResponse.ok && profileResponse.ok) {
-        navigation.navigate("designer");
+        console.log("hi")
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0, // The index of the route you want to show
+            routes: [{ name: 'designer' }], // Replace with your home screen's name
+          })
+        );
       } else {
         console.error("Error sending data:", infoResponse.statusText);
         Alert.alert("Error", "Failed to send data. Please try again later.");
@@ -131,74 +140,92 @@ export default function StylistAbout({
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.head}>
-        <Icon
-          name="check-circle"
-          color={Colors.check_circle_on}
-          iconSize={iconSize}
-        />
-        <Icon name="horizontal-rule" color={Colors.line} iconSize={iconSize} />
-        <Icon
-          name="check-circle"
-          color={Colors.check_circle_on}
-          iconSize={iconSize}
-        />
-        <Icon name="horizontal-rule" color={Colors.line} iconSize={iconSize} />
-        <Icon
-          name="check-circle"
-          color={Colors.check_circle_on}
-          iconSize={iconSize}
-        />
-        <Icon name="horizontal-rule" color={Colors.line} iconSize={iconSize} />
-        <Icon
-          name="check-circle"
-          color={Colors.check_circle_on}
-          iconSize={iconSize}
-        />
-        <Icon name="horizontal-rule" color={Colors.line} iconSize={iconSize} />
-        <Icon
-          name="check-circle-outline"
-          color={Colors.check_circle_on}
-          iconSize={iconSize}
-        />
-      </View>
-      <View style={styles.body}>
-        <Text style={[styles.title, { fontSize: fontSize }]}>
-          {Strings.aboutTitle}
-        </Text>
-
-        {/* Label and Input for Preferences */}
-        <Text style={styles.label}>Bio</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter your preferences"
-          value={stylistAbout}
-          onChangeText={handleStylistAboutChange} // Update state on text change
-          maxLength={charLimit} // Prevents typing more than 300 characters
-        />
-        <Text style={styles.charCount}>
-          {charCount}/{charLimit} characters
-        </Text>
-      </View>
-
-      <View style={styles.footer}>
-        <View style={styles.backContainer}>
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate("QuestionnairePicture", { isClient: false })
-            }
-          >
-            <Feather name="arrow-left" size={40} color="black" />
-          </TouchableOpacity>
+    <BackgroundWrapper>
+      <View style={styles.container}>
+        <View style={styles.head}>
+          <Icon
+            name="check-circle"
+            color={Colors.check_circle_on}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="horizontal-rule"
+            color={Colors.line}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="check-circle"
+            color={Colors.check_circle_on}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="horizontal-rule"
+            color={Colors.line}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="check-circle"
+            color={Colors.check_circle_on}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="horizontal-rule"
+            color={Colors.line}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="check-circle"
+            color={Colors.check_circle_on}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="horizontal-rule"
+            color={Colors.line}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="check-circle-outline"
+            color={Colors.check_circle_on}
+            iconSize={iconSize}
+          />
         </View>
-        <View style={styles.nextContainer}>
-          <TouchableOpacity onPress={handleNext}>
-            <Feather name="arrow-right" size={40} color="black" />
-          </TouchableOpacity>
+        <View style={styles.body}>
+          <Text style={[styles.title, { fontSize: fontSize }]}>
+            {Strings.aboutTitle}
+          </Text>
+
+          {/* Label and Input for Preferences */}
+          <Text style={styles.label}>Bio</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your preferences"
+            value={stylistAbout}
+            onChangeText={handleStylistAboutChange} // Update state on text change
+            maxLength={charLimit} // Prevents typing more than 300 characters
+          />
+          <Text style={styles.charCount}>
+            {charCount}/{charLimit} characters
+          </Text>
+        </View>
+
+        <View style={styles.footer}>
+          <View style={styles.backContainer}>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("QuestionnairePicture", { isClient: false })
+              }
+            >
+              <Feather name="arrow-left" size={40} color="black" />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.nextContainer}>
+            <TouchableOpacity onPress={handleNext}>
+              <Feather name="arrow-right" size={40} color="black" />
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
+    </BackgroundWrapper>
   );
 }
 

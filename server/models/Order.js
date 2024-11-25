@@ -5,6 +5,8 @@ const Schema = mongoose.Schema;
 const OrderSchema = new Schema({
     numberOfOutfits: { type: Number, required: true },
     group: { type: String },
+    clientImage: { type: String, required: true },
+    designerImage: { type: String, required: true },
     isGroup: { type: Boolean, required: true },
     occasion: { type: String },
     preferences: { type: String },
@@ -12,5 +14,6 @@ const OrderSchema = new Schema({
     designer: { type: String },
     username: { type: String }
 });
+
 
 module.exports = mongoose.model('Order', OrderSchema);

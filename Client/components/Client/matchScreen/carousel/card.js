@@ -17,53 +17,72 @@ const MyCard = ({ profile, setProfilePage, navigation }) => {
     const ratingOutOf5 = averageRating;
 
     return (
-        <Card style={styles.card}>
-            {/* Avatar and Name */}
-            <View style={styles.avatarContainer}>
-                {/* Using profile.image or a default placeholder image */}
-                <Avatar.Image size={100} source={{ uri: image || 'https://picsum.photos/100' }} />
-                <Text style={styles.name}>{name}</Text>
-            </View>
+      <Card style={styles.card}>
+        {/* Avatar and Name */}
+        <View style={styles.avatarContainer}>
+          {/* Using profile.image or a default placeholder image */}
+          <Avatar.Image
+            size={100}
+            source={
+              image
+                ? image.startsWith("data:")
+                  ? { uri: image }
+                  : { uri: `data:image/jpeg;base64,${image}` }
+                : null // Fallback image if no image is provided
+            }
+          />
 
-            <Card.Content>
-                {/* If bio exists, display it. Otherwise, show a default message */}
-                <Text style={styles.description}>
-                    {bio || `Hi, I specialize in ${specialization || 'designing'}. Let's create something amazing together!`}
-                </Text>
+          <Text style={styles.name}>{name}</Text>
+        </View>
 
-                {/* Rating Stars - Map over an array to create the star icons */}
-                <View style={styles.rating}>
-                    {Array.from({ length: 5 }).map((_, idx) => (
-                        <MaterialCommunityIcons
-                            key={idx}
-                            name="star"
-                            size={24}
-                            color={idx < Math.floor(ratingOutOf5) ? "black" : "gray"} // Color based on average rating
-                        />
-                    ))}
-                </View>
+        <Card.Content>
+          {/* If bio exists, display it. Otherwise, show a default message */}
+          <Text style={styles.description}>
+            {bio ||
+              `Hi, I specialize in ${
+                specialization || "designing"
+              }. Let's create something amazing together!`}
+          </Text>
 
-                {/* Progress Bar to show the matching score as a percentage */}
-                <ProgressBar progress={score / 100} color="green" style={styles.progressBar} />
-                <Text style={styles.matchText}>{score}% match</Text>
-            </Card.Content>
+          {/* Rating Stars - Map over an array to create the star icons */}
+          <View style={styles.rating}>
+            {Array.from({ length: 5 }).map((_, idx) => (
+              <MaterialCommunityIcons
+                key={idx}
+                name="star"
+                size={24}
+                color={idx < Math.floor(ratingOutOf5) ? "black" : "gray"} // Color based on average rating
+              />
+            ))}
+          </View>
 
-            {/* "Read more" Button to navigate to the profile details page */}
-            <Card.Actions>
-                <View style={styles.buttonContainer}>
-                    <Button
-                        mode="contained"
-                        style={styles.button}
-                        onPress={() => {
-                            setProfilePage(profile);  // Sets the profile in the parent state
-                            navigation.navigate("ProfileDetails", { designerData: profile });  // Pass profile as designerData
-                        }}
-                    >
-                        Read more
-                    </Button>
-                </View>
-            </Card.Actions>
-        </Card>
+          {/* Progress Bar to show the matching score as a percentage */}
+          <ProgressBar
+            progress={score / 100}
+            color="green"
+            style={styles.progressBar}
+          />
+          <Text style={styles.matchText}>{score}% match</Text>
+        </Card.Content>
+
+        {/* "Read more" Button to navigate to the profile details page */}
+        <Card.Actions>
+          <View style={styles.buttonContainer}>
+            <Button
+              mode="contained"
+              style={styles.button}
+              onPress={() => {
+                setProfilePage(profile); // Sets the profile in the parent state
+                navigation.navigate("ProfileDetails", {
+                  designerData: profile,
+                }); // Pass profile as designerData
+              }}
+            >
+              Read more
+            </Button>
+          </View>
+        </Card.Actions>
+      </Card>
     );
 };
 

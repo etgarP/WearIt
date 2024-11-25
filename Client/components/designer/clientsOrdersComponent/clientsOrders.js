@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import { StyleSheet, View } from "react-native";
-import RefreshErrorPage from "../../Client/refreshErrorPage";
+import RefreshErrorPage from "../../loadingPages/refreshErrorPage";
 import { AppObjectContext } from "../../appNavigation/appObjectProvider";
-import LoadingPage from "../../Client/loadingPage";
+import LoadingPage from "../../loadingPages/loadingPage";
 import { Avatar, List, Divider } from "react-native-paper";
 import axios from "axios";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { constants } from "../../../constants/api";
+import BackgroundWrapper from "../../backgroundWrapper";
+import { DesingerObjectContext } from "../navigation/designerObjectProvider";
 
 export default function ClientsOrders({ navigation, status }) {
   const [clientOrders, setClientOrders] = useState({});
@@ -14,6 +16,7 @@ export default function ClientsOrders({ navigation, status }) {
   const { userDetails } = useContext(AppObjectContext);
   const [alertShown, setAlertShown] = useState(false);
   const [loading, setLoading] = useState(true);
+  const { setOrderId } = useContext(DesingerObjectContext);
 
   const fetchData = async () => {
     setLoading(true);
@@ -71,47 +74,60 @@ export default function ClientsOrders({ navigation, status }) {
   }
 
   return (
-    <View style={styles.container}>
-      {Object.keys(clientOrders).length === 0 ? (
-        <List.Item
-          title="No Pending Orders"
-          description="You have no orders to review at the moment."
-          left={() => <List.Icon icon="clipboard-alert-outline" />}
-        />
-      ) : (
-        <View style={styles.clientList}>
-          {Object.keys(clientOrders).map((username, index) => (
-            <View key={index}>
-              <List.Item
-                title={username}
-                left={() => (
-                  <Avatar.Image
-                    size={50}
-                    source={{ uri: "https://example.com/designer-image.jpg" }}
-                  />
-                )}
-                descriptionStyle={styles.orderRequests}
-              />
-              <Divider />
-              {clientOrders[username].map((order) => (
+    <BackgroundWrapper>
+      <View style={styles.container}>
+        {Object.keys(clientOrders).length === 0 ? (
+          <List.Item
+            title="No Pending Orders"
+            description="You have no orders to review at the moment."
+            left={() => <List.Icon icon="clipboard-alert-outline" />}
+          />
+        ) : (
+          <View style={styles.clientList}>
+            {Object.keys(clientOrders).map((username, index) => (
+              <View key={index}>
                 <List.Item
-                  key={order._id}
-                  title={`Order ${order._id.substring(0, 6)}...`}
-                  description={`Outfits: ${order.numberOfOutfits}, Occasion: ${order.occasion}`}
-                  onPress={() =>
-                    navigation.navigate("ClientOrderDetails", {
-                      type: "approve",
-                      order: order,
-                    })
-                  }
-                  right={() => <List.Icon icon="chevron-right" />}
+                  title={username}
+                  left={() => (
+                    <Avatar.Image
+                      size={50}
+                      source={
+                        clientOrders[username][0].clientImage
+                          ? clientOrders[username][0].clientImage.startsWith(
+                              "data:"
+                            )
+                            ? { uri: clientOrders[username][0].clientImage }
+                            : {
+                                uri: `data:image/jpeg;base64,${clientOrders[username][0].clientImage}`,
+                              }
+                          : null
+                      }
+                    />
+                  )}
+                  descriptionStyle={styles.orderRequests}
                 />
-              ))}
-            </View>
-          ))}
-        </View>
-      )}
-    </View>
+                <Divider />
+                {clientOrders[username].map((order) => (
+                  <List.Item
+                    key={order._id}
+                    title={`Order ${order._id.substring(0, 6)}...`}
+                    description={`Outfits: ${order.numberOfOutfits}, Occasion: ${order.occasion}`}
+                    onPress={() => {
+                      setOrderId(order._id);
+                      navigation.navigate("ClientOrderDetails", {
+                        type: "approve",
+                        order: order,
+                      });
+                    }}
+                    right={() => <List.Icon icon="chevron-right" />}
+                  />
+                ))}
+              </View>
+            ))}
+          </View>
+        )}
+      </View>
+    </BackgroundWrapper>
   );
 }
 
@@ -119,7 +135,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: "#fff",
   },
   clientList: {
     marginTop: 16,

@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, StyleSheet, Image, ScrollView } from 'react-native';
 import { Appbar, List, Button, RadioButton } from 'react-native-paper';
-
-const outfits = [
-    { id: 1, name: 'Outfit 1', image: require('../../assets/shirt.png') },
-    { id: 2, name: 'Outfit 2', image: require('../../assets/pants_black.png') },
-    { id: 3, name: 'Outfit 3', image: require('../../assets/pants_tan.png') },
-];
+import { ClientObjectContext } from '../navigation/ClientObjectProvider';
 
 const ChooseOutfit = ({ navigation }) => {
+    const { design, setChosenUrl } = useContext(ClientObjectContext);
+    const clothes = design.items
+    // Filter clothes that have dont have 'imageOfWornCloth'
+    const outfits = design.items.filter(item => item.imageOfWornCloth == null);
     const [selectedOutfitId, setSelectedOutfitId] = useState(null);
+    const [currentUrl, setCurrentUrl] = useState(null)
 
     const selectOutfit = (id) => {
         setSelectedOutfitId(id);
@@ -19,7 +19,7 @@ const ChooseOutfit = ({ navigation }) => {
         <View style={styles.container}>
             {/* Top Appbar */}
             <Appbar.Header>
-                <Appbar.BackAction onPress={() => { navigation.goBack()}} />
+                <Appbar.BackAction onPress={() => { navigation.goBack() }} />
                 <Appbar.Content title="Add to Mix & Match" />
             </Appbar.Header>
 
@@ -27,21 +27,21 @@ const ChooseOutfit = ({ navigation }) => {
             <ScrollView style={styles.listContainer}>
                 {outfits.map((outfit) => (
                     <List.Item
-                        key={outfit.id}
-                        title={outfit.name}
+                        key={outfit._id}
+                        title={outfit.typeOfCloth}
                         left={() => (
-                            <Image source={outfit.image} style={styles.outfitImage} />
+                            <Image source={{ uri: outfit.imageOfCloth }} style={styles.outfitImage} />
                         )}
                         right={() => (
                             <View style={styles.radioButtonContainer}>
                                 <RadioButton
-                                    value={outfit.id}
-                                    status={selectedOutfitId === outfit.id ? 'checked' : 'unchecked'}
-                                    onPress={() => selectOutfit(outfit.id)}
+                                    value={outfit._id}
+                                    status={selectedOutfitId === outfit._id ? 'checked' : 'unchecked'}
+                                    onPress={() => { selectOutfit(outfit._id); setCurrentUrl(outfit.url) }}
                                 />
                             </View>
                         )}
-                        onPress={() => selectOutfit(outfit.id)}
+                        onPress={() => { selectOutfit(outfit._id); setCurrentUrl(outfit.url) }}
                     />
                 ))}
             </ScrollView>
@@ -51,7 +51,8 @@ const ChooseOutfit = ({ navigation }) => {
                 <Button
                     mode="contained"
                     style={styles.selectButton}
-                    onPress={() => navigation.navigate('AILoadingScreen')}
+                    labelStyle={{ fontSize: 18 }}
+                    onPress={() => { setChosenUrl(currentUrl); navigation.navigate('AILoadingScreen') }}
                     disabled={selectedOutfitId === null}
                 >
                     Select

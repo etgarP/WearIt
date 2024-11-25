@@ -49,7 +49,6 @@ export default function SignUpScreen({ navigation, route }) {
         await AsyncStorage.setItem("selectedTab", selectedTab);
         setUserDetails({
           token: responseData.key,
-          username: username,
         });
 
         selectedTab == "designer"
@@ -120,7 +119,12 @@ export default function SignUpScreen({ navigation, route }) {
         <Image
           source={require("../../assets/logo.png")} // path to your image
           resizeMode="contain"
-          style={{ marginBottom: "25%" }}
+          style={{
+            marginBottom: "10%",
+            width: "100%",
+            height: "8%",
+            resizeMode: "contain",
+          }}
         />
         {/* Header - Sign Up */}
         <Text style={styles.titleText}>SIGN UP</Text>
@@ -198,7 +202,10 @@ export default function SignUpScreen({ navigation, route }) {
             })
           }
         >
-          <Text style={styles.linkText}>ALREADY HAVE AN ACCOUNT? SIGN IN</Text>
+          <Text style={styles.linkText}>
+            ALREADY HAVE AN ACCOUNT?{" "}
+            <Text style={[styles.linkText, { color: "black" }]}>SIGN IN</Text>
+          </Text>
         </TouchableOpacity>
       </SafeAreaView>
     </BackgroundWrapper>

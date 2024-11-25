@@ -9,7 +9,7 @@ const mongoose = require('mongoose')
 const server = http.createServer(app)
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
 
 app.use(cors());
 

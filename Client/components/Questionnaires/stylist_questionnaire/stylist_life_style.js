@@ -12,6 +12,7 @@ import { Colors } from "../../../constants/colors";
 import { styles } from "../QuestionnaireStyles";
 import { Strings } from "../../../constants/strings";
 import ExpertiseModal from "./expertise_modal";
+import BackgroundWrapper from "../../backgroundWrapper";
 
 export default function StylistLifeStyle({
   navigation,
@@ -102,100 +103,120 @@ export default function StylistLifeStyle({
   ];
 
   return (
-    <View style={styles.container}>
-      <View style={styles.head}>
-        <Icon
-          name="check-circle"
-          color={Colors.check_circle_on}
-          iconSize={iconSize}
-        />
-        <Icon name="horizontal-rule" color={Colors.line} iconSize={iconSize} />
-        <Icon
-          name="check-circle-outline"
-          color={Colors.check_circle_on}
-          iconSize={iconSize}
-        />
-        <Icon name="horizontal-rule" color={Colors.line} iconSize={iconSize} />
-        <Icon
-          name="check-circle-outline"
-          color={Colors.check_circle_off}
-          iconSize={iconSize}
-        />
-        <Icon name="horizontal-rule" color={Colors.line} iconSize={iconSize} />
-        <Icon
-          name="check-circle-outline"
-          color={Colors.check_circle_off}
-          iconSize={iconSize}
-        />
-        <Icon name="horizontal-rule" color={Colors.line} iconSize={iconSize} />
-        <Icon
-          name="check-circle-outline"
-          color={Colors.check_circle_off}
-          iconSize={iconSize}
-        />
-      </View>
-      <View style={styles.body}>
-        <Text style={[styles.title, { fontSize: fontSize }]}>
-          {Strings.lifestyleTitle}
-        </Text>
+    <BackgroundWrapper>
+      <View style={styles.container}>
+        <View style={styles.head}>
+          <Icon
+            name="check-circle"
+            color={Colors.check_circle_on}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="horizontal-rule"
+            color={Colors.line}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="check-circle-outline"
+            color={Colors.check_circle_on}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="horizontal-rule"
+            color={Colors.line}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="check-circle-outline"
+            color={Colors.check_circle_off}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="horizontal-rule"
+            color={Colors.line}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="check-circle-outline"
+            color={Colors.check_circle_off}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="horizontal-rule"
+            color={Colors.line}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="check-circle-outline"
+            color={Colors.check_circle_off}
+            iconSize={iconSize}
+          />
+        </View>
+        <View style={styles.body}>
+          <Text style={[styles.title, { fontSize: fontSize }]}>
+            {Strings.lifestyleTitle}
+          </Text>
 
-        {/* City Field */}
-        <Text style={styles.label}>City</Text>
-        <TextInput
-          style={styles.input}
-          value={city}
-          onChangeText={(text) => {
-            setCity(text);
-            setQuestionnaireData({
-              ...questionnaireData,
-              city: text,
-            });
-          }}
-        />
+          {/* City Field */}
+          <Text style={styles.label}>City</Text>
+          <TextInput
+            style={styles.input}
+            value={city}
+            onChangeText={(text) => {
+              setCity(text);
+              setQuestionnaireData({
+                ...questionnaireData,
+                city: text,
+              });
+            }}
+          />
 
-        {/* Religion Field */}
-        <Text style={styles.label}>Religion</Text>
-        <TextInput
-          style={styles.input}
-          value={religion}
-          onChangeText={(text) => {
-            setReligion(text);
-            setQuestionnaireData({
-              ...questionnaireData,
-              religion: text,
-            });
-          }}
-        />
+          {/* Religion Field */}
+          <Text style={styles.label}>Religion</Text>
+          <TextInput
+            style={styles.input}
+            value={religion}
+            onChangeText={(text) => {
+              setReligion(text);
+              setQuestionnaireData({
+                ...questionnaireData,
+                religion: text,
+              });
+            }}
+          />
 
-        {/* Expertise Selection */}
-        <Text style={styles.label}>Expertise</Text>
-        <TouchableOpacity onPress={() => setModalVisible(true)}>
-          <Text style={styles.expertiseText}>Select Expertise</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* Modal for Expertise Selection */}
-      <ExpertiseModal
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-        specialization={specialization}
-        setSpecialization={setSpecialization}
-        specializationOptions={specializationOptions}
-      />
-
-      <View style={styles.footer}>
-        <View style={styles.backContainer}>
-          <TouchableOpacity onPress={() => navigation.navigate("stylistInfo")}>
-            <Feather name="arrow-left" size={40} color="black" />
+          {/* Expertise Selection */}
+          <Text style={styles.label}>Expertise</Text>
+          <TouchableOpacity onPress={() => setModalVisible(true)}>
+            <Text style={styles.expertiseText}>Select Expertise</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.nextContainer}>
-          <TouchableOpacity onPress={handleNext}>
-            <Feather name="arrow-right" size={40} color="black" />
-          </TouchableOpacity>
+
+        {/* Modal for Expertise Selection */}
+        <ExpertiseModal
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          specialization={specialization}
+          setSpecialization={setSpecialization}
+          specializationOptions={specializationOptions}
+        />
+
+        <View style={styles.footer}>
+          <View style={styles.backContainer}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("stylistInfo")}
+            >
+              <Feather name="arrow-left" size={40} color="black" />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.nextContainer}>
+            <TouchableOpacity onPress={handleNext}>
+              <Feather name="arrow-right" size={40} color="black" />
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
+    </BackgroundWrapper>
   );
 }
 

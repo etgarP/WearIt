@@ -25,8 +25,6 @@ export default function SignInScreen({ navigation, route }) {
 
   useEffect(() => {
     const checkSignInStatus = async () => {
-      await AsyncStorage.removeItem("userToken");
-      await AsyncStorage.removeItem("selectedTab");
       const storedToken = await AsyncStorage.getItem("userToken");
       const page = await AsyncStorage.getItem("selectedTab");
 
@@ -71,7 +69,6 @@ export default function SignInScreen({ navigation, route }) {
         // Parse the JSON response if needed
         const responseData = await response.json();
 
-        //TODO Update token
         await AsyncStorage.setItem("userToken", responseData.key);
         await AsyncStorage.setItem("selectedTab", selectedTab);
         setUserDetails({
@@ -128,8 +125,12 @@ export default function SignInScreen({ navigation, route }) {
         <SafeAreaView style={styles.container}>
           <Image
             source={require("../../assets/logo.png")} // path to your image
-            resizeMode="contain"
-            style={{ marginBottom: "25%" }}
+            style={{
+              marginBottom: "10%",
+              width: "100%", // Set the desired width
+              height: "8%", // Set the desired height
+              resizeMode: "contain", // Ensure the image is scaled without distortion
+            }}
           />
           {/* Header - Sign In */}
           <Text style={styles.titleText}>SIGN IN</Text>
@@ -199,7 +200,10 @@ export default function SignInScreen({ navigation, route }) {
               })
             }
           >
-            <Text style={styles.linkText}>DON'T HAVE AN ACCOUNT? SIGN UP</Text>
+            <Text style={styles.linkText}>
+              DON'T HAVE AN ACCOUNT?{" "}
+              <Text style={[styles.linkText, { color: "black" }]}>SIGN UP</Text>
+            </Text>
           </TouchableOpacity>
         </SafeAreaView>
       </BackgroundWrapper>

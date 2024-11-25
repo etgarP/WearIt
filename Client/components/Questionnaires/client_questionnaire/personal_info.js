@@ -12,6 +12,7 @@ import { Picker } from "@react-native-picker/picker";
 import { Colors } from "../../../constants/colors";
 import { styles } from "../QuestionnaireStyles";
 import { Strings } from "../../../constants/strings";
+import BackgroundWrapper from "../../backgroundWrapper";
 
 export default function PersonalInfo({
     navigation,
@@ -70,126 +71,129 @@ export default function PersonalInfo({
     };
 
     return (
+      <BackgroundWrapper>
         <View style={styles.container}>
-            <View style={styles.head}>
-                <Icon
-                    name="check-circle-outline"
-                    color={Colors.check_circle_on}
-                    iconSize={iconSize}
-                />
-                <Icon
-                    name="horizontal-rule"
-                    color={Colors.line}
-                    iconSize={iconSize}
-                />
-                <Icon
-                    name="check-circle-outline"
-                    color={Colors.check_circle_off}
-                    iconSize={iconSize}
-                />
-                <Icon
-                    name="horizontal-rule"
-                    color={Colors.line}
-                    iconSize={iconSize}
-                />
-                <Icon
-                    name="check-circle-outline"
-                    color={Colors.check_circle_off}
-                    iconSize={iconSize}
-                />
-                <Icon
-                    name="horizontal-rule"
-                    color={Colors.line}
-                    iconSize={iconSize}
-                />
-                <Icon
-                    name="check-circle-outline"
-                    color={Colors.check_circle_off}
-                    iconSize={iconSize}
-                />
-                <Icon
-                    name="horizontal-rule"
-                    color={Colors.line}
-                    iconSize={iconSize}
-                />
-                <Icon
-                    name="check-circle-outline"
-                    color={Colors.check_circle_off}
-                    iconSize={iconSize}
-                />
+          <View style={styles.head}>
+            <Icon
+              name="check-circle-outline"
+              color={Colors.check_circle_on}
+              iconSize={iconSize}
+            />
+            <Icon
+              name="horizontal-rule"
+              color={Colors.line}
+              iconSize={iconSize}
+            />
+            <Icon
+              name="check-circle-outline"
+              color={Colors.check_circle_off}
+              iconSize={iconSize}
+            />
+            <Icon
+              name="horizontal-rule"
+              color={Colors.line}
+              iconSize={iconSize}
+            />
+            <Icon
+              name="check-circle-outline"
+              color={Colors.check_circle_off}
+              iconSize={iconSize}
+            />
+            <Icon
+              name="horizontal-rule"
+              color={Colors.line}
+              iconSize={iconSize}
+            />
+            <Icon
+              name="check-circle-outline"
+              color={Colors.check_circle_off}
+              iconSize={iconSize}
+            />
+            <Icon
+              name="horizontal-rule"
+              color={Colors.line}
+              iconSize={iconSize}
+            />
+            <Icon
+              name="check-circle-outline"
+              color={Colors.check_circle_off}
+              iconSize={iconSize}
+            />
+          </View>
+          <View style={styles.body}>
+            <Text style={[styles.title, { fontSize: fontSize }]}>
+              {Strings.personalInfo}
+            </Text>
+
+            {/* Name Field */}
+            <Text style={styles.label}>Name</Text>
+            <TextInput
+              style={styles.input}
+              value={questionnaireData.name}
+              onChangeText={(text) =>
+                setQuestionnaireData({
+                  ...questionnaireData,
+                  name: text,
+                })
+              }
+            />
+
+            {/* Age Field */}
+            <Text style={styles.label}>Age</Text>
+            <TextInput
+              style={styles.input}
+              value={questionnaireData.age}
+              onChangeText={(text) =>
+                setQuestionnaireData({
+                  ...questionnaireData,
+                  age: text,
+                })
+              }
+              keyboardType="numeric"
+            />
+
+            {/* Gender Field */}
+            <Text style={styles.label}>Gender</Text>
+            <View style={styles.pickerContainer}>
+              <Picker
+                selectedValue={questionnaireData.gender}
+                onValueChange={(itemValue) =>
+                  setQuestionnaireData({
+                    ...questionnaireData,
+                    gender: itemValue,
+                  })
+                }
+                style={styles.picker}
+              >
+                <Picker.Item label="Select Gender" value="" />
+                <Picker.Item label="Male" value="Male" />
+                <Picker.Item label="Female" value="Female" />
+                <Picker.Item label="Other" value="Other" />
+              </Picker>
             </View>
-            <View style={styles.body}>
-                <Text style={[styles.title, { fontSize: fontSize }]}>
-                    {Strings.personalInfo}
-                </Text>
 
-                {/* Name Field */}
-                <Text style={styles.label}>Name</Text>
-                <TextInput
-                    style={styles.input}
-                    value={questionnaireData.name}
-                    onChangeText={(text) =>
-                        setQuestionnaireData({
-                            ...questionnaireData,
-                            name: text,
-                        })
-                    }
-                />
-
-                {/* Age Field */}
-                <Text style={styles.label}>Age</Text>
-                <TextInput
-                    style={styles.input}
-                    value={questionnaireData.age}
-                    onChangeText={(text) =>
-                        setQuestionnaireData({
-                            ...questionnaireData,
-                            age: text,
-                        })
-                    }
-                    keyboardType="numeric"
-                />
-
-                {/* Gender Field */}
-                <Text style={styles.label}>Gender</Text>
-                <View style={styles.pickerContainer}>
-                    <Picker
-                        selectedValue={questionnaireData.gender}
-                        onValueChange={(itemValue) =>
-                            setQuestionnaireData({
-                                ...questionnaireData,
-                                gender: itemValue,
-                            })
-                        }
-                        style={styles.picker}>
-                        <Picker.Item label="Select Gender" value="" />
-                        <Picker.Item label="Male" value="Male" />
-                        <Picker.Item label="Female" value="Female" />
-                        <Picker.Item label="Other" value="Other" />
-                    </Picker>
-                </View>
-
-                {/* Allergies Field */}
-                <Text style={styles.label}>Allergies</Text>
-                <TextInput
-                    style={styles.input}
-                    value={questionnaireData.allergies}
-                    onChangeText={(text) =>
-                        setQuestionnaireData({
-                            ...questionnaireData,
-                            allergies: text,
-                        })
-                    }
-                />
+            {/* Allergies Field */}
+            <Text style={styles.label}>Allergies</Text>
+            <TextInput
+              style={styles.input}
+              value={questionnaireData.allergies}
+              onChangeText={(text) =>
+                setQuestionnaireData({
+                  ...questionnaireData,
+                  allergies: text,
+                })
+              }
+            />
+          </View>
+          <View style={styles.footer}>
+            <View style={styles.nextContainer}>
+              <TouchableOpacity onPress={handleNext}>
+                <Feather name="arrow-right" size={40} color="black" />
+              </TouchableOpacity>
             </View>
-            <View style={styles.footer}>
-                <View style={styles.nextContainer}>
-                    <TouchableOpacity onPress={handleNext}>
-                        <Feather name="arrow-right" size={40} color="black" />
-                    </TouchableOpacity>
-                </View>
-            </View>
+          </View>
         </View>
+      </BackgroundWrapper>
     );
 }
 

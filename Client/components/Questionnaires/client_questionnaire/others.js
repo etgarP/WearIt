@@ -7,12 +7,14 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
+import { CommonActions } from "@react-navigation/native";
 import { MaterialIcons, Feather } from "@expo/vector-icons";
 import { Colors } from "../../../constants/colors";
 import { styles } from "../QuestionnaireStyles";
 import { Strings } from "../../../constants/strings";
 import { AppObjectContext } from "../../appNavigation/appObjectProvider";
 import { constants } from "../../../constants/api";
+import BackgroundWrapper from "../../backgroundWrapper";
 
 export default function Others({
   navigation,
@@ -51,10 +53,8 @@ export default function Others({
   const handleNext = async () => {
     // Prepare data to be sent to the server
     const data = {
-      info: {
-        ...questionnaireData,
-        other: other,
-      },
+      ...questionnaireData,
+      other: other,
     };
 
     try {
@@ -79,7 +79,12 @@ export default function Others({
         });
 
         // Navigate to the next screen
-        navigation.navigate("client");
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0, // The index of the route you want to show
+            routes: [{ name: "client" }], // Replace with your home screen's name
+          })
+        );
       } else {
         console.error("Error sending data:", response.statusText);
         Alert.alert("Error", "Failed to send data. Please try again later.");
@@ -94,66 +99,86 @@ export default function Others({
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.head}>
-        <Icon
-          name="check-circle"
-          color={Colors.check_circle_on}
-          iconSize={iconSize}
-        />
-        <Icon name="horizontal-rule" color={Colors.line} iconSize={iconSize} />
-        <Icon
-          name="check-circle"
-          color={Colors.check_circle_on}
-          iconSize={iconSize}
-        />
-        <Icon name="horizontal-rule" color={Colors.line} iconSize={iconSize} />
-        <Icon
-          name="check-circle"
-          color={Colors.check_circle_on}
-          iconSize={iconSize}
-        />
-        <Icon name="horizontal-rule" color={Colors.line} iconSize={iconSize} />
-        <Icon
-          name="check-circle"
-          color={Colors.check_circle_on}
-          iconSize={iconSize}
-        />
-        <Icon name="horizontal-rule" color={Colors.line} iconSize={iconSize} />
-        <Icon
-          name="check-circle-outline"
-          color={Colors.check_circle_on}
-          iconSize={iconSize}
-        />
-      </View>
-      <View style={styles.body}>
-        <Text style={[styles.title, { fontSize: fontSize }]}>
-          {Strings.othersTitle}
-        </Text>
-
-        {/* Label and Input for Preferences */}
-        <Text style={styles.label}>Preferences</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter your preferences"
-          value={other}
-          onChangeText={setOther} // Update state on text change
-        />
-      </View>
-
-      <View style={styles.footer}>
-        <View style={styles.backContainer}>
-          <TouchableOpacity onPress={() => navigation.navigate("Measurements")}>
-            <Feather name="arrow-left" size={40} color="black" />
-          </TouchableOpacity>
+    <BackgroundWrapper>
+      <View style={styles.container}>
+        <View style={styles.head}>
+          <Icon
+            name="check-circle"
+            color={Colors.check_circle_on}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="horizontal-rule"
+            color={Colors.line}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="check-circle"
+            color={Colors.check_circle_on}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="horizontal-rule"
+            color={Colors.line}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="check-circle"
+            color={Colors.check_circle_on}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="horizontal-rule"
+            color={Colors.line}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="check-circle"
+            color={Colors.check_circle_on}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="horizontal-rule"
+            color={Colors.line}
+            iconSize={iconSize}
+          />
+          <Icon
+            name="check-circle-outline"
+            color={Colors.check_circle_on}
+            iconSize={iconSize}
+          />
         </View>
-        <View style={styles.nextContainer}>
-          <TouchableOpacity onPress={handleNext}>
-            <Feather name="arrow-right" size={40} color="black" />
-          </TouchableOpacity>
+        <View style={styles.body}>
+          <Text style={[styles.title, { fontSize: fontSize }]}>
+            {Strings.othersTitle}
+          </Text>
+
+          {/* Label and Input for Preferences */}
+          <Text style={styles.label}>Preferences</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your preferences"
+            value={other}
+            onChangeText={setOther} // Update state on text change
+          />
+        </View>
+
+        <View style={styles.footer}>
+          <View style={styles.backContainer}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Measurements")}
+            >
+              <Feather name="arrow-left" size={40} color="black" />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.nextContainer}>
+            <TouchableOpacity onPress={handleNext}>
+              <Feather name="arrow-right" size={40} color="black" />
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
+    </BackgroundWrapper>
   );
 }
 

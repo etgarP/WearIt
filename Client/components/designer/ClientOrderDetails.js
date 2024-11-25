@@ -1,5 +1,13 @@
 import React, { useEffect, useState, useContext } from "react";
-import { View, StyleSheet, Alert, ScrollView } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Alert,
+  ScrollView,
+  Modal,
+  Text as NativeText,
+  TouchableOpacity,
+} from "react-native";
 import {
   Text,
   List,
@@ -7,18 +15,22 @@ import {
   Avatar,
   IconButton,
   Button,
+  Appbar,
 } from "react-native-paper";
 import axios from "axios";
 import { AppObjectContext } from "../appNavigation/appObjectProvider";
 import { constants } from "../../constants/api";
+import { DesingerObjectContext } from "./navigation/designerObjectProvider";
 
 const ClientOrderDetails = ({ navigation, route }) => {
   const { order } = route.params;
   const {
     userDetails: { token },
   } = useContext(AppObjectContext);
-  const [clientData, setClientData] = useState(null);
-  const [expandedIndex, setExpandedIndex] = useState(null); // State to track opened accordion
+  const { setDesign, design } = useContext(DesingerObjectContext);
+  const [expandedIndex, setExpandedIndex] = useState(null); // For accordion
+  const [modalVisible, setModalVisible] = useState(false); // Modal visibility
+  const [modalContent, setModalContent] = useState(null); // Content for modal
 
   useEffect(() => {
     const fetchClientData = async () => {
@@ -27,7 +39,7 @@ const ClientOrderDetails = ({ navigation, route }) => {
           `${constants.designerBaseAddress}orders/${order._id}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        setClientData(response.data);
+        setDesign(response.data);
       } catch (error) {
         Alert.alert("Error", "Failed to load client data.");
       }
@@ -44,8 +56,6 @@ const ClientOrderDetails = ({ navigation, route }) => {
       );
       if (response.status === 200) {
         Alert.alert("Success", "Order approved successfully.");
-
-        // Instead of passing navigation, just use it directly
         navigation.replace(route.name, {
           order: { ...order, status: "accepted" },
         });
@@ -58,7 +68,7 @@ const ClientOrderDetails = ({ navigation, route }) => {
   const handleDeny = async () => {
     try {
       const response = await axios.post(
-        `${constants.designerBaseAddress}orders/acc/${order._id}`,
+        `${constants.designerBaseAddress}orders/deny/${order._id}`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -72,128 +82,147 @@ const ClientOrderDetails = ({ navigation, route }) => {
   };
 
   const handleMixAndMatch = () => {
-    navigation.navigate("ManageOrder");
+    navigation.navigate("DesignInfo", {
+      design: design.design[0],
+      orderId: order._id,
+      numberOfOutfits: order.numberOfOutfits,
+    });
   };
 
-  if (!clientData) {
+  const showModal = (title, content) => {
+    setModalContent({ title, content });
+    setModalVisible(true);
+  };
+
+  if (!design) {
     return <Text>Loading...</Text>;
   }
 
-  const clientInfo = clientData.clientInfo[0];
-
-  const handleAccordionPress = (index) => {
-    setExpandedIndex(expandedIndex === index ? null : index);
-  };
+  const clientInfo = design.clientInfo[0];
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.goBackIcon}>
-        <IconButton
-          icon="arrow-left"
-          size={24}
-          onPress={() => navigation.goBack()}
+    <>
+      {/* AppBar */}
+      <Appbar.Header>
+        <Appbar.BackAction onPress={() => navigation.goBack()} />
+        <Appbar.Content
+          title={order.status === "pending" ? "Approve or Deny" : "Manage Client"}
         />
-      </View>
-      <View style={styles.headerContainer}>
-        {order.status === "pending" ? (
-          <Text style={styles.header}>Approve or Deny</Text>
-        ) : (
-          <Text style={styles.header}>Manage Client</Text>
-        )}
-      </View>
-      <View style={styles.profileContainer}>
-        <List.Item
-          title={clientInfo.name}
-          left={() => (
-            <Avatar.Image
-              size={50}
-              source={{ uri: "https://example.com/designer-image.jpg" }}
-            />
-          )}
-          descriptionStyle={styles.orderRequests}
-        />
-        <Divider />
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.sectionHeader}>Relevant Info</Text>
-        {["Personal Info", "Measurements", "Preferences"].map((item, index) => (
-          <List.Accordion
-            key={index}
-            title={item}
-            expanded={expandedIndex === index}
-            onPress={() => handleAccordionPress(index)}
-            right={() => (
-              <List.Icon
-                icon={
-                  expandedIndex === index ? "chevron-down" : "chevron-right"
+      </Appbar.Header>
+
+      {/* Main Content */}
+      <ScrollView style={styles.container}>
+        {/* Profile Section */}
+        <View style={styles.profileContainer}>
+          <List.Item
+            title={clientInfo.name}
+            left={() => (
+              <Avatar.Image
+                size={50}
+                source={
+                  clientInfo.image
+                    ? clientInfo.image.startsWith("data:")
+                      ? { uri: clientInfo.image }
+                      : { uri: `data:image/jpeg;base64,${clientInfo.image}` }
+                    : null
                 }
               />
             )}
-            style={styles.accordion}
-          >
-            {item === "Personal Info" && (
-              <Text>{`Age: ${clientInfo.age}\nGender: ${clientInfo.gender}\nAllergies: ${clientInfo.allergies}`}</Text>
-            )}
-            {item === "Measurements" && (
-              <Text>{`Shoulders: ${clientInfo.measurements.shoulders}\nBust: ${clientInfo.measurements.bust}\nWaist: ${clientInfo.measurements.waist}\nHips: ${clientInfo.measurements.hips}\nThighs: ${clientInfo.measurements.thighs}\nCalves: ${clientInfo.measurements.calves}\nLegs: ${clientInfo.measurements.legs}`}</Text>
-            )}
-            {item === "Preferences" && <Text>{clientInfo.other}</Text>}
-          </List.Accordion>
-        ))}
-      </View>
+            descriptionStyle={styles.orderRequests}
+          />
+          <Divider />
+        </View>
 
-      <View style={styles.section}>
-        <Text style={styles.sectionHeader}>Order Details</Text>
-        <List.Accordion
-          title="Order Information"
-          expanded={expandedIndex === "orderDetails"}
-          onPress={() => handleAccordionPress("orderDetails")}
-          right={() => (
-            <List.Icon
-              icon={
-                expandedIndex === "orderDetails"
-                  ? "chevron-down"
-                  : "chevron-right"
-              }
+        {/* Accordion Section */}
+        <View style={styles.section}>
+          <Text style={styles.sectionHeader}>Relevant Info</Text>
+          {[
+            { title: "Personal Info", content: `Age: ${clientInfo.age}\nGender: ${clientInfo.gender}\nAllergies: ${clientInfo.allergies}` },
+            {
+              title: "Measurements",
+              content: `Shoulders: ${clientInfo.measurements.shoulders}\nBust: ${clientInfo.measurements.bust}\nWaist: ${clientInfo.measurements.waist}\nHips: ${clientInfo.measurements.hips}\nThighs: ${clientInfo.measurements.thighs}\nCalves: ${clientInfo.measurements.calves}\nLegs: ${clientInfo.measurements.legs}`,
+            },            
+            { title: "Preferences", content: clientInfo.other },
+          ].map((item, index) => (
+            <TouchableOpacity
+              key={index}
+              onPress={() => showModal(item.title, item.content)}
+            >
+              <List.Item
+                title={item.title}
+                right={() => <List.Icon icon="chevron-right" />}
+                style={[styles.accordion, styles.orderInfoButton]}
+              />
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        {/* Order Details */}
+        <View style={styles.section}>
+          <Text style={styles.sectionHeader}>Order Details</Text>
+          <TouchableOpacity
+            style={[styles.accordion, styles.orderInfoButton]}
+            onPress={() =>
+              showModal(
+                "Order Information",
+                `Number of Outfits: ${order.numberOfOutfits}\nIs Group: ${order.isGroup ? "Yes" : "No"
+                }\nOccasion: ${order.occasion}\nStatus: ${order.status}`
+              )
+            }
+          >
+            <List.Item
+              title="Order Information"
+              right={() => <List.Icon icon="chevron-right" />}
             />
-          )}
-          style={styles.accordion}
-        >
-          <Text>{`Order ID: ${order._id}\nNumber of Outfits: ${
-            order.numberOfOutfits
-          }\nIs Group: ${order.isGroup ? "Yes" : "No"}\nOccasion: ${
-            order.occasion
-          }\nPreferences: ${order.preferences}\nStatus: ${order.status}`}</Text>
-        </List.Accordion>
-      </View>
+          </TouchableOpacity>
+        </View>
 
-      {order.status === "pending" ? (
-        <View style={styles.buttonContainer}>
-          <IconButton
-            icon="close-circle-outline"
-            size={50}
-            iconColor="red"
-            onPress={() => handleDeny()}
-          />
-          <IconButton
-            icon="check-circle-outline"
-            size={50}
-            iconColor="green"
-            onPress={() => handleApprove()}
-          />
+
+        {/* Buttons */}
+        {order.status === "pending" ? (
+          <View style={styles.buttonContainer}>
+            <IconButton
+              icon="close-circle-outline"
+              size={50}
+              iconColor="red"
+              onPress={handleDeny}
+            />
+            <IconButton
+              icon="check-circle-outline"
+              size={50}
+              iconColor="green"
+              onPress={handleApprove}
+            />
+          </View>
+        ) : (
+          <View style={styles.mixMatchButtonContainer}>
+            <Button
+              mode="contained"
+              onPress={handleMixAndMatch}
+              style={styles.mixMatchButton}
+            >
+              Manage Outfits
+            </Button>
+          </View>
+        )}
+      </ScrollView>
+
+      {/* Modal */}
+      <Modal
+        visible={modalVisible}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>{modalContent?.title}</Text>
+            <NativeText style={styles.modalText}>{modalContent?.content}</NativeText>
+            <Button onPress={() => setModalVisible(false)}>Close</Button>
+          </View>
         </View>
-      ) : (
-        <View style={styles.mixMatchButtonContainer}>
-          <Button
-            mode="contained"
-            onPress={handleMixAndMatch}
-            style={styles.mixMatchButton}
-          >
-            Manage Outfits
-          </Button>
-        </View>
-      )}
-    </ScrollView>
+      </Modal>
+    </>
   );
 };
 
@@ -203,34 +232,8 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: "#fff",
   },
-  headerContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    fontSize: 24,
-    marginTop: "5%",
-    marginBottom: "5%",
-  },
-  goBackIcon: {
-    marginTop: "10%",
-  },
-  header: {
-    fontSize: 24,
-    fontWeight: "bold",
-    textAlign: "center",
-    flex: 1,
-  },
   profileContainer: {
     marginBottom: 16,
-  },
-  orderRequests: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 16,
-    position: "relative",
-  },
-  name: {
-    fontSize: 18,
-    fontWeight: "bold",
   },
   section: {
     marginBottom: 16,
@@ -244,32 +247,44 @@ const styles = StyleSheet.create({
     backgroundColor: "#e0e0e0",
     marginVertical: 4,
   },
-  orderDetails: {
-    fontSize: 14,
-    color: "#333",
-    marginBottom: 16,
-    lineHeight: 20,
-  },
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
     marginTop: 20,
-    marginBottom: "10%",
-  },
-  approveButton: {
-    backgroundColor: "#4caf50", // Green for approve
-    borderRadius: 24,
-  },
-  denyButton: {
-    backgroundColor: "#f44336", // Red for deny
-    borderRadius: 24,
   },
   mixMatchButtonContainer: {
-    marginTop: 20, // Add some space above the Mix and Match button
+    marginTop: 20,
   },
   mixMatchButton: {
-    backgroundColor: "#6200ea", // Example color for the Mix and Match button
+    backgroundColor: "#6200ea",
   },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    width: "80%",
+    backgroundColor: "#fff",
+    padding: 16,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 8,
+  },
+  modalText: {
+    fontSize: 16,
+    marginBottom: 16,
+  },
+  orderInfoButton: {
+    borderRadius: 10, // Slightly rounder corners
+    backgroundColor: "#e0e0e0", // Light grey background
+  },
+
 });
 
 export default ClientOrderDetails;

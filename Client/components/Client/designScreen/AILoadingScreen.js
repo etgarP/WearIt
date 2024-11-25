@@ -1,6 +1,10 @@
-import * as React from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, Animated } from 'react-native';
 import { Card } from 'react-native-paper'
+import { ClientObjectContext } from '../navigation/ClientObjectProvider';
+import { AppObjectContext } from '../../appNavigation/appObjectProvider';
+import { tryOn } from '../../../apiServices/client/tryOn';
+import RefreshErrorPage from '../../loadingPages/refreshErrorPage';
 
 const Star = ({ delay }) => {
     const opacity = React.useRef(new Animated.Value(0)).current;
@@ -42,7 +46,42 @@ const Star = ({ delay }) => {
     );
 };
 
-const AILoadingScreen = () => {
+export const AILoadingScreen = ({ navigation }) => {
+    const { userDetails: { token } } = useContext(AppObjectContext);
+    const [orderFailed, setOrderFailed] = useState(false);  // To manage error state
+    const { setDesign, chosenUrl, orderId } = useContext(ClientObjectContext);
+    // Function to handle order submission
+    const handleOrderSubmission = async () => {
+        setOrderFailed(false); // Reset the error state when retrying
+        try {
+            const gotten = await tryOn(token, chosenUrl, orderId);  // Make the POST request to create the order
+            setDesign(gotten)
+            setTimeout(() => {
+                navigation.pop(2); // Go back two pages
+            }, 5000); // TODO remove
+        } catch (error) {
+            setOrderFailed(true);  // Set error state if an error occurred
+        }
+    };
+
+    // Call handleOrderSubmission when the component mounts
+    useEffect(() => {
+        handleOrderSubmission();
+    }, [token]);
+
+    // Retry function for error page
+    const onRetry = () => {
+        handleOrderSubmission();  // Retry the order submission
+    };
+
+    if (orderFailed) {
+        return <RefreshErrorPage tryAgain={onRetry} />;  // Show error page with retry option if order creation failed
+    }
+
+    return <AILoadingScreenPage />;  // Return nothing if no state is active
+};
+
+const AILoadingScreenPage = () => {
     const [messageIndex, setMessageIndex] = React.useState(0);
     const messages = [
         "Generating the image of you in your selected outfit...",
@@ -60,25 +99,25 @@ const AILoadingScreen = () => {
     return (
         <View style={styles.container}>
             {/* <Card style={styles.card}> */}
-                {/* <View style={styles.insideContainer}> */}
-                    {/* Three flickering stars with staggered delays */}
-                <View style={styles.starsContainer}>
-                    <Star delay={0} />
-                    <Star delay={250} />
-                    <Star delay={500} />
-                </View>
-                {/* Animated Loading Message */}
-                <Text style={styles.message}>
-                    {messages[messageIndex]}
-                </Text>
-                {/* Additional Tip to Engage Users */}
-                <Text style={styles.tip}>
-                    Hold tight! Great things take time.
-                </Text>
-                {/* </View> */}
-                
+            {/* <View style={styles.insideContainer}> */}
+            {/* Three flickering stars with staggered delays */}
+            <View style={styles.starsContainer}>
+                <Star delay={0} />
+                <Star delay={250} />
+                <Star delay={500} />
+            </View>
+            {/* Animated Loading Message */}
+            <Text style={styles.message}>
+                {messages[messageIndex]}
+            </Text>
+            {/* Additional Tip to Engage Users */}
+            <Text style={styles.tip}>
+                Hold tight! Great things take time.
+            </Text>
+            {/* </View> */}
+
             {/* </Card> */}
-            
+
         </View>
     );
 };

@@ -26,7 +26,13 @@ export default AppNavigator = () => {
               headerShown: false,
             }}
           >
-            <Stack.Screen name="SignIn" component={SignInScreen} />
+            <Stack.Screen
+              name="SignIn"
+              component={SignInScreen}
+              options={{
+                gestureEnabled: false, // Disable swipe gesture
+              }}
+            />
             <Stack.Screen name="SignUp" component={SignUpScreen} />
             <Stack.Screen
               name="stylistQuestionnaire"
@@ -36,9 +42,15 @@ export default AppNavigator = () => {
               name="clientQuestionnaire"
               component={ClientQuestionnaireNavigator}
             />
-            <Stack.Screen name="client" component={ClientNavigator} />
+            <Stack.Screen name="client" component={ClientNavigator} 
+            options={{
+              gestureEnabled: false, // Disable swipe gesture
+            }} />
             {/* Design screen */}
-            <Stack.Screen name="designer" component={DesignerNavigator} />
+            <Stack.Screen name="designer" component={DesignerNavigator} 
+              options={{
+                gestureEnabled: false, // Disable swipe gesture
+              }}/>
           </Stack.Navigator>
         </NavigationContainer>
       </ImageBackground>

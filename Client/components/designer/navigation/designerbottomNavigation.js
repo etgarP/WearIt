@@ -4,6 +4,7 @@ import DesignerHome from "../homeScreen/designerHome";
 import ClientsOrders from "../clientsOrdersComponent/clientsOrders";
 import GetProfile from "../designerProfile/getProfile";
 import Sheet from "../../sheet";
+import { Image, View, StyleSheet } from "react-native";
 
 export default function DesignerBottomNav({ route, navigation }) {
   const [index, setIndex] = React.useState(0);
@@ -58,7 +59,13 @@ export default function DesignerBottomNav({ route, navigation }) {
     >
       {showAppBarDetails && (
         <Appbar.Header mode="center-aligned">
-          <Appbar.Content title={routes[index].title} />
+          <View style={styles.imageContainer}>
+            {/* <Appbar.Content title={routes[index].title} /> */}
+            <Image
+              source={require("../../../data/logo.png")} // Local image using require
+              style={styles.image}
+            />
+          </View>
           <IconButton icon="account" size={24} onPress={openBottomSheet} />
         </Appbar.Header>
       )}
@@ -71,3 +78,16 @@ export default function DesignerBottomNav({ route, navigation }) {
     </Sheet>
   );
 }
+const styles = StyleSheet.create({
+  imageContainer: {
+    flexDirection: "row",
+    justifyContent: "center", // Center the image horizontally
+    alignItems: "center",
+    flex: 1, // This ensures that the image is centered in the Appbar
+  },
+  image: {
+    marginLeft: 45,
+    width: 120, // Adjust the size of the image
+    height: 25, // Adjust the size of the image
+  },
+});

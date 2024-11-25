@@ -1,6 +1,6 @@
 const Designer = require("../../models/desinger/DesignerInfo");
 const { DesignerLoginInfo } = require("../../models/LoginInfo");
-const DesignerProfile = require("../../models/desinger/DesignerProfile");
+const { DesignerProfile } = require("../../models/desinger/DesignerProfile");
 const DesignerInfo = require("../../models/desinger/DesignerInfo");
 const bcrypt = require("bcryptjs");
 
@@ -40,7 +40,7 @@ const createDefaultDesignerInfoAndProfile = async (username) => {
     username: defaultDesignerInfo.username, // Use the same username
     name: defaultDesignerInfo.name, // Default name
     bio: "This is a default bio. No bio provided yet.",
-    image: "https://example.com/default-profile-image.jpg", // Default profile image
+    image: "", // Default profile image
     pricePerItem: 50, // Default price per item
     specialization: defaultDesignerInfo.specialization, // Default specializations
     designerInfo: designerId, // Use the retrieved _id from DesignerInfo
@@ -60,13 +60,8 @@ const createDefaultDesignerInfoAndProfile = async (username) => {
 const createDesigner = async (username, password) => {
   // Hash the password
   const hashedPassword = await bcrypt.hash(password, 10);
-
-  // Save the login info
-  const loginInfo = new DesignerLoginInfo({
-    username,
-    password: hashedPassword,
-    isDesigner: true,
-  });
+    // Save the login info
+  const loginInfo = new DesignerLoginInfo({ username, password: hashedPassword });
   await loginInfo.save();
 
   // Set default info and profile
