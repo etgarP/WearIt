@@ -1,0 +1,66 @@
+
+export const clothes = [
+  {
+    _id: 1,
+    name: "Outfit 1",
+    imageOfClothOfCloth: require("../assets/shirt.png"),
+    url: "https://www.example.com/outfit1",
+    typeOfCloth: "Shirt",
+  },
+  {
+    _id: 2,
+    name: "Outfit 2",
+    imageOfClothOfCloth: require("../assets/pants_black.png"),
+    url: "https://www.example.com/outfit2",
+    typeOfCloth: "Shirt",
+  },
+  {
+    _id: 3,
+    name: "Outfit 3",
+    imageOfClothOfCloth: require("../assets/pants_tan.png"),
+    url: "https://www.example.com/outfit3",
+    typeOfCloth: "Shirt",
+  },
+  {
+    _id: 4,
+    name: "Outfit 4",
+    imageOfCloth: require("../assets/shirt.png"),
+    url: "https://www.example.com/outfit4",
+    typeOfCloth: "Shirt",
+  },
+  {
+    _id: 5,
+    name: "Outfit 5",
+    imageOfCloth: require("../assets/pants_black.png"),
+    url: "https://www.example.com/outfit5",
+    typeOfCloth: "Shirt",
+  },
+  {
+    _id: 6,
+    name: "Outfit 6",
+    imageOfCloth: require("../assets/pants_tan.png"),
+    url: "https://www.example.com/outfit6",
+    typeOfCloth: "Shirt",
+  },
+  {
+    _id: 7,
+    name: "Outfit 7",
+    imageOfCloth: require("../assets/shirt.png"),
+    url: "https://www.example.com/outfit7",
+    typeOfCloth: "Shirt",
+  },
+  {
+    _id: 8,
+    name: "Outfit 8",
+    imageOfCloth: require("../assets/pants_black.png"),
+    url: "https://www.example.com/outfit8",
+    typeOfCloth: "Shirt",
+  },
+  {
+    _id: 9,
+    name: "Outfit 9",
+    imageOfCloth: require("../assets/pants_tan.png"),
+    url: "https://www.example.com/outfit9",
+    typeOfCloth: "Shirt",
+  },
+];

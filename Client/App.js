@@ -1,20 +1,21 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { PaperProvider } from 'react-native-paper';
+import React from "react";
+import { useFonts } from "expo-font";
+import AppNavigator from "./components/appNavigation/appNavigator";
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    kalam: require("./assets/fonts/Kalam-Regular.ttf"),
+  });
+
+  if (!fontsLoaded) {
+    return null; // Optionally show a loading spinner
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <PaperProvider>
+      <AppNavigator />
+    </PaperProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
