@@ -27,12 +27,13 @@ def organize_files(input_folder, model_folder, cloth_folder):
     print(f"Moved {cloth_file} to {cloth_folder}")
 
 if __name__ == "__main__":
-    if len(sys.argv) != 4:
-        print("Usage: python organize_and_process.py <input_folder> <model_folder> <cloth_folder>")
-        sys.exit(1)
+    # if len(sys.argv) != 4:
+    #     print("Usage: python organize_and_process.py <input_folder> <model_folder> <cloth_folder>")
+    #     sys.exit(1)
 
-    input_folder = sys.argv[1]
-    model_folder = sys.argv[2]
-    cloth_folder = sys.argv[3]
+    # input_folder = sys.argv[1]
+    # model_folder = sys.argv[2]
+    # cloth_folder = sys.argv[3]
+    input_folder = "src-images"
 
     organize_files(input_folder, model_folder, cloth_folder)

@@ -1,0 +1,6 @@
+conda env create --file environment.yml
+conda activate tryOn
+conda env create --file environmentParse.yml
+conda activate clothParse
+put the contents of this folder in this directory:
+https://drive.google.com/drive/folders/1na6fvM2w9l11DAe2UwL0GHlWRD-mR1ph?usp=sharing

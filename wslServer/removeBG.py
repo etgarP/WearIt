@@ -32,5 +32,6 @@ def process_folder(folder_path):
             print(f"Processed: {file_name}")
         else:
             print(f"Failed to process: {file_name}")
-
+process_folder("PF-AFN_test/dataset/test_clothes")
+process_folder("PF-AFN_test/dataset/test_img")
 # This script should not be run directly but is called by the second script.
