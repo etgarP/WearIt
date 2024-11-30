@@ -170,40 +170,115 @@ const addReview = async (username, reviewData) => {
 
 const getDesignString = (path) => {
     // Read the image file as a buffer
-    const imagePath = paths.join(__dirname, 'worn.png');
+    const imagePath = paths.join(__dirname, path);
     const imageBuffer = fs.readFileSync(imagePath);
     // Convert the image buffer to a Base64 string
     const base64Image = imageBuffer.toString('base64');
     return `data:image/png;base64,${base64Image}`
 }
 
-const mongoose = require('mongoose');
+async function deleteImage(filePath) {
+    try {
+        await fs.promises.unlink(filePath); // Deletes the file
+        console.log(`File deleted successfully: ${filePath}`);
+    } catch (error) {
+        console.error(`Error deleting file: ${filePath}`, error);
+    }
+}
+
+
+async function saveBase64Image(base64String, filePath) {
+    try {
+        // Remove the data URL prefix (if present), works for png, jpeg, or any base64 encoded image type
+        const base64Data = base64String.replace(/^data:image\/\w+;base64,/, '');
+
+        // Write the base64 image data to a file asynchronously
+        await fs.promises.writeFile(filePath, base64Data, 'base64');
+
+        console.log(`Image saved as ${filePath}`);
+    } catch (err) {
+        console.error('Error saving image:', err);
+    }
+}
+
+const { spawn } = require('child_process');
+const path = require('path');
+
+const runPythonScript = async (scriptPath, args = []) => {
+    return new Promise((resolve, reject) => {
+        const absolutePath = path.resolve(scriptPath); // Ensure correct path format
+        const pythonProcess = spawn('python3', [absolutePath, ...args]);
+
+        let stdout = '';
+        let stderr = '';
+
+        pythonProcess.stdout.on('data', (data) => {
+            stdout += data.toString();
+        });
+
+        pythonProcess.stderr.on('data', (data) => {
+            stderr += data.toString();
+        });
+
+        pythonProcess.on('close', (code) => {
+            if (code === 0) {
+                resolve(stdout);
+            } else {
+                reject(new Error(`Python script exited with code ${code}:\n${stderr}`));
+            }
+        });
+
+        pythonProcess.on('error', (error) => {
+            reject(error);
+        });
+    });
+}
 
 const tryOn = async (orderId, url, username) => {
-    if (!await isClientInOrder(orderId, username)) {
-        throw new Error('Order not found or unauthorized access');
+    // Correct the script path
+    const scriptPath = path.resolve(__dirname, '..', 'talkToWsl.py');
+    const deletePath = path.resolve(__dirname, '..', 'triedOn.jpg')
+    const modelAndClothPath = path.resolve(__dirname, '..')
+    const modelPath = path.resolve(__dirname, '..', 'model.jpg');
+    const clothPath = path.resolve(__dirname, '..', 'cloth.jpg');
+    try {
+        // Ensure the script exists
+        await fs.promises.access(scriptPath);
+        
+        if (!await isClientInOrder(orderId, username)) {
+            throw new Error('Order not found or unauthorized access');
+        }
+        const design = await Design.findOne({ orderId });
+        if (!design) {
+            throw new Error('Design not found for the given orderId');
+        }
+        
+        const existingEntry = await design.items.find(item => item.url === url);
+        if (existingEntry) {
+            if (existingEntry.typeOfCloth != 'shirt') {
+                return design
+            }
+            const model = await getClientImage(username)
+            const cloth = existingEntry.imageOfCloth
+            console.log(typeof model)
+            await saveBase64Image(model, modelPath)
+            await saveBase64Image(cloth, clothPath)
+            // Run the Python script
+            await runPythonScript(scriptPath, modelAndClothPath);
+            existingEntry.imageOfWornCloth = getDesignString('../triedOn.jpg');
+        } else {
+            throw new Error('No URL found in the design items');
+        }
+        const updatedDesign = await design.save();
+        await deleteImage(deletePath)
+        await deleteImage(modelPath)
+        await deleteImage(clothPath)
+        return updatedDesign
+    } catch (err) {
+        console.error('Error in tryOn:', err);
+        throw err;
     }
-
-    // Ensure orderId is a valid ObjectId
-    const design = await Design.findOne({ orderId });
-    if (!design) {
-        throw new Error('Design not found for the given orderId');
-    }
-
-    // Check if an entry with the same URL already exists and update it
-    const existingEntry = design.items.find(item => item.url === url);
-    if (existingEntry) {
-        existingEntry.imageOfWornCloth = getDesignString('worn.png');
-        existingEntry.typeOfCloth = 'shirt'; // Default type, can be modified as needed
-    } else {
-        throw new Error('No URL found in the design items');
-    }
-
-    // Save the updated design document
-    const updatedDesign = await design.save();
-    return updatedDesign;
 };
 
-
-module.exports = { getReview, orderIsFinished, addReview, getClientOrders, purchaseOrder, getDesign, tryOn };
+module.exports = { getReview, orderIsFinished, runPythonScript, addReview, getClientOrders, purchaseOrder, getDesign, tryOn };
 

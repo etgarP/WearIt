@@ -5,7 +5,7 @@ import { tryOn } from "../../../apiServices/client/tryOn";
 import RefreshErrorPage from "../../loadingPages/refreshErrorPage";
 import { DesingerObjectContext } from "../navigation/designerObjectProvider";
 import { constants } from "../../../constants/api";
-import { fetchWithTimeout } from "../../../apiServices/fetchWithTimeout";
+import { fetchTimeout } from "../../../apiServices/client/tryOn";
 
 const Star = ({ delay }) => {
   const opacity = React.useRef(new Animated.Value(0)).current;
@@ -48,18 +48,14 @@ const Star = ({ delay }) => {
 const handleTryOn = async (token, url, orderId) => {
   const API_URL = `${constants.designerBaseAddress}orders/try-on`;
   try {
-    const response = await fetchWithTimeout(
-      5000, // 5 seconds timeout
-      fetch(API_URL, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`, // Ensure correct capitalization
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ orderId, url }),
-      })
-    );
-
+    const response = await fetchTimeout(API_URL, 300000, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`, // Ensure correct capitalization
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ orderId, url }),
+    });
     if (!response.ok) {
       const errorText = await response.text();
       console.error("Error:", errorText);
@@ -91,9 +87,8 @@ export const AILoadingScreen = ({ navigation }) => {
         ...prevDesign, // Spread the previous design object
         design: [gotten],
       }));
-      setTimeout(() => {
-        navigation.pop(2); // Go back two pages
-      }, 5000); // TODO remove
+      navigation.pop(2)
+
     } catch (error) {
       setOrderFailed(true); // Set error state if an error occurred
     }

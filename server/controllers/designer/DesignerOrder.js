@@ -107,15 +107,29 @@ const rejectOrder = async (req, res) => {
     }
 };
 
+const isEverlaneUrl = (url) => {
+    try {
+        const parsedUrl = new URL(url);
+        return parsedUrl.hostname.endsWith('everlane.com');
+    } catch (error) {
+        console.error("Invalid URL:", error.message);
+        return false;
+    }
+};
+
 const addDesignEntry = async (req, res) => {
     try {
-        const { orderId, url } = req.body
+        const { orderId, url, typeOfCloth } = req.body
+        console.log(req.body)
         checkInOrder(req, orderId)
         let notAbleToAdd = await designerService.notAbleToAdd(orderId)
         if (notAbleToAdd) {
             return res.status(401).json("too many outfits or finished order");
         }
-        const designs = await designerService.addDesignEntry(orderId, url);
+        if (!isEverlaneUrl(url)) {
+            return res.status(401).json("url isnt from everlane");
+        }
+        const designs = await designerService.addDesignEntry(orderId, url, typeOfCloth);
         return res.status(200).json(designs);
     } catch (error) {
         console.error(error);

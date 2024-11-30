@@ -6,11 +6,11 @@ import io
 url = 'http://localhost:5000/upload'
 
 # Paths of the images to be uploaded
-cloth_image_path = 'cloth.jpg'
-model_image_path = 'model.jpg'
+cloth_image_path = 'services\cloth.jpg'
+model_image_path = 'services\model.jpg'
 
 # Path where you want to save the cropped image
-cropped_image_path = 'triedOn.jpg'
+cropped_image_path = 'services\\triedOn.jpg'
 
 # Open the images in binary mode for uploading
 with open(cloth_image_path, 'rb') as cloth_file, open(model_image_path, 'rb') as model_file:

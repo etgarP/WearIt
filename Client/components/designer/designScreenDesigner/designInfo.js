@@ -37,15 +37,10 @@ const DesignInfo = ({ navigation, route }) => {
 
   const handleSendToCustomer = async () => {
     if (numberOfOutfits > design.design[0].items.length) {
+      print(numberOfOutfits, design.design[0].items.length)
       Alert.alert(
         "Error",
         `Please add ${numberOfOutfits} outfits before sending to customer.`
-      );
-      return;
-    } else if (numberOfOutfits < design.design[0].items.length) {
-      Alert.alert(
-        "Error",
-        `Please add only ${numberOfOutfits} outfits before sending to customer.`
       );
       return;
     }
@@ -256,7 +251,6 @@ const styles = StyleSheet.create({
   addItemButton: {
     width: 200,
     borderRadius: 25,
-    backgroundColor: "#6200ea",
   },
   addItemButtonText: {
     fontSize: 16,
