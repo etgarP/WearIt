@@ -7,6 +7,7 @@ import RefreshErrorPage from "../../loadingPages/refreshErrorPage";
 import DesignerProfile from "./designerProfile";
 import { constants } from "../../../constants/api";
 import BackgroundWrapper from "../../backgroundWrapper";
+import RefreshPage from "../../loadingPages/refreshPage";
 
 export default function GetProfile({ navigation }) {
   const { userDetails } = useContext(AppObjectContext);
@@ -72,11 +73,13 @@ export default function GetProfile({ navigation }) {
   // Render the designer profile once the data is successfully fetched
   return (
     <BackgroundWrapper>
-      <DesignerProfile
-        navigation={navigation}
-        profile={profileData}
-        isDesigner={true}
-      />
+      <RefreshPage tryAgain={onRetry}>
+        <DesignerProfile
+          navigation={navigation}
+          profile={profileData}
+          isDesigner={true}
+        />
+      </RefreshPage>
     </BackgroundWrapper>
   );
 }

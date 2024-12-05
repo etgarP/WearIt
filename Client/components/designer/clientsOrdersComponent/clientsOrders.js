@@ -9,6 +9,7 @@ import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { constants } from "../../../constants/api";
 import BackgroundWrapper from "../../backgroundWrapper";
 import { DesingerObjectContext } from "../navigation/designerObjectProvider";
+import RefreshPage from "../../loadingPages/refreshPage";
 
 export default function ClientsOrders({ navigation, status }) {
   const [clientOrders, setClientOrders] = useState({});
@@ -75,58 +76,60 @@ export default function ClientsOrders({ navigation, status }) {
 
   return (
     <BackgroundWrapper>
-      <View style={styles.container}>
-        {Object.keys(clientOrders).length === 0 ? (
-          <List.Item
-            title="No Pending Orders"
-            description="You have no orders to review at the moment."
-            left={() => <List.Icon icon="clipboard-alert-outline" />}
-          />
-        ) : (
-          <View style={styles.clientList}>
-            {Object.keys(clientOrders).map((username, index) => (
-              <View key={index}>
-                <List.Item
-                  title={username}
-                  left={() => (
-                    <Avatar.Image
-                      size={50}
-                      source={
-                        clientOrders[username][0].clientImage
-                          ? clientOrders[username][0].clientImage.startsWith(
-                              "data:"
-                            )
-                            ? { uri: clientOrders[username][0].clientImage }
-                            : {
-                                uri: `data:image/jpeg;base64,${clientOrders[username][0].clientImage}`,
-                              }
-                          : null
-                      }
-                    />
-                  )}
-                  descriptionStyle={styles.orderRequests}
-                />
-                <Divider />
-                {clientOrders[username].map((order) => (
+      <RefreshPage tryAgain={onRetry}>
+        <View style={styles.container}>
+          {Object.keys(clientOrders).length === 0 ? (
+            <List.Item
+              title="No Pending Orders"
+              description="You have no orders to review at the moment."
+              left={() => <List.Icon icon="clipboard-alert-outline" />}
+            />
+          ) : (
+            <View style={styles.clientList}>
+              {Object.keys(clientOrders).map((username, index) => (
+                <View key={index}>
                   <List.Item
-                    key={order._id}
-                    title={`Order ${order._id.substring(0, 6)}...`}
-                    description={`Outfits: ${order.numberOfOutfits}, Occasion: ${order.occasion}`}
-                    onPress={() => {
-                      setOrderId(order._id);
-                      navigation.navigate("ClientOrderDetails", {
-                        type: "approve",
-                        order: order,
-                      });
-                    }}
-                    right={() => <List.Icon icon="chevron-right" />}
+                    title={username}
+                    left={() => (
+                      <Avatar.Image
+                        size={50}
+                        source={
+                          clientOrders[username][0].clientImage
+                            ? clientOrders[username][0].clientImage.startsWith(
+                                "data:"
+                              )
+                              ? { uri: clientOrders[username][0].clientImage }
+                              : {
+                                  uri: `data:image/jpeg;base64,${clientOrders[username][0].clientImage}`,
+                                }
+                            : null
+                        }
+                      />
+                    )}
+                    descriptionStyle={styles.orderRequests}
                   />
-                ))}
-              </View>
-            ))}
-          </View>
-        )}
-      </View>
+                  <Divider />
+                  {clientOrders[username].map((order) => (
+                    <List.Item
+                      key={order._id}
+                      title={`Order ${order._id.substring(0, 6)}...`}
+                      description={`Outfits: ${order.numberOfOutfits}, Occasion: ${order.occasion}`}
+                      onPress={() => {
+                        setOrderId(order._id);
+                        navigation.navigate("ClientOrderDetails", {
+                          type: "approve",
+                          order: order,
+                        });
+                      }}
+                      right={() => <List.Icon icon="chevron-right" />}
+                    />
+                  ))}
+                </View>
+              ))}
+            </View>
+          )}
+        </View>
+      </RefreshPage>
     </BackgroundWrapper>
   );
 }
