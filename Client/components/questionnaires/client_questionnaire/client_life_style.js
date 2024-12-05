@@ -1,115 +1,87 @@
 import React, { useState, useEffect } from "react";
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  Dimensions,
-  Alert,
-} from "react-native";
+import { Text, View, TouchableOpacity, Dimensions, Alert } from "react-native";
 import { TextInput } from "react-native-paper";
 import { MaterialIcons, Feather } from "@expo/vector-icons";
 import { Colors } from "../../../constants/colors";
-import { styles } from "../QuestionnaireStyles";
+import { styles } from "../questionnaireStyles";
 import { Strings } from "../../../constants/strings";
-import ExpertiseModal from "./expertise_modal";
 import BackgroundWrapper from "../../backgroundWrapper";
 
-export default function StylistLifeStyle({
+export default function ClientLifeStyle({
   navigation,
   setQuestionnaireData,
   questionnaireData,
 }) {
-  // State to manage font size and screen dimensions
-  const [fontSize, setFontSize] = useState(0);
-  const [dimensions, setDimensions] = useState(Dimensions.get("window"));
+  const [fontSize, setFontSize] = useState(0); // Dynamic font size for the title
+  const [dimensions, setDimensions] = useState(Dimensions.get("window")); // Current window dimensions
 
-  // State to store form inputs
-  const [city, setCity] = useState(questionnaireData.city || "");
-  const [religion, setReligion] = useState(questionnaireData.religion || "");
-  const [specialization, setSpecialization] = useState(
-    questionnaireData.specialization || []
-  );
-  const [modalVisible, setModalVisible] = useState(false); // Controls the visibility of the Expertise modal
+  const [work, setWork] = useState(questionnaireData.work || ""); // Work type input state
+  const [city, setCity] = useState(questionnaireData.city || ""); // City input state
+  const [religion, setReligion] = useState(questionnaireData.religion || ""); // Religion input state
 
-  // Dynamically calculate and update font size based on screen dimensions
   useEffect(() => {
+    // Update dimensions and font size when the window size changes
     const onChange = ({ window }) => {
       setDimensions(window);
       calculateFontSize(window);
     };
 
-    // Initialize font size and dimensions
+    // Initial calculation
     onChange({ window: Dimensions.get("window") });
 
-    // Listen for changes in screen dimensions
+    // Listen for dimension changes
     const subscription = Dimensions.addEventListener("change", onChange);
 
     return () => {
-      subscription?.remove(); // Cleanup listener on unmount
+      subscription?.remove(); // Clean up listener
     };
   }, []);
 
-  // Function to calculate a responsive font size
+  // Calculate font size as a percentage of the smaller screen dimension
   const calculateFontSize = (window) => {
     const calculatedFontSize = Math.min(window.width, window.height) * 0.1;
     setFontSize(calculatedFontSize);
   };
 
-  // Calculate icon size dynamically
-  const iconSize = Math.min(dimensions.width, dimensions.height) * 0.1;
+  const iconSize = Math.min(dimensions.width, dimensions.height) * 0.1; // Dynamic icon size
 
-  // Function to validate the form inputs
+  // Validate that all input fields are filled
   const validateInputs = () => {
+    if (!work.trim()) {
+      Alert.alert(Strings.validationErrorTitle, Strings.validationWorkRequired);
+      return false;
+    }
     if (!city.trim()) {
-      Alert.alert("Validation Error", "City is required.");
+      Alert.alert(Strings.validationErrorTitle, Strings.validationCityRequired);
       return false;
     }
     if (!religion.trim()) {
-      Alert.alert("Validation Error", "Religion is required.");
+      Alert.alert(
+        Strings.validationErrorTitle,
+        Strings.validationReligionRequired
+      );
       return false;
     }
-    if (specialization.length === 0) {
-      Alert.alert("Validation Error", "At least one expertise is required.");
-      return false;
-    }
-    return true; // All inputs are valid
+    return true;
   };
 
-  // Handle the "Next" button action
+  // Handle navigation to the next screen with updated questionnaire data
   const handleNext = () => {
-    // Validate inputs before proceeding
     if (validateInputs()) {
-      // Update the questionnaire data with the current form inputs
       setQuestionnaireData({
         ...questionnaireData,
+        work,
         city,
         religion,
-        specialization,
       });
-
-      // Navigate to the next screen
-      navigation.navigate("QuestionnairePicture", { isClient: false });
+      navigation.navigate("QuestionnairePicture", { isClient: true });
     }
   };
-
-  // List of options for expertise/specialization
-  const specializationOptions = [
-    "Casual Wear",
-    "Formal Wear",
-    "Business Casual",
-    "Streetwear",
-    "Athleisure (sportswear)",
-    "Evening & Cocktail Attire",
-    "Wedding & Bridal",
-    "Vacation & Resort Wear",
-    "Plus-Size Fashion",
-    "Other",
-  ];
 
   return (
     <BackgroundWrapper>
       <View style={styles.container}>
-        {/* Header: Displays progress indicators */}
+        {/* Progress indicators */}
         <View style={styles.head}>
           <Icon
             name="check-circle"
@@ -158,67 +130,69 @@ export default function StylistLifeStyle({
           />
         </View>
 
-        {/* Main body: Inputs for city, religion, and expertise */}
+        {/* Main content */}
         <View style={styles.body}>
           <Text style={[styles.title, { fontSize: fontSize }]}>
-            {Strings.lifestyleTitle} {/* Title for the screen */}
+            {Strings.lifestyleTitle}
           </Text>
 
-          {/* City Input Field */}
+          {/* Work Type Input */}
           <TextInput
             style={styles.input}
+            value={work}
+            label={Strings.workLabel}
+            mode="outlined"
+            onChangeText={(text) => {
+              setWork(text);
+              setQuestionnaireData({
+                ...questionnaireData,
+                work: text,
+              });
+            }}
+          />
+
+          {/* City Input */}
+          <TextInput
+            style={styles.input}
+            value={city}
             label={Strings.cityLabel}
             mode="outlined"
-            value={city}
             onChangeText={(text) => {
-              setCity(text); // Update city state
+              setCity(text);
               setQuestionnaireData({
                 ...questionnaireData,
-                city: text, // Update questionnaire data
+                city: text,
               });
             }}
           />
 
-          {/* Religion Input Field */}
+          {/* Religion Input */}
           <TextInput
             style={styles.input}
+            value={religion}
             label={Strings.religionLabel}
             mode="outlined"
-            value={religion}
             onChangeText={(text) => {
-              setReligion(text); // Update religion state
+              setReligion(text);
               setQuestionnaireData({
                 ...questionnaireData,
-                religion: text, // Update questionnaire data
+                religion: text,
               });
             }}
           />
-
-          {/* Expertise Selection */}
-          <Text style={styles.label}>Expertise</Text>
-          <TouchableOpacity onPress={() => setModalVisible(true)}>
-            <Text style={styles.expertiseText}>Select Expertise</Text>
-          </TouchableOpacity>
         </View>
 
-        {/* Expertise Modal */}
-        <ExpertiseModal
-          modalVisible={modalVisible} // Controls modal visibility
-          setModalVisible={setModalVisible} // Function to toggle modal
-          specialization={specialization} // Current selections
-          setSpecialization={setSpecialization} // Function to update selections
-          specializationOptions={specializationOptions} // Options to display
-        />
-
-        {/* Footer: Navigation buttons */}
+        {/* Footer with navigation buttons */}
         <View style={styles.footer}>
+          {/* Back Button */}
           <View style={styles.backContainer}>
             <TouchableOpacity
-              onPress={() => navigation.navigate("stylistInfo")}
+              onPress={() => navigation.navigate("personalInfo")}
             >
               <Feather name="arrow-left" size={40} color="black" />
             </TouchableOpacity>
           </View>
+          {/* Next Button */}
           <View style={styles.nextContainer}>
             <TouchableOpacity onPress={handleNext}>
               <Feather name="arrow-right" size={40} color="black" />
@@ -230,7 +204,7 @@ export default function StylistLifeStyle({
   );
 }
 
-// Reusable icon component for progress indicators
+// Reusable Icon component
 const Icon = ({ name, color, iconSize }) => (
   <View style={styles.iconContainer}>
     <MaterialIcons name={name} size={iconSize} color={color} />

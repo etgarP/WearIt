@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { MaterialIcons, Feather } from "@expo/vector-icons";
 import { Colors } from "../../constants/colors";
-import { styles } from "./QuestionnaireStyles";
+import { styles } from "./questionnaireStyles";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
 import { Strings } from "../../constants/strings";
