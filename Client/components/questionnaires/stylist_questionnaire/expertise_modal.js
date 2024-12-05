@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { List, Switch } from "react-native-paper";
-import { styles } from "../QuestionnaireStyles"; // Adjust path as needed
+import { styles } from "../questionnaireStyles"; // Adjust path as needed
 
 export default function ExpertiseModal({
   modalVisible,

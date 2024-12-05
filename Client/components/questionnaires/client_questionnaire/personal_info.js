@@ -3,7 +3,7 @@ import { Text, View, Dimensions, TouchableOpacity, Alert } from "react-native";
 import { TextInput, RadioButton } from "react-native-paper"; // Import RadioButton from React Native Paper
 import { MaterialIcons, Feather } from "@expo/vector-icons";
 import { Colors } from "../../../constants/colors";
-import { styles } from "../QuestionnaireStyles";
+import { styles } from "../questionnaireStyles";
 import { Strings } from "../../../constants/strings";
 import BackgroundWrapper from "../../backgroundWrapper";
 import { AppObjectContext } from "../../appNavigation/appObjectProvider";
