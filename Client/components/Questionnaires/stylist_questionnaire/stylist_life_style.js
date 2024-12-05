@@ -19,38 +19,46 @@ export default function StylistLifeStyle({
   setQuestionnaireData,
   questionnaireData,
 }) {
+  // State to manage font size and screen dimensions
   const [fontSize, setFontSize] = useState(0);
   const [dimensions, setDimensions] = useState(Dimensions.get("window"));
 
+  // State to store form inputs
   const [city, setCity] = useState(questionnaireData.city || "");
   const [religion, setReligion] = useState(questionnaireData.religion || "");
   const [specialization, setSpecialization] = useState(
     questionnaireData.specialization || []
   );
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false); // Controls the visibility of the Expertise modal
 
+  // Dynamically calculate and update font size based on screen dimensions
   useEffect(() => {
     const onChange = ({ window }) => {
       setDimensions(window);
       calculateFontSize(window);
     };
 
+    // Initialize font size and dimensions
     onChange({ window: Dimensions.get("window") });
 
+    // Listen for changes in screen dimensions
     const subscription = Dimensions.addEventListener("change", onChange);
 
     return () => {
-      subscription?.remove();
+      subscription?.remove(); // Cleanup listener on unmount
     };
   }, []);
 
+  // Function to calculate a responsive font size
   const calculateFontSize = (window) => {
     const calculatedFontSize = Math.min(window.width, window.height) * 0.1;
     setFontSize(calculatedFontSize);
   };
 
+  // Calculate icon size dynamically
   const iconSize = Math.min(dimensions.width, dimensions.height) * 0.1;
 
+  // Function to validate the form inputs
   const validateInputs = () => {
     if (!city.trim()) {
       Alert.alert("Validation Error", "City is required.");
@@ -64,31 +72,27 @@ export default function StylistLifeStyle({
       Alert.alert("Validation Error", "At least one expertise is required.");
       return false;
     }
-    return true;
+    return true; // All inputs are valid
   };
 
+  // Handle the "Next" button action
   const handleNext = () => {
+    // Validate inputs before proceeding
     if (validateInputs()) {
+      // Update the questionnaire data with the current form inputs
       setQuestionnaireData({
         ...questionnaireData,
         city,
         religion,
         specialization,
       });
+
+      // Navigate to the next screen
       navigation.navigate("QuestionnairePicture", { isClient: false });
     }
   };
 
-  const toggleExpertise = (option) => {
-    setSpecialization((prev) => {
-      if (prev.includes(option)) {
-        return prev.filter((item) => item !== option);
-      } else {
-        return [...prev, option];
-      }
-    });
-  };
-
+  // List of options for expertise/specialization
   const specializationOptions = [
     "Casual Wear",
     "Formal Wear",
@@ -105,6 +109,7 @@ export default function StylistLifeStyle({
   return (
     <BackgroundWrapper>
       <View style={styles.container}>
+        {/* Header: Displays progress indicators */}
         <View style={styles.head}>
           <Icon
             name="check-circle"
@@ -152,35 +157,37 @@ export default function StylistLifeStyle({
             iconSize={iconSize}
           />
         </View>
+
+        {/* Main body: Inputs for city, religion, and expertise */}
         <View style={styles.body}>
           <Text style={[styles.title, { fontSize: fontSize }]}>
-            {Strings.lifestyleTitle}
+            {Strings.lifestyleTitle} {/* Title for the screen */}
           </Text>
 
-          {/* City Field */}
+          {/* City Input Field */}
           <Text style={styles.label}>City</Text>
           <TextInput
             style={styles.input}
             value={city}
             onChangeText={(text) => {
-              setCity(text);
+              setCity(text); // Update city state
               setQuestionnaireData({
                 ...questionnaireData,
-                city: text,
+                city: text, // Update questionnaire data
               });
             }}
           />
 
-          {/* Religion Field */}
+          {/* Religion Input Field */}
           <Text style={styles.label}>Religion</Text>
           <TextInput
             style={styles.input}
             value={religion}
             onChangeText={(text) => {
-              setReligion(text);
+              setReligion(text); // Update religion state
               setQuestionnaireData({
                 ...questionnaireData,
-                religion: text,
+                religion: text, // Update questionnaire data
               });
             }}
           />
@@ -192,15 +199,16 @@ export default function StylistLifeStyle({
           </TouchableOpacity>
         </View>
 
-        {/* Modal for Expertise Selection */}
+        {/* Expertise Modal */}
         <ExpertiseModal
-          modalVisible={modalVisible}
-          setModalVisible={setModalVisible}
-          specialization={specialization}
-          setSpecialization={setSpecialization}
-          specializationOptions={specializationOptions}
+          modalVisible={modalVisible} // Controls modal visibility
+          setModalVisible={setModalVisible} // Function to toggle modal
+          specialization={specialization} // Current selections
+          setSpecialization={setSpecialization} // Function to update selections
+          specializationOptions={specializationOptions} // Options to display
         />
 
+        {/* Footer: Navigation buttons */}
         <View style={styles.footer}>
           <View style={styles.backContainer}>
             <TouchableOpacity
@@ -220,6 +228,7 @@ export default function StylistLifeStyle({
   );
 }
 
+// Reusable icon component for progress indicators
 const Icon = ({ name, color, iconSize }) => (
   <View style={styles.iconContainer}>
     <MaterialIcons name={name} size={iconSize} color={color} />
