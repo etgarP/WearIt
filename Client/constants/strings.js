@@ -29,4 +29,13 @@ export const Strings = {
   alertPasswordMismatch: "Passwords do not match.",
   alertEnterUsername: "Please enter your username.",
   alertEnterPassword: "Please enter your password.",
+
+  lifestyleTitle: "LifeStyle", // Title for the lifestyle section
+  workLabel: "Work Type", // Label for the work type input
+  cityLabel: "City", // Label for the city input
+  religionLabel: "Religion", // Label for the religion input
+  validationErrorTitle: "Validation Error", // Title for validation alerts
+  validationWorkRequired: "Work type is required.", // Alert message for empty work type
+  validationCityRequired: "City is required.", // Alert message for empty city
+  validationReligionRequired: "Religion is required.", // Alert message for empty religion
 };
