@@ -1,6 +1,7 @@
 import React from "react";
 import { View, ImageBackground, StyleSheet } from "react-native";
 
+// The app background image is applied to all screens
 const BackgroundWrapper = ({ children }) => {
   return (
     <ImageBackground

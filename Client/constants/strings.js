@@ -74,4 +74,6 @@ export const Strings = {
   networkErrorMessage:
     "Failed to send data. Please check your network connection.",
   clientScreen: "client", // Replace "client" with your home screen's name if different
+
+  select: "SELECT",
 };
