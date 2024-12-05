@@ -70,6 +70,10 @@ function calculateMatchScore(client, designer) {
   const religionWeight = 20;
   const ageWeight = 40; // Give age more weight since it has multiple ranges
 
+  if (!client || !designer) {
+    return 0;
+  }
+
   // Match on gender
   if (client.gender === designer.gender) {
     score += genderWeight;
