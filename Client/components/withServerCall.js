@@ -41,9 +41,12 @@ export const WithServerCall = ({ getObject, setObject, children, secondInput, lo
     }
 
     if (orderSuccess) {
-        return <RefreshPage tryAgain={onRetry} top={top}>
-            {children}
-        </RefreshPage>;  // Show success page if the order was created
+        return (
+            <View style={styles.container}>
+                {children}
+            </View>
+        )
+          // Show success page if the order was created
     }
 
     if (orderFailed) {

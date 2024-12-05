@@ -257,9 +257,8 @@ const tryOn = async (orderId, url, username) => {
         q.shift();
         return result
     } catch (error){
-        throw error;
-    } finally {
         q.shift();
+        throw error;
     }
 };
 

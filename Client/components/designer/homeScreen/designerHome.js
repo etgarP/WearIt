@@ -40,8 +40,8 @@ export default function DesignerHome({ navigation }) {
       setPendingOrdersCount(pendingOrders.length);
 
       // Extract the last order's image
-      if (data.length > 0) {
-        const lastOrder = data[data.length - 1]; // Assuming the last item is the most recent order
+      if (pendingOrders.length > 0) {
+        const lastOrder = pendingOrders[pendingOrders.length - 1]; // Assuming the last item is the most recent order
         setLastOrderImage(lastOrder.clientImage); // Assuming "image" is the field containing the image URL
       }
 
