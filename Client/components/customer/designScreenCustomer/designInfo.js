@@ -3,6 +3,7 @@ import { View, StyleSheet, Image, ScrollView, Linking } from 'react-native';
 import { IconButton, List, Button } from 'react-native-paper';
 import { ClientObjectContext } from '../navigation/ClientObjectProvider';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { Strings } from '../../../constants/strings';
 
 const DesignInfo = ({ toSend = false, navigation }) => {
     const { design } = useContext(ClientObjectContext);
@@ -70,7 +71,7 @@ const DesignInfo = ({ toSend = false, navigation }) => {
                     style={styles.addItemButton}
                     labelStyle={styles.addItemButtonText}
                 >
-                    Add Item
+                    {Strings.addItemButtonLabel}
                 </Button>
             </View>
             )}            
@@ -93,7 +94,7 @@ const DesignInfo = ({ toSend = false, navigation }) => {
                         style={styles.selectButton}
                         onPress={() => console.log("Select button pressed")}
                     >
-                        Select
+                        {Strings.select}
                     </Button>
                 </View>
             )}

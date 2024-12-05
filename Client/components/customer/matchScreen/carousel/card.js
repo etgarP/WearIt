@@ -2,6 +2,7 @@ import React from 'react';
 import { Dimensions, View, Text, StyleSheet } from 'react-native';
 import { Avatar, Card, Button, ProgressBar } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Strings } from '../../../../constants/strings';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -78,7 +79,7 @@ const MyCard = ({ profile, setProfilePage, navigation }) => {
                 }); // Pass profile as designerData
               }}
             >
-              Read more
+              {Strings.readMoreButtonLabel}
             </Button>
           </View>
         </Card.Actions>

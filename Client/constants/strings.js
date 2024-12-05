@@ -10,6 +10,15 @@ export const Strings = {
   aboutTitle: "About",
   next: "Next",
   back: "Back",
+  add: "Add",
+  retry: "Retry",
+  approved: "Approved",
+  rejected: "Rejected",
+  readMoreButtonLabel: "Read More",
+  noResultsText: "No matching results found.",
+  orderDetailsText: "Add the final details to complete your order.",
+  finalPrice: "Final Price: $",
+  requestDesign: "Request Design",
 
   stylist: "STYLIST",
   customer: "CUSTOMER",
@@ -138,4 +147,11 @@ export const Strings = {
   addReviewButtonLabel: "Add Review",
   viewOrderButtonLabel: "View Order",
   unApprovedOrder: "No approved orders.",
+
+  finished: "Finished",
+  addReviewButtonLabel: "Add Review",
+  notApproved: "Not Yet Approved",
+  noPendingOrders: "No pending orders.",
+  noActiveOrders: "No active approved orders.",
+  noRejectedOrders: "No rejected orders.",
 };

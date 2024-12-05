@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet, Dimensions, Text } from 'react-native';
 import MyCard from './card'; // Ensure that this is correctly imported
 import Carousel from 'react-native-reanimated-carousel';
+import { Strings } from '../../../../constants/strings';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -10,7 +11,7 @@ const MyCarousel = ({ setProfilePage, navigation, data }) => {
         <View style={styles.container}>
             {data.length === 0 ? (  // Check if the data array is empty
                 <Text style={styles.noResultsText}>
-                    No matching results found.
+                    {Strings.noResultsText}
                 </Text>
             ) : (
                 <Carousel

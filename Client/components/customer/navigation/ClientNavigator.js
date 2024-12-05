@@ -18,6 +18,7 @@ import AppBar from "../../AppBar";
 
 const Stack = createNativeStackNavigator();
 
+// Client Navigator
 export const ClientNavigator = () => {
   const { userDetails } = useContext(AppObjectContext);
   return (

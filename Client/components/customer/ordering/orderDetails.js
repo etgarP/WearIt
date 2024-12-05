@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, Dimensions } from 'react-native';
 import { Appbar, TextInput, Button } from 'react-native-paper';
 import { Dropdown } from 'react-native-paper-dropdown';
 import { ClientObjectContext } from '../navigation/ClientObjectProvider';
+import { Strings } from '../../../constants/strings';
 
 const { width } = Dimensions.get('window'); // Get the width of the device
 
@@ -35,7 +36,7 @@ const OrderDetails = ({ navigation, onClick }) => {
                 <View style={styles.textContainer}>
                     {/* Informative Text */}
                     <Text style={styles.informativeText}>
-                        Add the final details to complete your order.
+                        {Strings.orderDetailsText}
                     </Text>
 
                     {/* Order Form */}
@@ -72,7 +73,7 @@ const OrderDetails = ({ navigation, onClick }) => {
                     />
                 </View>
 
-                <Text style={styles.priceText}>Final price: ${finalPrice}</Text>
+                <Text style={styles.priceText}>{Strings.finalPrice}{finalPrice}</Text>
 
                 {/* Arrival Time Text */}
                 <Text style={styles.arrivalText}>
@@ -94,7 +95,7 @@ const OrderDetails = ({ navigation, onClick }) => {
                     disabled={!isButtonEnabled} // Disable button based on conditions
                     style={[styles.button, !isButtonEnabled && styles.disabledButton]} // Add greyed out style if disabled
                 >
-                    Request Design
+                    {Strings.requestDesign}
                 </Button>
             </View>
         </>
