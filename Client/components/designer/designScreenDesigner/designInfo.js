@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { IconButton, List, Button, Appbar } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import AddItemModal from "../../customer/designScreen/allDesignScreens/addItemModel";
+import AddItemModal from "./addItemModal";
 import { SafeAreaView } from "react-native-safe-area-context";
 import BackgroundWrapper from "../../backgroundWrapper";
 import axios from "axios";

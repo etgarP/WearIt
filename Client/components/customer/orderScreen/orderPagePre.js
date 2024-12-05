@@ -5,7 +5,7 @@ import OrderPage from "./orderPage";
 import { LoadingPage } from "../../loadingPages/loadingPage";
 import RefreshErrorPage from "../../loadingPages/refreshErrorPage";
 import { AppObjectContext } from "../../appNavigation/appObjectProvider";
-import FinishedDesigns from "../designScreen/finishedDesigns";
+import FinishedDesigns from "../designScreenCustomer/finishedDesigns";
 import RefreshPage from "../../loadingPages/refreshPage";
 import BackgroundWrapper from "../../backgroundWrapper";
 
