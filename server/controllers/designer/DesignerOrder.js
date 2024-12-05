@@ -175,7 +175,7 @@ const tryOn = async (req, res) => {
         const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, secretToken);
         const { orderId, url, typeOfOutfit } = req.body
-        const designs = await designerService.tryOn(orderId, url, typeOfOutfit, decoded.username);
+        const designs = await designerService.tryOn(orderId, url, decoded.username);
         return res.status(200).json(designs);
     } catch (error) {
         console.log(error)

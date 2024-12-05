@@ -12,8 +12,15 @@ const getProfile = async (username) => {
  * return the imageg of the designer
  */
 const getDesignerImage = async (username) => {
-    const designer = await DesignerProfile.findOne({ username })
-    return designer.image;
+    try {
+        const designer = await DesignerProfile.findOne({ username });
+        return designer ? (designer.image ? designer.image : "") : ""; // Ensure the designer exists before accessing the image
+    }
+    catch (error) {
+        console.error("Error fetching designer profile:", error); // Log the error for better debugging
+        return ""; // Optionally, return a default image URL or null if appropriate
+    }
+
 };
 
 /*  

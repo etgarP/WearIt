@@ -30,23 +30,21 @@ const createDefaultDesignerInfoAndProfile = async (username) => {
     age: 30,
     specialization: ["Casual Wear", "Formal Wear"], // Default specializations
   };
-
   // Save the designer info and retrieve the _id
   const designer = new DesignerInfo(defaultDesignerInfo);
   const savedDesigner = await designer.save();
   const designerId = savedDesigner._id; // Get the _id of the saved designer
-
   // Default designer profile using the same username
   const defaultDesignerProfile = {
     username: defaultDesignerInfo.username, // Use the same username
     name: defaultDesignerInfo.name, // Default name
     bio: "This is a default bio. No bio provided yet.",
-    image: "", // Default profile image
+    image: "no image", // Default profile image
     pricePerItem: 5, // Default price per item
+    reviews: [],
     specialization: defaultDesignerInfo.specialization, // Default specializations
     designerInfo: designerId, // Use the retrieved _id from DesignerInfo
   };
-
   // Create and save the designer profile
   const designerProfile = new DesignerProfile(defaultDesignerProfile);
   await designerProfile.save();
@@ -66,7 +64,7 @@ const createDesigner = async (username, password) => {
   await loginInfo.save();
 
   // Set default info and profile
-  createDefaultDesignerInfoAndProfile(username);
+  await createDefaultDesignerInfoAndProfile(username);
 };
 
 module.exports = { authenticate, createDesigner };

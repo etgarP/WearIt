@@ -56,7 +56,7 @@ const orderIsFinished = async (username, designer) => {
 const purchaseOrder = async (username, order) => {
     image = await getClientImage(username)
     console.log(order.designer)
-    image2 = await getDesignerImage(order.designer)
+    image2 ="image"
     // Add the client's image to the order
     const newOrder = new Order({ ...order, username, clientImage: image, designerImage: image2 });
 
@@ -65,10 +65,11 @@ const purchaseOrder = async (username, order) => {
     console.log("Saved Order:", savedOrder); // Check if order is saved
     // Create a corresponding design entry for the new order
     const newDesign = new Design({
+        beforeImage: await getClientImage(username),
         orderId: savedOrder._id,
         items: [] // Populate this with initial design entries as needed
     });
-    const savedDesign = await newDesign.save();    
+    await newDesign.save();    
     return savedOrder;
 };
 
@@ -238,28 +239,33 @@ const runPythonScript = async (scriptPath, args = []) => {
     });
 }
 
-// quese for tryin on clothes
-const queue = []; // Shared queue
+q = []
 
 // return tried on design, waits for its turn
 const tryOn = async (orderId, url, username) => {
     // Add to queue
-    queue.push({ orderId, url, username });
-    console.log('Current Queue:', queue);
-
-    // Wait until it's the only item in the queue
-    await waitForTurn(orderId);
-
-    // process the tryon
-    result = processTryOn(orderId, url, username)
-    // Remove from queue
-    queue.shift();
-    return result
+    q.push({ orderId, url, username });
+    try {
+        console.log('Current Queue:', q);
+        console.log(orderId)
+        // Wait until it's the only item in the queue
+        await waitForTurn(orderId);
+        console.log(orderId)
+        // process the tryon
+        result = await processTryOn(orderId, url, username)
+        // Remove from queue
+        q.shift();
+        return result
+    } catch (error){
+        throw error;
+    } finally {
+        q.shift();
+    }
 };
 
 // checks periodically for its turn
 const waitForTurn = async (orderId) => {
-    while (queue[0]?.orderId !== orderId) {
+    while (q[0]?.orderId !== orderId) {
         // Wait for a short period before checking again
         await new Promise((resolve) => setTimeout(resolve, 100));
     }

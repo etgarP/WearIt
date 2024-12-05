@@ -7,7 +7,6 @@ const { getClientImage } = require('../../services/Client/ClientInfoService')
 const { getDesignerImage } = require('../../services/Designer/DesignerProfileService')
 const ClientOrderService = require('../Client/ClientOrderService')
 
-
 /*  
     input: username
     output: all the orders for the designer
@@ -259,7 +258,7 @@ const notAbleToRemove = async (orderId) => {
     tries the outfit on the on the client 
     returns the updated design
 */
-const tryOn = async (orderId, url, type, username) => {
+const tryOn = async (orderId, url, username, q) => {
     if (!await isDesignerInOrder(orderId, username)) {
         throw new Error('Order not found or unauthorized access');
     }
@@ -270,7 +269,7 @@ const tryOn = async (orderId, url, type, username) => {
         throw new Error('Design not found for the given orderId');
     }
 
-    return ClientOrderService.tryOn(orderId, url, order.username)
+    return await ClientOrderService.tryOn(orderId, url, order.username, q)
 };
 
 
