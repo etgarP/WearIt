@@ -48,7 +48,7 @@ const Star = ({ delay }) => {
 const handleTryOn = async (token, url, orderId) => {
   const API_URL = `${constants.designerBaseAddress}orders/try-on`;
   try {
-    const response = await fetchTimeout(API_URL, 300000, {
+    const response = await fetchTimeout(API_URL, 30000000, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`, // Ensure correct capitalization

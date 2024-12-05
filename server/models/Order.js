@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// the order details
+// The order details
 const OrderSchema = new Schema({
     numberOfOutfits: { type: Number, required: true },
     group: { type: String },
     clientImage: { type: String, required: true },
-    designerImage: { type: String, required: true },
+    designerImage: { type: String },
     isGroup: { type: Boolean, required: true },
     occasion: { type: String },
     preferences: { type: String },

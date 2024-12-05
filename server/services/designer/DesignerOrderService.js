@@ -7,7 +7,6 @@ const { getClientImage } = require('../../services/Client/ClientInfoService')
 const { getDesignerImage } = require('../../services/Designer/DesignerProfileService')
 const ClientOrderService = require('../Client/ClientOrderService')
 
-
 /*  
     input: username
     output: all the orders for the designer
@@ -29,7 +28,7 @@ const getOrders = async (username) => {
 
 /*  
     input: order id
-    output: gets order by order id 
+    output: clientInfo, design for the order
 */
 const getOrderDetails = async (orderId) => {
     const order = await Order.findById(orderId);
@@ -39,9 +38,9 @@ const getOrderDetails = async (orderId) => {
 };
 
 /*  
-    input: order id, design
+    input: order id
     output: None.
-    saves order as in diferent status
+    saves order as finished
 */
 const sendOrder = async (orderId) => {
     const order = await Order.findById(orderId);
@@ -70,9 +69,9 @@ const acceptOrder = async (orderId) => {
 };
 
 /*  
-    input: design
+    input: orderId
     output: None
-    save the current design
+    create a design
 */
 const newDesign = async (orderId) => {
     const order = await Order.findById(orderId);
@@ -123,6 +122,7 @@ const isDesignerInOrder = async (orderId, designer) => {
     return order != null
 };
 
+// takes a path and return the file as a base64 image
 const getDesignString = (relativePath) => {
     const fullPath = path.join(__dirname, relativePath);
     const imageBuffer = fs.readFileSync(fullPath);
@@ -132,6 +132,7 @@ const getDesignString = (relativePath) => {
 
 const { spawn } = require('child_process');
 
+// runs a python file with optional args
 const runPythonScript = async (scriptPath, args = []) => {
     return new Promise((resolve, reject) => {
         const absolutePath = path.resolve(scriptPath); // Ensure correct path format
@@ -162,6 +163,10 @@ const runPythonScript = async (scriptPath, args = []) => {
     });
 };
 
+/*
+    input: orderId, url, type of outfit(shirt or otherwise)
+    output: new design with added url and scraped image from everlane website
+*/
 const addDesignEntry = async (orderId, newUrl, typeOfOutfit) => {
     // Find the existing design document
     const design = await Design.findOne({ orderId });
@@ -190,6 +195,10 @@ const addDesignEntry = async (orderId, newUrl, typeOfOutfit) => {
     return updatedDesign;
 };
 
+/*
+    input: orderId, urlToRemove
+    output: new design without url item
+*/
 const removeDesignEntry = async (orderId, urlToRemove) => {
     // Find the existing design document
     const design = await Design.findOne({ orderId });
@@ -213,6 +222,7 @@ const removeDesignEntry = async (orderId, urlToRemove) => {
     return updatedDesign;
 };
 
+// checks if at least the number of design items were added
 const itemsDelivered = async (orderId) => {
     const order = await Order.findOne({
         _id: orderId,
@@ -224,6 +234,7 @@ const itemsDelivered = async (orderId) => {
     return false
 }
 
+// check if more then 100 items were added or the design is already sent
 const notAbleToAdd = async (orderId) => {
     const design = await Design.findOne({ orderId })
     if (!design || design.items.length < 100 || design.status =='finished') {
@@ -232,6 +243,7 @@ const notAbleToAdd = async (orderId) => {
     return true
 }
 
+// checks if the design is finished
 const notAbleToRemove = async (orderId) => {
     const design = await Design.findOne({ orderId })
     if (!design || design.status == 'finished') {
@@ -241,7 +253,12 @@ const notAbleToRemove = async (orderId) => {
 }
 
 
-const tryOn = async (orderId, url, type, username) => {
+/*
+    input: orderId, url, type(of clothes), username
+    tries the outfit on the on the client 
+    returns the updated design
+*/
+const tryOn = async (orderId, url, username, q) => {
     if (!await isDesignerInOrder(orderId, username)) {
         throw new Error('Order not found or unauthorized access');
     }
@@ -252,7 +269,7 @@ const tryOn = async (orderId, url, type, username) => {
         throw new Error('Design not found for the given orderId');
     }
 
-    return ClientOrderService.tryOn(orderId, url, order.username)
+    return await ClientOrderService.tryOn(orderId, url, order.username, q)
 };
 
 

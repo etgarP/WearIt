@@ -19,7 +19,7 @@ const getProfile = async (req, res) => {
 };
 
 /*  
-    input: json web token, profile(bio, image, name, specialization, pricePerItem)
+    input: json web token, profile
     output: None
 */
 const saveProfile = async (req, res) => {

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+// schema for review for the designer
 const ReviewSchema = new Schema({
     designerUsername: { type: String, required: true },
     username: { type: String, required: true, unique: true },
@@ -9,6 +10,7 @@ const ReviewSchema = new Schema({
     userPicture: { type: String, required: true }
 });
 
+// the designer profile
 const DesignerProfileSchema = new Schema({
     username: { type: String, required: true },
     name: { type: String, required: true },

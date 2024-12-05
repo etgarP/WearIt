@@ -2,6 +2,7 @@ const express = require('express');
 const ClientInfoController = require('../../controllers/client/ClientMatch');
 const router = express.Router();
 
+// routes for mathing the client - handeling info and recieving matches
 router.route('/')
     .get(ClientInfoController.matches);
 

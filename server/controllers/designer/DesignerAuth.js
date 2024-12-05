@@ -5,7 +5,7 @@ const secretToken = "even doctor evil won't crack this bad boy";
 
 /*  
     input: username, password
-    output: json web token (sent as token)
+    output: json web token (sent as token), orders for the designer
     authenticate the user and sends back the token for the user, and also the orders
 */
 const signInDesigner = async (req, res) => {
@@ -24,9 +24,9 @@ const signInDesigner = async (req, res) => {
 };
 
 /*  
-    input: username, password, designerInfo, profileInfo
+    input: username, password
     output: Nothing
-    creates a new designer and adds a default profile page
+    creates a new designer and adds a default profile page and designer info
 */
 const signUpDesigner = async (req, res) => {
     try {
