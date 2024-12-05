@@ -21,66 +21,73 @@ export default function PersonalInfo({
   setQuestionnaireData,
   questionnaireData,
 }) {
-  const [fontSize, setFontSize] = useState(0);
-  const [dimensions, setDimensions] = useState(Dimensions.get("window"));
-  const { userDetails } = useContext(AppObjectContext);
+  const [fontSize, setFontSize] = useState(0); // Dynamic font size for the title
+  const [dimensions, setDimensions] = useState(Dimensions.get("window")); // Current window dimensions
+  const { userDetails } = useContext(AppObjectContext); // Context for user details
 
+  // Fetch and update questionnaire data
   const updateQuestionnaireData = async () => {
     try {
       const response = await getQuestionnaireData({ userDetails });
-      // Make sure that if the user is a new user, the data is empty
-      if (!response || !(response.status == 200)) {
-        return;
-      }
-      data = response.data;
+
+      // Ensure valid response before updating state
+      if (!response || response.status !== 200) return;
+
+      const data = response.data;
+
+      // Handle measurement data ensuring null values are preserved
       if (data.measurements) {
         const updatedMeasurements = {};
         Object.keys(data.measurements).forEach((key) => {
           updatedMeasurements[key] =
             data.measurements[key] !== null
               ? data.measurements[key].toString()
-              : null; // Keep null values as null
+              : null;
         });
         data.measurements = updatedMeasurements;
       }
 
-      // Merge the data from both endpoints and update state once
+      // Update state with merged data
       setQuestionnaireData((prevData) => ({
         ...prevData,
         ...data,
         age: data.age ? data.age.toString() : prevData.age, // Ensure age is a string
       }));
     } catch (error) {
-      Alert.alert("Error", "Failed to update questionnaire data.");
+      Alert.alert(Strings.errorUpdatingData);
     }
   };
 
   useEffect(() => {
+    // Fetch data and set up dimension listener
     updateQuestionnaireData();
     const onChange = ({ window }) => {
       setDimensions(window);
       calculateFontSize(window);
     };
 
+    // Initial setup
     onChange({ window: Dimensions.get("window") });
 
     const subscription = Dimensions.addEventListener("change", onChange);
 
     return () => {
-      subscription?.remove();
+      subscription?.remove(); // Clean up listener
     };
   }, []);
 
+  // Calculate font size as a percentage of the smaller dimension
   const calculateFontSize = (window) => {
     const calculatedFontSize = Math.min(window.width, window.height) * 0.1;
     setFontSize(calculatedFontSize);
   };
 
-  const iconSize = Math.min(dimensions.width, dimensions.height) * 0.1;
+  const iconSize = Math.min(dimensions.width, dimensions.height) * 0.1; // Dynamic icon size
 
+  // Validate that all required inputs are filled
   const validateInputs = () => {
     if (!questionnaireData.name.trim()) {
-      Alert.alert("Validation Error", "Name is required.");
+      Alert.alert(Strings.validationErrorTitle, Strings.validationNameRequired);
       return false;
     }
     if (
@@ -88,16 +95,20 @@ export default function PersonalInfo({
       isNaN(questionnaireData.age) ||
       questionnaireData.age <= 0
     ) {
-      Alert.alert("Validation Error", "Please enter a valid age.");
+      Alert.alert(Strings.validationErrorTitle, Strings.validationAgeRequired);
       return false;
     }
     if (!questionnaireData.gender) {
-      Alert.alert("Validation Error", "Please select a gender.");
+      Alert.alert(
+        Strings.validationErrorTitle,
+        Strings.validationGenderRequired
+      );
       return false;
     }
     return true;
   };
 
+  // Navigate to the next screen if inputs are valid
   const handleNext = () => {
     if (validateInputs()) {
       navigation.navigate("clientLifeStyle");
@@ -107,6 +118,7 @@ export default function PersonalInfo({
   return (
     <BackgroundWrapper>
       <View style={styles.container}>
+        {/* Progress indicators */}
         <View style={styles.head}>
           <Icon
             name="check-circle-outline"
@@ -154,13 +166,15 @@ export default function PersonalInfo({
             iconSize={iconSize}
           />
         </View>
+
+        {/* Main content */}
         <View style={styles.body}>
           <Text style={[styles.title, { fontSize: fontSize }]}>
             {Strings.personalInfo}
           </Text>
 
           {/* Name Field */}
-          <Text style={styles.label}>Name</Text>
+          <Text style={styles.label}>{Strings.nameLabel}</Text>
           <TextInput
             style={styles.input}
             value={questionnaireData.name}
@@ -173,7 +187,7 @@ export default function PersonalInfo({
           />
 
           {/* Age Field */}
-          <Text style={styles.label}>Age</Text>
+          <Text style={styles.label}>{Strings.ageLabel}</Text>
           <TextInput
             style={styles.input}
             value={questionnaireData.age}
@@ -187,7 +201,7 @@ export default function PersonalInfo({
           />
 
           {/* Gender Field */}
-          <Text style={styles.label}>Gender</Text>
+          <Text style={styles.label}>{Strings.genderLabel}</Text>
           <View style={styles.pickerContainer}>
             <Picker
               selectedValue={questionnaireData.gender}
@@ -199,15 +213,15 @@ export default function PersonalInfo({
               }
               style={styles.picker}
             >
-              <Picker.Item label="Select Gender" value="" />
-              <Picker.Item label="Male" value="Male" />
-              <Picker.Item label="Female" value="Female" />
-              <Picker.Item label="Other" value="Other" />
+              <Picker.Item label={Strings.selectGender} value="" />
+              <Picker.Item label={Strings.genderMale} value="Male" />
+              <Picker.Item label={Strings.genderFemale} value="Female" />
+              <Picker.Item label={Strings.genderOther} value="Other" />
             </Picker>
           </View>
 
           {/* Allergies Field */}
-          <Text style={styles.label}>Allergies</Text>
+          <Text style={styles.label}>{Strings.allergiesLabel}</Text>
           <TextInput
             style={styles.input}
             value={questionnaireData.allergies}
@@ -219,7 +233,10 @@ export default function PersonalInfo({
             }
           />
         </View>
+
+        {/* Footer with navigation buttons */}
         <View style={styles.footer}>
+          {/* Next Button */}
           <View style={styles.nextContainer}>
             <TouchableOpacity onPress={handleNext}>
               <Feather name="arrow-right" size={40} color="black" />
@@ -231,6 +248,7 @@ export default function PersonalInfo({
   );
 }
 
+// Reusable Icon component
 const Icon = ({ name, color, iconSize }) => (
   <View style={styles.iconContainer}>
     <MaterialIcons name={name} size={iconSize} color={color} />

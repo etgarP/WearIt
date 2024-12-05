@@ -14,8 +14,8 @@ const ScreenWrapper = ({ children }) => (
   <SafeAreaView style={styles.safeArea}>{children}</SafeAreaView>
 );
 
+// Navigator for the client questionnaire
 export const ClientQuestionnaireNavigator = () => {
-  const { userDetails } = useContext(AppObjectContext);
   const { questionnaireData, setQuestionnaireData } =
     useContext(AppObjectContext);
   return (
