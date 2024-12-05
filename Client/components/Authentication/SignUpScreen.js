@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   Alert,
   Image,
+  Platform,
 } from "react-native";
 import { styles } from "./AuthenticationStyles";
 import { AppObjectContext } from "../appNavigation/appObjectProvider";
@@ -87,10 +88,11 @@ export default function SignUpScreen({ navigation, route }) {
           source={require("../../assets/logo.png")} // path to your image
           resizeMode="contain"
           style={{
+            width: "100%", // Set the desired width
+            height: "8%", // Set the desired height
+            resizeMode: "contain", // Ensure the image is scaled without distortion
+            marginTop: Platform.OS === "ios" ? 20 : "30%", // Ensure it respects safe area
             marginBottom: "10%",
-            width: "100%",
-            height: "8%",
-            resizeMode: "contain",
           }}
         />
         {/* Header - Sign Up */}
