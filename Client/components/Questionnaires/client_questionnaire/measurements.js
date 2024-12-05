@@ -222,6 +222,7 @@ export default function Measurements({
             value={legs}
             onChangeText={setLegs}
           />
+          <View style={styles.padding}></View>
         </View>
       </ScrollView>
 

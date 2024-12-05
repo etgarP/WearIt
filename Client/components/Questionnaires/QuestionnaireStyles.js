@@ -57,6 +57,9 @@ export const styles = StyleSheet.create({
     borderRadius: 30,
     alignItems: "center",
   },
+  padding: {
+    padding: 10
+  },
   pictureBtnText: {
     color: Colors.btnText,
     fontSize: 16,
