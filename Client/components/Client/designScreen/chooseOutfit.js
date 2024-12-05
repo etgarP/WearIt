@@ -7,7 +7,7 @@ const ChooseOutfit = ({ navigation }) => {
     const { design, setChosenUrl } = useContext(ClientObjectContext);
     const clothes = design.items
     // Filter clothes that have dont have 'imageOfWornCloth'
-    const outfits = design.items.filter(item => item.imageOfWornCloth == null);
+    const outfits = design.items.filter(item => item.imageOfWornCloth == null || item.imageOfWornCloth == "");
     const [selectedOutfitId, setSelectedOutfitId] = useState(null);
     const [currentUrl, setCurrentUrl] = useState(null)
 
@@ -52,7 +52,10 @@ const ChooseOutfit = ({ navigation }) => {
                     mode="contained"
                     style={styles.selectButton}
                     labelStyle={{ fontSize: 18 }}
-                    onPress={() => { setChosenUrl(currentUrl); navigation.navigate('AILoadingScreen') }}
+                    onPress={() => { 
+                        setChosenUrl(currentUrl); 
+                        navigation.navigate('AILoadingScreen') 
+                    }}
                     disabled={selectedOutfitId === null}
                 >
                     Select

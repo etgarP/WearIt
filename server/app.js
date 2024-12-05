@@ -7,6 +7,7 @@ const customEnv = require('custom-env');
 const mongoose = require('mongoose')
 
 const server = http.createServer(app)
+server.setTimeout(30000)
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json({ limit: '10mb' }));

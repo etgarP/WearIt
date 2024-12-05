@@ -5,6 +5,7 @@ const path = require('path');
 const fs = require('fs');
 const { getClientImage } = require('../../services/Client/ClientInfoService')
 const { getDesignerImage } = require('../../services/Designer/DesignerProfileService')
+const ClientOrderService = require('../Client/ClientOrderService')
 
 
 /*  
@@ -107,7 +108,6 @@ const rejectOrder = async (orderId) => {
     return false
 };
 
-
 /*  
     input: username, orderId
     output: if the username is the client in that order
@@ -130,24 +130,58 @@ const getDesignString = (relativePath) => {
     return `data:image/png;base64,${base64Image}`;
 };
 
-const addDesignEntry = async ( orderId, newUrl) => {
+const { spawn } = require('child_process');
+
+const runPythonScript = async (scriptPath, args = []) => {
+    return new Promise((resolve, reject) => {
+        const absolutePath = path.resolve(scriptPath); // Ensure correct path format
+        const pythonProcess = spawn('python3', [absolutePath, ...args]);
+
+        let stdout = '';
+        let stderr = '';
+
+        pythonProcess.stdout.on('data', (data) => {
+            stdout += data.toString();
+        });
+
+        pythonProcess.stderr.on('data', (data) => {
+            stderr += data.toString();
+        });
+
+        pythonProcess.on('close', (code) => {
+            if (code === 0) {
+                resolve(stdout);
+            } else {
+                reject(new Error(`Python script exited with code ${code}:\n${stderr}`));
+            }
+        });
+
+        pythonProcess.on('error', (error) => {
+            reject(error);
+        });
+    });
+};
+
+const addDesignEntry = async (orderId, newUrl, typeOfOutfit) => {
     // Find the existing design document
     const design = await Design.findOne({ orderId });
     if (!design) {
         throw new Error('Design not found for the given orderId');
     }
-    
+    const scriptPath = path.resolve(__dirname, '..', '..', 'scraping', 'scrape.py');
     // Check if the newUrl already exists in the items array
     const urlExists = design.items.some(item => item.url === newUrl);
     if (urlExists) {
         console.log('URL already exists in the design items.');
         return design; // Return the existing design without modifying it
     }
+    await runPythonScript(scriptPath, [newUrl]);
+    console.log(typeOfOutfit)
     // Create the new design entry
     const newDesignEntry = {
         url: newUrl,
-        imageOfCloth: getDesignString("./cloth.png"),
-        typeOfCloth: 'shirt' // Default type, can be modified as needed
+        imageOfCloth: getDesignString("../../scraping/downloaded_images/last_image.jpg"),
+        typeOfCloth: typeOfOutfit == 'shirt' ? 'shirt' : 'other'
     };
     // Add the new entry to the items array
     design.items.push(newDesignEntry);
@@ -157,7 +191,6 @@ const addDesignEntry = async ( orderId, newUrl) => {
 };
 
 const removeDesignEntry = async (orderId, urlToRemove) => {
-
     // Find the existing design document
     const design = await Design.findOne({ orderId });
     if (!design) {
@@ -214,23 +247,12 @@ const tryOn = async (orderId, url, type, username) => {
     }
 
     // Ensure orderId is a valid ObjectId
-    const design = await Design.findOne({ orderId });
-    if (!design) {
+    const order = await Order.findOne({_id: orderId})
+    if (!order) {
         throw new Error('Design not found for the given orderId');
     }
 
-    // Check if an entry with the same URL already exists and update it
-    const existingEntry = design.items.find(item => item.url === url);
-    if (existingEntry) {
-        existingEntry.imageOfWornCloth = getDesignString('../../services/client/worn.png');
-        existingEntry.typeOfCloth = type == 'shirt' ? 'shirt': 'other'; // Default type, can be modified as needed
-    } else {
-        throw new Error('No URL found in the design items');
-    }
-
-    // Save the updated design document
-    const updatedDesign = await design.save();
-    return updatedDesign;
+    return ClientOrderService.tryOn(orderId, url, order.username)
 };
 
 

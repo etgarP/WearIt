@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import os
 from urllib.parse import urljoin
+import argparse
 
 def download_last_image(url):
     headers = {"User-Agent": "Mozilla/5.0"}
@@ -28,11 +29,11 @@ def download_last_image(url):
             img_url = urljoin(url, img_url)  # Converts relative URLs to absolute URLs
             
             # Create a directory to store downloaded images (if not already created)
-            if not os.path.exists('downloaded_images'):
-                os.makedirs('downloaded_images')
+            if not os.path.exists('scraping/downloaded_images'):
+                os.makedirs('scraping/downloaded_images')
             
             # Get the image filename (name it as "last_image.jpg")
-            img_name = os.path.join("downloaded_images", "last_image.jpg")
+            img_name = os.path.join("scraping", "downloaded_images", "last_image.jpg")
             
             try:
                 # Download the image and save it
@@ -46,12 +47,15 @@ def download_last_image(url):
             print("Last image does not have a valid URL.")
     else:
         print("No images found on the page.")
-    
-# Example: Replace this with the URL you want to scrape
-url = "https://www.everlane.com/products/womens-ribbed-turtleneck-ultrasoft-merino-gold?collection=womens-sweaters"
-download_last_image(url)
 
+if __name__ == "__main__":
+    print("hello")
+    parser = argparse.ArgumentParser(description="Download the last image from a webpage.")
+    parser.add_argument("url", type=str, help="The URL of the webpage to scrape.")
+    args = parser.parse_args()
+    print(args.url)
+    download_last_image(args.url)
 
 # Go to everlane site, choose an outfit that matches the current model (atm a shirt),
-#  make sure there is an image of the shirt without a model, copy the url and paste it here
+# make sure there is an image of the shirt without a model, copy the url and paste it here
 # run python scrape.py
