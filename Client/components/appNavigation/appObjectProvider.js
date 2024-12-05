@@ -23,7 +23,7 @@ export function AppObjectProvider({ children }) {
       legs: "",
     },
     other: "",
-    price: null,
+    pricePerItem: null,
     specialization: "",
     stylistAbout: "",
   });
