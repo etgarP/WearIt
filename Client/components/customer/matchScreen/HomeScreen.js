@@ -2,9 +2,9 @@ import React, { useState, useEffect, useContext } from "react";
 import { StyleSheet, View, Text, ActivityIndicator, Image } from "react-native";
 import RefreshErrorPage from "../../loadingPages/refreshErrorPage.js";
 import { getMatches } from "../../../apiServices/client/getMatches.js"; // Import the fetch function
-import { AppObjectContext } from "../../appNavigation/appObjectProvider";
+import { AppObjectContext } from "../../appNavigation/appObjectProvider.js";
 import LoadingPage from "../../loadingPages/loadingPage.js";
-import ConnectedMatchRoute from "./homeScreenConnected";
+import ConnectedMatchRoute from "./homeScreenConnected.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import BackgroundWrapper from "../../backgroundWrapper.js";
 

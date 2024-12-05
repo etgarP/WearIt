@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { IconButton, List, Button, Appbar } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import AddItemModal from "../../Client/designScreen/allDesignScreens/addItemModel";
+import AddItemModal from "../../customer/designScreen/allDesignScreens/addItemModel";
 import { SafeAreaView } from "react-native-safe-area-context";
 import BackgroundWrapper from "../../backgroundWrapper";
 import axios from "axios";
@@ -37,7 +37,7 @@ const DesignInfo = ({ navigation, route }) => {
 
   const handleSendToCustomer = async () => {
     if (numberOfOutfits > design.design[0].items.length) {
-      print(numberOfOutfits, design.design[0].items.length)
+      print(numberOfOutfits, design.design[0].items.length);
       Alert.alert(
         "Error",
         `Please add ${numberOfOutfits} outfits before sending to customer.`

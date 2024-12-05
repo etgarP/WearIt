@@ -1,7 +1,7 @@
 import React, { useContext, useRef, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { List, Divider, Avatar, Text, Button } from "react-native-paper";
-import { ClientObjectContext } from "../../Client/navigation/ClientObjectProvider";
+import { ClientObjectContext } from "../../customer/navigation/ClientObjectProvider";
 import ReviewModal from "./allDesignScreens/reviewModel";
 
 const FinishedDesignsInnerPage = ({
