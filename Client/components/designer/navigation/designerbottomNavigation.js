@@ -22,7 +22,7 @@ export default function DesignerBottomNav({ route, navigation }) {
       unfocusedIcon: "face-man-shimmer-outline",
     },
     {
-      key: "pending",
+      key: "Pending",
       title: "Pending",
       focusedIcon: "dots-horizontal-circle",
       unfocusedIcon: "dots-horizontal-circle-outline",
@@ -31,7 +31,7 @@ export default function DesignerBottomNav({ route, navigation }) {
 
   // Set index based on navigation params if available
   useEffect(() => {
-    if (route.params?.initialTab === "pending") {
+    if (route.params?.initialTab === "Pending") {
       setIndex(2); // Set to "Pending" tab if passed in navigation params
     }
   }, [route.params]);
@@ -39,7 +39,7 @@ export default function DesignerBottomNav({ route, navigation }) {
   const renderScene = BottomNavigation.SceneMap({
     home: () => <DesignerHome navigation={navigation} />,
     profile: () => <GetProfile navigation={navigation} />,
-    pending: () => <ClientsOrders navigation={navigation} status={"pending"} />,
+    pending: () => <ClientsOrders navigation={navigation} status={"Pending"} />,
   });
 
   const showAppBarDetails = routes[index].key !== "profile"; // Hide title for "home" tab

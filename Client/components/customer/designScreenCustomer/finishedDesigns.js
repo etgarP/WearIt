@@ -11,7 +11,7 @@ const FinishedDesignsInnerPage = ({
   onReview,
   setOrderIdForReview,
 }) => {
-  const approvedOrders = orders.filter((order) => order.status == "finished");
+  const approvedOrders = orders.filter((order) => order.status == "Finished");
   const { setOrderId } = useContext(ClientObjectContext);
 
   return (
@@ -21,8 +21,9 @@ const FinishedDesignsInnerPage = ({
         approvedOrders.map((order) => (
           <React.Fragment key={order._id}>
             <List.Item
-              title={`Ordered from ${order.designer}`}
+              title={`${order.designer}`}
               description={`Status: ${order.status}`}
+              onPress={() => {setOrderId(order._id); navigation.navigate("DesignInfo");}}
               left={() => (
                 <Avatar.Image
                   size={50}
@@ -37,40 +38,27 @@ const FinishedDesignsInnerPage = ({
                   }
                 />
               )}
-              descriptionStyle={styles.statusApproved}
-            />
-            <View style={styles.btns}>
-              <Button
-                mode="contained"
-                onPress={() => {
-                  setOrderIdForReview(order._id);
-                  onReview(
-                    order.review
-                      ? order.review
-                      : {
+              right={() => (
+                <Button 
+                  icon="fountain-pen"
+                  onPress={() => {
+                    setOrderIdForReview(order._id);
+                    onReview(
+                      order.review
+                        ? order.review
+                        : {
                           review: "",
                           number: 0,
                           designerUsername: order.designer,
                         }
-                  );
-                }}
-                style={styles.reviewButton}
-                labelStyle={styles.buttonLabel}
-              >
-                {Strings.addReviewButtonLabel}
-              </Button>
-              <Button
-                mode="contained"
-                onPress={() => {
-                  setOrderId(order._id);
-                  navigation.navigate("DesignInfo");
-                }}
-                style={styles.reviewButton}
-                labelStyle={styles.buttonLabel}
-              >
-                {Strings.viewOrderButtonLabel}
-              </Button>
-            </View>
+                    );
+                  }}
+                >
+                  {Strings.addReviewButtonLabel}
+                </Button>
+              )}
+              descriptionStyle={styles.statusApproved}
+            />
             <Divider />
           </React.Fragment>
         ))
@@ -143,9 +131,7 @@ const styles = StyleSheet.create({
     color: "#000",
   },
   reviewButton: {
-    backgroundColor: "#6750a4",
-    borderRadius: 20,
-    marginLeft: 8,
+    height: 50
   },
   buttonLabel: {
     fontSize: 14,

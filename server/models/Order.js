@@ -10,7 +10,7 @@ const OrderSchema = new Schema({
     isGroup: { type: Boolean, required: true },
     occasion: { type: String },
     preferences: { type: String },
-    status: { type: String, enum: ['pending', 'rejected', 'accepted', 'finished'], required: true },
+    status: { type: String, enum: ['Pending', 'Rejected', 'Accepted', 'Finished'], required: true },
     designer: { type: String },
     username: { type: String }
 });

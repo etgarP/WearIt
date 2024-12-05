@@ -5,9 +5,9 @@ import { Strings } from '../../../constants/strings';
 
 const OrdersRoute = ({ orders }) => {
     // Filter orders based on their status
-    const pendingOrders = orders.filter(order => order.status === 'pending');
-    const approvedOrders = orders.filter(order => order.status === 'accepted');
-    const rejectedOrders = orders.filter(order => order.status === 'rejected');
+    const pendingOrders = orders.filter(order => order.status === 'Pending');
+    const approvedOrders = orders.filter(order => order.status === 'Accepted');
+    const rejectedOrders = orders.filter(order => order.status === 'Rejected');
 
     return (
       <View style={styles.container}>

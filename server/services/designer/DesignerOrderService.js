@@ -45,7 +45,7 @@ const getOrderDetails = async (orderId) => {
 const sendOrder = async (orderId) => {
     const order = await Order.findById(orderId);
     if (order) {
-        order.status = 'finished';
+        order.status = 'Finished';
         await order.save();
         return true
     }
@@ -60,8 +60,8 @@ const sendOrder = async (orderId) => {
 
 const acceptOrder = async (orderId) => {
     const order = await Order.findById(orderId);
-    if (order && order.status == 'pending') {
-        order.status = 'accepted';
+    if (order && order.status == 'Pending') {
+        order.status = 'Accepted';
         await order.save();
         return true
     }
@@ -79,7 +79,7 @@ const newDesign = async (orderId) => {
         console.log('Order not found')
         throw new Error('Order not found');
     }
-    if (order.status !== 'finished') {
+    if (order.status !== 'Finished') {
         await Design.findOneAndUpdate(
             { orderId },
             { orderId, items: [] }, // new: true returns the updated document and set, upsert inserts if not there
@@ -99,8 +99,8 @@ const newDesign = async (orderId) => {
 */
 const rejectOrder = async (orderId) => {
     const order = await Order.findById(orderId);
-    if (order && order.status == 'pending') {
-        order.status = 'rejected';
+    if (order && order.status == 'Pending') {
+        order.status = 'Rejected';
         await order.save();
         return true
     }
@@ -237,7 +237,7 @@ const itemsDelivered = async (orderId) => {
 // check if more then 100 items were added or the design is already sent
 const notAbleToAdd = async (orderId) => {
     const design = await Design.findOne({ orderId })
-    if (!design || design.items.length < 100 || design.status =='finished') {
+    if (!design || design.items.length < 100 || design.status =='Finished') {
         return false
     }
     return true
@@ -246,7 +246,7 @@ const notAbleToAdd = async (orderId) => {
 // checks if the design is finished
 const notAbleToRemove = async (orderId) => {
     const design = await Design.findOne({ orderId })
-    if (!design || design.status == 'finished') {
+    if (!design || design.status == 'Finished') {
         return true
     }
     return false

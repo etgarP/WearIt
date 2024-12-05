@@ -17,7 +17,7 @@ export const orders = {
             "isGroup": true,
             "occasion": "Wedding",
             "preferences": "White theme",
-            "status": "accepted",
+            "status": "Accepted",
             "designer": "wedding_guru",
             "username": "alice_smith",
             "__v": 0
@@ -28,7 +28,7 @@ export const orders = {
             "isGroup": false,
             "occasion": "Casual",
             "preferences": "Comfortable and loose",
-            "status": "finished",
+            "status": "Finished",
             "designer": "casual_wear_pro",
             "username": "mike_brown",
             "__v": 0
@@ -39,7 +39,7 @@ export const orders = {
             "isGroup": false,
             "occasion": "Party",
             "preferences": "Bright and bold",
-            "status": "rejected",
+            "status": "Rejected",
             "designer": "party_style_expert",
             "username": "emily_clark",
             "__v": 0
@@ -72,7 +72,7 @@ export const orders = {
             "isGroup": false,
             "occasion": "Interview",
             "preferences": "Professional and clean",
-            "status": "accepted",
+            "status": "Accepted",
             "designer": "formal_suits_pro",
             "username": "karen_lee",
             "__v": 0
@@ -83,7 +83,7 @@ export const orders = {
             "isGroup": true,
             "occasion": "Gala Event",
             "preferences": "Elegant and stylish",
-            "status": "finished",
+            "status": "Finished",
             "designer": "gala_style_specialist",
             "username": "roger_taylor",
             "__v": 0
@@ -105,7 +105,7 @@ export const orders = {
             "isGroup": false,
             "occasion": "Date Night",
             "preferences": "Chic and romantic",
-            "status": "accepted",
+            "status": "Accepted",
             "designer": "date_wear_expert",
             "username": "linda_kim",
             "__v": 0

@@ -32,7 +32,7 @@ export default function ClientsOrders({ navigation, status }) {
       const data = response.data;
       
       // Filter orders by status
-      const pendingOrders = data.filter((order) => order.status === "pending");
+      const pendingOrders = data.filter((order) => order.status === "Pending");
       setPendingOrdersCount(pendingOrders.length);
 
       const groupedOrders = data.reduce((acc, order) => {
