@@ -1,14 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
-import {
-  Text,
-  View,
-  Dimensions,
-  TextInput,
-  TouchableOpacity,
-  Alert,
-} from "react-native";
+import { Text, View, Dimensions, TouchableOpacity, Alert } from "react-native";
+import { TextInput, RadioButton } from "react-native-paper"; // Import RadioButton from React Native Paper
 import { MaterialIcons, Feather } from "@expo/vector-icons";
-import { Picker } from "@react-native-picker/picker";
 import { Colors } from "../../../constants/colors";
 import { styles } from "../QuestionnaireStyles";
 import { Strings } from "../../../constants/strings";
@@ -174,9 +167,10 @@ export default function PersonalInfo({
           </Text>
 
           {/* Name Field */}
-          <Text style={styles.label}>{Strings.nameLabel}</Text>
           <TextInput
             style={styles.input}
+            label={Strings.nameLabel}
+            mode="outlined"
             value={questionnaireData.name}
             onChangeText={(text) =>
               setQuestionnaireData({
@@ -187,10 +181,11 @@ export default function PersonalInfo({
           />
 
           {/* Age Field */}
-          <Text style={styles.label}>{Strings.ageLabel}</Text>
           <TextInput
             style={styles.input}
             value={questionnaireData.age}
+            label={Strings.ageLabel}
+            mode="outlined"
             onChangeText={(text) =>
               setQuestionnaireData({
                 ...questionnaireData,
@@ -202,29 +197,25 @@ export default function PersonalInfo({
 
           {/* Gender Field */}
           <Text style={styles.label}>{Strings.genderLabel}</Text>
-          <View style={styles.pickerContainer}>
-            <Picker
-              selectedValue={questionnaireData.gender}
-              onValueChange={(itemValue) =>
-                setQuestionnaireData({
-                  ...questionnaireData,
-                  gender: itemValue,
-                })
-              }
-              style={styles.picker}
-            >
-              <Picker.Item label={Strings.selectGender} value="" />
-              <Picker.Item label={Strings.genderMale} value="Male" />
-              <Picker.Item label={Strings.genderFemale} value="Female" />
-              <Picker.Item label={Strings.genderOther} value="Other" />
-            </Picker>
-          </View>
+          <RadioButton.Group
+            onValueChange={(value) =>
+              setQuestionnaireData({ ...questionnaireData, gender: value })
+            }
+            value={questionnaireData.gender}
+          >
+            <View style={styles.radioButtonContainer}>
+              <RadioButton.Item label={Strings.genderMale} value="Male" />
+              <RadioButton.Item label={Strings.genderFemale} value="Female" />
+              <RadioButton.Item label={Strings.genderOther} value="Other" />
+            </View>
+          </RadioButton.Group>
 
           {/* Allergies Field */}
-          <Text style={styles.label}>{Strings.allergiesLabel}</Text>
           <TextInput
             style={styles.input}
             value={questionnaireData.allergies}
+            label={Strings.allergiesLabel}
+            mode="outlined"
             onChangeText={(text) =>
               setQuestionnaireData({
                 ...questionnaireData,

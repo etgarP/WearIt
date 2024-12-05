@@ -3,10 +3,10 @@ import {
   Text,
   View,
   Dimensions,
-  TextInput,
   TouchableOpacity,
   Alert,
 } from "react-native";
+import { TextInput } from "react-native-paper";
 import { CommonActions } from "@react-navigation/native";
 import { MaterialIcons, Feather } from "@expo/vector-icons";
 import { Colors } from "../../../constants/colors";
@@ -163,9 +163,10 @@ export default function Others({
           </Text>
 
           {/* Label and Input for Preferences */}
-          <Text style={styles.label}>{Strings.preferencesLabel}</Text>
           <TextInput
             style={styles.input}
+            label={Strings.preferencesLabel}
+            mode="outlined"
             placeholder={Strings.preferencesPlaceholder}
             value={other}
             onChangeText={setOther} // Update state on text change

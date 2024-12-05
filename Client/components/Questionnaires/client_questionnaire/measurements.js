@@ -3,11 +3,11 @@ import {
   Text,
   View,
   Dimensions,
-  TextInput,
   TouchableOpacity,
   Alert,
   ScrollView,
 } from "react-native";
+import { TextInput } from "react-native-paper";
 import { MaterialIcons, Feather } from "@expo/vector-icons";
 import { Colors } from "../../../constants/colors";
 import { styles } from "../QuestionnaireStyles";
@@ -160,57 +160,64 @@ export default function Measurements({
           </Text>
 
           {/* Measurement fields */}
-          <Text style={styles.label}>{Strings.shouldersLabel}</Text>
           <TextInput
             style={styles.input}
+            label={Strings.shouldersLabel}
+            mode="outlined"
             keyboardType="numeric"
             value={shoulders}
             onChangeText={setShoulders}
           />
 
-          <Text style={styles.label}>{Strings.bustLabel}</Text>
           <TextInput
             style={styles.input}
+            label={Strings.bustLabel}
+            mode="outlined"
             keyboardType="numeric"
             value={bust}
             onChangeText={setBust}
           />
 
-          <Text style={styles.label}>{Strings.waistLabel}</Text>
           <TextInput
             style={styles.input}
+            label={Strings.waistLabel}
+            mode="outlined"
             keyboardType="numeric"
             value={waist}
             onChangeText={setWaist}
           />
 
-          <Text style={styles.label}>{Strings.hipsLabel}</Text>
           <TextInput
             style={styles.input}
+            label={Strings.hipsLabel}
+            mode="outlined"
             keyboardType="numeric"
             value={hips}
             onChangeText={setHips}
           />
 
-          <Text style={styles.label}>{Strings.thighsLabel}</Text>
           <TextInput
             style={styles.input}
+            label={Strings.thighsLabel}
+            mode="outlined"
             keyboardType="numeric"
             value={thighs}
             onChangeText={setThighs}
           />
 
-          <Text style={styles.label}>{Strings.calvesLabel}</Text>
           <TextInput
             style={styles.input}
+            label={Strings.calvesLabel}
+            mode="outlined"
             keyboardType="numeric"
             value={calves}
             onChangeText={setCalves}
           />
 
-          <Text style={styles.label}>{Strings.legsLabel}</Text>
           <TextInput
             style={styles.input}
+            label={Strings.legsLabel}
+            mode="outlined"
             keyboardType="numeric"
             value={legs}
             onChangeText={setLegs}

@@ -1,12 +1,6 @@
 import React, { useState, useEffect } from "react";
-import {
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-  Dimensions,
-  Alert,
-} from "react-native";
+import { Text, View, TouchableOpacity, Dimensions, Alert } from "react-native";
+import { TextInput } from "react-native-paper";
 import { MaterialIcons, Feather } from "@expo/vector-icons";
 import { Colors } from "../../../constants/colors";
 import { styles } from "../QuestionnaireStyles";
@@ -143,10 +137,11 @@ export default function ClientLifeStyle({
           </Text>
 
           {/* Work Type Input */}
-          <Text style={styles.label}>{Strings.workLabel}</Text>
           <TextInput
             style={styles.input}
             value={work}
+            label={Strings.workLabel}
+            mode="outlined"
             onChangeText={(text) => {
               setWork(text);
               setQuestionnaireData({
@@ -157,10 +152,11 @@ export default function ClientLifeStyle({
           />
 
           {/* City Input */}
-          <Text style={styles.label}>{Strings.cityLabel}</Text>
           <TextInput
             style={styles.input}
             value={city}
+            label={Strings.cityLabel}
+            mode="outlined"
             onChangeText={(text) => {
               setCity(text);
               setQuestionnaireData({
@@ -171,10 +167,11 @@ export default function ClientLifeStyle({
           />
 
           {/* Religion Input */}
-          <Text style={styles.label}>{Strings.religionLabel}</Text>
           <TextInput
             style={styles.input}
             value={religion}
+            label={Strings.religionLabel}
+            mode="outlined"
             onChangeText={(text) => {
               setReligion(text);
               setQuestionnaireData({
