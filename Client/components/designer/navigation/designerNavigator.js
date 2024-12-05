@@ -11,6 +11,7 @@ import ChooseOutfit from "../designScreenDesigner/chooseOutfit";
 
 const Stack = createNativeStackNavigator();
 
+// Desginer stack navigator
 export const DesignerNavigator = () => {
   return (
     <DesignerObjectProvider>

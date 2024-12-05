@@ -15,7 +15,6 @@ const MixAndMatch = ({ navigation }) => {
     design?.clientInfo[0].image || null
   );
 
-  // // Filter clothes that have 'imageOfWornCloth'
   const clothes =
     design?.design[0].items?.filter((item) => item.imageOfWornCloth) || [];
   return (

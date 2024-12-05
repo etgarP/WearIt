@@ -21,6 +21,7 @@ import axios from "axios";
 import { AppObjectContext } from "../appNavigation/appObjectProvider";
 import { constants } from "../../constants/api";
 import { DesingerObjectContext } from "./navigation/designerObjectProvider";
+import { Strings } from "../../constants/strings";
 
 const ClientOrderDetails = ({ navigation, route }) => {
   const { order } = route.params;
@@ -41,7 +42,7 @@ const ClientOrderDetails = ({ navigation, route }) => {
         );
         setDesign(response.data);
       } catch (error) {
-        Alert.alert("Error", "Failed to load client data.");
+        Alert.alert(Strings.errorAlertTitle, Strings.errorAlertMessage);
       }
     };
     fetchClientData();
@@ -55,13 +56,13 @@ const ClientOrderDetails = ({ navigation, route }) => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       if (response.status === 200) {
-        Alert.alert("Success", "Order approved successfully.");
+        Alert.alert(Strings.successAlertTitle, Strings.successApproveMessage);
         navigation.replace(route.name, {
           order: { ...order, status: "accepted" },
         });
       }
     } catch (error) {
-      Alert.alert("Error", "Failed to approve the order.");
+      Alert.alert(Strings.errorAlertTitle, Strings.errorAlertMessage);
     }
   };
 
@@ -73,11 +74,11 @@ const ClientOrderDetails = ({ navigation, route }) => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       if (response.status === 200) {
-        Alert.alert("Success", "Order denied successfully.");
+        Alert.alert(Strings.successAlertTitle, Strings.successDenyMessage);
         navigation.goBack();
       }
     } catch (error) {
-      Alert.alert("Error", "Failed to deny the order.");
+      Alert.alert(Strings.errorAlertTitle, Strings.errorAlertMessage);
     }
   };
 
@@ -95,7 +96,7 @@ const ClientOrderDetails = ({ navigation, route }) => {
   };
 
   if (!design) {
-    return <Text>Loading...</Text>;
+    return <Text>{Strings.loadingText}</Text>;
   }
 
   const clientInfo = design.clientInfo[0];
@@ -106,7 +107,11 @@ const ClientOrderDetails = ({ navigation, route }) => {
       <Appbar.Header>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
         <Appbar.Content
-          title={order.status === "pending" ? "Approve or Deny" : "Manage Client"}
+          title={
+            order.status === "pending"
+              ? Strings.approveOrDenyTitle
+              : Strings.manageClientTitle
+          }
         />
       </Appbar.Header>
 
@@ -135,14 +140,17 @@ const ClientOrderDetails = ({ navigation, route }) => {
 
         {/* Accordion Section */}
         <View style={styles.section}>
-          <Text style={styles.sectionHeader}>Relevant Info</Text>
+          <Text style={styles.sectionHeader}>{Strings.personalInfoTitle}</Text>
           {[
-            { title: "Personal Info", content: `Age: ${clientInfo.age}\nGender: ${clientInfo.gender}\nAllergies: ${clientInfo.allergies}` },
             {
-              title: "Measurements",
+              title: Strings.personalInfoTitle,
+              content: `Age: ${clientInfo.age}\nGender: ${clientInfo.gender}\nAllergies: ${clientInfo.allergies}`,
+            },
+            {
+              title: Strings.measurementsTitle,
               content: `Shoulders: ${clientInfo.measurements.shoulders}\nBust: ${clientInfo.measurements.bust}\nWaist: ${clientInfo.measurements.waist}\nHips: ${clientInfo.measurements.hips}\nThighs: ${clientInfo.measurements.thighs}\nCalves: ${clientInfo.measurements.calves}\nLegs: ${clientInfo.measurements.legs}`,
-            },            
-            { title: "Preferences", content: clientInfo.other },
+            },
+            { title: Strings.preferencesTitle, content: clientInfo.other },
           ].map((item, index) => (
             <TouchableOpacity
               key={index}
@@ -159,24 +167,26 @@ const ClientOrderDetails = ({ navigation, route }) => {
 
         {/* Order Details */}
         <View style={styles.section}>
-          <Text style={styles.sectionHeader}>Order Details</Text>
+          <Text style={styles.sectionHeader}>{Strings.orderDetailsTitle}</Text>
           <TouchableOpacity
             style={[styles.accordion, styles.orderInfoButton]}
             onPress={() =>
               showModal(
-                "Order Information",
-                `Number of Outfits: ${order.numberOfOutfits}\nIs Group: ${order.isGroup ? "Yes" : "No"
-                }\nOccasion: ${order.occasion}\nStatus: ${order.status}`
+                Strings.orderInformationTitle,
+                `${Strings.numberOfOutfitsLabel}: ${order.numberOfOutfits}\n${
+                  Strings.isGroupLabel
+                }: ${order.isGroup ? "Yes" : "No"}\n${Strings.occasionLabel}: ${
+                  order.occasion
+                }\n${Strings.statusLabel}: ${order.status}`
               )
             }
           >
             <List.Item
-              title="Order Information"
+              title={Strings.orderInformationTitle}
               right={() => <List.Icon icon="chevron-right" />}
             />
           </TouchableOpacity>
         </View>
-
 
         {/* Buttons */}
         {order.status === "pending" ? (
@@ -201,7 +211,7 @@ const ClientOrderDetails = ({ navigation, route }) => {
               onPress={handleMixAndMatch}
               style={styles.mixMatchButton}
             >
-              Manage Outfits
+              {Strings.manageOutfitsButtonLabel}
             </Button>
           </View>
         )}
@@ -217,8 +227,12 @@ const ClientOrderDetails = ({ navigation, route }) => {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>{modalContent?.title}</Text>
-            <NativeText style={styles.modalText}>{modalContent?.content}</NativeText>
-            <Button onPress={() => setModalVisible(false)}>Close</Button>
+            <NativeText style={styles.modalText}>
+              {modalContent?.content}
+            </NativeText>
+            <Button onPress={() => setModalVisible(false)}>
+              {Strings.closeButtonLabel}
+            </Button>
           </View>
         </View>
       </Modal>
@@ -281,10 +295,9 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   orderInfoButton: {
-    borderRadius: 10, // Slightly rounder corners
-    backgroundColor: "#e0e0e0", // Light grey background
+    borderRadius: 10,
+    backgroundColor: "#e0e0e0",
   },
-
 });
 
 export default ClientOrderDetails;

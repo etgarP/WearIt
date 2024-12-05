@@ -76,4 +76,66 @@ export const Strings = {
   clientScreen: "client", // Replace "client" with your home screen's name if different
 
   select: "SELECT",
+
+  // App Bar Titles
+  approveOrDenyTitle: "Approve or Deny",
+  manageClientTitle: "Manage Client",
+
+  // Modal Titles
+  personalInfoTitle: "Personal Info",
+  measurementsTitle: "Measurements",
+  preferencesTitle: "Preferences",
+  orderDetailsTitle: "Order Details",
+  orderInformationTitle: "Order Information",
+
+  // Button Labels
+  approveButtonLabel: "Approve",
+  denyButtonLabel: "Deny",
+  manageOutfitsButtonLabel: "Manage Outfits",
+
+  // Loading and Error Messages
+  loadingText: "Loading...",
+  errorAlertTitle: "Error",
+  errorAlertMessage: "Failed to load client data.",
+  successAlertTitle: "Success",
+  successApproveMessage: "Order approved successfully.",
+  successDenyMessage: "Order denied successfully.",
+
+  // Client Information Labels
+  ageLabel: "Age",
+  genderLabel: "Gender",
+  allergiesLabel: "Allergies",
+  shouldersLabel: "Shoulders",
+  bustLabel: "Bust",
+  waistLabel: "Waist",
+  hipsLabel: "Hips",
+  thighsLabel: "Thighs",
+  calvesLabel: "Calves",
+  legsLabel: "Legs",
+  preferencesLabel: "Other Preferences",
+
+  // Order Details Labels
+  numberOfOutfitsLabel: "Number of Outfits",
+  isGroupLabel: "Is Group",
+  occasionLabel: "Occasion",
+  statusLabel: "Status",
+
+  // Modal Button Label
+  closeButtonLabel: "Close",
+
+  sendToCustomer: "Send to Customer",
+  orderRequests: "Order Requests",
+  myClients: "My Clients",
+  specializations: "Specializations",
+  avgRating: "Average Rating:",
+  noReviews: "No reviews yet",
+  everlaneUrl: "https://www.everlane.com/products/",
+  addItemButtonLabel: "Add Item",
+  typeOfOutfit: "Type of outfit",
+  invalidLink: "You should insert a valid Everlane link",
+  addNewItem: "Add New Item",
+  sendToCustomerButtonLabel: "Send To Customer",
+  addReviewButtonLabel: "Add Review",
+  viewOrderButtonLabel: "View Order",
+  unApprovedOrder: "No approved orders.",
 };

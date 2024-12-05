@@ -2,12 +2,14 @@ import React from "react";
 import { Dimensions, View, Text, ScrollView, StyleSheet } from "react-native";
 import { Avatar, Chip } from "react-native-paper";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { Strings } from "../../../constants/strings";
 
 const { width, height } = Dimensions.get("screen");
 
 const DesignerProfile = ({ navigation, profile, isDesigner }) => {
   const { image, name, bio, reviews = [], specialization = [] } = profile;
 
+  // Calculate average rating
   let averageRating =
     reviews.length > 0
       ? reviews.reduce((acc, review) => acc + review.number, 0) / reviews.length
@@ -55,7 +57,7 @@ const DesignerProfile = ({ navigation, profile, isDesigner }) => {
 
       <View style={styles.innerContainer}>
         <Text style={styles.bio}>{bio}</Text>
-        <Text style={styles.averageRating}>Specializations</Text>
+        <Text style={styles.averageRating}>{Strings.specializations}</Text>
 
         <View style={styles.row}>
           <MaterialCommunityIcons
@@ -84,7 +86,7 @@ const DesignerProfile = ({ navigation, profile, isDesigner }) => {
         </View>
 
         <Text style={styles.averageRating}>
-          Average Rating:{" "}
+          {Strings.avgRating}{" "}
           {typeof averageRating === "string"
             ? averageRating
             : averageRating.toFixed(1)}
@@ -112,7 +114,7 @@ const DesignerProfile = ({ navigation, profile, isDesigner }) => {
               </View>
             ))
           ) : (
-            <Text>No reviews yet.</Text>
+            <Text>{Strings.noReviews}</Text>
           )}
         </ScrollView>
       </View>

@@ -21,6 +21,7 @@ export default function ClientsOrders({ navigation, status }) {
 
   const fetchData = async () => {
     setLoading(true);
+    // Fetch orders from the server
     try {
       const response = await axios.get(
         `${constants.designerBaseAddress}orders/`,
@@ -29,7 +30,8 @@ export default function ClientsOrders({ navigation, status }) {
         }
       );
       const data = response.data;
-
+      
+      // Filter orders by status
       const pendingOrders = data.filter((order) => order.status === "pending");
       setPendingOrdersCount(pendingOrders.length);
 

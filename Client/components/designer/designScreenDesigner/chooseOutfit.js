@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { View, StyleSheet, Image, ScrollView } from "react-native";
 import { Appbar, List, Button, RadioButton } from "react-native-paper";
 import { DesingerObjectContext } from "../navigation/designerObjectProvider";
+import { Strings } from "../../../constants/strings";
 
 const ChooseOutfit = ({ navigation }) => {
   const { design, setChosenUrl } = useContext(DesingerObjectContext);
@@ -73,7 +74,7 @@ const ChooseOutfit = ({ navigation }) => {
           }}
           disabled={selectedOutfitId === null}
         >
-          Select
+          {Strings.select}
         </Button>
       </View>
     </View>

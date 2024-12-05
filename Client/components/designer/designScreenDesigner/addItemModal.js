@@ -18,6 +18,7 @@ import axios from "axios";
 import { constants } from "../../../constants/api";
 import { AppObjectContext } from "../../appNavigation/appObjectProvider";
 import { DesingerObjectContext } from "../navigation/designerObjectProvider";
+import { Strings } from "../../../constants/strings";
 
 const AddItemContent = ({
   closeModal,
@@ -32,9 +33,9 @@ const AddItemContent = ({
     <View style={styles.overlay}>
       <View style={styles.modalContainer}>
         <View style={styles.headerContainer}>
-          <Text style={styles.headerText}>Add New Item</Text>
+          <Text style={styles.headerText}>{Strings.addNewItem}</Text>
           <TouchableOpacity onPress={closeModal}>
-            <Text style={styles.closeButton}>×</Text>
+            <Text style={styles.closeButton}></Text>
           </TouchableOpacity>
         </View>
         <View style={styles.textInputContainer}>
@@ -47,11 +48,11 @@ const AddItemContent = ({
           {/* Show error message if URL is invalid */}
           {!isLinkValid && itemLink.length > 0 && (
             <Text style={styles.errorText}>
-              You should insert a valid Everlane link
+              {Strings.invalidLink}
             </Text>
           )}
         </View>
-        <Text style={styles.subtitle}>Type of outfit</Text>
+        <Text style={styles.subtitle}>{Strings.typeOfOutfit}</Text>
         <View style={styles.typeContainer}>
           <TouchableOpacity
             style={[
@@ -82,7 +83,7 @@ const AddItemContent = ({
               styles.disabledButton,
           ]}
         >
-          Add Item
+          {Strings.addItemButtonLabel}
         </Button>
       </View>
     </View>
@@ -97,7 +98,7 @@ const AddItemModal = forwardRef(({ orderId }, ref) => {
   const { setDesign } = useContext(DesingerObjectContext);
 
   // Check if the URL is valid (starts with "https://www.everlane.com/products/")
-  const isLinkValid = itemLink.startsWith("https://www.everlane.com/products/");
+  const isLinkValid = itemLink.startsWith(Strings.everlaneUrl);
 
   const openModal = () => {
     setModalVisible(true);
