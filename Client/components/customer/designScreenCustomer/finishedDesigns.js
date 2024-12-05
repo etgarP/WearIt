@@ -27,6 +27,7 @@ const FinishedDesignsInnerPage = ({
               left={() => (
                 <Avatar.Image
                   size={50}
+                  style={styles.leftSide}
                   source={
                     order.designerImage
                       ? order.designerImage.startsWith("data:")
@@ -59,7 +60,7 @@ const FinishedDesignsInnerPage = ({
               )}
               descriptionStyle={styles.statusApproved}
             />
-            <Divider />
+            <Divider style={styles.divider} />
           </React.Fragment>
         ))
       ) : (
@@ -108,10 +109,15 @@ const FinishedDesigns = ({ navigation, orders }) => {
 };
 
 const styles = StyleSheet.create({
+  divider: {
+    marginHorizontal: 20,
+  },
+  leftSide: {
+    marginStart: 20
+  },
   container: {
     flex: 1,
     marginBottom: 20,
-    marginHorizontal: 20,
   },
   btns: {
     flexDirection: "row",
@@ -119,6 +125,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   sectionHeader: {
+    marginHorizontal: 20,
     fontSize: 18,
     fontWeight: "bold",
     marginVertical: 10,
@@ -131,7 +138,9 @@ const styles = StyleSheet.create({
     color: "#000",
   },
   reviewButton: {
-    height: 50
+    backgroundColor:'red',
+    height: 50,
+    width: 55
   },
   buttonLabel: {
     fontSize: 14,
