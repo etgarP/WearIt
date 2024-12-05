@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   Alert,
   Image,
+  Platform,
 } from "react-native";
 import { styles } from "./AuthenticationStyles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -112,6 +113,7 @@ export default function SignInScreen({ navigation, route }) {
               width: "100%", // Set the desired width
               height: "8%", // Set the desired height
               resizeMode: "contain", // Ensure the image is scaled without distortion
+              marginTop: Platform.OS === "ios" ? 20 : "10%", // Ensure it respects safe area
             }}
           />
           {/* Header - Sign In */}
