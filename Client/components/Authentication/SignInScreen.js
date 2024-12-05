@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Alert,
-  ImageBackground,
   Image,
 } from "react-native";
 import { styles } from "./AuthenticationStyles";
@@ -14,6 +13,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AppObjectContext } from "../appNavigation/appObjectProvider";
 import { constants } from "../../constants/api";
 import BackgroundWrapper from "../backgroundWrapper";
+import { sendLoginRequest } from "./apiService";
+import { Strings } from "../../constants/strings";
 
 export default function SignInScreen({ navigation, route }) {
   const [selectedTab, setSelectedTab] = useState("designer");
@@ -23,6 +24,7 @@ export default function SignInScreen({ navigation, route }) {
   const [isNotSignedInAlready, setIsNotSignedInAlready] = useState(false);
   const { setUserDetails } = useContext(AppObjectContext);
 
+  // Get user details from the cookies
   useEffect(() => {
     const checkSignInStatus = async () => {
       const storedToken = await AsyncStorage.getItem("userToken");
@@ -53,69 +55,50 @@ export default function SignInScreen({ navigation, route }) {
     setUrl(`${constants.baseAddress}${selectedTab}/auth/signin`);
   }, [selectedTab]);
 
-  const sendRequest = async (authenticationInfo) => {
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(authenticationInfo),
-      });
-
-      // Check if the request was successful
-      if (response.ok) {
-        // Parse the JSON response if needed
-        const responseData = await response.json();
-
-        await AsyncStorage.setItem("userToken", responseData.key);
-        await AsyncStorage.setItem("selectedTab", selectedTab);
-        setUserDetails({
-          token: responseData.key,
-          username: username,
-        });
-        // Navigate to the next screen
-        selectedTab == "designer"
-          ? navigation.replace("designer")
-          : navigation.replace("client");
-      } else {
-        console.error("Error sending data:", response.statusText);
-        Alert.alert("Error", "Failed to sign in. Please try again later.");
-      }
-    } catch (error) {
-      console.error("Network error:", error);
-      Alert.alert(
-        "Error",
-        "Failed to sign in. Please check your network connection."
-      );
-    }
-  };
   // Validation for sign-in with trimming and length checks
   const handleSignIn = async () => {
     const trimmedUsername = username.trim();
     const trimmedPassword = password.trim();
 
     if (!trimmedUsername) {
-      Alert.alert("Error", "Please enter your username.");
+      Alert.alert(Strings.alertTitleError, Strings.alertEnterUsername);
       return;
     }
     if (!trimmedPassword) {
-      Alert.alert("Error", "Please enter your password.");
+      Alert.alert(Strings.alertTitleError, Strings.alertEnterPassword);
       return;
     }
     if (trimmedUsername.length > 80) {
-      Alert.alert("Error");
+      Alert.alert(Strings.alertTitleError);
       return;
     }
     if (trimmedPassword.length > 80) {
-      Alert.alert("Error");
+      Alert.alert(Strings.alertTitleError);
       return;
     }
     const authenticationInfo = {
       username,
       password,
     };
-    await sendRequest(authenticationInfo);
+    const responseData = await sendLoginRequest(
+      authenticationInfo,
+      url,
+    );
+
+    if (responseData == null) {
+      return;
+    }
+    
+    await AsyncStorage.setItem("userToken", responseData.key);
+    await AsyncStorage.setItem("selectedTab", selectedTab);
+    setUserDetails({
+      token: responseData.key,
+      username: username,
+    });
+    // Navigate to the next screen
+    selectedTab == "designer"
+      ? navigation.replace("designer")
+      : navigation.replace("client");
   };
 
   return (
@@ -132,7 +115,7 @@ export default function SignInScreen({ navigation, route }) {
             }}
           />
           {/* Header - Sign In */}
-          <Text style={styles.titleText}>SIGN IN</Text>
+          <Text style={styles.titleText}>{Strings.signin}</Text>
 
           {/* Tab Selection */}
           <View style={styles.tabContainer}>
@@ -149,7 +132,7 @@ export default function SignInScreen({ navigation, route }) {
                   selectedTab === "designer" && styles.activeTabText,
                 ]}
               >
-                STYLIST
+                {Strings.stylist}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -162,7 +145,7 @@ export default function SignInScreen({ navigation, route }) {
                   selectedTab === "client" && styles.activeTabText,
                 ]}
               >
-                CUSTOMER
+                {Strings.customer}
               </Text>
             </TouchableOpacity>
           </View>
@@ -171,14 +154,14 @@ export default function SignInScreen({ navigation, route }) {
           <View style={styles.inputContainer}>
             <TextInput
               style={styles.input}
-              placeholder="USERNAME"
+              placeholder={Strings.usernamePlaceholder}
               placeholderTextColor="#A9A9A9"
               value={username}
               onChangeText={setUsername}
             />
             <TextInput
               style={styles.input}
-              placeholder="PASSWORD"
+              placeholder={Strings.passwordPlaceholder}
               placeholderTextColor="#A9A9A9"
               secureTextEntry
               value={password}
@@ -188,7 +171,7 @@ export default function SignInScreen({ navigation, route }) {
 
           {/* Sign In Button */}
           <TouchableOpacity style={styles.button} onPress={handleSignIn}>
-            <Text style={styles.buttonText}>SIGN IN</Text>
+            <Text style={styles.buttonText}>{Strings.signin}</Text>
           </TouchableOpacity>
 
           {/* Sign Up Link */}
@@ -200,8 +183,10 @@ export default function SignInScreen({ navigation, route }) {
             }
           >
             <Text style={styles.linkText}>
-              DON'T HAVE AN ACCOUNT?{" "}
-              <Text style={[styles.linkText, { color: "black" }]}>SIGN UP</Text>
+              {Strings.newAccountQuestion}{" "}
+              <Text style={[styles.linkText, { color: "black" }]}>
+                {Strings.signup}
+              </Text>
             </Text>
           </TouchableOpacity>
         </SafeAreaView>

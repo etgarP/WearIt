@@ -10,9 +10,11 @@ import {
 } from "react-native";
 import { styles } from "./AuthenticationStyles";
 import { AppObjectContext } from "../appNavigation/appObjectProvider";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { constants } from "../../constants/api";
 import BackgroundWrapper from "../backgroundWrapper";
+import { sendRegisterRequest } from "./apiService";
+import { Strings } from "../../constants/strings";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function SignUpScreen({ navigation, route }) {
   const [selectedTab, setSelectedTab] = useState("designer");
@@ -32,54 +34,6 @@ export default function SignUpScreen({ navigation, route }) {
     setUrl(`${constants.baseAddress}${selectedTab}/auth/signup`);
   }, [selectedTab]);
 
-  const sendRequest = async (authenticationInfo) => {
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(authenticationInfo),
-      });
-      // Check if the request was successful
-      if (response.ok) {
-        // Parse the JSON response if needed
-        const responseData = await response.json();
-        await AsyncStorage.setItem("userToken", responseData.key);
-        await AsyncStorage.setItem("selectedTab", selectedTab);
-        setUserDetails({
-          token: responseData.key,
-        });
-
-        selectedTab == "designer"
-          ? navigation.replace("stylistQuestionnaire")
-          : navigation.replace("clientQuestionnaire");
-      } else {
-        const errorData = await response.json(); // Parse error response from server
-        console.error("Error sending data:", response.statusText);
-
-        // Check if it's a duplicate key error based on the server's response
-        if (
-          response.status === 400 &&
-          errorData.includes("Username already exists")
-        ) {
-          Alert.alert(
-            "Error",
-            "Username already exists. Please try another one."
-          );
-        } else {
-          Alert.alert("Error", "Failed to sign up. Please try again later.");
-        }
-      }
-    } catch (error) {
-      console.error("Network error:", error);
-      Alert.alert(
-        "Error",
-        "Failed to sign in. Please check your network connection."
-      );
-    }
-  };
-
   // Validation for sign-up with trimming and length checks
   const handleSignUp = async () => {
     const trimmedUsername = username.trim();
@@ -87,30 +41,43 @@ export default function SignUpScreen({ navigation, route }) {
     const trimmedConfirmPassword = confirmPassword.trim();
 
     if (!trimmedUsername) {
-      Alert.alert("Error", "Please enter your username.");
+      Alert.alert(Strings.alertTitleError, Strings.alertUsernameEmpty);
       return;
     }
     if (!trimmedPassword) {
-      Alert.alert("Error", "Please enter your password.");
+      Alert.alert(Strings.alertTitleError, Strings.alertPasswordEmpty);
       return;
     }
     if (trimmedUsername.length > 14) {
-      Alert.alert("Error", "Username cannot exceed 14 characters.");
+      Alert.alert(Strings.alertTitleError, Strings.alertUsernameTooLong);
       return;
     }
     if (trimmedPassword.length > 14) {
-      Alert.alert("Error", "Password cannot exceed 14 characters.");
+      Alert.alert(Strings.alertTitleError, Strings.alertPasswordTooLong);
       return;
     }
     if (trimmedPassword !== trimmedConfirmPassword) {
-      Alert.alert("Error", "Passwords do not match.");
+      Alert.alert(Strings.alertTitleError, Strings.alertPasswordMismatch);
       return;
     }
+
     const authenticationInfo = {
       username,
       password,
     };
-    await sendRequest(authenticationInfo);
+    const responseData = await sendRegisterRequest(authenticationInfo, url);
+    if (responseData == null) {
+      return;
+    }
+    await AsyncStorage.setItem("userToken", responseData.key);
+    await AsyncStorage.setItem("selectedTab", selectedTab);
+    setUserDetails({
+      token: responseData.key,
+    });
+
+    selectedTab == "designer"
+      ? navigation.replace("stylistQuestionnaire")
+      : navigation.replace("clientQuestionnaire");
   };
 
   return (
@@ -127,7 +94,7 @@ export default function SignUpScreen({ navigation, route }) {
           }}
         />
         {/* Header - Sign Up */}
-        <Text style={styles.titleText}>SIGN UP</Text>
+        <Text style={styles.titleText}>{Strings.signup}</Text>
 
         {/* Tab Selection */}
         <View style={styles.tabContainer}>
@@ -141,7 +108,7 @@ export default function SignUpScreen({ navigation, route }) {
                 selectedTab === "designer" && styles.activeTabText,
               ]}
             >
-              STYLIST
+              {Strings.stylist}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -154,7 +121,7 @@ export default function SignUpScreen({ navigation, route }) {
                 selectedTab === "client" && styles.activeTabText,
               ]}
             >
-              CUSTOMER
+              {Strings.customer}
             </Text>
           </TouchableOpacity>
         </View>
@@ -163,14 +130,14 @@ export default function SignUpScreen({ navigation, route }) {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
-            placeholder="USERNAME"
+            placeholder={Strings.usernamePlaceholder}
             placeholderTextColor="#A9A9A9"
             value={username}
             onChangeText={setUsername}
           />
           <TextInput
             style={styles.input}
-            placeholder="PASSWORD"
+            placeholder={Strings.passwordPlaceholder}
             placeholderTextColor="#A9A9A9"
             secureTextEntry
             value={password}
@@ -178,7 +145,7 @@ export default function SignUpScreen({ navigation, route }) {
           />
           <TextInput
             style={styles.input}
-            placeholder="CONFIRM PASSWORD"
+            placeholder={Strings.confirmPasswordPlaceholder}
             placeholderTextColor="#A9A9A9"
             secureTextEntry
             value={confirmPassword}
@@ -191,7 +158,7 @@ export default function SignUpScreen({ navigation, route }) {
           style={styles.button}
           onPress={async () => await handleSignUp()}
         >
-          <Text style={styles.buttonText}>SIGN UP</Text>
+          <Text style={styles.buttonText}>{Strings.signup}</Text>
         </TouchableOpacity>
 
         {/* Sign In Link */}
@@ -203,8 +170,10 @@ export default function SignUpScreen({ navigation, route }) {
           }
         >
           <Text style={styles.linkText}>
-            ALREADY HAVE AN ACCOUNT?{" "}
-            <Text style={[styles.linkText, { color: "black" }]}>SIGN IN</Text>
+            {Strings.alreadyHaveAnAccount}{" "}
+            <Text style={[styles.linkText, { color: "black" }]}>
+              {Strings.signin}
+            </Text>
           </Text>
         </TouchableOpacity>
       </SafeAreaView>
