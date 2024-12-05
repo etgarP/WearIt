@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Text,
   View,
@@ -13,6 +13,11 @@ import { Colors } from "../../../constants/colors";
 import { styles } from "../QuestionnaireStyles";
 import { Strings } from "../../../constants/strings";
 import BackgroundWrapper from "../../backgroundWrapper";
+import {
+  getQuestionnaireInfo,
+  getQuestionnaireProfile,
+} from "../../designer/apiService";
+import { AppObjectContext } from "../../appNavigation/appObjectProvider";
 
 export default function StylistInfo({
   navigation,
@@ -21,8 +26,39 @@ export default function StylistInfo({
 }) {
   const [fontSize, setFontSize] = useState(0);
   const [dimensions, setDimensions] = useState(Dimensions.get("window"));
+  const { userDetails } = useContext(AppObjectContext);
+
+  const updateQuestionnaireData = async () => {
+    try {
+      const [infoData, profileData] = await Promise.all([
+        getQuestionnaireInfo({ userDetails }),
+        getQuestionnaireProfile({ userDetails }),
+      ]);
+
+      // Make sure that if the user is a new user, the data is empty
+      if (
+        infoData.name == "Default Designer" &&
+        profileData.name == "Default Designer"
+      ) {
+        return;
+      }
+      // Merge the data from both endpoints and update state once
+      setQuestionnaireData((prevData) => ({
+        ...prevData,
+        ...infoData,
+        ...profileData,
+        age: infoData.age ? infoData.age.toString() : prevData.age, // Ensure age is a string
+        pricePerItem: profileData.pricePerItem
+          ? profileData.pricePerItem.toString()
+          : prevData.pricePerItem, // Ensure price is a string
+      }));
+    } catch (error) {
+      Alert.alert("Error", "Failed to update questionnaire data.");
+    }
+  };
 
   useEffect(() => {
+    updateQuestionnaireData();
     const onChange = ({ window }) => {
       setDimensions(window);
       calculateFontSize(window);
@@ -64,9 +100,9 @@ export default function StylistInfo({
 
     // Check if price is empty or invalid
     if (
-      !questionnaireData.price ||
-      isNaN(questionnaireData.price) ||
-      parseFloat(questionnaireData.price) <= 0
+      !questionnaireData.pricePerItem ||
+      isNaN(questionnaireData.pricePerItem) ||
+      parseFloat(questionnaireData.pricePerItem) <= 0
     ) {
       Alert.alert(
         "Notice",
@@ -74,7 +110,7 @@ export default function StylistInfo({
       );
       setQuestionnaireData({
         ...questionnaireData,
-        price: "5", // Setting default price
+        pricePerItem: "5", // Setting default price
       });
     }
 
@@ -193,11 +229,11 @@ export default function StylistInfo({
           <Text style={styles.label}>Price per item</Text>
           <TextInput
             style={styles.input}
-            value={questionnaireData.price}
+            value={questionnaireData.pricePerItem}
             onChangeText={(number) =>
               setQuestionnaireData({
                 ...questionnaireData,
-                price: number,
+                pricePerItem: number,
               })
             }
           />

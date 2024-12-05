@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
-import { CommonActions } from '@react-navigation/native';
+import { CommonActions } from "@react-navigation/native";
 import { MaterialIcons, Feather } from "@expo/vector-icons";
 import { Colors } from "../../../constants/colors";
 import { styles } from "../QuestionnaireStyles";
@@ -24,10 +24,9 @@ export default function StylistAbout({
 }) {
   const [fontSize, setFontSize] = useState(0);
   const [dimensions, setDimensions] = useState(Dimensions.get("window"));
-  const [stylistAbout, setStylistAbout] = useState(
-    questionnaireData.stylistAbout || ""
+  const [charCount, setCharCount] = useState(
+    questionnaireData?.bio?.length || 0
   );
-  const [charCount, setCharCount] = useState(stylistAbout.length);
   const charLimit = 250;
 
   const {
@@ -59,7 +58,10 @@ export default function StylistAbout({
   // Function to handle text input change with character limit validation
   const handleStylistAboutChange = (text) => {
     if (text.length <= charLimit) {
-      setStylistAbout(text);
+      setQuestionnaireData({
+        ...questionnaireData,
+        bio: text,
+      });
       setCharCount(text.length); // Update character count
     }
   };
@@ -78,7 +80,7 @@ export default function StylistAbout({
     const profile = {
       name: questionnaireData.name,
       specialization: questionnaireData.specialization,
-      bio: stylistAbout,
+      bio: questionnaireData.bio,
       image: questionnaireData.image,
       pricePerItem: questionnaireData.pricePerItem,
     };
@@ -110,11 +112,10 @@ export default function StylistAbout({
 
       // Check if the request was successful
       if (infoResponse.ok && profileResponse.ok) {
-        console.log("hi")
         navigation.dispatch(
           CommonActions.reset({
             index: 0, // The index of the route you want to show
-            routes: [{ name: 'designer' }], // Replace with your home screen's name
+            routes: [{ name: "designer" }], // Replace with your home screen's name
           })
         );
       } else {
@@ -131,11 +132,6 @@ export default function StylistAbout({
   };
 
   const handleNext = async () => {
-    // Update questionnaireData with preferences
-    setQuestionnaireData({
-      ...questionnaireData,
-      stylistAbout: stylistAbout,
-    });
     await sendRequests();
   };
 
@@ -199,7 +195,7 @@ export default function StylistAbout({
           <TextInput
             style={styles.input}
             placeholder="Enter your preferences"
-            value={stylistAbout}
+            value={questionnaireData.bio}
             onChangeText={handleStylistAboutChange} // Update state on text change
             maxLength={charLimit} // Prevents typing more than 300 characters
           />
