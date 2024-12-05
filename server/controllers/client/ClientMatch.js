@@ -6,9 +6,9 @@ const designerProfileService = require("../../services/designer/DesignerProfileS
 const secretToken = "even doctor evil won't crack this bad boy";
 
 /*  
-    input: json web token, 
-    output: json web token (sent as token)
-    authenticate the user and sends back the token for the user
+    input: json web token, info
+    output: None
+    changes the info of a client, needs to also call this when registering
 */
 const changeInfo = async (req, res) => {
   try {
@@ -31,9 +31,8 @@ const changeInfo = async (req, res) => {
 };
 
 /*  
-    input: json web token, 
-    output: json web token (sent as token)
-    authenticate the user and sends back the token for the user
+    input: json web token
+    output: client info
 */
 const getInfo = async (req, res) => {
   try {
@@ -99,7 +98,7 @@ function calculateMatchScore(client, designer) {
 }
 
 /*  
-    input: clientInfo, designerInfos
+    input: clientInfo, designerInfos, number of wanted matches
     output: their match score
 */
 const filterTopNMatches = async (client, designers, N) => {
@@ -116,7 +115,7 @@ const filterTopNMatches = async (client, designers, N) => {
 
 /*  
     input: jsonwebtoken
-    output: top matches
+    output: top 10 matches
 */
 const matches = async (req, res) => {
   try {
@@ -124,7 +123,8 @@ const matches = async (req, res) => {
     const decoded = jwt.verify(token, secretToken);
     const clientProfile = await infoService.getClientInfo(decoded.username);
     const AllDesigners = await designerProfileService.getAllProfiles();
-    const result = await filterTopNMatches(clientProfile, AllDesigners, 10);
+    const numberOfMatches = 10
+    const result = await filterTopNMatches(clientProfile, AllDesigners, numberOfMatches);
     return res.status(200).json(result);
   } catch (error) {
     console.log(error);

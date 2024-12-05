@@ -5,6 +5,7 @@ const Design = require('../../models/desinger/Design');
 const { getClientImage } = require('../../services/Client/ClientInfoService')
 const { getDesignerImage } = require('../../services/Designer/DesignerProfileService')
 const { Review, DesignerProfile } = require('../../models/desinger/DesignerProfile')
+
 /*  
     input: client username
     output: list of client orders
@@ -165,9 +166,9 @@ const addReview = async (username, reviewData) => {
     return designerProfile; // Return the updated designer profile
 };
 
-
-
-
+/**
+ * reads a file from a path and returns it as a base 64 image
+ */
 const getDesignString = (path) => {
     // Read the image file as a buffer
     const imagePath = paths.join(__dirname, path);
@@ -177,6 +178,9 @@ const getDesignString = (path) => {
     return `data:image/png;base64,${base64Image}`
 }
 
+/*
+
+*/
 async function deleteImage(filePath) {
     try {
         await fs.promises.unlink(filePath); // Deletes the file
@@ -234,7 +238,38 @@ const runPythonScript = async (scriptPath, args = []) => {
     });
 }
 
+// quese for tryin on clothes
+const queue = []; // Shared queue
+
+// return tried on design, waits for its turn
 const tryOn = async (orderId, url, username) => {
+    // Add to queue
+    queue.push({ orderId, url, username });
+    console.log('Current Queue:', queue);
+
+    // Wait until it's the only item in the queue
+    await waitForTurn(orderId);
+
+    // process the tryon
+    result = processTryOn(orderId, url, username)
+    // Remove from queue
+    queue.shift();
+    return result
+};
+
+// checks periodically for its turn
+const waitForTurn = async (orderId) => {
+    while (queue[0]?.orderId !== orderId) {
+        // Wait for a short period before checking again
+        await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+};
+
+/* 
+    return the design with the tried on requested cloths
+    for this it talks to the wsl server
+*/
+const processTryOn = async (orderId, url, username) => {
     // Correct the script path
     const scriptPath = path.resolve(__dirname, '..', 'talkToWsl.py');
     const deletePath = path.resolve(__dirname, '..', 'triedOn.jpg')

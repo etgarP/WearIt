@@ -2,6 +2,7 @@ const express = require('express');
 const DesignerOrderController = require('../../controllers/designer/DesignerOrder');
 const router = express.Router();
 
+// Routes for handeling anything order related
 router.route('/')
     .get(DesignerOrderController.getOrders);
 

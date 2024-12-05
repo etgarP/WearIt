@@ -23,9 +23,9 @@ const signInClient = async (req, res) => {
 };
 
 /*  
-    input: username, password, ClientInfo
+    input: username, password
     output: json web token (sent as token)
-    authenticate the user and sends back the token for the user
+    registers the user and sends back the token for the user
 */
 const signUpClient = async (req, res) => {
   try {

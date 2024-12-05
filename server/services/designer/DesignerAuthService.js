@@ -18,6 +18,7 @@ const authenticate = async (username, password) => {
   return null;
 };
 
+// creates defaykt designer info and profile
 const createDefaultDesignerInfoAndProfile = async (username) => {
   // Default designer info using provided username
   const defaultDesignerInfo = {
@@ -41,7 +42,7 @@ const createDefaultDesignerInfoAndProfile = async (username) => {
     name: defaultDesignerInfo.name, // Default name
     bio: "This is a default bio. No bio provided yet.",
     image: "", // Default profile image
-    pricePerItem: 50, // Default price per item
+    pricePerItem: 5, // Default price per item
     specialization: defaultDesignerInfo.specialization, // Default specializations
     designerInfo: designerId, // Use the retrieved _id from DesignerInfo
   };

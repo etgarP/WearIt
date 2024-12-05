@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// 
+// The info needed for matching
 const DesignerInfoSchema = new Schema({
   name: { type: String, required: true },
   gender: { type: String, required: true },

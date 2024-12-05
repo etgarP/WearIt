@@ -35,6 +35,9 @@ const manageOrder = async (req, res) => {
     }
 };
 
+/*
+    checks if designer is in this order
+*/
 const checkInOrder = (req, orderId) => {
     const token = req.headers.authorization.split(' ')[1];
     username = jwt.verify(token, secretToken).username;
@@ -107,6 +110,9 @@ const rejectOrder = async (req, res) => {
     }
 };
 
+/*
+    checks if the url entered is from the everlane site
+*/
 const isEverlaneUrl = (url) => {
     try {
         const parsedUrl = new URL(url);
@@ -117,6 +123,10 @@ const isEverlaneUrl = (url) => {
     }
 };
 
+/*
+    input: orderId, url, typeOfCloth
+    output: updated design with the image of the cloth in the url
+*/
 const addDesignEntry = async (req, res) => {
     try {
         const { orderId, url, typeOfCloth } = req.body
@@ -137,6 +147,10 @@ const addDesignEntry = async (req, res) => {
     }
 }
 
+/*
+    input: orderId, url
+    output: updated design without that item
+*/
 const removeDesignEntry = async (req, res) => {
     try {
         const { orderId, url } = req.body
@@ -152,7 +166,10 @@ const removeDesignEntry = async (req, res) => {
         return res.status(500).json("Internal Server Error");
     }
 }
-
+/*
+    input: orderId, url
+    output: new design with outfit tried on
+*/
 const tryOn = async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ')[1];

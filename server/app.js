@@ -48,15 +48,3 @@ app.use('/api/designer/info', DesignerInfoRoutes);
 server.listen(process.env.PORT, () => {
     console.log(`app is listening on port ${process.env.PORT}`);
 })
-
-// const admin = require('firebase-admin');
-// const serviceAccount = require('./serviceAccountKey.json'); // Path to your service account credentials
-
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount),
-// });
-
-// const messaging = admin.messaging();
-// const getMessaging = require('./services/Firebase').getMessaging
-// // sends the messaging to firebaseService
-// getMessaging(messaging)

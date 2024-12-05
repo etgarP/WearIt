@@ -24,6 +24,7 @@ const setClientInfo = async (username, newInfo) => {
     );
 };
 
+// returns the clients image
 const getClientImage = async (username) => {
     const clientInfo = await Client.findOne({ username });
     if (!clientInfo) {

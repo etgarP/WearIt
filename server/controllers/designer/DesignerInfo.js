@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const secretToken = "even doctor evil won't crack this bad boy"
 
 /*  
-    input: json web token, designerInfo (name, gender, city, age, religion, specialization)
+    input: json web token, designerInfo 
     output: None
 */
 const updateDesignerInfo = async (req, res) => {

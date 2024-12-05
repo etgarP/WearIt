@@ -8,6 +8,9 @@ const getProfile = async (username) => {
     return await DesignerProfile.findOne({ username });
 };
 
+/**
+ * return the imageg of the designer
+ */
 const getDesignerImage = async (username) => {
     const designer = await DesignerProfile.findOne({ username })
     return designer.image;
@@ -23,9 +26,9 @@ const getAllProfiles = async () => {
 }; 
 
 /*  
-    input: designer username and profile
+    input: designer username and profile(username, bio, image, name, specialization, pricePerItem)
     output: None
-    updates the profile, including bio, image, name, specialization, and pricePerItem
+    updates the profile
 */
 const saveProfile = async (username, bio, image, name, specialization, pricePerItem) => {
     await DesignerProfile.findOneAndUpdate(
