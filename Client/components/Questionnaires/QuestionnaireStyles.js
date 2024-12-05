@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
   },
   input: {
     width: "80%",
-    height: 40,
+    height: 45,
     borderColor: "gray",
     marginBottom: "5%",
     borderRadius: 10, // Adjust the value as needed for the desired roundness

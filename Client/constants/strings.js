@@ -8,6 +8,8 @@ export const Strings = {
   measurementTitle: "Measurements",
   othersTitle: "Others",
   aboutTitle: "About",
+  pricePerItemLabel: "Price per item",
+  bioLabel: "Bio",
   next: "Next",
   back: "Back",
   add: "Add",

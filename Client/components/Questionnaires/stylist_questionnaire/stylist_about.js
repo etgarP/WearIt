@@ -3,10 +3,10 @@ import {
   Text,
   View,
   Dimensions,
-  TextInput,
   TouchableOpacity,
   Alert,
 } from "react-native";
+import { TextInput } from "react-native-paper";
 import { CommonActions } from "@react-navigation/native";
 import { MaterialIcons, Feather } from "@expo/vector-icons";
 import { Colors } from "../../../constants/colors";
@@ -191,9 +191,10 @@ export default function StylistAbout({
           </Text>
 
           {/* Label and Input for Preferences */}
-          <Text style={styles.label}>Bio</Text>
           <TextInput
             style={styles.input}
+            label={Strings.bioLabel}
+            mode="outlined"
             placeholder="Enter your preferences"
             value={questionnaireData.bio}
             onChangeText={handleStylistAboutChange} // Update state on text change

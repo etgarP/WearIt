@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import {
   Text,
   View,
-  TextInput,
   TouchableOpacity,
   Dimensions,
   Alert,
 } from "react-native";
+import { TextInput } from "react-native-paper";
 import { MaterialIcons, Feather } from "@expo/vector-icons";
 import { Colors } from "../../../constants/colors";
 import { styles } from "../QuestionnaireStyles";
@@ -165,9 +165,10 @@ export default function StylistLifeStyle({
           </Text>
 
           {/* City Input Field */}
-          <Text style={styles.label}>City</Text>
           <TextInput
             style={styles.input}
+            label={Strings.cityLabel}
+            mode="outlined"
             value={city}
             onChangeText={(text) => {
               setCity(text); // Update city state
@@ -179,9 +180,10 @@ export default function StylistLifeStyle({
           />
 
           {/* Religion Input Field */}
-          <Text style={styles.label}>Religion</Text>
           <TextInput
             style={styles.input}
+            label={Strings.religionLabel}
+            mode="outlined"
             value={religion}
             onChangeText={(text) => {
               setReligion(text); // Update religion state
