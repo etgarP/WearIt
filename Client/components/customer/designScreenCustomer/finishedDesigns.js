@@ -1,8 +1,8 @@
 import React, { useContext, useRef, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { List, Divider, Avatar, Text, Button } from "react-native-paper";
-import { ClientObjectContext } from "../../customer/navigation/ClientObjectProvider";
-import ReviewModal from "./allDesignScreens/reviewModel";
+import { ClientObjectContext } from "../navigation/ClientObjectProvider";
+import ReviewModal from "./reviewModal";
 
 const FinishedDesignsInnerPage = ({
   navigation,
@@ -43,7 +43,15 @@ const FinishedDesignsInnerPage = ({
                 mode="contained"
                 onPress={() => {
                   setOrderIdForReview(order._id);
-                  onReview(order.review);
+                  onReview(
+                    order.review
+                      ? order.review
+                      : {
+                          review: "",
+                          number: 0,
+                          designerUsername: order.designer,
+                        }
+                  );
                 }}
                 style={styles.reviewButton}
                 labelStyle={styles.buttonLabel}

@@ -15,8 +15,8 @@ import {
 } from "react-native";
 import { Button } from "react-native-paper";
 import { FontAwesome } from "@expo/vector-icons";
-import { submitReview } from "../../../../apiServices/client/submitReview";
-import { AppObjectContext } from "../../../appNavigation/appObjectProvider";
+import { submitReview } from "../../../apiServices/client/submitReview";
+import { AppObjectContext } from "../../appNavigation/appObjectProvider";
 
 const ModelContent = ({
   handleRating,

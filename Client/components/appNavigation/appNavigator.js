@@ -2,13 +2,13 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View, StyleSheet, ImageBackground } from "react-native"; // Import ImageBackground
-import { ClientNavigator } from "../Client/navigation/ClientNavigator";
+import { ClientNavigator } from "../customer/navigation/ClientNavigator";
 import { DesignerNavigator } from "../designer/navigation/designerNavigator";
 import { AppObjectProvider } from "./appObjectProvider";
-import { StylistQuestionnaireNavigator } from "../Questionnaires/stylist_questionnaire/StylistQuestionnaireNavigator";
-import { ClientQuestionnaireNavigator } from "../Questionnaires/client_questionnaire/ClientQuestionnaireNavigator";
-import SignInScreen from "../Authentication/SignInScreen";
-import SignUpScreen from "../Authentication/SignUpScreen";
+import { StylistQuestionnaireNavigator } from "../questionnaires/stylist_questionnaire/StylistQuestionnaireNavigator";
+import { ClientQuestionnaireNavigator } from "../questionnaires/client_questionnaire/ClientQuestionnaireNavigator";
+import SignInScreen from "../authentication/SignInScreen";
+import SignUpScreen from "../authentication/SignUpScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -17,7 +17,7 @@ export default AppNavigator = () => {
     <AppObjectProvider>
       <ImageBackground
         source={require("../../assets/background.png")} // Update the path to your image
-        style={{flex: 1}}
+        style={{ flex: 1 }}
       >
         <NavigationContainer>
           <Stack.Navigator
@@ -42,15 +42,21 @@ export default AppNavigator = () => {
               name="clientQuestionnaire"
               component={ClientQuestionnaireNavigator}
             />
-            <Stack.Screen name="client" component={ClientNavigator} 
-            options={{
-              gestureEnabled: false, // Disable swipe gesture
-            }} />
-            {/* Design screen */}
-            <Stack.Screen name="designer" component={DesignerNavigator} 
+            <Stack.Screen
+              name="client"
+              component={ClientNavigator}
               options={{
                 gestureEnabled: false, // Disable swipe gesture
-              }}/>
+              }}
+            />
+            {/* Design screen */}
+            <Stack.Screen
+              name="designer"
+              component={DesignerNavigator}
+              options={{
+                gestureEnabled: false, // Disable swipe gesture
+              }}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </ImageBackground>

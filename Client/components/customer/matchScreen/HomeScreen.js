@@ -2,11 +2,12 @@ import React, { useState, useEffect, useContext } from "react";
 import { StyleSheet, View, Text, ActivityIndicator, Image } from "react-native";
 import RefreshErrorPage from "../../loadingPages/refreshErrorPage.js";
 import { getMatches } from "../../../apiServices/client/getMatches.js"; // Import the fetch function
-import { AppObjectContext } from "../../appNavigation/appObjectProvider";
+import { AppObjectContext } from "../../appNavigation/appObjectProvider.js";
 import LoadingPage from "../../loadingPages/loadingPage.js";
-import ConnectedMatchRoute from "./homeScreenConnected";
+import ConnectedMatchRoute from "./homeScreenConnected.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import BackgroundWrapper from "../../backgroundWrapper.js";
+import RefreshPage from "../../loadingPages/refreshPage.js";
 
 export default function MatchRoute({ setProfilePage, navigation }) {
   const [filtered, setFiltered] = useState([]);
@@ -24,25 +25,25 @@ export default function MatchRoute({ setProfilePage, navigation }) {
     }
   }, [userDetails, navigation]); // Only runs on initial mount or when userDetails changes
 
+  const fetchData = async () => {
+    const page = await AsyncStorage.getItem("selectedTab");
+    if (page === "client") {
+      setLoading(true); // Set loading to true when starting fetch
+      try {
+        const data = await getMatches(userDetailsState.token); // Use the local userDetails state
+        setFiltered(data); // Initialize filtered data
+        setAlertShown(false); // Hide alert if data is fetched successfully
+      } catch (error) {
+        setAlertShown(true); // Show alert if there's an error
+      } finally {
+        setLoading(false); // Set loading to false when fetch completes
+      }
+    }
+  };
+
   // Fetch data if userDetails is available
   useEffect(() => {
     if (userDetailsState) {
-      const fetchData = async () => {
-        const page = await AsyncStorage.getItem("selectedTab");
-        if (page === "client") {
-          setLoading(true); // Set loading to true when starting fetch
-          try {
-            const data = await getMatches(userDetailsState.token); // Use the local userDetails state
-            setFiltered(data); // Initialize filtered data
-            setAlertShown(false); // Hide alert if data is fetched successfully
-          } catch (error) {
-            setAlertShown(true); // Show alert if there's an error
-          } finally {
-            setLoading(false); // Set loading to false when fetch completes
-          }
-        }
-      };
-
       fetchData();
     }
   }, [userDetailsState]); // Only trigger effect when userDetailsState changes
@@ -61,13 +62,15 @@ export default function MatchRoute({ setProfilePage, navigation }) {
   } else {
     return (
       <BackgroundWrapper>
-        <View style={styles.container}>
-          <ConnectedMatchRoute
-            setProfilePage={setProfilePage}
-            navigation={navigation}
-            designersData={filtered}
-          />
-        </View>
+        <RefreshPage tryAgain={onRetry}>
+          <View style={styles.container}>
+            <ConnectedMatchRoute
+              setProfilePage={setProfilePage}
+              navigation={navigation}
+              designersData={filtered}
+            />
+          </View>
+        </RefreshPage>
       </BackgroundWrapper>
     );
   }

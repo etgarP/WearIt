@@ -15,9 +15,9 @@ import {
 } from "react-native";
 import { Button, IconButton } from "react-native-paper";
 import axios from "axios";
-import { constants } from "../../../../constants/api";
-import { AppObjectContext } from "../../../appNavigation/appObjectProvider";
-import { DesingerObjectContext } from "../../../designer/navigation/designerObjectProvider";
+import { constants } from "../../../constants/api";
+import { AppObjectContext } from "../../appNavigation/appObjectProvider";
+import { DesingerObjectContext } from "../navigation/designerObjectProvider";
 
 const AddItemContent = ({
   closeModal,

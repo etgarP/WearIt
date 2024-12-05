@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { View, StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
-import { ClientObjectContext } from "./Client/navigation/ClientObjectProvider";
+import { ClientObjectContext } from "./customer/navigation/ClientObjectProvider";
 import DesignerProfile from "./designer/designerProfile/designerProfile";
 
 const DesignerPage = ({ navigation, isDesigner }) => {
