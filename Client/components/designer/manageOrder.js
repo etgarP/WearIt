@@ -8,6 +8,7 @@ import {
   TextInput,
   Text,
 } from "react-native-paper";
+import { Strings } from "../../constants/strings";
 
 const outfits = [
   { id: 1, name: "Outfit 1", image: require("../../assets/shirt.png") },
@@ -102,7 +103,7 @@ const ManageOrder = ({ navigation }) => {
           onPress={() => navigation.navigate("AILoadingScreen")}
           disabled={outfits.length === 0}
         >
-          Send To Costumer
+          {Strings.sendToCustomer}
         </Button>
       </View>
     </View>

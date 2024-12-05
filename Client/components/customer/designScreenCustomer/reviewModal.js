@@ -17,6 +17,7 @@ import { Button } from "react-native-paper";
 import { FontAwesome } from "@expo/vector-icons";
 import { submitReview } from "../../../apiServices/client/submitReview";
 import { AppObjectContext } from "../../appNavigation/appObjectProvider";
+import { Strings } from "../../../constants/strings";
 
 const ModelContent = ({
   handleRating,
@@ -71,7 +72,7 @@ const ModelContent = ({
                 styles.disabledButton,
             ]}
           >
-            Add
+            {Strings.add}
           </Button>
         )}
         {!loadingReview && !rating && reviewText.trim() === "" && (
@@ -80,7 +81,7 @@ const ModelContent = ({
             onPress={retrySendingReview}
             style={styles.retryButton}
           >
-            Retry
+            {Strings.retry}
           </Button>
         )}
       </View>

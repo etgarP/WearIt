@@ -23,6 +23,7 @@ const Sheet = forwardRef(
     const { setUserDetails, setQuestionnaireData } =
       useContext(AppObjectContext);
 
+    // Function to sign out the user, deletes the token from the storage
     const handleSignOut = async () => {
       await AsyncStorage.removeItem("userToken");
       await AsyncStorage.removeItem("selectedTab");

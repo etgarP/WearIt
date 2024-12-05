@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { List, Divider, Avatar } from 'react-native-paper';
+import { Strings } from '../../../constants/strings';
 
 const OrdersRoute = ({ orders }) => {
     // Filter orders based on their status
@@ -11,7 +12,7 @@ const OrdersRoute = ({ orders }) => {
     return (
       <View style={styles.container}>
         {/* Not Yet Approved Section */}
-        <Text style={styles.sectionHeader}>Not Yet Approved</Text>
+        <Text style={styles.sectionHeader}>{Strings.notApproved}</Text>
         {pendingOrders.length > 0 ? (
           pendingOrders.map((order) => (
             <React.Fragment key={order._id}>
@@ -38,11 +39,11 @@ const OrdersRoute = ({ orders }) => {
             </React.Fragment>
           ))
         ) : (
-          <Text>No pending orders.</Text>
+          <Text>{Strings.noPendingOrders}</Text>
         )}
 
         {/* Approved Section */}
-        <Text style={styles.sectionHeader}>Approved</Text>
+        <Text style={styles.sectionHeader}>{Strings.approved}</Text>
         {approvedOrders.length > 0 ? (
           approvedOrders.map((order) => (
             <React.Fragment key={order._id}>
@@ -69,10 +70,10 @@ const OrdersRoute = ({ orders }) => {
             </React.Fragment>
           ))
         ) : (
-          <Text>No active approved orders.</Text>
+          <Text>{Strings.noActiveOrders}</Text>
         )}
         {/* Approved Section */}
-        <Text style={styles.sectionHeader}>Rejected</Text>
+        <Text style={styles.sectionHeader}>{Strings.rejected}</Text>
         {rejectedOrders.length > 0 ? (
           rejectedOrders.map((order) => (
             <React.Fragment key={order._id}>
@@ -99,7 +100,7 @@ const OrdersRoute = ({ orders }) => {
             </React.Fragment>
           ))
         ) : (
-          <Text>No rejected orders.</Text>
+          <Text>{Strings.noRejectedOrders}</Text>
         )}
       </View>
     );

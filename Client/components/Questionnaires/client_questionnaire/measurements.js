@@ -3,11 +3,11 @@ import {
   Text,
   View,
   Dimensions,
-  TextInput,
   TouchableOpacity,
   Alert,
   ScrollView,
 } from "react-native";
+import { TextInput } from "react-native-paper";
 import { MaterialIcons, Feather } from "@expo/vector-icons";
 import { Colors } from "../../../constants/colors";
 import { styles } from "../QuestionnaireStyles";
@@ -19,12 +19,14 @@ export default function Measurements({
   setQuestionnaireData,
   questionnaireData,
 }) {
+  // States for font size and screen dimensions
   const [fontSize, setFontSize] = useState(0);
   const [dimensions, setDimensions] = useState(Dimensions.get("window"));
 
+  // States for individual measurement fields, initialized with existing data
   const [shoulders, setShoulders] = useState(
     questionnaireData.measurements.shoulders || ""
-  ); // Initialize with existing data
+  );
   const [bust, setBust] = useState(questionnaireData.measurements.bust || "");
   const [waist, setWaist] = useState(
     questionnaireData.measurements.waist || ""
@@ -38,6 +40,7 @@ export default function Measurements({
   );
   const [legs, setLegs] = useState(questionnaireData.measurements.legs || "");
 
+  // Effect to handle screen size changes and font size calculation
   useEffect(() => {
     const onChange = ({ window }) => {
       setDimensions(window);
@@ -53,12 +56,15 @@ export default function Measurements({
     };
   }, []);
 
+  // Function to calculate font size dynamically based on screen size
   const calculateFontSize = (window) => {
     const calculatedFontSize = Math.min(window.width, window.height) * 0.1;
     setFontSize(calculatedFontSize);
   };
 
+  // Function to validate inputs and proceed to the next screen
   const validateAndProceed = () => {
+    // Check if any measurement field is empty
     if (
       !shoulders.trim() ||
       !bust.trim() ||
@@ -69,12 +75,12 @@ export default function Measurements({
       !legs.trim()
     ) {
       Alert.alert(
-        "Measurements Optional",
-        "You can proceed without entering measurements but you will have to do it later."
+        Strings.measurementOptionalTitle, // "Measurements Optional"
+        Strings.measurementOptionalMessage // "You can proceed without entering measurements but you will have to do it later."
       );
     }
 
-    // Update questionnaireData with measurements
+    // Update questionnaire data with the entered measurements
     setQuestionnaireData({
       ...questionnaireData,
       measurements: {
@@ -88,15 +94,17 @@ export default function Measurements({
       },
     });
 
-    // Navigate to the next screen
+    // Navigate to the "Others" screen
     navigation.navigate("Others");
   };
 
+  // Calculate icon size dynamically
   const iconSize = Math.min(dimensions.width, dimensions.height) * 0.1;
 
   return (
     <BackgroundWrapper>
       <ScrollView style={styles.container}>
+        {/* Header with progress icons */}
         <View style={styles.head}>
           <Icon
             name="check-circle"
@@ -144,69 +152,81 @@ export default function Measurements({
             iconSize={iconSize}
           />
         </View>
+
+        {/* Body with measurement inputs */}
         <View style={styles.body}>
           <Text style={[styles.title, { fontSize: fontSize }]}>
-            {Strings.measurementTitle}
+            {Strings.measurementTitle} {/* "Measurements" */}
           </Text>
 
-          {/* Labels for the measurement fields */}
-          <Text style={styles.label}>Shoulders (cm)</Text>
+          {/* Measurement fields */}
           <TextInput
             style={styles.input}
+            label={Strings.shouldersLabel}
+            mode="outlined"
             keyboardType="numeric"
             value={shoulders}
             onChangeText={setShoulders}
           />
 
-          <Text style={styles.label}>Bust (cm)</Text>
           <TextInput
             style={styles.input}
+            label={Strings.bustLabel}
+            mode="outlined"
             keyboardType="numeric"
             value={bust}
             onChangeText={setBust}
           />
 
-          <Text style={styles.label}>Waist (cm)</Text>
           <TextInput
             style={styles.input}
+            label={Strings.waistLabel}
+            mode="outlined"
             keyboardType="numeric"
             value={waist}
             onChangeText={setWaist}
           />
 
-          <Text style={styles.label}>Hips (cm)</Text>
           <TextInput
             style={styles.input}
+            label={Strings.hipsLabel}
+            mode="outlined"
             keyboardType="numeric"
             value={hips}
             onChangeText={setHips}
           />
 
-          <Text style={styles.label}>Thighs (cm)</Text>
           <TextInput
             style={styles.input}
+            label={Strings.thighsLabel}
+            mode="outlined"
             keyboardType="numeric"
             value={thighs}
             onChangeText={setThighs}
           />
 
-          <Text style={styles.label}>Calves (cm)</Text>
           <TextInput
             style={styles.input}
+            label={Strings.calvesLabel}
+            mode="outlined"
             keyboardType="numeric"
             value={calves}
             onChangeText={setCalves}
           />
 
-          <Text style={styles.label}>Legs (cm)</Text>
           <TextInput
             style={styles.input}
+            label={Strings.legsLabel}
+            mode="outlined"
             keyboardType="numeric"
             value={legs}
             onChangeText={setLegs}
           />
+          <View style={styles.padding}></View>
         </View>
       </ScrollView>
+
+      {/* Footer with navigation buttons */}
       <View style={styles.footer}>
         <View style={styles.backContainer}>
           <TouchableOpacity
@@ -227,6 +247,7 @@ export default function Measurements({
   );
 }
 
+// Reusable icon component
 const Icon = ({ name, color, iconSize }) => (
   <View style={styles.iconContainer}>
     <MaterialIcons name={name} size={iconSize} color={color} />

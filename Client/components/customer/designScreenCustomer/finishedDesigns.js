@@ -3,6 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { List, Divider, Avatar, Text, Button } from "react-native-paper";
 import { ClientObjectContext } from "../navigation/ClientObjectProvider";
 import ReviewModal from "./reviewModal";
+import { Strings } from "../../../constants/strings";
 
 const FinishedDesignsInnerPage = ({
   navigation,
@@ -15,7 +16,7 @@ const FinishedDesignsInnerPage = ({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.sectionHeader}>Finished</Text>
+      <Text style={styles.sectionHeader}>{Strings.finished}</Text>
       {approvedOrders.length > 0 ? (
         approvedOrders.map((order) => (
           <React.Fragment key={order._id}>
@@ -56,7 +57,7 @@ const FinishedDesignsInnerPage = ({
                 style={styles.reviewButton}
                 labelStyle={styles.buttonLabel}
               >
-                Add Review
+                {Strings.addReviewButtonLabel}
               </Button>
               <Button
                 mode="contained"
@@ -67,14 +68,14 @@ const FinishedDesignsInnerPage = ({
                 style={styles.reviewButton}
                 labelStyle={styles.buttonLabel}
               >
-                View Order
+                {Strings.viewOrderButtonLabel}
               </Button>
             </View>
             <Divider />
           </React.Fragment>
         ))
       ) : (
-        <Text>No approved orders.</Text>
+        <Text>{Strings.unApprovedOrder}</Text>
       )}
     </View>
   );

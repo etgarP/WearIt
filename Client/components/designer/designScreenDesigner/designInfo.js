@@ -16,6 +16,7 @@ import axios from "axios";
 import { AppObjectContext } from "../../appNavigation/appObjectProvider";
 import { constants } from "../../../constants/api";
 import { DesingerObjectContext } from "../navigation/designerObjectProvider";
+import { Strings } from "../../../constants/strings";
 
 const DesignInfo = ({ navigation, route }) => {
   const { orderId, numberOfOutfits } = route.params;
@@ -171,7 +172,7 @@ const DesignInfo = ({ navigation, route }) => {
               style={styles.addItemButton}
               labelStyle={styles.addItemButtonText}
             >
-              Add Item
+              {Strings.addItemButtonLabel}
             </Button>
           </View>
 
@@ -194,7 +195,7 @@ const DesignInfo = ({ navigation, route }) => {
               style={styles.selectButton}
               onPress={() => handleSendToCustomer()}
             >
-              Send To Customer
+              {Strings.sendToCustomerButtonLabel}
             </Button>
           </View>
 

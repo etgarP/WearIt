@@ -5,7 +5,7 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
-} from "react-native"; // Import ScrollView
+} from "react-native";
 import RefreshErrorPage from "../../loadingPages/refreshErrorPage";
 import { AppObjectContext } from "../../appNavigation/appObjectProvider";
 import LoadingPage from "../../loadingPages/loadingPage";
@@ -15,6 +15,7 @@ import ClientsOrders from "../clientsOrdersComponent/clientsOrders";
 import { constants } from "../../../constants/api";
 import BackgroundWrapper from "../../backgroundWrapper";
 import RefreshPage from "../../loadingPages/refreshPage";
+import { Strings } from "../../../constants/strings";
 
 export default function DesignerHome({ navigation }) {
   const [clientOrders, setClientOrders] = useState({});
@@ -39,8 +40,8 @@ export default function DesignerHome({ navigation }) {
       setPendingOrdersCount(pendingOrders.length);
 
       // Extract the last order's image
-      if (data.length > 0) {
-        const lastOrder = data[data.length - 1]; // Assuming the last item is the most recent order
+      if (pendingOrders.length > 0) {
+        const lastOrder = pendingOrders[pendingOrders.length - 1]; // Assuming the last item is the most recent order
         setLastOrderImage(lastOrder.clientImage); // Assuming "image" is the field containing the image URL
       }
 
@@ -108,11 +109,11 @@ export default function DesignerHome({ navigation }) {
                 }
               />
               <Badge style={styles.badge}>{pendingOrdersCount}</Badge>
-              <Text style={styles.orderText}>Order Requests</Text>
+              <Text style={styles.orderText}>{Strings.orderRequests}</Text>
             </View>
           </TouchableOpacity>
 
-          <Text style={styles.clientsText}>My clients</Text>
+          <Text style={styles.clientsText}>{Strings.myClients}</Text>
           {/* Use ScrollView to allow scrolling through the ClientsOrders */}
           <ScrollView style={styles.scrollView}>
             <ClientsOrders navigation={navigation} status={"accepted"} />

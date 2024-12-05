@@ -7,8 +7,8 @@ import { DesignerNavigator } from "../designer/navigation/designerNavigator";
 import { AppObjectProvider } from "./appObjectProvider";
 import { StylistQuestionnaireNavigator } from "../questionnaires/stylist_questionnaire/StylistQuestionnaireNavigator";
 import { ClientQuestionnaireNavigator } from "../questionnaires/client_questionnaire/ClientQuestionnaireNavigator";
-import SignInScreen from "../authentication/SignInScreen";
-import SignUpScreen from "../authentication/SignUpScreen";
+import SignInScreen from "../Authentication/SignInScreen";
+import SignUpScreen from "../Authentication/SignUpScreen";
 
 const Stack = createNativeStackNavigator();
 

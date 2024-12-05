@@ -3,7 +3,10 @@ import { View, StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
 import { ClientObjectContext } from "./customer/navigation/ClientObjectProvider";
 import DesignerProfile from "./designer/designerProfile/designerProfile";
+import { Strings } from "../constants/strings";
 
+
+// DesignerPage component
 const DesignerPage = ({ navigation, isDesigner }) => {
   const { profile } = useContext(ClientObjectContext);
 
@@ -20,7 +23,7 @@ const DesignerPage = ({ navigation, isDesigner }) => {
         onPress={() => navigation.navigate("orderDetails")}
         style={styles.selectButton}
       >
-        Select
+        {Strings.select}
       </Button>
     </View>
   );

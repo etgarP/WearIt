@@ -3,6 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { List, Divider, Avatar, Text, Button } from "react-native-paper";
 import { ClientObjectContext } from "../../customer/navigation/ClientObjectProvider";
 import ReviewModal from "./allDesignScreens/reviewModel";
+import { Strings } from "../../../constants/strings";
 
 const FinishedDesignsInnerPage = ({
   navigation,
@@ -48,7 +49,7 @@ const FinishedDesignsInnerPage = ({
                 style={styles.reviewButton}
                 labelStyle={styles.buttonLabel}
               >
-                Add Review
+                {Strings.addReviewButtonLabel}
               </Button>
               <Button
                 mode="contained"
@@ -59,14 +60,14 @@ const FinishedDesignsInnerPage = ({
                 style={styles.reviewButton}
                 labelStyle={styles.buttonLabel}
               >
-                View Order
+                {Strings.viewOrderButtonLabel}
               </Button>
             </View>
             <Divider />
           </React.Fragment>
         ))
       ) : (
-        <Text>No approved orders.</Text>
+        <Text>{Strings.unApprovedOrder}</Text>
       )}
     </View>
   );

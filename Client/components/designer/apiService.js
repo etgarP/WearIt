@@ -2,6 +2,7 @@ import axios from "axios";
 import { constants } from "../../constants/api";
 import { Alert } from "react-native";
 
+// Function to get the questionnaire info
 export const getQuestionnaireInfo = async ({ userDetails }) => {
   const API_URL = `${constants.designerBaseAddress}info`;
   try {
@@ -15,6 +16,7 @@ export const getQuestionnaireInfo = async ({ userDetails }) => {
   }
 };
 
+// Function to get the questionnaire profile
 export const getQuestionnaireProfile = async ({ userDetails }) => {
   const API_URL = `${constants.designerBaseAddress}profile`;
   try {

@@ -10,6 +10,7 @@ import {
 const RefreshErrorPage = ({tryAgain}) => {
   const [refreshing, setRefreshing] = React.useState(false);
 
+  // Function to refresh the page with a delay of 2 seconds
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     tryAgain()
