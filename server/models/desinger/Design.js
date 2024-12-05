@@ -15,6 +15,7 @@ const DesignEntrySchema = new Schema({
 
 // The main schema for the design
 const DesignSchema = new Schema({
+    beforeImage: { type: String, required: true },
     orderId: { type: Schema.Types.ObjectId, ref: 'Order', required: true, unique: true, index: true },
     items: [DesignEntrySchema] // Array of subdocuments for detailed design entries
 });

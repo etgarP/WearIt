@@ -103,7 +103,7 @@ const addReview = async (req, res) => {
 
 /*  
     input: jsonwebtoken
-    output: all finished order designs
+    output: the finished order's design
 */
 const getDesign = async (req, res) => {
     try {
@@ -119,6 +119,10 @@ const getDesign = async (req, res) => {
     }
 };
 
+/*
+    input: order Id, url
+    output: updated design with url from the user tried on
+*/
 const tryOn = async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ')[1];

@@ -17,7 +17,7 @@ const authenticate = async (username, password) => {
 };
 
 /*  
-    input: username, password, clientInfo
+    input: username, password
     output: none
     signs up a client. uses bcrypt to hash its password into the database
 */

@@ -5,6 +5,7 @@ const http = require('http')
 const cors = require('cors');
 const customEnv = require('custom-env');
 const mongoose = require('mongoose')
+const q = require('./tryOnQueue.js')
 
 const server = http.createServer(app)
 server.setTimeout(30000)
@@ -48,15 +49,3 @@ app.use('/api/designer/info', DesignerInfoRoutes);
 server.listen(process.env.PORT, () => {
     console.log(`app is listening on port ${process.env.PORT}`);
 })
-
-// const admin = require('firebase-admin');
-// const serviceAccount = require('./serviceAccountKey.json'); // Path to your service account credentials
-
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount),
-// });
-
-// const messaging = admin.messaging();
-// const getMessaging = require('./services/Firebase').getMessaging
-// // sends the messaging to firebaseService
-// getMessaging(messaging)

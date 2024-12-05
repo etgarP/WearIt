@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// the login info of a client
+// The login info of a client
 const ClientLoginInfo = new Schema({
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
 });
 
-// the login info of a designer
+// The login info of a designer
 const DesignerLoginInfo = new Schema({
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
