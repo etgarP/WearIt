@@ -20,14 +20,13 @@ export default function SignInScreen({ navigation, route }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [url, setUrl] = useState("");
-  const [isSignedInAlready, setIsSignedInAlready] = useState(false);
+  const [isNotSignedInAlready, setIsNotSignedInAlready] = useState(false);
   const { setUserDetails } = useContext(AppObjectContext);
 
   useEffect(() => {
     const checkSignInStatus = async () => {
       const storedToken = await AsyncStorage.getItem("userToken");
       const page = await AsyncStorage.getItem("selectedTab");
-
       if (storedToken != null) {
         setUserDetails({
           token: storedToken,
@@ -37,7 +36,7 @@ export default function SignInScreen({ navigation, route }) {
           ? navigation.replace("designer")
           : navigation.replace("client");
       } else {
-        setIsSignedInAlready(true);
+        setIsNotSignedInAlready(true);
       }
     };
 
@@ -120,7 +119,7 @@ export default function SignInScreen({ navigation, route }) {
   };
 
   return (
-    isSignedInAlready && (
+    isNotSignedInAlready && (
       <BackgroundWrapper>
         <SafeAreaView style={styles.container}>
           <Image
