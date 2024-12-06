@@ -22,7 +22,7 @@ export default function DesignerBottomNav({ route, navigation }) {
       unfocusedIcon: "face-man-shimmer-outline",
     },
     {
-      key: "Pending",
+      key: "pending",
       title: "Pending",
       focusedIcon: "dots-horizontal-circle",
       unfocusedIcon: "dots-horizontal-circle-outline",
@@ -31,7 +31,7 @@ export default function DesignerBottomNav({ route, navigation }) {
 
   // Set index based on navigation params if available
   useEffect(() => {
-    if (route.params?.initialTab === "Pending") {
+    if (route.params?.initialTab === "pending") {
       setIndex(2); // Set to "Pending" tab if passed in navigation params
     }
   }, [route.params]);
