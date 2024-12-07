@@ -146,12 +146,11 @@ export const Strings = {
   invalidLink: "You should insert a valid Everlane link",
   addNewItem: "Add New Item",
   sendToCustomerButtonLabel: "Send To Customer",
-  addReviewButtonLabel: "Add Review",
+  addReviewButtonLabel: "Review",
   viewOrderButtonLabel: "View Order",
   unApprovedOrder: "No approved orders.",
 
   finished: "Finished",
-  addReviewButtonLabel: "Add Review",
   notApproved: "Not Yet Approved",
   noPendingOrders: "No pending orders.",
   noActiveOrders: "No active approved orders.",

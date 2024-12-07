@@ -25,12 +25,6 @@ const DesignInfo = ({ toSend = false, navigation, route }) => {
         );
     };
 
-    const handleAddItem = () => {
-        if (addItemModalRef.current) {
-            addItemModalRef.current.openModal(); // Open the modal
-        }
-    };
-
     const handleDeleteItem = async (itemId, url) => {
         Alert.alert("Delete Item", "This feature is under construction."); // Placeholder for delete logic
     };

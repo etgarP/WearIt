@@ -17,7 +17,7 @@ const getClientOrders = async (username) => {
 
         // Iterate through each order to check if its status is 'finished'
         const ordersWithReviews = await Promise.all(orders.map(async (order) => {
-            if (order.status === 'finished') {
+            if (order.status === 'Finished') {
                 // Find the review for the designer made by this user using getReview function
                 const review = await getReview(order.designer, order.username);
 
@@ -44,7 +44,7 @@ const getClientOrders = async (username) => {
     output: if the order exists
 */
 const orderIsFinished = async (username, designer) => {
-    var finished = await Order.find({ designer, username, status: 'finished' })
+    var finished = await Order.find({ designer, username, status: 'Finished' })
     return finished != null
 };
 

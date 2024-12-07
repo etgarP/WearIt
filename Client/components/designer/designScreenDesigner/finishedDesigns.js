@@ -11,7 +11,7 @@ const FinishedDesignsInnerPage = ({
   onReview,
   setOrderIdForReview,
 }) => {
-  const approvedOrders = orders.filter((order) => order.status == "finished");
+  const approvedOrders = orders.filter((order) => order.status == "Finished");
   const { setOrderId } = useContext(ClientObjectContext);
 
   return (

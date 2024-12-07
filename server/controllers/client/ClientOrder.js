@@ -56,7 +56,7 @@ const purchaseOrder = async (req, res) => {
 
         // Update order information with the decoded token's username
         order.username = decoded.username;
-        order.status = 'pending';
+        order.status = 'Pending';
 
         // Save the order and check for success
         const savedOrder = await orderService.purchaseOrder(decoded.username, order);
@@ -111,7 +111,7 @@ const getDesign = async (req, res) => {
         const decoded = jwt.verify(token, secretToken);
         const {orderId} = req.params
         const designs = await orderService.getDesign(orderId, decoded.username)
-        designs.beforeImage = await getClientImage(decoded.username)
+        // designs.beforeImage = await getClientImage(decoded.username)
         return res.status(200).json(designs);
     } catch (error) {
         console.log(error)
