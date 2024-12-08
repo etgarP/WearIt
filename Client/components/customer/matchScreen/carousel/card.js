@@ -10,9 +10,10 @@ const MyCard = ({ profile, setProfilePage, navigation }) => {
     // Destructure profile properties for better readability
     const { name, image, bio, specialization, reviews, score } = profile;
     // Calculate the average rating from reviews
-    const averageRating = reviews.length
-        ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length
-        : 0;
+    let averageRating =
+      reviews.length > 0
+        ? reviews.reduce((acc, review) => acc + review.number, 0) / reviews.length
+        : 0
 
     // Convert the average rating to a rating out of 5
     const ratingOutOf5 = averageRating;

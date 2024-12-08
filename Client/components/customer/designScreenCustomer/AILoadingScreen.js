@@ -54,7 +54,6 @@ export const AILoadingScreen = ({ navigation }) => {
     const handleOrderSubmission = async () => {
         setOrderFailed(false); // Reset the error state when retrying
         try {
-            console.log(token, chosenUrl, orderId)
             const gotten = await tryOn(token, chosenUrl, orderId);  // Make the POST request to create the order
             setDesign(gotten)
             navigation.pop(2)

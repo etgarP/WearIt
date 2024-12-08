@@ -56,7 +56,7 @@ const purchaseOrder = async (req, res) => {
 
         // Update order information with the decoded token's username
         order.username = decoded.username;
-        order.status = 'Pending';
+        order.status = 'pending';
 
         // Save the order and check for success
         const savedOrder = await orderService.purchaseOrder(decoded.username, order);

@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 // schema for review for the designer
 const ReviewSchema = new Schema({
     designerUsername: { type: String, required: true },
-    username: { type: String, required: true, unique: true },
+    username: { type: String, required: true},
     number: { type: Number, min: 1, max: 5, required: true },
     review: { type: String, required: true },
     userPicture: { type: String, required: true }

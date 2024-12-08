@@ -17,7 +17,7 @@ const getClientOrders = async (username) => {
 
         // Iterate through each order to check if its status is 'finished'
         const ordersWithReviews = await Promise.all(orders.map(async (order) => {
-            if (order.status === 'Finished') {
+            if (order.status === 'finished') {
                 // Find the review for the designer made by this user using getReview function
                 const review = await getReview(order.designer, order.username);
 
@@ -44,7 +44,7 @@ const getClientOrders = async (username) => {
     output: if the order exists
 */
 const orderIsFinished = async (username, designer) => {
-    var finished = await Order.find({ designer, username, status: 'Finished' })
+    var finished = await Order.find({ designer, username, status: 'finished' })
     return finished != null
 };
 
@@ -55,8 +55,7 @@ const orderIsFinished = async (username, designer) => {
 */
 const purchaseOrder = async (username, order) => {
     image = await getClientImage(username)
-    console.log(order.designer)
-    image2 ="image"
+    image2 = await getDesignerImage(order.designer)
     // Add the client's image to the order
     const newOrder = new Order({ ...order, username, clientImage: image, designerImage: image2 });
 
@@ -246,11 +245,8 @@ const tryOn = async (orderId, url, username) => {
     // Add to queue
     q.push({ orderId, url, username });
     try {
-        console.log('Current Queue:', q);
-        console.log(orderId)
         // Wait until it's the only item in the queue
         await waitForTurn(orderId);
-        console.log(orderId)
         // process the tryon
         result = await processTryOn(orderId, url, username)
         // Remove from queue
@@ -300,7 +296,6 @@ const processTryOn = async (orderId, url, username) => {
             }
             const model = await getClientImage(username)
             const cloth = existingEntry.imageOfCloth
-            console.log(typeof model)
             await saveBase64Image(model, modelPath)
             await saveBase64Image(cloth, clothPath)
             // Run the Python script

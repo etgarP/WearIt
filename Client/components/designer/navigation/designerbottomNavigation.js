@@ -39,7 +39,7 @@ export default function DesignerBottomNav({ route, navigation }) {
   const renderScene = BottomNavigation.SceneMap({
     home: () => <DesignerHome navigation={navigation} />,
     profile: () => <GetProfile navigation={navigation} />,
-    pending: () => <ClientsOrders navigation={navigation} status={"Pending"} />,
+    pending: () => <ClientsOrders navigation={navigation} status={"pending"} />,
   });
 
   const showAppBarDetails = routes[index].key !== "profile"; // Hide title for "home" tab

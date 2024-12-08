@@ -36,7 +36,7 @@ export default function DesignerHome({ navigation }) {
       const data = response.data;
 
       // Calculate the number of pending orders
-      const pendingOrders = data.filter((order) => order.status === "Pending");
+      const pendingOrders = data.filter((order) => order.status === "pending");
       setPendingOrdersCount(pendingOrders.length);
 
       // Extract the last order's image
@@ -47,7 +47,7 @@ export default function DesignerHome({ navigation }) {
 
       // Process data to group only accepted orders by username
       const groupedOrders = data.reduce((acc, order) => {
-        if (order.status === "Accepted") {
+        if (order.status === "accepted") {
           if (!acc[order.username]) {
             acc[order.username] = { count: 0, orders: [] };
           }
@@ -116,7 +116,7 @@ export default function DesignerHome({ navigation }) {
           <Text style={styles.clientsText}>{Strings.myClients}</Text>
           {/* Use ScrollView to allow scrolling through the ClientsOrders */}
           <ScrollView style={styles.scrollView}>
-            <ClientsOrders navigation={navigation} status={"Accepted"} />
+            <ClientsOrders navigation={navigation} status={"accepted"} />
           </ScrollView>
         </View>
       </RefreshPage>

@@ -15,7 +15,6 @@ export const WithServerCall = ({ getObject, setObject, children, secondInput, lo
         setLoading(true);
         setOrderFailed(false); // Reset the error state when retrying
         try {
-            console.log("hello")
             const gotten = await getObject(token, secondInput);  // Make the POST request to create the order
             setObject(gotten)
             setOrderSuccess(true);  // If successful, show success screen

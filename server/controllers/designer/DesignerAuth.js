@@ -19,6 +19,7 @@ const signInDesigner = async (req, res) => {
         const orders = await DesignerOrderService.getOrders(designer.username);
         return res.status(200).json({ key: token, orders });
     } catch (error) {
+        console.log(error);
         return res.status(500).json("Internal Server Error");
     }
 };

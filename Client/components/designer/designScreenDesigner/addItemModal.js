@@ -111,7 +111,6 @@ const AddItemModal = forwardRef(({ orderId }, ref) => {
   };
 
   const handleTypeSelection = (type) => {
-    console.log(type);
     setSelectedType(type);
   };
 

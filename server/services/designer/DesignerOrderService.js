@@ -45,7 +45,7 @@ const getOrderDetails = async (orderId) => {
 const sendOrder = async (orderId) => {
     const order = await Order.findById(orderId);
     if (order) {
-        order.status = 'Finished';
+        order.status = 'finished';
         await order.save();
         return true
     }
@@ -60,8 +60,8 @@ const sendOrder = async (orderId) => {
 
 const acceptOrder = async (orderId) => {
     const order = await Order.findById(orderId);
-    if (order && order.status == 'Pending') {
-        order.status = 'Accepted';
+    if (order && order.status == 'pending') {
+        order.status = 'accepted';
         await order.save();
         return true
     }
@@ -79,7 +79,7 @@ const newDesign = async (orderId) => {
         console.log('Order not found')
         throw new Error('Order not found');
     }
-    if (order.status !== 'Finished') {
+    if (order.status !== 'finished') {
         await Design.findOneAndUpdate(
             { orderId },
             { orderId, items: [] }, // new: true returns the updated document and set, upsert inserts if not there
@@ -99,7 +99,7 @@ const newDesign = async (orderId) => {
 */
 const rejectOrder = async (orderId) => {
     const order = await Order.findById(orderId);
-    if (order && order.status == 'Pending') {
+    if (order && order.status == 'pending') {
         order.status = 'Rejected';
         await order.save();
         return true
@@ -112,7 +112,6 @@ const rejectOrder = async (orderId) => {
     output: if the username is the client in that order
 */
 const isDesignerInOrder = async (orderId, designer) => {
-    console.log(orderId,designer)
     // First find the order and check ownership
     const order = await Order.findOne({
         _id: orderId,
@@ -181,7 +180,6 @@ const addDesignEntry = async (orderId, newUrl, typeOfOutfit) => {
         return design; // Return the existing design without modifying it
     }
     await runPythonScript(scriptPath, [newUrl]);
-    console.log(typeOfOutfit)
     // Create the new design entry
     const newDesignEntry = {
         url: newUrl,
@@ -246,7 +244,7 @@ const notAbleToAdd = async (orderId) => {
 // checks if the design is finished
 const notAbleToRemove = async (orderId) => {
     const design = await Design.findOne({ orderId })
-    if (!design || design.status == 'Finished') {
+    if (!design || design.status == 'finished') {
         return true
     }
     return false
