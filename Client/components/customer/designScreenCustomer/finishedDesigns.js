@@ -11,7 +11,7 @@ const FinishedDesignsInnerPage = ({
   onReview,
   setOrderIdForReview,
 }) => {
-  const approvedOrders = orders.filter((order) => order.status == "Finished");
+  const approvedOrders = orders.filter((order) => order.status == "finished");
   const { setOrderId } = useContext(ClientObjectContext);
 
   return (
@@ -64,7 +64,7 @@ const FinishedDesignsInnerPage = ({
           </React.Fragment>
         ))
       ) : (
-        <Text>{Strings.unApprovedOrder}</Text>
+        <Text>     No finished Designs</Text>
       )}
     </View>
   );
@@ -79,13 +79,11 @@ const FinishedDesigns = ({ navigation, orders }) => {
   const updateReview = (newReview) => {
     // Find the order with the given orderId
     const orderIndex = ordersState.findIndex((order) => order._id === orderId);
-    console.log(orderIndex);
     // If order is found, update its review
     if (orderIndex !== -1) {
       const updatedOrders = [...orders];
       updatedOrders[orderIndex].review = newReview;
       setOrdersState(updatedOrders);
-      console.log(newReview);
     }
   };
 

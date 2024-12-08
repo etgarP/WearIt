@@ -5,10 +5,10 @@ import { Strings } from '../../../constants/strings';
 
 const OrdersRoute = ({ orders }) => {
     // Filter orders based on their status
-    const pendingOrders = orders.filter(order => order.status === 'Pending');
-    const approvedOrders = orders.filter(order => order.status === 'Accepted');
-    const rejectedOrders = orders.filter(order => order.status === 'Rejected');
-
+    const pendingOrders = orders.filter(order => order.status === 'pending');
+    const approvedOrders = orders.filter(order => order.status === 'accepted');
+    const rejectedOrders = orders.filter(order => order.status === 'rejected');
+  // console.log(orders[0].designerImage)
     return (
       <View style={styles.container}>
         {/* Not Yet Approved Section */}

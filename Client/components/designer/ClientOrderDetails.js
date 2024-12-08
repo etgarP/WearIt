@@ -58,7 +58,7 @@ const ClientOrderDetails = ({ navigation, route }) => {
       if (response.status === 200) {
         Alert.alert(Strings.successAlertTitle, Strings.successApproveMessage);
         navigation.replace(route.name, {
-          order: { ...order, status: "Accepted" },
+          order: { ...order, status: "accepted" },
         });
       }
     } catch (error) {
@@ -108,7 +108,7 @@ const ClientOrderDetails = ({ navigation, route }) => {
         <Appbar.BackAction onPress={() => navigation.goBack()} />
         <Appbar.Content
           title={
-            order.status === "Pending"
+            order.status === "pending"
               ? Strings.approveOrDenyTitle
               : Strings.manageClientTitle
           }
@@ -189,7 +189,7 @@ const ClientOrderDetails = ({ navigation, route }) => {
         </View>
 
         {/* Buttons */}
-        {order.status === "Pending" ? (
+        {order.status === "pending" ? (
           <View style={styles.buttonContainer}>
             <IconButton
               icon="close-circle-outline"

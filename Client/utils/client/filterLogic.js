@@ -1,3 +1,5 @@
+import { categories } from "../../data/categories";
+
 export const filterDesigners = (designers, filters) => {
     let filteredData = designers;
 
@@ -15,7 +17,7 @@ export const filterDesigners = (designers, filters) => {
 
     // Category filtering
     if (categoryFilter) {
-        const pickedCategory = filters?.categories?.find(category => category.title === categoryFilter) || null;
+        const pickedCategory = categories.find(category => category.title === categoryFilter) || null;
         if (pickedCategory) {
             filteredData = filteredData.filter(item => {
                 return item.specialization.some(specializationItem =>

@@ -7,7 +7,7 @@ const DesignerInfo = require('../../models/desinger/DesignerInfo');
 */
 const updateDesignerInfo = async (username, name, gender, city, age, religion, specialization) => {
     await DesignerInfo.findOneAndUpdate(
-        { username: username.toLowerCase() },  // Convert to lowercase for case-insensitive match
+        { username: username },  // Convert to lowercase for case-insensitive match
         { $set: { name, gender, city, age, religion, specialization } },
         { new: true, runValidators: true, upsert: true }
     );
