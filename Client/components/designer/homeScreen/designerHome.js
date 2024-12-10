@@ -60,6 +60,7 @@ export default function DesignerHome({ navigation }) {
       setClientOrders(groupedOrders);
       setAlertShown(false);
     } catch (error) {
+      console.log(error)
       setAlertShown(true);
     } finally {
       setLoading(false);

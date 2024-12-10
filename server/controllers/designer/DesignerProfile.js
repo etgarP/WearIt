@@ -14,6 +14,7 @@ const getProfile = async (req, res) => {
         const {_id, __v, ...adjustedProfile} = profile.toObject()
         return res.status(200).json(adjustedProfile);
     } catch (error) {
+        console.log(error);
         return res.status(500).json("Internal Server Error");
     }
 };

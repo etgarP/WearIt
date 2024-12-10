@@ -87,6 +87,7 @@ const acceptOrder = async (req, res) => {
             return res.status(200).json("Order wasn't saved");
 
     } catch (error) {
+        console.log(error);
         return res.status(500).json("Internal Server Error");
     }
 };
@@ -106,6 +107,7 @@ const rejectOrder = async (req, res) => {
         else
             return res.status(200).json("Order wasn't saved");
     } catch (error) {
+        console.log(error);
         return res.status(500).json("Internal Server Error");
     }
 };
@@ -118,7 +120,7 @@ const isEverlaneUrl = (url) => {
         const parsedUrl = new URL(url);
         return parsedUrl.hostname.endsWith('everlane.com');
     } catch (error) {
-        console.error("Invalid URL:", error.message);
+        console.log(error);
         return false;
     }
 };
