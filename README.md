@@ -59,7 +59,7 @@ The server is built with Node.js and handles the backend logic for the WearIT ap
    ```bash
    python3 app.js
    ```
-   `Note:` You need to have NVIDIA GPU to run it (tested on gtx 1080 and gtx 1070).
+   `Note:` You need to have NVIDIA GPU to run it (tested on gtx 1080 and gtx 1070), Linux and CUDA.
 
 ## Development Tip
 - To simulate a mobile experience, connect your physical device to the same network as your development machine.
