@@ -32,7 +32,6 @@ export default function ClientsOrders({ navigation, status }) {
       const data = response.data;
       
       // Filter orders by status
-      console.log(data[0].status)
       const pendingOrders = data.filter((order) => order.status === "pending");
       setPendingOrdersCount(pendingOrders.length);
 
