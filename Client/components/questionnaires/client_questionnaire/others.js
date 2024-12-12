@@ -4,7 +4,7 @@ import { TextInput } from "react-native-paper";
 import { CommonActions } from "@react-navigation/native";
 import { MaterialIcons, Feather } from "@expo/vector-icons";
 import { Colors } from "../../../constants/colors";
-import { styles } from "../questionnaireStyles";
+import { styles } from "../QuestionnaireStyles";
 import { Strings } from "../../../constants/strings";
 import { AppObjectContext } from "../../appNavigation/appObjectProvider";
 import { constants } from "../../../constants/api";
