@@ -7,7 +7,6 @@ Before you begin, ensure you have the following installed on your system:
 - [Node.js](https://nodejs.org/) (v14 or higher recommended)
 - [npm](https://www.npmjs.com/), which comes with Node.js
 - [Expo CLI](https://expo.dev/) (install globally with `npm install -g expo-cli`)
-- [Nodemon](https://www.npmjs.com/package/nodemon) (optional, but recommended for server development)
 
 ## Installation and Setup
 ### Client
@@ -55,11 +54,18 @@ The server is built with Node.js and handles the backend logic for the WearIT ap
 
 4. The server will run on `http://localhost:12345/` by default (or the port specified in your app configuration).
 
+5. To run the mix and match server enter the wslServer directory and follow the instructions in `install.txt` file. <br>
+   `Note:` You need to have NVIDIA GPU to run it.
+
 ## Development Tip
 - To simulate a mobile experience, connect your physical device to the same network as your development machine.
 
 - **Expo app not loading the project?**
   Make sure your phone and computer are on the same Wi-Fi network.
+
+## Credits
+- The mix and match future is built on `https://github.com/geyuying/PF-AFN/tree/main/PF-AFN_test`
+- Part of the preproccesing of the images is built on `https://github.com/MosbehBarhoumi/VITON-PRE-PROCESSING`
   
 ---
 Thank you for using WearIT! We hope you enjoy your virtual try-on experience.
