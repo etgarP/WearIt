@@ -54,8 +54,12 @@ The server is built with Node.js and handles the backend logic for the WearIT ap
 
 4. The server will run on `http://localhost:12345/` by default (or the port specified in your app configuration).
 
-5. To run the mix and match server enter the wslServer directory and follow the instructions in `install.txt` file. <br>
-   `Note:` You need to have NVIDIA GPU to run it.
+5. To install the mix and match server enter the wslServer directory and follow the instructions in `install.txt` file. <br>
+   To run navigate to the directory wslServer and run the following command:
+   ```bash
+   python3 app.js
+   ```
+   `Note:` You need to have NVIDIA GPU to run it (tested on gtx 1080 and gtx 1070).
 
 ## Development Tip
 - To simulate a mobile experience, connect your physical device to the same network as your development machine.
