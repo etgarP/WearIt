@@ -3,13 +3,14 @@ import numpy as np
 import os
 import time
 
-# NEEDS TO BE IN cloth-binary-mask/using-cv
+# Set the working directory
 os.chdir('cloth-binary-mask/using-cv')
 # Record the start time
 start_time = time.time()
 
+# Generate a binary mask for the given image
 def get_cloth_mask(image_path):
-    image = cv2.imread(image_path)
+    image = cv2.imread(image_path) 
 
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
@@ -25,6 +26,7 @@ def get_cloth_mask(image_path):
 
     return mask
 
+# Process all images in the input folder and save masks to the output folder
 def process_images(input_folder, output_folder):
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
