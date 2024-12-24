@@ -41,6 +41,18 @@ export const Strings = {
   alertEnterUsername: "Please enter your username.",
   alertEnterPassword: "Please enter your password.",
 
+  fetchMatches: "Fetching your matches...",
+  priceBtn: "Price",
+  categoryBtn: "Category",
+  subcategoryBtn: "Subcategory",
+  reviewsBtn: "Reviews",  
+  priceTitle: "Price Per Item",
+  reviewsTitle: "Reviews",
+  categoryTitle: "Category",
+  subcategoryTitle: "Subcategory",
+  priceList: ["Cheap", "Affordable", "Expensive"],
+  reviewList: ["3+ Stars", "4+ Stars", "5 Stars"],
+  
   lifestyleTitle: "LifeStyle", // Title for the lifestyle section
   workLabel: "Work Type", // Label for the work type input
   cityLabel: "City", // Label for the city input
@@ -50,6 +62,7 @@ export const Strings = {
   validationCityRequired: "City is required.", // Alert message for empty city
   validationReligionRequired: "Religion is required.", // Alert message for empty religion
 
+  
   personalInfo: "Personal Information", // Title for the personal info section
   nameLabel: "Name", // Label for the name input
   ageLabel: "Age", // Label for the age input

@@ -1,16 +1,20 @@
+import { Strings } from "../../constants/strings";
 import { categories } from "../../data/categories";
 
 export const filterDesigners = (designers, filters) => {
     let filteredData = designers;
-
+    let cheapPrice = 5;
+    let expensivePrice = 20;
     const { priceFilter, categoryFilter, subcategoryFilter, reviewFilter, searchText } = filters;
 
     // Price filtering
     if (priceFilter && priceFilter !== '') {
         filteredData = filteredData.filter(item => {
-            if (priceFilter === 'Cheap') return item.pricePerItem < 5;
-            if (priceFilter === 'Affordable') return item.pricePerItem >= 5 && item.pricePerItem < 20;
-            if (priceFilter === 'Expensive') return item.pricePerItem >= 20;
+            if (priceFilter === Strings.priceList[0]) return item.pricePerItem < cheapPrice;
+            if (priceFilter === Strings.priceList[1])
+              return item.pricePerItem >= cheapPrice && item.pricePerItem < expensivePrice;
+            if (priceFilter === Strings.priceList[2])
+              return item.pricePerItem >= expensivePrice;
             return true;
         });
     }
@@ -41,10 +45,11 @@ export const filterDesigners = (designers, filters) => {
     // Review filtering
     if (reviewFilter && reviewFilter !== '') {
         filteredData = filteredData.filter(item => {
+            let threestars = 3, fourstars = 4, fivestars = 5;
             const avgRating = calculateAverageRating(item.reviews);
-            if (reviewFilter === '3+ Stars') return avgRating >= 3;
-            if (reviewFilter === '4+ Stars') return avgRating >= 4;
-            if (reviewFilter === '5 Stars') return avgRating === 5;
+            if (reviewFilter === Strings.reviewList[0]) return avgRating >= threestars;
+            if (reviewFilter === Strings.reviewList[1]) return avgRating >= fourstars;
+            if (reviewFilter === Strings.reviewList[2]) return avgRating === fivestars;
             return true;
         });
     }

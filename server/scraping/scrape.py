@@ -4,6 +4,11 @@ import os
 from urllib.parse import urljoin
 import argparse
 
+SCRAPING_FOLDER_PATH = 'scraping/downloaded_images'
+SCRAPING = 'scraping'
+FOLDER_NAME = 'downloaded_images'
+FILE_NAME = 'last_image.jpg'
+
 def download_last_image(url):
     headers = {"User-Agent": "Mozilla/5.0"}
     response = requests.get(url, headers=headers)
@@ -29,11 +34,11 @@ def download_last_image(url):
             img_url = urljoin(url, img_url)  # Converts relative URLs to absolute URLs
             
             # Create a directory to store downloaded images (if not already created)
-            if not os.path.exists('scraping/downloaded_images'):
-                os.makedirs('scraping/downloaded_images')
+            if not os.path.exists(SCRAPING_FOLDER_PATH):
+                os.makedirs(SCRAPING_FOLDER_PATH)
             
             # Get the image filename (name it as "last_image.jpg")
-            img_name = os.path.join("scraping", "downloaded_images", "last_image.jpg")
+            img_name = os.path.join(SCRAPING, FOLDER_NAME, FILE_NAME)
             
             try:
                 # Download the image and save it
@@ -49,7 +54,6 @@ def download_last_image(url):
         print("No images found on the page.")
 
 if __name__ == "__main__":
-    print("hello")
     parser = argparse.ArgumentParser(description="Download the last image from a webpage.")
     parser.add_argument("url", type=str, help="The URL of the webpage to scrape.")
     args = parser.parse_args()

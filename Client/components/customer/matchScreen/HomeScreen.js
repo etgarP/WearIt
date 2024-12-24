@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { StyleSheet, View, Text, ActivityIndicator, Image } from "react-native";
+import { StyleSheet, View } from "react-native";
 import RefreshErrorPage from "../../loadingPages/refreshErrorPage.js";
 import { getMatches } from "../../../apiServices/client/getMatches.js"; // Import the fetch function
 import { AppObjectContext } from "../../appNavigation/appObjectProvider.js";
@@ -8,6 +8,7 @@ import ConnectedMatchRoute from "./homeScreenConnected.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import BackgroundWrapper from "../../backgroundWrapper.js";
 import RefreshPage from "../../loadingPages/refreshPage.js";
+import { Strings } from "../../../constants/strings.js";
 
 export default function MatchRoute({ setProfilePage, navigation }) {
   const [filtered, setFiltered] = useState([]);
@@ -55,7 +56,7 @@ export default function MatchRoute({ setProfilePage, navigation }) {
   };
 
   if (loading) {
-    return <LoadingPage loadingText={"Fetching your matches..."} />;
+    return <LoadingPage loadingText={Strings.fetchMatches} />;
   }
   if (alertShown) {
     return <RefreshErrorPage tryAgain={onRetry} />;
