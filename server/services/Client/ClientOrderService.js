@@ -210,12 +210,14 @@ const path = require('path');
 
 const runPythonScript = async (scriptPath, args = []) => {
     return new Promise((resolve, reject) => {
-        const absolutePath = path.resolve(scriptPath); // Ensure correct path format
-        const pythonProcess = spawn('python3', [absolutePath, ...args]);
+        const absolutePath = path.resolve(scriptPath); // Converts scriptPath to an absolute path
+        const pythonProcess = spawn('python3', [absolutePath, ...args]); // Spawns a Python process using spawn
 
         let stdout = '';
         let stderr = '';
 
+        // Listens to the stdout and stderr streams of the process.
+        // Appends the output and error data as strings to stdout and stderr.
         pythonProcess.stdout.on('data', (data) => {
             stdout += data.toString();
         });
@@ -224,6 +226,8 @@ const runPythonScript = async (scriptPath, args = []) => {
             stderr += data.toString();
         });
 
+        // Resolves the promise if the exit code is 0(successful execution).
+        // Rejects the promise if the exit code is non - zero, including the error
         pythonProcess.on('close', (code) => {
             if (code === 0) {
                 resolve(stdout);
@@ -232,6 +236,7 @@ const runPythonScript = async (scriptPath, args = []) => {
             }
         });
 
+        // Listens for process errors and rejects the promise with the error.
         pythonProcess.on('error', (error) => {
             reject(error);
         });
@@ -281,16 +286,19 @@ const processTryOn = async (orderId, url, username) => {
         // Ensure the script exists
         await fs.promises.access(scriptPath);
         
+        // Check if the client is in the order
         if (!await isClientInOrder(orderId, username)) {
             throw new Error('Order not found or unauthorized access');
         }
+        // Find the design
         const design = await Design.findOne({ orderId });
         if (!design) {
             throw new Error('Design not found for the given orderId');
         }
-        
+        // Find the item to be tried on
         const existingEntry = await design.items.find(item => item.url === url);
         if (existingEntry) {
+            // Only try on shirts
             if (existingEntry.typeOfCloth != 'shirt') {
                 return design
             }
@@ -304,6 +312,7 @@ const processTryOn = async (orderId, url, username) => {
         } else {
             throw new Error('No URL found in the design items');
         }
+        // Save an delete images saved in files
         const updatedDesign = await design.save();
         await deleteImage(deletePath)
         await deleteImage(modelPath)

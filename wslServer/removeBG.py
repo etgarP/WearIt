@@ -24,9 +24,9 @@ def crop_to_aspect(image, target_width, target_height):
 
     return cropped_image
 
-def zoom_into_cloth(image, zoom_factor=1.1):
+def zoom_into_cloth(image, zoom_factor):
     """
-    Zoom into the cloth region by a given factor (10%) from the center of the image.
+    Zoom into the cloth region by a given factor from the center of the image.
     Assumes the cloth image is in the 'test_clothes' folder.
     """
     h, w, _ = image.shape
@@ -43,7 +43,7 @@ def process_image(input_path, output_path, is_cloth_image=False):
         return False
 
     if is_cloth_image:
-        # Zoom into the cloth region by 10% only if the image is from the 'test_clothes' folder
+        # Zoom into the cloth region by 45% only if the image is from the 'test_clothes' folder
         zoomed_image = zoom_into_cloth(image, zoom_factor=1.45)
     else:
         zoomed_image = image
