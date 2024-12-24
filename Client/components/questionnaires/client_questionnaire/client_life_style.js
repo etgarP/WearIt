@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity, Dimensions, Alert } from "react-native";
 import { TextInput } from "react-native-paper";
 import { MaterialIcons, Feather } from "@expo/vector-icons";
 import { Colors } from "../../../constants/colors";
-import { styles } from "../QuestionnaireStyles";
+import { styles } from "../questionnaireStyles";
 import { Strings } from "../../../constants/strings";
 import BackgroundWrapper from "../../backgroundWrapper";
 
